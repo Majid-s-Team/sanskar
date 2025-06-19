@@ -1,0 +1,25 @@
+import { Button } from "antd";
+import React from "react";
+import { ButtonComponentProps } from "../../types";
+import Text from "../higherOrder/Text";
+
+function AuthButton({
+  text,
+  onClick,
+  htmlType,
+  loading,
+}: ButtonComponentProps) {
+  return (
+    <Button
+      htmlType={htmlType}
+      loading={loading}
+      onClick={onClick}
+      className="w-full h-[54px] !bg-[#D57D25] rounded-[10px] !border-white text-[16px] medium !text-white my-[25px] shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
+    >
+      <Text text={text} />
+      {/* <p>{text}</p> */}
+    </Button>
+  );
+}
+
+export default React.memo(AuthButton);

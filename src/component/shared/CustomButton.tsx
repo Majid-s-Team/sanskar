@@ -1,0 +1,39 @@
+import { Button } from "antd";
+import React from "react";
+
+type Props = {
+  title: string;
+  onClick?: () => void;
+  icon?: React.ReactNode;
+  backgroundColor?: string;
+  textColor?: string;
+  className?: string;
+  htmlType?: "submit" | "button" | "reset" | undefined;
+  loading?: boolean;
+};
+
+function CustomButton({
+  title,
+  onClick,
+  icon,
+  backgroundColor = "#D57D25",
+  textColor = "#fff",
+  className,
+  htmlType = "submit",
+  loading,
+}: Props) {
+  return (
+    <Button
+      htmlType={htmlType}
+      className={`rounded-[8.75px] h-[40px] red-medium px-10 border-0 text-[12px] semibold ${className}`}
+      style={{ backgroundColor: backgroundColor, color: textColor }}
+      onClick={onClick}
+      icon={icon}
+      loading={loading}
+    >
+      {title}
+    </Button>
+  );
+}
+
+export default React.memo(CustomButton);
