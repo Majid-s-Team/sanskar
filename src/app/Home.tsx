@@ -1,7 +1,7 @@
 import HomeLayout from "../component/shared/HomeLayout";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import Carousel from "../component/shared/Carousel";
-import { Avatar, Button, Input, Progress } from "antd";
+import { Avatar, Input, Progress } from "antd";
 import { Link } from "react-router-dom";
 import MultiMediaCarousel from "../component/partial/MultiMediaCarousel";
 import CustomButton from "../component/shared/CustomButton";
@@ -36,6 +36,7 @@ const card = [
     percentage: 75,
     image: "/images/boxblue.png",
     shadow: "0px 9.62px 28.85px 0px #369FFF66",
+    path: "/home/weekly-updates",
   },
   {
     title: "Multimedia",
@@ -43,6 +44,7 @@ const card = [
     percentage: 75,
     image: "/images/boxorange.png",
     shadow: "0px 9.62px 28.85px 0px #FF993A66",
+    path: "/home/multimedia",
   },
   {
     title: "Announcement",
@@ -50,6 +52,7 @@ const card = [
     percentage: 75,
     image: "/images/boxgreen.png",
     shadow: "0px 9.62px 28.85px 0px #8AC53E66",
+    path: "/home/announcement",
   },
   {
     title: "Contact Teacher",
@@ -57,6 +60,7 @@ const card = [
     percentage: 75,
     image: "/images/boxyellow.png",
     shadow: "0px 9.62px 28.85px 0px #8AC53E66",
+    path: "/home/contact-teacher",
   },
 ];
 
@@ -79,9 +83,12 @@ const Home = () => {
           />
         </div>
         <div className="bg-white p-5 rounded-[20.15px] ">
-          <Button className="float-right px-8 mb-5 h-[38.4px] !bg-[#FF881A] rounded-[10px] !border-none text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]">
+          <Link
+            to={"/forms/add-student"}
+            className="float-right px-8 mb-5 h-[38.4px] flex justify-center items-center !bg-[#FF881A] rounded-[10px] !border-none text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
+          >
             Add Student
-          </Button>
+          </Link>
           <div className="flex justify-center items-center lg:w-full w-[330px]">
             <Carousel />
           </div>
@@ -92,7 +99,7 @@ const Home = () => {
           <div className="flex justify-between items-center">
             <p className="text-[20px] semibold">Student Information</p>
             <Link
-              to=""
+              to="/home/student-info"
               className="text-[#0089ED] text-[13px] regular underline"
             >
               View All
@@ -119,14 +126,15 @@ const Home = () => {
           <p className="text-[20px] semibold">Class Information</p>
           <div className="grid lg:grid-cols-2 gap-5 mt-5">
             {card.map((item, index) => (
-              <div
+              <Link
+                to={item.path || ""}
                 key={index}
                 style={{
                   backgroundImage: `url(${item.image})`,
                   backgroundSize: "100% 100%",
                   boxShadow: item.shadow,
                 }}
-                className="p-6 gap-4 rounded-[20px] space-y-3"
+                className="p-6 gap-4 rounded-[20px] space-y-3 cursor-pointer"
               >
                 <div>
                   <p className="text-white text-[20px] semibold">
@@ -142,7 +150,7 @@ const Home = () => {
                   size={80}
                   percent={item.percentage}
                 />
-              </div>
+              </Link>
             ))}
           </div>
         </div>

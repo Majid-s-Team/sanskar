@@ -26,7 +26,11 @@ function CustomButton({
     <Button
       htmlType={htmlType}
       className={`rounded-[8.75px] h-[40px] red-medium px-10 border-0 text-[12px] semibold ${className}`}
-      style={{ backgroundColor: backgroundColor, color: textColor }}
+      style={{
+        backgroundColor: backgroundColor,
+        color: textColor,
+        boxShadow: "0px 10px 20px 0px #FD841640",
+      }}
       onClick={onClick}
       icon={icon}
       loading={loading}

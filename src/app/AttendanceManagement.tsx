@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { attendanceColumns, attendanceData } from "../config";
@@ -13,7 +14,8 @@ export default function AttendanceManagement() {
           input={
             <div>
               <div className="flex justify-end">
-                <div
+                <Link
+                  to={"/forms/absent-request-form"}
                   style={{
                     backgroundImage: "url(/images/card2.png)",
                     backgroundSize: "100% 100%",
@@ -29,7 +31,7 @@ export default function AttendanceManagement() {
                       28 Oct 2023 | 122 MB
                     </p>
                   </div>
-                </div>
+                </Link>
               </div>
 
               <div className="grid lg:grid-cols-2 gap-4 mt-5">

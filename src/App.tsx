@@ -10,6 +10,17 @@ import Step3 from "./app/Auth/Step3";
 import Home from "./app/Home";
 import AttendanceManagement from "./app/AttendanceManagement";
 import GurukulPrayers from "./app/GurukulPrayers";
+import Events from "./app/Events";
+import Forms from "./app/Forms";
+import Setting from "./app/Setting";
+import AddStudent from "./app/AddStudent";
+import WeeklyUpdates from "./app/WeeklyUpdates";
+import Multimedia from "./app/Multimedia";
+import Announcement from "./app/Announcement";
+import ContactTeacher from "./app/ContactTeacher";
+import StudentInfo from "./app/StudentInfo";
+import AbsentForm from "./app/AbsentForm";
+import EventDetails from "./app/EventDetails";
 const App: React.FC = () => {
   return (
     <>
@@ -33,6 +44,19 @@ const App: React.FC = () => {
           element={<AttendanceManagement />}
         />
         <Route path="/gurukul-prayer" element={<GurukulPrayers />} />
+        <Route path="/events-rsvp" element={<Events />} />
+        <Route path="/forms" element={<Forms />} />
+        <Route path="/settings" element={<Setting />} />
+
+        {/* inner routes */}
+        <Route path="/forms/add-student" element={<AddStudent />} />
+        <Route path="/forms/absent-request-form" element={<AbsentForm />} />
+        <Route path="/home/weekly-updates" element={<WeeklyUpdates />} />
+        <Route path="/home/multimedia" element={<Multimedia />} />
+        <Route path="/home/announcement" element={<Announcement />} />
+        <Route path="/home/contact-teacher" element={<ContactTeacher />} />
+        <Route path="/home/student-info" element={<StudentInfo />} />
+        <Route path="/event/details" element={<EventDetails />} />
       </Routes>
     </>
   );

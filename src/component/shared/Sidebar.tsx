@@ -26,7 +26,6 @@ export const Sidebar = () => {
         className="bg-transparent border-none flex flex-col gap-6"
         items={sidebarLinks.map((item) => {
           const isActive = location.pathname === item.key;
-
           // ||
           // location.pathname.startsWith(`${item.key}/`);
 

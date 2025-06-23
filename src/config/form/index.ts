@@ -5,3 +5,5 @@ export * from "./changepassword";
 export * from "./signUp";
 export * from "./step2";
 export * from "./step3";
+export * from "./addStudent";
+export * from "./absentForm";
