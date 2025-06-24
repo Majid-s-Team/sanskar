@@ -6,7 +6,7 @@ function GurukulPrayers() {
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
         <div className="flex justify-between items-center">
-          <p className="text-[30px] semibold">Gurukul Prayers</p>
+          <p className="text-[40px] semibold">Gurukul Prayers</p>
           <div className="flex gap-5 items-center">
             <div>
               <img className="w-[25px]" src="/icons/filter.png" />

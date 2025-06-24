@@ -2,8 +2,11 @@ import { Header as AntHeader } from "antd/es/layout/layout";
 import { MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import ProfileDropdown from "./ProfileDropdown";
+import { useLocation, useNavigate } from "react-router-dom";
 function Header({ drawerVisible, setDrawerVisible }: any) {
+  const navigate = useNavigate();
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const { pathname } = useLocation();
   return (
     <AntHeader
       style={{ padding: 0 }}
@@ -21,13 +24,27 @@ function Header({ drawerVisible, setDrawerVisible }: any) {
           }}
         />
       )}
+      {pathname !== "/home" && (
+        <img
+          onClick={() => navigate(-1)}
+          className="w-[45px] rounded-[12px]"
+          style={{
+            cursor: "pointer",
+            boxShadow: "2px 4px 4px 0px #0000001A",
+          }}
+          src="/icons/arrow-left.png"
+          alt="Logo"
+        />
+      )}
+
       <Input
         placeholder="Search"
-        className={`search-input h-[45px] xl:w-[500px] lg:w-[350px] w-[250px]`}
+        className={`search-input h-[45px] lg:w-[500px] w-[250px]`}
         style={{
           borderRadius: 12,
           backgroundColor: "#FFFFFF",
           border: "none",
+          boxShadow: "2px 4px 4px 0px #0000001A",
         }}
         prefix={<img className="w-[20px]" src="/icons/search.png" />}
       />

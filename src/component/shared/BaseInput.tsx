@@ -80,7 +80,7 @@ function BaseInput(props: BaseInputProps) {
           props.icon && <img className="w-[24px]" src={props.icon} alt="icon" />
         }
         onChange={props.onChange}
-        className="!rounded-[10px] h-[44px]"
+        className="!rounded-[8px] h-[44px]"
         options={props.options}
         value={props.initialValue}
         {...props}
@@ -89,15 +89,15 @@ function BaseInput(props: BaseInputProps) {
     date: (
       <DatePicker
         format="YYYY-MM-DD"
-        className="!rounded-[11px] h-[44px] w-[100%]"
+        className="!rounded-[8px] h-[44px] w-[100%]"
         {...props}
       />
     ),
     time: (
       <TimePicker
-        format="HH:mm"
+        format="HH:mm A"
         defaultValue={props?.defaultValue}
-        className="!rounded-[11px] h-[44px] w-[100%]"
+        className="!rounded-[8px] h-[44px] w-[100%]"
         {...props}
       />
     ),

@@ -1,6 +1,11 @@
+import { Link } from "react-router-dom";
+
 export default function EventCard() {
   return (
-    <div className="bg-[#D57D25] lg:h-[255px] p-5 rounded-[20px] flex items-center lg:flex-row flex-col gap-8">
+    <Link
+      to={"/event/details"}
+      className="bg-[#D57D25] lg:h-[255px] p-5 rounded-[20px] flex items-center lg:flex-row flex-col gap-8"
+    >
       <img className="w-[426px]" src="/images/img.png" alt="" />
       <div>
         <p className="text-white text-[30px] semibold">Visit to Tech Musuem</p>
@@ -25,6 +30,6 @@ export default function EventCard() {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

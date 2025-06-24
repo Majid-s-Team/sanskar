@@ -21,6 +21,14 @@ import ContactTeacher from "./app/ContactTeacher";
 import StudentInfo from "./app/StudentInfo";
 import AbsentForm from "./app/AbsentForm";
 import EventDetails from "./app/EventDetails";
+import EarlyPickUpForm from "./app/EarlyPickUpForm";
+import SiblingEnrollmentForm from "./app/SiblingEnrollmentForm";
+import ParentProfile from "./app/ParentProfile";
+import RegistrationForm from "./app/RegistrationForm";
+import About from "./app/About";
+import TermsCondition from "./app/Termscondition";
+import PrivacyPolicy from "./app/PrivacyPolicy";
+import Faqs from "./app/Faqs";
 const App: React.FC = () => {
   return (
     <>
@@ -51,12 +59,25 @@ const App: React.FC = () => {
         {/* inner routes */}
         <Route path="/forms/add-student" element={<AddStudent />} />
         <Route path="/forms/absent-request-form" element={<AbsentForm />} />
+        <Route path="/forms/early-pickup-form" element={<EarlyPickUpForm />} />
+        <Route
+          path="/forms/sibling-enrollment-form"
+          element={<SiblingEnrollmentForm />}
+        />
+
         <Route path="/home/weekly-updates" element={<WeeklyUpdates />} />
         <Route path="/home/multimedia" element={<Multimedia />} />
         <Route path="/home/announcement" element={<Announcement />} />
         <Route path="/home/contact-teacher" element={<ContactTeacher />} />
         <Route path="/home/student-info" element={<StudentInfo />} />
         <Route path="/event/details" element={<EventDetails />} />
+
+        <Route path="/parents-profile" element={<ParentProfile />} />
+        <Route path="/re-registration-form" element={<RegistrationForm />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/about/terms-conditions" element={<TermsCondition />} />
+        <Route path="/about/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/about/faqs" element={<Faqs />} />
       </Routes>
     </>
   );

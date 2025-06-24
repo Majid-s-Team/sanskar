@@ -7,3 +7,7 @@ export * from "./step2";
 export * from "./step3";
 export * from "./addStudent";
 export * from "./absentForm";
+export * from "./earlyPickupForm";
+export * from "./siblingEnrollmentForm";
+export * from "./parentProfile";
+export * from "./registrationForm";

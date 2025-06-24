@@ -9,7 +9,7 @@ export default function Events() {
   return (
     <HomeLayout>
       <div className="bg-white p-10 rounded-[24.59px]">
-        <p className="text-[30px] semibold">Events</p>
+        <p className="text-[40px] semibold">Events</p>
         <div className="flex justify-center items-center">
           <div className="flex gap-5 items-center lg:flex-row flex-col">
             {events.map((item, index) => {

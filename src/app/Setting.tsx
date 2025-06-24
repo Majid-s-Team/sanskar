@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 
 const setting = [
@@ -9,7 +10,7 @@ const setting = [
   {
     title: "Students Information",
     icon: "/icons/student-card.png",
-    path: "/students-info",
+    path: "/home/student-info",
   },
   {
     title: "Re-Registration Form",
@@ -26,22 +27,21 @@ const setting = [
 function Setting() {
   return (
     <HomeLayout>
-      <div className="p-5">
-        <p className="text-[30px] semibold">Settings</p>
-        {setting.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="flex items-center gap-5 mt-5 bg-white p-5 rounded-[20px]"
-            >
-              <img className="w-[50px]" src={item.icon} alt="" />
-              <div>
-                <p className="text-[24px] bold">{item.title}</p>
-              </div>
+      <p className="text-[40px] semibold">Settings</p>
+      {setting.map((item, index) => {
+        return (
+          <Link
+            to={item.path}
+            key={index}
+            className="flex items-center gap-5 mt-5 bg-white p-5 rounded-[20px]"
+          >
+            <img className="w-[50px]" src={item.icon} alt="" />
+            <div>
+              <p className="text-[24px] bold !text-[#333342]">{item.title}</p>
             </div>
-          );
-        })}
-      </div>
+          </Link>
+        );
+      })}
     </HomeLayout>
   );
 }
