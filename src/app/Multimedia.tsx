@@ -1,5 +1,9 @@
-import { Input } from "antd";
+import { Input, Select } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
+import { getStorageData } from "../helper";
+import AuthButton from "../component/partial/AuthButton";
+import { useState } from "react";
+import MediaModal from "../component/partial/MediaModal";
 
 const students = [
   {
@@ -39,26 +43,46 @@ const students = [
 ];
 
 function Multimedia() {
+  const role = getStorageData("role");
+  const [open, setOpen] = useState(false);
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
         <div className="flex justify-between items-center">
           <p className="text-[30px] semibold">Multimedia</p>
-          <div className="flex gap-5 items-center">
-            <div>
-              <img className="w-[25px]" src="/icons/filter.png" />
+          {role === "teacher" ? (
+            <div className="flex gap-5 items-center">
+              <Select
+                style={{
+                  width: "200px",
+                  height: "48px",
+                }}
+                className="custom-selector"
+                defaultValue={"French"}
+                options={[
+                  { value: "All", label: "All" },
+                  { value: "Class 1", label: "Class 1" },
+                ]}
+              />
+              <AuthButton onClick={() => setOpen(true)} text="Add Multimedia" />
             </div>
-            <Input
-              placeholder="Search"
-              className={`search-input h-[35px] lg:w-[227.28px]`}
-              style={{
-                borderRadius: 6,
-                backgroundColor: "#F5F4F9",
-                border: "none",
-              }}
-              prefix={<img className="w-[20px]" src="/icons/search.png" />}
-            />
-          </div>
+          ) : (
+            <div className="flex gap-5 items-center">
+              <div>
+                <img className="w-[25px]" src="/icons/filter.png" />
+              </div>
+              <Input
+                placeholder="Search"
+                className={`search-input h-[35px] lg:w-[227.28px]`}
+                style={{
+                  borderRadius: 6,
+                  backgroundColor: "#F5F4F9",
+                  border: "none",
+                }}
+                prefix={<img className="w-[20px]" src="/icons/search.png" />}
+              />
+            </div>
+          )}
         </div>
         <div className="grid lg:grid-cols-3 gap-8 my-10">
           {students.map((item, index) => (
@@ -83,6 +107,9 @@ function Multimedia() {
           ))}
         </div>
       </div>
+      {open && (
+        <MediaModal isModalOpen={open} handleCancel={() => setOpen(false)} />
+      )}
     </HomeLayout>
   );
 }

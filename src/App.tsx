@@ -13,22 +13,30 @@ import GurukulPrayers from "./app/GurukulPrayers";
 import Events from "./app/Events";
 import Forms from "./app/Forms";
 import Setting from "./app/Setting";
-import AddStudent from "./app/AddStudent";
 import WeeklyUpdates from "./app/WeeklyUpdates";
 import Multimedia from "./app/Multimedia";
 import Announcement from "./app/Announcement";
 import ContactTeacher from "./app/ContactTeacher";
 import StudentInfo from "./app/StudentInfo";
-import AbsentForm from "./app/AbsentForm";
+import AbsentForm from "./app/Forms/AbsentForm";
 import EventDetails from "./app/EventDetails";
-import EarlyPickUpForm from "./app/EarlyPickUpForm";
-import SiblingEnrollmentForm from "./app/SiblingEnrollmentForm";
+import EarlyPickUpForm from "./app/Forms/EarlyPickUpForm";
 import ParentProfile from "./app/ParentProfile";
-import RegistrationForm from "./app/RegistrationForm";
 import About from "./app/About";
-import TermsCondition from "./app/Termscondition";
 import PrivacyPolicy from "./app/PrivacyPolicy";
 import Faqs from "./app/Faqs";
+import MyAttendance from "./app/MyAttendance";
+import StudentManagement from "./app/StudentManagement";
+import StudentAttendance from "./app/StudentAttendance";
+import RequestManagement from "./app/RequestManagement";
+import AddStudent from "./app/Forms/AddStudent";
+import RegistrationForm from "./app/Forms/RegistrationForm";
+import SiblingEnrollmentForm from "./app/Forms/SiblingEnrollmentForm";
+import TermsCondition from "./app/TermsCondition";
+import ProjectForm from "./app/Forms/ProjectForm";
+import ExpenseForm from "./app/Forms/ExpenseForm";
+import ArchivedTable from "./app/ArchivedTable";
+import StudentList from "./app/StudentList";
 const App: React.FC = () => {
   return (
     <>
@@ -78,6 +86,22 @@ const App: React.FC = () => {
         <Route path="/about/terms-conditions" element={<TermsCondition />} />
         <Route path="/about/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/about/faqs" element={<Faqs />} />
+
+        {/* teacher routes */}
+        <Route path="/my-attendance" element={<MyAttendance />} />
+        <Route path="student-management" element={<StudentManagement />} />
+        <Route path="/student-attendance" element={<StudentAttendance />} />
+        <Route path="/request-management" element={<RequestManagement />} />
+        <Route
+          path="/forms/arts-and-craft-project-form"
+          element={<ProjectForm />}
+        />
+        <Route
+          path="/forms/expense-reimbursement-form"
+          element={<ExpenseForm />}
+        />
+        <Route path="/archived" element={<ArchivedTable />} />
+        <Route path="/student-list" element={<StudentList />} />
       </Routes>
     </>
   );

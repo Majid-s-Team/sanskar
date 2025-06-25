@@ -36,7 +36,6 @@ function Header({ drawerVisible, setDrawerVisible }: any) {
           alt="Logo"
         />
       )}
-
       <Input
         placeholder="Search"
         className={`search-input h-[45px] lg:w-[500px] w-[250px]`}

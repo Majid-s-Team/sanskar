@@ -1,9 +1,9 @@
-import HomeLayout from "../component/shared/HomeLayout";
 import { Avatar, Form } from "antd";
-import BaseInput from "../component/shared/BaseInput";
-import CustomButton from "../component/shared/CustomButton";
-import { registrationForm, step4 } from "../config";
-import { FeildType } from "../types";
+import BaseInput from "../../component/shared/BaseInput";
+import CustomButton from "../../component/shared/CustomButton";
+import HomeLayout from "../../component/shared/HomeLayout";
+import { registrationForm, step4 } from "../../config";
+import { FeildType } from "../../types";
 
 function RegistrationForm() {
   return (

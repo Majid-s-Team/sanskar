@@ -1,4 +1,9 @@
+import { Select } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
+import { getStorageData } from "../helper";
+import AuthButton from "../component/partial/AuthButton";
+import { useState } from "react";
+import AnnouncementModal from "../component/partial/AnnouncementModal";
 
 const announcement = [
   {
@@ -28,10 +33,34 @@ const announcement = [
 ];
 
 function Announcement() {
+  const role = getStorageData("role");
+  const [open, setOpen] = useState(false);
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
-        <p className="text-[30px] semibold">Announcement</p>
+        <div className="flex justify-between items-center">
+          <p className="text-[30px] semibold">Announcement</p>
+          {role === "teacher" && (
+            <div className="flex gap-5 items-center">
+              <Select
+                style={{
+                  width: "200px",
+                  height: "48px",
+                }}
+                className="custom-selector"
+                defaultValue={"French"}
+                options={[
+                  { value: "All", label: "All" },
+                  { value: "Class 1", label: "Class 1" },
+                ]}
+              />
+              <AuthButton
+                onClick={() => setOpen(true)}
+                text="Add Announcement"
+              />
+            </div>
+          )}
+        </div>
         {announcement.map((form, index) => {
           return (
             <div
@@ -49,6 +78,12 @@ function Announcement() {
           );
         })}
       </div>
+      {open && (
+        <AnnouncementModal
+          isModalOpen={open}
+          handleCancel={() => setOpen(false)}
+        />
+      )}
     </HomeLayout>
   );
 }

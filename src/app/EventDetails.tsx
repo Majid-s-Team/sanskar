@@ -7,7 +7,7 @@ function EventDetails() {
       <div className="bg-white p-5 rounded-[24.59px]">
         <p className="text-[40px] semibold mb-5">Event Details</p>
         <img
-          className="w-full h-[300px] object-cover rounded-[23.31px]"
+          className="w-full lg:h-[300px] h-[200px] object-cover rounded-[23.31px]"
           src="/images/img.png"
           alt=""
         />

@@ -8,10 +8,10 @@ export default function Events() {
   const [active, setActive] = useState(0);
   return (
     <HomeLayout>
-      <div className="bg-white p-10 rounded-[24.59px]">
+      <div className="bg-white lg:p-10 p-5 rounded-[24.59px]">
         <p className="text-[40px] semibold">Events</p>
-        <div className="flex justify-center items-center">
-          <div className="flex gap-5 items-center lg:flex-row flex-col">
+        <div className="w-full overflow-x-auto lg:flex items-center hide-scrollbar">
+          <div className="flex gap-5 items-center h-[150px] whitespace-nowrap px-4 mx-auto">
             {events.map((item, index) => {
               return (
                 <p
@@ -35,7 +35,7 @@ export default function Events() {
             })}
           </div>
         </div>
-        <div className="lg:space-y-20 space-y-10 mt-20">
+        <div className="lg:space-y-20 space-y-10 mt-5">
           {[1, 2, 3].map((index) => {
             return (
               <div key={index}>

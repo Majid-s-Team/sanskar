@@ -4,9 +4,14 @@ import { step3, step4 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
 import FormButtons from "../../component/shared/FormButtons";
 import { useNavigate } from "react-router-dom";
+import { setStorageData } from "../../helper";
 
 function Step3() {
   const navigate = useNavigate();
+  const loginAuth = () => {
+    navigate("/home");
+    setStorageData("role", "parent");
+  };
   return (
     <div
       style={{
@@ -71,7 +76,7 @@ function Step3() {
           <div className="mt-10 flex justify-end">
             <div className="w-[450px]">
               <FormButtons
-                onSubmit={() => navigate("/home")}
+                onSubmit={loginAuth}
                 onCancel={() => navigate(-1)}
                 title="Sign up"
                 title2="Back"

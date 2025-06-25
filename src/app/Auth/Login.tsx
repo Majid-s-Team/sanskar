@@ -8,6 +8,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../component/shared/AuthLayout";
 import { useState } from "react";
+import { setStorageData } from "../../helper";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,6 +16,11 @@ function Login() {
   const [role, setRole] = useState<"parent" | "teacher">("parent");
 
   console.log(login);
+
+  const loginAuth = () => {
+    navigate("/home");
+    setStorageData("role", role);
+  };
 
   return (
     <AuthLayout path="/signup" role={role} setRole={setRole}>
@@ -46,7 +52,7 @@ function Login() {
             Forgot Password?
           </Link>
         )}
-        <AuthButton text={"Sign in"} onClick={() => navigate("/home")} />
+        <AuthButton text={"Sign in"} onClick={loginAuth} />
       </Form>
     </AuthLayout>
   );

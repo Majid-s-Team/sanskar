@@ -221,3 +221,26 @@ li.ant-dropdown-menu-item:hover {
 .ant-switch.ant-switch-checked {
   background: #428cca !important;
 }
+
+.custom-shadow2 {
+  box-shadow: -3.51px -4.38px 4.38px 0px #ce974e inset,
+    3.51px -3.51px 6.14px 0px #ffffff5c inset, 0px 3.51px 3.51px 0px #00000017;
+}
+
+.custom-selector .ant-select-selector {
+  border-radius: 15px !important;
+  background: #fcfcfc !important;
+}
+
+.ant-table-thead {
+  box-shadow: -3.51px -4.38px 4.38px 0px #ce974e inset,
+    3.51px -3.51px 6.14px 0px #ffffff5c inset, 0px 3.51px 3.51px 0px #00000017 !important;
+  background-color: #d57d25; /* ensure shadow is visible */
+  z-index: 1111111111 !important;
+  position: relative;
+}
+
+.ant-table-thead > tr > th {
+  border: none !important;
+  background: transparent !important;
+}

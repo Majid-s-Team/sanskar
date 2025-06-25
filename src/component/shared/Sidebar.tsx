@@ -1,20 +1,23 @@
 import { Menu, MenuProps } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { sidebarLinks } from "../../config";
+import { useSidebarLinks } from "../../config";
+import { useAuth } from "../../hooks/useAuth";
 
 export const Sidebar = () => {
+  const { logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const sideBarLinks = useSidebarLinks();
 
   const handleClick: MenuProps["onClick"] = ({ key }) => {
     navigate(key);
   };
 
   return (
-    <div className="flex flex-col bg-[#D57D25]">
+    <div className="flex flex-col bg-[#D57D25] custom-shadow2 h-screen">
       <Link to="/home" className="cursor-pointer">
         <img
-          className="w-[180px] mx-auto py-5"
+          className="w-[180px] ml-5 py-5"
           src="/images/logo2.png"
           alt="Logo"
         />
@@ -24,7 +27,7 @@ export const Sidebar = () => {
         mode="inline"
         selectedKeys={[location.pathname]}
         className="bg-transparent border-none flex flex-col gap-6"
-        items={sidebarLinks.map((item) => {
+        items={sideBarLinks.map((item) => {
           const isActive = location.pathname === item.key;
           // ||
           // location.pathname.startsWith(`${item.key}/`);
@@ -49,7 +52,13 @@ export const Sidebar = () => {
             ),
           };
         })}
-        onClick={handleClick}
+        onClick={(item) => {
+          if (item.key === "logout") {
+            logout();
+          } else {
+            handleClick(item);
+          }
+        }}
       />
     </div>
   );

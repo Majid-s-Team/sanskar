@@ -18,10 +18,16 @@ const students = [
     description:
       "Aenean aliquet lectus vestibulum gravida sed vulputate vitae.",
   },
+  {
+    image: "/images/video.png",
+    title: "Sama Veda",
+    description:
+      "Aenean aliquet lectus vestibulum gravida sed vulputate vitae.",
+  },
 ];
 
 export default function MultiMediaCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
   return (
     <Swiper
       modules={[EffectCoverflow]}

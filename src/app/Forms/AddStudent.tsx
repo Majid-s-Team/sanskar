@@ -1,9 +1,9 @@
 import { Form } from "antd";
-import HomeLayout from "../component/shared/HomeLayout";
-import { FeildType } from "../types";
-import BaseInput from "../component/shared/BaseInput";
-import { addStudentForm } from "../config";
-import CustomButton from "../component/shared/CustomButton";
+import HomeLayout from "../../component/shared/HomeLayout";
+import { addStudentForm } from "../../config";
+import BaseInput from "../../component/shared/BaseInput";
+import CustomButton from "../../component/shared/CustomButton";
+import { FeildType } from "../../types";
 
 function AddStudent() {
   return (

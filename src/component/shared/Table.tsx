@@ -33,34 +33,31 @@ export default function TableData({
         </p>
         <div className="flex items-center gap-5">{input}</div>
       </div>
-      <Table
-        scroll={{ x: 800 }}
-        columns={columns}
-        dataSource={data}
-        loading={loading}
-        onRow={(row) => ({
-          onClick: (event) => {
-            const td = (event.target as HTMLElement).closest("td");
-            if (td) {
-              const cellIndex = td.parentNode
-                ? Array.from(td.parentNode.children).indexOf(td)
-                : -1;
-              // console.log("cellIndex:", cellIndex);
-              // console.log(
-              //   "columns[cellIndex]?.dataIndex:",
-              //   columns[cellIndex]?.dataIndex
-              // );
-              if (columns[cellIndex]?.dataIndex === "actions") {
-                event.stopPropagation();
-              } else {
-                onClick?.(row);
+      <div className="border-l border-r border-[#E0E0E0] rounded-[12px] overflow-hidden">
+        <Table
+          scroll={{ x: 800 }}
+          columns={columns}
+          dataSource={data}
+          loading={loading}
+          onRow={(row) => ({
+            onClick: (event) => {
+              const td = (event.target as HTMLElement).closest("td");
+              if (td) {
+                const cellIndex = td.parentNode
+                  ? Array.from(td.parentNode.children).indexOf(td)
+                  : -1;
+                if (columns[cellIndex]?.dataIndex === "actions") {
+                  event.stopPropagation();
+                } else {
+                  onClick?.(row);
+                }
               }
-            }
-          },
-        })}
-        pagination={pagination ?? false}
-        onChange={onPaginationChange}
-      />
+            },
+          })}
+          pagination={pagination ?? false}
+          onChange={onPaginationChange}
+        />
+      </div>
     </div>
   );
 }
