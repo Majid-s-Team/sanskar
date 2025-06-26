@@ -39,7 +39,11 @@ function StudentManagement() {
               </div>
             </div>
 
-            <div className="flex gap-5 items-center">
+            <div
+              className={`flex gap-5 items-center ${
+                isOpen ? "" : "lg:flex-row flex-col"
+              }`}
+            >
               <img className="w-[40px]" src="/icons/chat.png" alt="" />
               <img className="w-[40px]" src="/icons/call.png" alt="" />
             </div>
@@ -47,7 +51,7 @@ function StudentManagement() {
             {isOpen && (
               <div
                 className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                  isOpen ? "max-h-[200px] mt-10 px-20" : "max-h-0"
+                  isOpen ? "max-h-[200px] mt-10 lg:px-20" : "max-h-0"
                 } w-full`}
               >
                 <div className="flex justify-between">

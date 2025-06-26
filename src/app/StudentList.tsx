@@ -18,7 +18,7 @@ function StudentList() {
               </div>
               <Input
                 placeholder="Search"
-                className={`search-input h-[35px] lg:w-[227.28px]`}
+                className={`search-input h-[35px] w-[300px] lg:w-[227.28px]`}
                 style={{
                   borderRadius: 6,
                   backgroundColor: "#F5F4F9",

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
-import EventCard from "../component/partial/EventCard";
-
+import { EventCard } from "../component/partial/EventCard";
 const events = ["All Events", "My Events", "Past Events"];
 
 export default function Events() {
@@ -23,7 +22,7 @@ export default function Events() {
                         : "none",
                   }}
                   onClick={() => setActive(index)}
-                  className={`semibold p-5 rounded-[21.75px] ${
+                  className={`semibold p-5 rounded-[21.75px] cursor-pointer ${
                     active === index
                       ? "text-white bg-[#D57D25] text-xl scale-105 transition-transform duration-300 ease-out"
                       : "text-[#242424] border border-[#CCCCCC] text-lg transition-transform duration-300 ease-in"
@@ -36,13 +35,9 @@ export default function Events() {
           </div>
         </div>
         <div className="lg:space-y-20 space-y-10 mt-5">
-          {[1, 2, 3].map((index) => {
-            return (
-              <div key={index}>
-                <EventCard />
-              </div>
-            );
-          })}
+          {[1, 2, 3].map((i) => (
+            <EventCard key={i} isPast={active === 2} isMy={active === 1} />
+          ))}
         </div>
       </div>
     </HomeLayout>

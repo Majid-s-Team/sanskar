@@ -1,30 +1,57 @@
-export const attendanceColumns = [
-  {
-    title: "Date",
-    dataIndex: "date",
-  },
-  {
-    title: "Student ID",
-    dataIndex: "student_id",
-  },
-  {
-    title: "Student Name",
-    dataIndex: "student_name",
-  },
-  {
-    title: "Class",
-    dataIndex: "class",
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    render: (text: string) => (
-      <p className="text-white text-[14px] py-1 w-[100px] bg-[#00B69B] text-center rounded-[40px]">
-        {text}
-      </p>
-    ),
-  },
-];
+import { useState } from "react";
+
+export const attendanceColumns = () => {
+  const [selectedStatus, setSelectedStatus] = useState<Record<string, string>>(
+    {}
+  );
+
+  const handleChange = (studentId: string, value: string) => {
+    setSelectedStatus((prev) => ({ ...prev, [studentId]: value }));
+  };
+  return [
+    {
+      title: "Date",
+      dataIndex: "date",
+    },
+    {
+      title: "Student ID",
+      dataIndex: "student_id",
+    },
+    {
+      title: "Student Name",
+      dataIndex: "student_name",
+    },
+    {
+      title: "Class",
+      dataIndex: "class",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      render: (_: any, record: any) => {
+        const currentStatus =
+          selectedStatus[record.student_id] || record.status;
+        return (
+          <select
+            value={currentStatus}
+            onChange={(e) => handleChange(record.student_id, e.target.value)}
+            className={`text-sm rounded-[30px] block p-1 ${
+              currentStatus === "Absent"
+                ? "!bg-[#FFF8EF] text-[#D6A54B]"
+                : currentStatus === "Present"
+                ? "!bg-[#EFFFF1] text-[#4BD670]"
+                : " !bg-[#EFFDFF] text-[#4BBCD6]"
+            }`}
+          >
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Not Recorded">Not Recorded</option>
+          </select>
+        );
+      },
+    },
+  ];
+};
 
 export const attendanceData = [
   {

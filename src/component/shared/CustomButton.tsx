@@ -25,7 +25,7 @@ function CustomButton({
   return (
     <Button
       htmlType={htmlType}
-      className={`rounded-[8.75px] h-[40px] red-medium px-10 border-0 text-[12px] semibold ${className}`}
+      className={`rounded-[8.75px] h-[40px] red-medium px-10 border-0 text-[12px] medium ${className}`}
       style={{
         backgroundColor: backgroundColor,
         color: textColor,

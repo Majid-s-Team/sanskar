@@ -37,7 +37,7 @@ export const Sidebar = () => {
             label: (
               <p
                 className={`text-[15px] ${
-                  isActive ? "text-[#D57D25] medium" : "text-white light"
+                  isActive ? "text-[#D57D25] regular" : "text-white light"
                 }`}
               >
                 {item.label}

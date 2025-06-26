@@ -13,7 +13,7 @@ function SiblingEnrollmentForm() {
           Sibling Enrollment Request Form
         </p>
         <Form layout="vertical" className="mt-5 ">
-          <div className="grid grid-cols-2 gap-5 form-m">
+          <div className="grid lg:grid-cols-2 gap-5 form-m">
             {siblingEnrollmentForm.map((item: FeildType) => {
               return (
                 <Form.Item

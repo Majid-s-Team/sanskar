@@ -37,6 +37,10 @@ import ProjectForm from "./app/Forms/ProjectForm";
 import ExpenseForm from "./app/Forms/ExpenseForm";
 import ArchivedTable from "./app/ArchivedTable";
 import StudentList from "./app/StudentList";
+import AddAttendance from "./app/Forms/AddAttendance";
+import FormDetails from "./app/Forms/FormDetails";
+import Notifications from "./app/Notifications";
+import Calendar from "./app/Calendar";
 const App: React.FC = () => {
   return (
     <>
@@ -102,6 +106,14 @@ const App: React.FC = () => {
         />
         <Route path="/archived" element={<ArchivedTable />} />
         <Route path="/student-list" element={<StudentList />} />
+        <Route path="/add-attendance" element={<AddAttendance />} />
+        <Route
+          path="/request-management/form-details"
+          element={<FormDetails />}
+        />
+
+        <Route path="/notifications" element={<Notifications />} />
+        <Route path="/calendar" element={<Calendar />} />
       </Routes>
     </>
   );

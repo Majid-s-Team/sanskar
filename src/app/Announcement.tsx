@@ -38,16 +38,16 @@ function Announcement() {
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
-        <div className="flex justify-between items-center">
+        <div className="flex lg:flex-row flex-col justify-between lg:items-center">
           <p className="text-[30px] semibold">Announcement</p>
           {role === "teacher" && (
             <div className="flex gap-5 items-center">
               <Select
                 style={{
-                  width: "200px",
+                  // width: "200px",
                   height: "48px",
                 }}
-                className="custom-selector"
+                className="custom-selector w-full lg:w-[200px]"
                 defaultValue={"French"}
                 options={[
                   { value: "All", label: "All" },

@@ -64,7 +64,7 @@ function RequestManagement() {
                 </div>
                 <div className="flex-1"></div>
                 <Link
-                  to={""}
+                  to={"/request-management/form-details"}
                   className="flex items-center gap-2 bg-[#D57D25] p-4 rounded-[12px]"
                 >
                   <img className="w-[20px]" src="/icons/doc.png" alt="" />

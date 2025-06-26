@@ -1,39 +1,67 @@
-export const studentAttendanceColumns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-  },
-  {
-    title: "Student ID",
-    dataIndex: "student_id",
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    render: (text: string) => (
-      <p className="text-white text-[14px] py-1 w-[100px] bg-[#00B69B] text-center rounded-[40px]">
-        {text}
-      </p>
-    ),
-  },
-  {
-    title: "Participation Points",
-    dataIndex: "participation",
-  },
-  {
-    title: "Homework Points",
-    dataIndex: "homework",
-  },
-  {
-    title: "Contact Info",
-    dataIndex: "contact_info",
-    render: () => (
-      <p className="text-[#48B3FF] underline text-[14px] semibold">
-        View Details
-      </p>
-    ),
-  },
-];
+import { useState } from "react";
+
+export const studentAttendanceColumns = () => {
+  const [selectedStatus, setSelectedStatus] = useState<Record<string, string>>(
+    {}
+  );
+
+  const handleChange = (setudentId: string, value: string) => {
+    setSelectedStatus((prev) => ({ ...prev, [setudentId]: value }));
+  };
+
+  return [
+    {
+      title: "Name",
+      dataIndex: "name",
+    },
+    {
+      title: "Student ID",
+      dataIndex: "student_id",
+    },
+    {
+      title: "Participation Points",
+      dataIndex: "participation",
+    },
+    {
+      title: "Homework Points",
+      dataIndex: "homework",
+    },
+    {
+      title: "Contact Info",
+      dataIndex: "contact_info",
+      render: () => (
+        <p className="text-[#48B3FF] underline text-[14px] semibold">
+          View Details
+        </p>
+      ),
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      render: (_: any, record: any) => {
+        const currentStatus =
+          selectedStatus[record?.student_id] || record?.status;
+        return (
+          <select
+            value={currentStatus}
+            onChange={(e) => handleChange(record.student_id, e.target.value)}
+            className={`text-sm rounded-[30px] block p-1 ${
+              currentStatus === "Absent"
+                ? "!bg-[#FFF8EF] text-[#D6A54B]"
+                : currentStatus === "Present"
+                ? "!bg-[#EFFFF1] text-[#4BD670]"
+                : " !bg-[#EFFDFF] text-[#4BBCD6]"
+            }`}
+          >
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Not Recorded">Not Recorded</option>
+          </select>
+        );
+      },
+    },
+  ];
+};
 
 export const studentAttendanceData = [
   {
@@ -55,7 +83,7 @@ export const studentAttendanceData = [
   {
     name: "Bob Johnson",
     student_id: "S34567",
-    status: "Late",
+    status: "Not Recorded",
     participation: 4,
     homework: 7,
     contact_info: "bobjohnson@example.com",

@@ -15,7 +15,7 @@ function RegistrationForm() {
             <Avatar size={120} src="/images/teacher.png" />
             <p className="text-[28px] bold">Child 1</p>
           </div>
-          <div className="grid grid-cols-2 gap-5 space-x-10">
+          <div className="grid lg:grid-cols-2 gap-5 lg:space-x-10">
             <div>
               {registrationForm.map((item: FeildType) => {
                 return (
@@ -47,7 +47,7 @@ function RegistrationForm() {
           </div>
           <div className="flex justify-center w-[100%] mt-10">
             <CustomButton
-              className="w-[300px] h-[50px] text-[18px]"
+              className="lg:w-[300px] w-full h-[50px] text-[18px]"
               title="Submit"
             />
           </div>

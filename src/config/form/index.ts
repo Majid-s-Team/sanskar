@@ -16,3 +16,5 @@ export * from "./projectForm";
 export * from "./expenseForm";
 export * from "./media";
 export * from "./announcement";
+export * from "./addAttendance";
+export * from "./formDetails";

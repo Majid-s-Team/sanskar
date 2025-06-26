@@ -54,20 +54,21 @@ function ArchivedTable() {
           data={weeklyUpdateData}
           title={tabs[active].label}
           input={
-            <div className="flex gap-5 items-center">
-              <div>
+            <div className="flex lg:flex-row flex-col gap-5 items-center">
+              <div className="flex gap-5 items-center">
                 <img className="w-[25px]" src="/icons/filter.png" />
+                <Input
+                  placeholder="Search"
+                  className={`search-input h-[47px] w-[300px] lg:w-[227.28px]`}
+                  style={{
+                    borderRadius: 6,
+                    backgroundColor: "#F5F4F9",
+                    border: "none",
+                  }}
+                  prefix={<img className="w-[20px]" src="/icons/search.png" />}
+                />
               </div>
-              <Input
-                placeholder="Search"
-                className={`search-input h-[47px] lg:w-[227.28px]`}
-                style={{
-                  borderRadius: 6,
-                  backgroundColor: "#F5F4F9",
-                  border: "none",
-                }}
-                prefix={<img className="w-[20px]" src="/icons/search.png" />}
-              />
+
               {active === 0 && (
                 <Link
                   to={""}

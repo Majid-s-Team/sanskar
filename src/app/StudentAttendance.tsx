@@ -12,7 +12,7 @@ function StudentAttendance() {
             Student Attendance
           </p>
           <Link
-            to={""}
+            to={"/add-attendance"}
             style={{
               backgroundImage: "url(/images/card2.png)",
               backgroundSize: "100% 100%",
@@ -43,7 +43,7 @@ function StudentAttendance() {
         </div>
         <Table
           scroll={{ x: 800 }}
-          columns={studentAttendanceColumns}
+          columns={studentAttendanceColumns()}
           dataSource={studentAttendanceData}
         />
       </div>

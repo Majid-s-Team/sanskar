@@ -14,11 +14,11 @@ function Step2() {
         backgroundImage: "url(/images/auth-bg2.png)",
         backgroundSize: "100% 100%",
       }}
-      className="min-h-screen overflow-hidden grid lg:grid-cols-12 p-10"
+      className="min-h-screen overflow-hidden grid lg:grid-cols-12 lg:p-10 p-5"
     >
       <div className="lg:col-span-4">
         <p className="text-white text-[26px] semibold">Sanskar</p>
-        <div className="space-y-2 mt-[130px] lg:ml-[30px] ml-0">
+        <div className="space-y-2 lg:mt-[130px] my-[50px] lg:ml-[30px] ml-0">
           <p className="text-white text-[29px] medium">Sign in to</p>
           <p className="text-white text-[33px] bold">SANSKAR!</p>
           <p className="text-white text-[13px] light">
@@ -28,16 +28,16 @@ function Step2() {
           </p>
         </div>
       </div>
-      <div className="lg:col-span-8 p-10">
-        <div className="bg-white p-[10px] px-[40px] rounded-[40px] mx-auto shadow-lg">
-          <div className="flex justify-between items-center">
+      <div className="lg:col-span-8 lg:p-10 col-span-12">
+        <div className="bg-white lg:p-[10px] p-8 lg:px-[40px] rounded-[40px] mx-auto shadow-lg">
+          <div className="flex lg:flex-row flex-col justify-between items-center">
             <p className="text-[28px] semibold">Student Information</p>
-            <div className="w-[250px]">
+            <div className="lg:w-[250px] w-full">
               <AuthButton text="Add More Student" />
             </div>
           </div>
 
-          <Form layout="vertical" className="grid grid-cols-2 gap-20">
+          <Form layout="vertical" className="grid lg:grid-cols-2 lg:gap-20">
             <div>
               {step1.map((item: FeildType) => {
                 return (

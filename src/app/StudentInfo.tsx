@@ -35,7 +35,7 @@ function StudentInfo() {
           </Link>
         </div>
         <Form layout="vertical" className="mt-5 form-m">
-          <div className="grid grid-cols-2 gap-5 ">
+          <div className="grid lg:grid-cols-2 gap-5 ">
             {addStudentForm.map((item) => {
               return (
                 <Form.Item

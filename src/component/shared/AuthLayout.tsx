@@ -21,23 +21,25 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
         backgroundImage: "url(/images/auth-bg2.png)",
         backgroundSize: "100% 100%",
       }}
-      className="min-h-screen overflow-hidden grid lg:grid-cols-2 "
+      className="min-h-screen overflow-hidden grid lg:grid-cols-12 "
     >
-      <div className="p-10">
-        <img className="w-[150px]" src="/images/logo.png" alt="" />
-        <div className="flex justify-between items-center lg:mx-[60px]">
-          <div className="">
+      <div className="p-10 lg:col-span-7">
+        <img className="w-[150px] mb-10" src="/images/logo.png" alt="" />
+        <div className="grid lg:grid-cols-12 lg:h-[378px]">
+          <div className="lg:col-span-5 col-span-12 flex flex-col justify-center lg:pl-10 ">
             <p className="text-white text-[29px] medium">Sign in to</p>
             <p className="text-white text-[33px] bold">SANSKAR!</p>
             <p className="text-white text-[20px] light">
               Choose your interface <br /> to proceed
             </p>
           </div>
-          <img
-            className="xl:w-[434px] relative top-[-18px] lg:block hidden"
-            src="/images/auth-img.png"
-            alt=""
-          />
+          <div className="lg:col-span-7 relative">
+            <img
+              className="xl:w-[434px] absolute bottom-0 lg:block hidden"
+              src="/images/auth-img.png"
+              alt=""
+            />
+          </div>
         </div>
         <div className="mt-20 lg:mx-[60px]">
           <p className="text-[18px] mb-6 r">Login as</p>
@@ -73,7 +75,7 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
           </div>
         </div>
       </div>
-      <div className="lg:m-[30px] mx-4 flex items-center justify-center">
+      <div className="lg:m-[30px] py-[30px] mx-4 flex items-center justify-center lg:col-span-5">
         <div className="w-full">
           <div className="bg-white p-[30px] rounded-[40px] max-w-[500px] mx-auto shadow-lg">
             <div className="flex justify-between items-center my-[20px]">

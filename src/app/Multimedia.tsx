@@ -48,7 +48,7 @@ function Multimedia() {
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
-        <div className="flex justify-between items-center">
+        <div className="flex lg:flex-row flex-col gap-5 justify-between lg:items-center">
           <p className="text-[30px] semibold">Multimedia</p>
           {role === "teacher" ? (
             <div className="flex gap-5 items-center">

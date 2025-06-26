@@ -8,7 +8,7 @@ export default function AttendanceManagement() {
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
-          columns={attendanceColumns}
+          columns={attendanceColumns()}
           data={attendanceData}
           title="Attendance Management"
           input={
@@ -20,7 +20,7 @@ export default function AttendanceManagement() {
                     backgroundImage: "url(/images/card2.png)",
                     backgroundSize: "100% 100%",
                   }}
-                  className="p-5 gap-4 rounded-[20px] flex justify-between items-center w-[260px] shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
+                  className="p-5 gap-4 rounded-[20px] flex justify-between items-center lg:w-[260px] shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
                 >
                   <img className="w-[50px]" src="/icons/pdf.png" alt="" />
                   <div>

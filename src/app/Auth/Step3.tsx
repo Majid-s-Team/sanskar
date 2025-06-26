@@ -18,11 +18,11 @@ function Step3() {
         backgroundImage: "url(/images/auth-bg2.png)",
         backgroundSize: "100% 100%",
       }}
-      className="min-h-screen overflow-hidden grid lg:grid-cols-12 p-10"
+      className="min-h-screen overflow-hidden grid lg:grid-cols-12 lg:p-10 p-5"
     >
-      <div className="lg:col-span-3">
+      <div className="lg:col-span-3 col-span-6">
         <p className="text-white text-[26px] semibold">Sanskar</p>
-        <div className="space-y-2 mt-[130px] lg:ml-[30px] ml-0">
+        <div className="space-y-2 lg:mt-[130px] my-[50px] lg:ml-[30px] ml-0">
           <p className="text-white text-[29px] medium">Sign in to</p>
           <p className="text-white text-[33px] bold">SANSKAR!</p>
           <p className="text-white text-[13px] light">
@@ -32,9 +32,9 @@ function Step3() {
           </p>
         </div>
       </div>
-      <div className="lg:col-span-9 p-10">
+      <div className="lg:col-span-9 col-span-12 lg:p-10">
         <Form layout="vertical">
-          <div className="bg-white p-[40px] rounded-[40px] mx-auto shadow-lg grid lg:grid-cols-2 gap-10">
+          <div className="bg-white lg:p-[40px] p-8 rounded-[40px] mx-auto shadow-lg grid lg:grid-cols-2 lg:gap-10">
             <div className="space-y-4">
               <p className="text-[28px] semibold">Address Information</p>
               <div>
@@ -74,7 +74,7 @@ function Step3() {
             </div>
           </div>
           <div className="mt-10 flex justify-end">
-            <div className="w-[450px]">
+            <div className="lg:w-[450px] w-full">
               <FormButtons
                 onSubmit={loginAuth}
                 onCancel={() => navigate(-1)}

@@ -1,9 +1,10 @@
 import { Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../shared/CustomButton";
 import MultiMediaCarousel from "./MultiMediaCarousel";
 
 function HomeSection3({ role }: { role: string }) {
+  const navigate = useNavigate();
   return (
     <div className="grid lg:grid-cols-12 gap-10 my-10">
       <div
@@ -56,6 +57,7 @@ function HomeSection3({ role }: { role: string }) {
               29 Oct 2023 | 329.4 MB
             </p>
             <CustomButton
+              onClick={() => navigate("/calendar")}
               title="Download Now"
               icon={
                 <img className="w-[24px]" src="/icons/download.png" alt="" />
