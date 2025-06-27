@@ -1,7 +1,10 @@
 import { Button } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
+import { useState } from "react";
+import WriteReasonModal from "../component/partial/WriteReasonModal";
 
 function EventDetails() {
+  const [open, setOpen] = useState(false);
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -52,6 +55,7 @@ function EventDetails() {
             Attending
           </Button>
           <Button
+            onClick={() => setOpen(true)}
             style={{
               boxShadow: "0px 10px 20px 0px #24242440",
             }}
@@ -61,6 +65,12 @@ function EventDetails() {
           </Button>
         </div>
       </div>
+      {open && (
+        <WriteReasonModal
+          isModalOpen={open}
+          handleCancel={() => setOpen(false)}
+        />
+      )}
     </HomeLayout>
   );
 }
