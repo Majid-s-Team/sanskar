@@ -1,9 +1,19 @@
 import { Avatar, Progress } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../shared/CustomButton";
 import { info, forms, card2, card } from "../../config";
 
+interface CardItem {
+  title: string;
+  value: string;
+  image: string;
+  shadow: string;
+  path: string;
+  percentage?: number; // add this property
+}
+
 function HomeSection2({ role }: { role: string }) {
+  const navigate = useNavigate();
   return (
     <div className="grid lg:grid-cols-12 xl:gap-10 lg:gap-5 gap-5 my-10">
       <div className="bg-white p-5 rounded-[26.61px] lg:col-span-5">
@@ -12,16 +22,16 @@ function HomeSection2({ role }: { role: string }) {
             {role === "parent" ? "Student Information" : "Calenders"}
           </p>
           <Link
-            to="/home/student-info"
+            to={role === "parent" ? "" : "/home/student-info"}
             className="text-[#0089ED] text-[13px] regular underline"
           >
             View All
           </Link>
         </div>
         {role === "parent" ? (
-          <div>
+          <Link to="/home/student-info" className="!text-black">
             <div className="flex gap-2 mt-5 items-center">
-              <Avatar size={64} src="/images/user.png" />
+              <Avatar size={64} src="/images/parent.png" />
               <div>
                 <p className="text-[12px] regular">Student Name</p>
                 <p className="text-[20px] regular">John Doe</p>
@@ -36,7 +46,7 @@ function HomeSection2({ role }: { role: string }) {
                 </div>
               </div>
             ))}
-          </div>
+          </Link>
         ) : (
           <div>
             {forms.map((form, index) => {
@@ -72,7 +82,10 @@ function HomeSection2({ role }: { role: string }) {
               );
             })}
             <div className="flex justify-center mt-20">
-              <CustomButton title="Gurukul Announcements" />
+              <CustomButton
+                onClick={() => navigate("/home/announcement")}
+                title="Gurukul Announcements"
+              />
             </div>
           </div>
         )}
@@ -80,7 +93,7 @@ function HomeSection2({ role }: { role: string }) {
       <div className="bg-white p-5 rounded-[26.61px] lg:col-span-7">
         <p className="text-[20px] semibold">Class Information</p>
         <div className="grid lg:grid-cols-2 gap-5 mt-5">
-          {(role === "parent" ? card : card2).map((item, index) => (
+          {(role === "parent" ? card : card2).map((item: CardItem, index) => (
             <Link
               to={item.path || ""}
               key={index}
@@ -96,14 +109,14 @@ function HomeSection2({ role }: { role: string }) {
                 <p className="text-white text-[20px] semibold">{item.title}</p>
                 <p className="text-white text-[14px] medium">{item.value}</p>
               </div>
-              {item.percentage && (
+              {role === "parent" && item?.percentage && (
                 <Progress
                   type="circle"
                   strokeColor="#fff"
                   strokeWidth={8}
                   className="!text-white"
                   size={80}
-                  percent={item.percentage}
+                  percent={item?.percentage}
                 />
               )}
             </Link>

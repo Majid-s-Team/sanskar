@@ -4,19 +4,35 @@ import { parentProfile, step3, step4 } from "../config";
 import { FeildType } from "../types";
 import BaseInput from "../component/shared/BaseInput";
 import CustomButton from "../component/shared/CustomButton";
+import { useNavigate } from "react-router-dom";
 
 function ParentProfile() {
+  const navigate = useNavigate();
+
+  const onFinish = () => {
+    navigate(-1);
+  };
   return (
     <HomeLayout>
       <div className="bg-white lg:p-10 p-5 rounded-[24.59px]">
         <p className="text-[40px] bold">Parent's Profile</p>
-        <Form layout="vertical" className="mt-10">
+        <Form onFinish={onFinish} layout="vertical" className="mt-10">
           <div className="grid lg:grid-cols-2 gap-10">
             <div>
               {parentProfile.map((item: FeildType) => {
                 return (
                   <Form.Item
-                    label={item.title}
+                    label={
+                      <p>
+                        {item.title}
+                        {item.optional && (
+                          <span className="text-[#666666] text-[12px] regular">
+                            {" "}
+                            (Optional)
+                          </span>
+                        )}
+                      </p>
+                    }
                     key={item.name}
                     name={item.name}
                     rules={item.rules}

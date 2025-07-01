@@ -37,7 +37,7 @@ function ArchivedTable() {
                     : "none",
               }}
               onClick={() => handleTabClick(tab.id)}
-              className={`semibold p-5 rounded-[21.75px] ${
+              className={`semibold p-5 rounded-[21.75px] cursor-pointer ${
                 active === tab.id
                   ? "text-white bg-[#D57D25] text-xl scale-105 transition-transform duration-300 ease-out"
                   : "text-[#242424] border border-[#CCCCCC] bg-white text-lg transition-transform duration-300 ease-in"
@@ -52,7 +52,11 @@ function ArchivedTable() {
         <TableData
           columns={tabs[active].columns}
           data={weeklyUpdateData}
-          title={tabs[active].label}
+          title={
+            tabs[active].label === "Other Class Updates"
+              ? "Other Class Updates"
+              : "Weekly Updates"
+          }
           input={
             <div className="flex lg:flex-row flex-col gap-5 items-center">
               <div className="flex gap-5 items-center">
@@ -71,7 +75,7 @@ function ArchivedTable() {
 
               {active === 0 && (
                 <Link
-                  to={""}
+                  to={"/add-weekly-updates"}
                   style={{
                     backgroundImage: "url(/images/card2.png)",
                     backgroundSize: "100% 100%",

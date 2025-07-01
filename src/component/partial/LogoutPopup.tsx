@@ -1,6 +1,7 @@
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import React from "react";
 import { useAuth } from "../../hooks/useAuth";
+import FormButtons from "../shared/FormButtons";
 
 function LogoutPopup({
   open,
@@ -24,23 +25,15 @@ function LogoutPopup({
           src="/images/logout-icon.png"
           alt=""
         />
-        <p className="text-[18px] text-[#0F0F0] red-medium text-center">
+        <p className="text-[18px] text-[#0F0F0] medium text-center">
           Are you sure you want to logout ?
         </p>
-        <div className="flex lg:flex-row flex-col gap-4 mt-5">
-          <Button
-            onClick={() => setOpen(false)}
-            className="lg:w-[275px] w-full h-[50px] border border-[#878A8D] bg-transparent rounded-[40px] text-[14px] text-[#878A8D] red-regular"
-          >
-            No
-          </Button>
-          <Button
-            onClick={logout}
-            className="lg:w-[275px] w-full h-[50px] bg-[#FE3A30] rounded-[40px] text-[14px] text-white red-regular"
-          >
-            Yes
-          </Button>
-        </div>
+        <FormButtons
+          title="Yes"
+          title2="No"
+          onSubmit={logout}
+          onCancel={() => setOpen(false)}
+        />
       </div>
     </Modal>
   );

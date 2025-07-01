@@ -15,10 +15,11 @@ function RequestManagement() {
             Request Management
           </p>
           <Select
-            defaultValue="All"
+            // defaultValue="All"
             style={{
               width: 200,
             }}
+            placeholder="select category"
             options={[{ value: "All", label: "All" }]}
           />
         </div>

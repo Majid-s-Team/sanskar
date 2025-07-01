@@ -12,10 +12,6 @@ export const otherClassColumns = [
     dataIndex: "class",
   },
   {
-    title: "Description",
-    dataIndex: "description",
-  },
-  {
     title: "Download",
     dataIndex: "download",
     render: () => (

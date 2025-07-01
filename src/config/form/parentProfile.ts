@@ -1,27 +1,27 @@
 export const parentProfile = [
   {
-    title: "Father’s Name",
+    title: "Father’s Name *",
     name: "fathers_name",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your name!" }],
     type: "text",
   },
   {
-    title: "Mother’s Name",
+    title: "Mother’s Name *",
     name: "mothers_name",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your name!" }],
     type: "text",
   },
   {
-    title: "Email Address",
+    title: "Email Address *",
     name: "email",
     placeholder: "Email address",
     rules: [{ required: true, message: "Please input your email!" }],
     type: "text",
   },
   {
-    title: "Mobile Number",
+    title: "Mobile Number *",
     name: "mobile",
     placeholder: "Mobile Number",
     rules: [{ required: true, message: "Please input your mobile number!" }],
@@ -30,14 +30,14 @@ export const parentProfile = [
   {
     title: "Secondary Email",
     name: "secondary_email",
-    placeholder: "optional",
+    optional: true,
     rules: [{ required: true, message: "Please input your secondary email!" }],
     type: "text",
   },
   {
     title: "Secondary Mobile Number",
     name: "secondary_mobile",
-    placeholder: "optional",
+    optional: true,
     rules: [{ required: true, message: "Please input your secondary mobile!" }],
     type: "text",
   },

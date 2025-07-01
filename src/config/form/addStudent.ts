@@ -16,7 +16,7 @@ export const addStudentForm = [
   {
     title: "Date Of Birth",
     name: "date_of_birth",
-    placeholder: "",
+    placeholder: "please select",
     rules: [{ required: true, message: "Please input your date of birth!" }],
     type: "date",
   },
@@ -30,7 +30,7 @@ export const addStudentForm = [
   {
     title: "School Grade",
     name: "school_grade",
-    placeholder: "Name",
+    placeholder: "Please select",
     rules: [{ required: true, message: "Please select your grade!" }],
     type: "select",
     options: [
@@ -55,16 +55,26 @@ export const addStudentForm = [
   {
     title: "Student Email Address",
     name: "student_email_address",
-    placeholder: "Name",
+    placeholder: "Email address",
     rules: [{ required: true, message: "Please input your email!" }],
     type: "text",
   },
   {
     title: "Is the School year-round?",
     name: "is_school_year_round",
-    placeholder: "Name",
+    placeholder: "please select",
     rules: [{ required: true, message: "Please input your school year!" }],
-    type: "text",
+    type: "select",
+    options: [
+      {
+        label: "Yes",
+        value: "yes",
+      },
+      {
+        label: "No",
+        value: "no",
+      },
+    ],
   },
 
   {
@@ -83,6 +93,7 @@ export const addStudentForm = [
   {
     title: "Last Year Class",
     name: "last_year_class",
+    placeholder: "Please select",
     rules: [{ required: true, message: "Please select your last year class!" }],
     type: "select",
     options: [
@@ -107,6 +118,7 @@ export const addStudentForm = [
   {
     title: "Tee-shirt Size",
     name: "tee_shirt_size",
+    placeholder: "Please select",
     rules: [{ required: true, message: "Please select your tee-shirt size!" }],
     type: "select",
     options: [
@@ -135,6 +147,7 @@ export const addStudentForm = [
   {
     title: "Join the Book Club?",
     name: "join_book_club",
+    placeholder: "Please select",
     rules: [
       { required: true, message: "Please select your join the book club!" },
     ],

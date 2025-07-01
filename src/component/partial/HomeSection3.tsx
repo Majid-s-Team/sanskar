@@ -34,7 +34,10 @@ function HomeSection3({ role }: { role: string }) {
           <MultiMediaCarousel />
         </div>
         <div className="flex justify-center mt-8">
-          <CustomButton title="View More" />
+          <CustomButton
+            onClick={() => navigate("/home/multimedia")}
+            title="View More"
+          />
         </div>
       </div>
       {role === "parent" && (
@@ -45,7 +48,7 @@ function HomeSection3({ role }: { role: string }) {
               to=""
               className="text-[#0089ED] text-[13px] regular underline"
             >
-              View All
+              View
             </Link>
           </div>
           <div className="flex flex-col gap-5 mt-5 items-center text-center p-5 border border-[#ECECEC] rounded-[24px]">
@@ -56,16 +59,22 @@ function HomeSection3({ role }: { role: string }) {
             <p className="regular text-[14px] text-[#A6A6A6]">
               29 Oct 2023 | 329.4 MB
             </p>
-            <CustomButton
-              onClick={() => navigate("/calendar")}
-              title="Download Now"
-              icon={
-                <img className="w-[24px]" src="/icons/download.png" alt="" />
-              }
-            />
+            <div className="flex gap-4 items-center">
+              <img className="w-[40px]" src="/icons/eye.png" alt="" />
+              <CustomButton
+                onClick={() => navigate("/gurukul-calendar")}
+                title="Download Now"
+                icon={
+                  <img className="w-[24px]" src="/icons/download.png" alt="" />
+                }
+              />
+            </div>
           </div>
           <div className="flex justify-center mt-8">
-            <CustomButton title="Gurukul Announcements" />
+            <CustomButton
+              onClick={() => navigate("/home/announcement")}
+              title="Gurukul Announcements"
+            />
           </div>
         </div>
       )}

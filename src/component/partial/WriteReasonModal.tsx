@@ -8,10 +8,14 @@ type Props = {
 };
 
 function WriteReasonModal({ isModalOpen, handleCancel }: Props) {
+  const onFinish = (e: any) => {
+    console.log(e);
+    handleCancel();
+  };
   return (
     <Modal open={isModalOpen} onCancel={handleCancel} footer={null} centered>
       <p className="text-[30px] bold text-center my-8">Write A Reason</p>
-      <Form layout="vertical">
+      <Form onFinish={onFinish} layout="vertical">
         <Form.Item
           label={"Reason *"}
           name={"reason"}

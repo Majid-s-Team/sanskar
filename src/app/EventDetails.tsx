@@ -2,8 +2,10 @@ import { Button } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { useState } from "react";
 import WriteReasonModal from "../component/partial/WriteReasonModal";
+import { useNavigate } from "react-router-dom";
 
 function EventDetails() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   return (
     <HomeLayout>
@@ -50,6 +52,7 @@ function EventDetails() {
             style={{
               boxShadow: "0px 10px 20px 0px #24242440",
             }}
+            onClick={() => navigate(-1)}
             className="h-[54px] px-20 !bg-[#006838] rounded-[10px] !border-none text-[20px] medium !text-white"
           >
             Attending

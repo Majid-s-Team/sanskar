@@ -41,6 +41,8 @@ import AddAttendance from "./app/Forms/AddAttendance";
 import FormDetails from "./app/Forms/FormDetails";
 import Notifications from "./app/Notifications";
 import Calendar from "./app/Calendar";
+import AddWeeklyUpdates from "./app/Forms/AddWeeklyUpdates";
+import TeachersManual from "./app/TeachersManual";
 const App: React.FC = () => {
   return (
     <>
@@ -113,7 +115,9 @@ const App: React.FC = () => {
         />
 
         <Route path="/notifications" element={<Notifications />} />
-        <Route path="/calendar" element={<Calendar />} />
+        <Route path="/gurukul-calendar" element={<Calendar />} />
+        <Route path="/add-weekly-updates" element={<AddWeeklyUpdates />} />
+        <Route path="/about/teacher-manual" element={<TeachersManual />} />
       </Routes>
     </>
   );

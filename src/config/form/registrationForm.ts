@@ -33,12 +33,12 @@ export const registrationForm = [
     type: "select",
     options: [
       {
-        label: "Class 1",
-        value: "class1",
+        label: "Yes",
+        value: "yes",
       },
       {
-        label: "Class 2",
-        value: "class2",
+        label: "No",
+        value: "no",
       },
     ],
   },

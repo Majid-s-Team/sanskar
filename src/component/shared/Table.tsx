@@ -1,4 +1,5 @@
 import { Table, TablePaginationConfig } from "antd";
+import { CustomPagination } from "./CustomPagination";
 // import { ColumnType } from "antd/es/table";
 interface TableDataProps<T = Record<string, unknown>> {
   columns: any[];
@@ -54,10 +55,17 @@ export default function TableData({
               }
             },
           })}
-          pagination={pagination ?? false}
+          pagination={false}
           onChange={onPaginationChange}
         />
       </div>
+      <CustomPagination
+        current={(pagination === false ? 1 : pagination?.current) || 1}
+        total={(pagination as TablePaginationConfig)?.total || 1}
+        onChange={(page) => {
+          onPaginationChange?.({ ...pagination, current: page }, {}, {});
+        }}
+      />
     </div>
   );
 }

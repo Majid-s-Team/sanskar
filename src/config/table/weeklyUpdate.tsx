@@ -41,32 +41,32 @@ export const weeklyUpdateColumns = [
 export const weeklyUpdateData = [
   {
     week_number: 1,
-    date: "2023-10-01",
+    date: "12 May 2024",
     description: "Introduction to the course",
-    download: "", // this field is not actually used in the render function
+    class: "English",
   },
   {
     week_number: 2,
-    date: "2023-10-08",
+    date: "12 May 2024",
     description: "Course overview and objectives",
-    download: "", // this field is not actually used in the render function
+    class: "Maths",
   },
   {
     week_number: 3,
-    date: "2023-10-15",
+    date: "12 May 2024",
     description: "Module 1: Introduction to topic A",
-    download: "", // this field is not actually used in the render function
+    class: "Physics",
   },
   {
     week_number: 4,
-    date: "2023-10-22",
+    date: "12 May 2024",
     description: "Module 2: Topic B and C",
-    download: "", // this field is not actually used in the render function
+    class: "Chemistry",
   },
   {
     week_number: 5,
-    date: "2023-10-29",
+    date: "12 May 2024",
     description: "Module 3: Topic D and E",
-    download: "", // this field is not actually used in the render function
+    class: "History",
   },
 ];

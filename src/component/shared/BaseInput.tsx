@@ -69,7 +69,7 @@ function BaseInput(props: BaseInputProps) {
     textarea: (
       <Input.TextArea
         value={props.initialValue}
-        className="!rounded-[8px] !h-[103px]"
+        className="!rounded-[8px] !h-[136px]"
         {...props}
       />
     ),
@@ -120,7 +120,7 @@ function BaseInput(props: BaseInputProps) {
           onChange={handleChange}
           style={{
             border: isValid ? "1px solid #d9d9d9" : "1px solid red",
-            borderRadius: "10px",
+            borderRadius: "8px",
             padding: "9.5px",
             width: "100%",
           }}
@@ -134,6 +134,16 @@ function BaseInput(props: BaseInputProps) {
           props.icon && <img className="w-[24px]" src={props.icon} alt="icon" />
         }
         className="!rounded-[10px] !h-[44px] w-[100%]"
+        {...props}
+      />
+    ),
+    signature: (
+      <Input
+        prefix={
+          props.icon && <img className="w-[24px]" src={props.icon} alt="icon" />
+        }
+        variant="underlined"
+        className="h-[44px] w-[100%]"
         {...props}
       />
     ),

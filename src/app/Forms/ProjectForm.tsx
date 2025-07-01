@@ -9,12 +9,23 @@ import {
   projectForm3,
 } from "../../config";
 import { FeildType } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 function renderFields(fields: FeildType[]) {
   return fields.map((item) => (
     <Form.Item
       key={item.name}
-      label={item.title}
+      label={
+        <p>
+          {item.title}
+          {item.optional && (
+            <span className="text-[#666666] text-[12px] regular">
+              {" "}
+              (Optional)
+            </span>
+          )}
+        </p>
+      }
       name={item.name}
       rules={item.rules}
     >
@@ -24,6 +35,11 @@ function renderFields(fields: FeildType[]) {
 }
 
 function ProjectForm() {
+  const navigate = useNavigate();
+
+  const onFinish = () => {
+    navigate(-1);
+  };
   return (
     <HomeLayout>
       <div className="bg-white xl:px-40 lg:px-10 p-5 lg:py-10 rounded-[24.59px] flex flex-col justify-center">
@@ -31,7 +47,7 @@ function ProjectForm() {
           Arts and Craft Project Request Form
         </p>
 
-        <Form layout="vertical" className="mt-5">
+        <Form onFinish={onFinish} layout="vertical" className="mt-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-4">
             <div>{renderFields(projectForm)}</div>
 

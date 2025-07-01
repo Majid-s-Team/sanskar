@@ -48,6 +48,8 @@ export type PageProps<T> = {
 };
 
 export type FeildType = {
+  optional?: boolean;
+  placeholder?: string;
   title?: string;
   name: string;
   rules?: (

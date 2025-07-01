@@ -18,3 +18,4 @@ export * from "./media";
 export * from "./announcement";
 export * from "./addAttendance";
 export * from "./formDetails";
+export * from "./addWeeklyUpdates";

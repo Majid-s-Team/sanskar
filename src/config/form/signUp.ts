@@ -11,7 +11,7 @@ export const signUpFields = [
     name: "mobile",
     placeholder: "Mobile Number",
     rules: [{ required: true, message: "Please input your mobile number!" }],
-    type: "text",
+    type: "phonePicker",
   },
   {
     title: "Father’s Name",

@@ -4,15 +4,21 @@ import CustomButton from "../../component/shared/CustomButton";
 import HomeLayout from "../../component/shared/HomeLayout";
 import { siblingEnrollmentForm } from "../../config";
 import { FeildType } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 function SiblingEnrollmentForm() {
+  const navigate = useNavigate();
+
+  const onFinish = () => {
+    navigate(-1);
+  };
   return (
     <HomeLayout>
       <div className="bg-white xl:px-40 lg:px-20  p-5 lg:py-20 rounded-[24.59px] flex flex-col justify-center">
         <p className="text-[30px] text-center semibold">
           Sibling Enrollment Request Form
         </p>
-        <Form layout="vertical" className="mt-5 ">
+        <Form onFinish={onFinish} layout="vertical" className="mt-5 ">
           <div className="grid lg:grid-cols-2 gap-5 form-m">
             {siblingEnrollmentForm.map((item: FeildType) => {
               return (

@@ -18,6 +18,7 @@ export const step3 = [
     name: "state",
     rules: [{ required: true, message: "Please select your state" }],
     type: "select",
+    placeholder: "Please select",
     options: [
       {
         label: "Andhra Pradesh",
@@ -55,6 +56,7 @@ export const step4 = [
         message: "Please select your mother interested in volunteer!",
       },
     ],
+    placeholder: "Please select",
     type: "select",
     options: [
       {
@@ -76,6 +78,7 @@ export const step4 = [
         message: "Please select your father interested in volunteer!",
       },
     ],
+    placeholder: "Please select",
     type: "select",
     options: [
       {
@@ -93,6 +96,7 @@ export const step4 = [
     name: "activities",
     rules: [{ required: true, message: "Please select your activities" }],
     type: "select",
+    placeholder: "Please select",
     options: [
       {
         label: "Reading",
@@ -118,9 +122,10 @@ export const step4 = [
   },
   {
     title: "Activities",
-    name: "activities",
+    name: "activities2",
     rules: [{ required: true, message: "Please select your activities" }],
     type: "select",
+    placeholder: "Please select",
     options: [
       {
         label: "Reading",

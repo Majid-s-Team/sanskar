@@ -3,20 +3,19 @@ import { EffectCoverflow } from "swiper/modules";
 // @ts-ignore
 import "swiper/css";
 import { useState } from "react";
-// import "swiper/css/effect-coverflow";
 
 const students = [
   {
-    image: "/images/user.png",
-    child: "Alice",
+    image: "/images/parent.png",
+    child: "Child 2",
   },
   {
-    image: "/images/user.png",
-    child: "Alice",
+    image: "/images/parent.png",
+    child: "Child 1",
   },
   {
-    image: "/images/user.png",
-    child: "Alice",
+    image: "/images/parent.png",
+    child: "Child 3",
   },
 ];
 
@@ -50,12 +49,12 @@ export default function MovieCarousel() {
           <div
             className={`rounded-xl p-4 text-center h-full flex flex-col justify-center ${
               index === activeIndex
-                ? "bg-[#D57D25] text-white scale-145 shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
+                ? "bg-[#D57D25] text-white scale-145 custom-shadow2"
                 : "bg-[#FFEDDC]"
             }`}
           >
             <img className="w-[80px] mx-auto" src={item.image} alt="" />
-            <h3 className="mt-2">{item.child}</h3>
+            <h3 className="mt-2 text-[15px] medium">{item.child}</h3>
           </div>
         </SwiperSlide>
       ))}

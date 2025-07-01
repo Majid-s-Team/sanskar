@@ -6,18 +6,18 @@ export const info = [
   },
   {
     icon: "/images/info2.png",
+    title: "Class Name",
+    value: "English",
+  },
+  {
+    icon: "/images/info4.png",
     title: "House",
-    value: "Not Assigned",
+    value: "Assigned",
   },
   {
     icon: "/images/info3.png",
     title: "Book Club",
     value: "Yes",
-  },
-  {
-    icon: "/images/info4.png",
-    title: "Class Name",
-    value: "English",
   },
 ];
 
@@ -57,17 +57,16 @@ export const card = [
 
 export const card2 = [
   {
-    title: "Weekly Update",
+    title: "Weekly Updates",
     value: "35 Lesson",
-    percentage: 75,
+    // percentage: 75,
     image: "/images/boxblue.png",
     shadow: "0px 9.62px 28.85px 0px #369FFF66",
     path: "/archived",
   },
   {
-    title: "Announcement",
+    title: "Announcements",
     value: "2 New updates",
-    // percentage: 75,
     image: "/images/boxgreen.png",
     shadow: "0px 9.62px 28.85px 0px #8AC53E66",
     path: "/home/announcement",
@@ -75,7 +74,6 @@ export const card2 = [
   {
     title: "Multimedia",
     value: "42 Items",
-    // percentage: 75,
     image: "/images/boxorange.png",
     shadow: "0px 9.62px 28.85px 0px #FF993A66",
     path: "/home/multimedia",
@@ -83,7 +81,6 @@ export const card2 = [
   {
     title: "Student List",
     value: "42 Items",
-    // percentage: 75,
     image: "/images/boxorange.png",
     shadow: "0px 9.62px 28.85px 0px #FF993A66",
     path: "/student-list",

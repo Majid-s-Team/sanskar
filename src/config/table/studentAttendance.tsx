@@ -19,6 +19,34 @@ export const studentAttendanceColumns = () => {
       dataIndex: "student_id",
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      render: (_: any, record: any) => {
+        const currentStatus =
+          selectedStatus[record?.student_id] || record?.status;
+        return (
+          <select
+            value={currentStatus}
+            onChange={(e) => handleChange(record.student_id, e.target.value)}
+            className={`text-sm rounded-[30px] block p-1 ${
+              currentStatus === "Excused Absence"
+                ? "!bg-[#FFF8EF] text-[#D6A54B]"
+                : currentStatus === "Present"
+                ? "!bg-[#EFFFF1] text-[#4BD670]"
+                : currentStatus === "Unexcused Absence"
+                ? "!bg-[#FFF4FD] text-[#FF9BA4]"
+                : " !bg-[#EFFDFF] text-[#4BBCD6]"
+            }`}
+          >
+            <option value="Present">Present</option>
+            <option value="Excused Absence">Excused Absence</option>
+            <option value="Not Recorded">Not Recorded</option>
+            <option value="Unexcused Absence">Unexcused Absence</option>
+          </select>
+        );
+      },
+    },
+    {
       title: "Participation Points",
       dataIndex: "participation",
     },
@@ -34,31 +62,6 @@ export const studentAttendanceColumns = () => {
           View Details
         </p>
       ),
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      render: (_: any, record: any) => {
-        const currentStatus =
-          selectedStatus[record?.student_id] || record?.status;
-        return (
-          <select
-            value={currentStatus}
-            onChange={(e) => handleChange(record.student_id, e.target.value)}
-            className={`text-sm rounded-[30px] block p-1 ${
-              currentStatus === "Absent"
-                ? "!bg-[#FFF8EF] text-[#D6A54B]"
-                : currentStatus === "Present"
-                ? "!bg-[#EFFFF1] text-[#4BD670]"
-                : " !bg-[#EFFDFF] text-[#4BBCD6]"
-            }`}
-          >
-            <option value="Present">Present</option>
-            <option value="Absent">Absent</option>
-            <option value="Not Recorded">Not Recorded</option>
-          </select>
-        );
-      },
     },
   ];
 };

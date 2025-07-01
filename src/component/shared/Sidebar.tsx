@@ -1,13 +1,14 @@
 import { Menu, MenuProps } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSidebarLinks } from "../../config";
-import { useAuth } from "../../hooks/useAuth";
+import LogoutPopup from "../partial/LogoutPopup";
+import { useState } from "react";
 
 export const Sidebar = () => {
-  const { logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const sideBarLinks = useSidebarLinks();
+  const [open, setOpen] = useState(false);
 
   const handleClick: MenuProps["onClick"] = ({ key }) => {
     navigate(key);
@@ -53,13 +54,14 @@ export const Sidebar = () => {
           };
         })}
         onClick={(item) => {
-          if (item.key === "logout") {
-            logout();
+          if (item.key === "/login") {
+            setOpen(true);
           } else {
             handleClick(item);
           }
         }}
       />
+      {open && <LogoutPopup open={open} setOpen={setOpen} />}
     </div>
   );
 };

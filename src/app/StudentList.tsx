@@ -2,8 +2,11 @@ import { Input } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { studentListColumns, studentListData } from "../config";
+import StudentDetailsModal from "../component/partial/StudentDetailsModal";
+import { useState } from "react";
 
 function StudentList() {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -11,6 +14,7 @@ function StudentList() {
           columns={studentListColumns}
           data={studentListData}
           title="Student List"
+          onClick={() => setOpenModal(true)}
           input={
             <div className="flex gap-5 items-center">
               <div>
@@ -29,6 +33,12 @@ function StudentList() {
             </div>
           }
         />
+        {openModal && (
+          <StudentDetailsModal
+            isModalOpen={openModal}
+            handleCancel={() => setOpenModal(false)}
+          />
+        )}
       </div>
     </HomeLayout>
   );

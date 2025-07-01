@@ -1,13 +1,13 @@
 export const siblingEnrollmentForm = [
   {
-    title: "Father’s Name",
+    title: "Father’s Name *",
     name: "fathers_name",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your name!" }],
     type: "text",
   },
   {
-    title: "Mother’s Name",
+    title: "Mother’s Name *",
     name: "mothers_name",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your name!" }],
@@ -61,28 +61,28 @@ export const siblingEnrollmentForm = [
   },
   {
     title: "2nd Student’s First Name *",
-    name: "first_name",
+    name: "first_name2",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your name!" }],
     type: "text",
   },
   {
     title: "2nd Student’s Last Name *",
-    name: "last_name",
+    name: "last_name2",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your name!" }],
     type: "text",
   },
   {
     title: "2nd Student's Date of Birth *",
-    name: "date_of_birth",
+    name: "date_of_birth2",
     placeholder: "",
     rules: [{ required: true, message: "Please input your date of birth!" }],
     type: "date",
   },
   {
     title: "2nd Student's School Grade as of Fall 2024*",
-    name: "grade_as_of_fall_2024",
+    name: "grade_as_of_fall_20242",
     placeholder: "Name",
     rules: [{ required: true, message: "Please select your grade!" }],
     type: "select",
@@ -114,7 +114,7 @@ export const siblingEnrollmentForm = [
   },
   {
     title: "Secondary Email Address",
-    name: "student_email_address",
+    name: "student_email_address2",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your secondary email!" }],
     type: "text",
@@ -150,7 +150,7 @@ export const siblingEnrollmentForm = [
     title: "Sibling of current student?",
     name: "sibling_of_current_student",
     rules: [{ required: true, message: "Please select your sibling!" }],
-    type: "select",
+    type: "radio",
     options: [
       {
         label: "Yes",

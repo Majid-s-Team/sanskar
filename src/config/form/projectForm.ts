@@ -18,9 +18,9 @@ export const projectForm = [
     type: "text",
   },
   {
-    title: "Sevak 2 (Optional)",
+    title: "Sevak 2",
     name: "sevak_2",
-    // placeholder: "Name",
+    optional: true,
     rules: [{ required: true, message: "Please input your sevak 2!" }],
     type: "text",
   },
@@ -50,8 +50,18 @@ export const projectForm1 = [
   {
     title: "Grade",
     name: "grade",
-    rules: [{ required: true, message: "Please input your grade!" }],
-    type: "text",
+    rules: [{ required: true, message: "Please select your grade!" }],
+    type: "select",
+    options: [
+      {
+        label: "Male",
+        value: "male",
+      },
+      {
+        label: "Female",
+        value: "female",
+      },
+    ],
   },
 ];
 
@@ -70,14 +80,14 @@ export const projectForm2 = [
   },
   {
     title: "Phone Number",
-    placeholder: "(Optional)",
+    optional: true,
     name: "phone_number2",
     rules: [{ required: true, message: "Please input your phone number!" }],
     type: "text",
   },
   {
     title: "Email",
-    placeholder: "(Optional)",
+    optional: true,
     name: "email2",
     rules: [{ required: true, message: "Please input your email!" }],
     type: "text",

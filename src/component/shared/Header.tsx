@@ -45,6 +45,7 @@ function Header({ drawerVisible, setDrawerVisible }: any) {
           border: "none",
           boxShadow: "2px 4px 4px 0px #0000001A",
         }}
+        suffix={<img className="w-[20px]" src="/icons/filter.png" />}
         prefix={<img className="w-[20px]" src="/icons/search.png" />}
       />
       <div className=" lg:w-full flex justify-end">

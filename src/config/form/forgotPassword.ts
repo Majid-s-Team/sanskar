@@ -1,6 +1,6 @@
 export const forgotPasswordFields = [
   {
-    // title: "Email",
+    title: "Enter your username or email address",
     name: "email",
     // icon: "/icons/email.png",
     rules: [{ required: true, message: "Please input your email!" }],

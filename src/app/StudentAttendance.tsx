@@ -27,18 +27,36 @@ function StudentAttendance() {
           <p className="text-[#242424] text-[24px] semibold lg:mb-0 mb-4">
             All Attendance and Participation
           </p>
-          <div className="flex gap-5 items-center">
-            <Input
-              placeholder="Search"
-              className={`search-input h-[45px] lg:w-[300px]`}
-              style={{
-                borderRadius: 12,
-                backgroundColor: "#fff",
-                border: "1px solid #CCCCCC",
-              }}
-              suffix={<img className="w-[20px]" src="/icons/filter.png" />}
-              prefix={<img className="w-[20px]" src="/icons/search.png" />}
-            />
+          <div>
+            <div className="flex gap-5 items-center justify-end">
+              <Input
+                placeholder="Search"
+                className={`search-input h-[45px] lg:w-[300px]`}
+                style={{
+                  borderRadius: 12,
+                  backgroundColor: "#fff",
+                  border: "1px solid #CCCCCC",
+                }}
+                suffix={<img className="w-[20px]" src="/icons/filter.png" />}
+                prefix={<img className="w-[20px]" src="/icons/search.png" />}
+              />
+            </div>
+            <div className="grid lg:grid-cols-2 gap-4 mt-5 w-full">
+              <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
+                <img className="w-[50px]" src="/icons/book1.png" alt="" />
+                <div>
+                  <p className="text-[14px] regular">Total# of Absences</p>
+                  <p className="text-[20px] semibold">10</p>
+                </div>
+              </div>
+              <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
+                <img className="w-[50px]" src="/icons/book2.png" alt="" />
+                <div>
+                  <p className="text-[14px] regular">Total# of Presence</p>
+                  <p className="text-[20px] semibold">10</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <Table

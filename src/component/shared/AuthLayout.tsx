@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 type AuthlayoutProps = {
   children: React.ReactNode;
@@ -9,6 +9,7 @@ type AuthlayoutProps = {
 };
 
 function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
+  const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const changeRole = (role: "parent" | "teacher") => {
@@ -29,13 +30,21 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
           <div className="lg:col-span-5 col-span-12 flex flex-col justify-center lg:pl-10 ">
             <p className="text-white text-[29px] medium">Sign in to</p>
             <p className="text-white text-[33px] bold">SANSKAR!</p>
-            <p className="text-white text-[20px] light">
-              Choose your interface <br /> to proceed
-            </p>
+            {pathname === "/signup" ? (
+              <p className="text-white text-[13px] light">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s,
+              </p>
+            ) : (
+              <p className="text-white text-[18px] light">
+                Choose your interface <br /> to proceed
+              </p>
+            )}
           </div>
           <div className="lg:col-span-7 relative">
             <img
-              className="xl:w-[434px] absolute bottom-0 lg:block hidden"
+              className="xl:w-[434px] absolute lg:bottom-[45px] xl:bottom-0 lg:block hidden"
               src="/images/auth-img.png"
               alt=""
             />
@@ -59,7 +68,7 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
                 }`}
               >
                 <img
-                  src="/images/user.png"
+                  src={`/images/${roleName}.png`}
                   alt={roleName.charAt(0).toUpperCase() + roleName.slice(1)}
                   className="rounded-full w-14 h-14 mx-auto mb-2"
                 />

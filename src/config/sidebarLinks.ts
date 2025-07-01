@@ -65,7 +65,7 @@ export const useSidebarLinks = () => {
       iconactive: "/icons/settings-active.png",
     },
     {
-      key: "/logout",
+      key: "/login",
       label: "Logout",
       icon: "/icons/logout.png",
     },
@@ -79,7 +79,7 @@ export const useSidebarLinks = () => {
       "/events-rsvp",
       "/forms",
       "/settings",
-      "/logout",
+      "/login",
     ],
     teacher: [
       "/home",
@@ -91,7 +91,7 @@ export const useSidebarLinks = () => {
       "/events-rsvp",
       "/forms",
       "/settings",
-      "/logout",
+      "/login",
     ],
   };
 
