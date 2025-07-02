@@ -8,20 +8,29 @@ import {
   otherClassColumns,
   weeklyUpdateData,
 } from "../config";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const tabs = [
-  { id: 0, label: "My Class Updates", columns: myClassColumns },
-  { id: 1, label: "Other Class Updates", columns: otherClassColumns },
-  { id: 2, label: "Archived", columns: archivedColumns },
+  { id: 1, label: "My Class Updates", columns: myClassColumns },
+  { id: 2, label: "Other Class Updates", columns: otherClassColumns },
+  { id: 3, label: "Archived", columns: archivedColumns },
 ];
 
 function ArchivedTable() {
-  const [active, setActive] = useState(2);
+  const { state } = useLocation();
+
+  const [active, setActive] = useState<number>(() => {
+    const id = typeof state === "number" ? state : 1;
+    return tabs.some((tab) => tab.id === id) ? id : tabs[3].id;
+  });
+
+  console.log(state);
 
   const handleTabClick = (id: number) => {
     setActive(id);
   };
+
+  const activeTab = tabs.find((tab) => tab.id === active);
 
   return (
     <HomeLayout>
@@ -50,10 +59,10 @@ function ArchivedTable() {
       </div>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
-          columns={tabs[active].columns}
+          columns={activeTab?.columns || []}
           data={weeklyUpdateData}
           title={
-            tabs[active].label === "Other Class Updates"
+            activeTab?.label === "Other Class Updates"
               ? "Other Class Updates"
               : "Weekly Updates"
           }
@@ -73,7 +82,7 @@ function ArchivedTable() {
                 />
               </div>
 
-              {active === 0 && (
+              {activeTab?.id === 1 && (
                 <Link
                   to={"/add-weekly-updates"}
                   style={{

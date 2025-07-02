@@ -11,6 +11,7 @@ type AuthlayoutProps = {
 function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const isMobile = window.innerWidth < 1024;
 
   const changeRole = (role: "parent" | "teacher") => {
     setRole && setRole(role);
@@ -19,16 +20,18 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
   return (
     <div
       style={{
-        backgroundImage: "url(/images/auth-bg2.png)",
-        backgroundSize: "100% 100%",
+        backgroundImage: "url(/images/auth-bg.png)",
+        backgroundSize: isMobile ? "cover" : "100% 100%",
       }}
       className="min-h-screen overflow-hidden grid lg:grid-cols-12 "
     >
       <div className="p-10 lg:col-span-7">
         <img className="w-[150px] mb-10" src="/images/logo.png" alt="" />
         <div className="grid lg:grid-cols-12 lg:h-[378px]">
-          <div className="lg:col-span-5 col-span-12 flex flex-col justify-center lg:pl-10 ">
-            <p className="text-white text-[29px] medium">Sign in to</p>
+          <div className="lg:col-span-6 col-span-12 flex flex-col justify-center lg:pl-10 ">
+            <p className="text-white text-[29px] medium">
+              {pathname === "/signup" ? "Sign up" : "Sign in"} to
+            </p>
             <p className="text-white text-[33px] bold">SANSKAR!</p>
             {pathname === "/signup" ? (
               <p className="text-white text-[13px] light">
@@ -42,12 +45,12 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
               </p>
             )}
           </div>
-          <div className="lg:col-span-7 relative">
-            <img
-              className="xl:w-[434px] absolute lg:bottom-[45px] xl:bottom-0 lg:block hidden"
+          <div className="lg:col-span-6 relative">
+            {/* <img
+              className="xl:w-[434px] absolute xl:bottom-0 lg:block hidden"
               src="/images/auth-img.png"
               alt=""
-            />
+            /> */}
           </div>
         </div>
         <div className="mt-20 lg:mx-[60px]">

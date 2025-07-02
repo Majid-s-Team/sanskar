@@ -22,7 +22,7 @@ function HomeSection2({ role }: { role: string }) {
             {role === "parent" ? "Student Information" : "Calenders"}
           </p>
           <Link
-            to={role === "parent" ? "" : "/home/student-info"}
+            to={role === "parent" ? "/home/student-info" : "/gurukul-calendar"}
             className="text-[#0089ED] text-[13px] regular underline"
           >
             View All
@@ -94,8 +94,9 @@ function HomeSection2({ role }: { role: string }) {
         <p className="text-[20px] semibold">Class Information</p>
         <div className="grid lg:grid-cols-2 gap-5 mt-5">
           {(role === "parent" ? card : card2).map((item: CardItem, index) => (
-            <Link
-              to={item.path || ""}
+            <div
+              onClick={() => navigate(item.path, { state: 1 })}
+              // to={item.path || ""}
               key={index}
               style={{
                 backgroundImage: `url(${item.image})`,
@@ -119,7 +120,7 @@ function HomeSection2({ role }: { role: string }) {
                   percent={item?.percentage}
                 />
               )}
-            </Link>
+            </div>
           ))}
         </div>
       </div>

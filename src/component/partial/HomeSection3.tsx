@@ -45,7 +45,7 @@ function HomeSection3({ role }: { role: string }) {
           <div className="flex justify-between items-center">
             <p className="text-[20px] semibold">Gurukal Calender</p>
             <Link
-              to=""
+              to="/gurukul-calendar"
               className="text-[#0089ED] text-[13px] regular underline"
             >
               View

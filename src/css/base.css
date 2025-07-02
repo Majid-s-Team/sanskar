@@ -252,3 +252,30 @@ span.ant-progress-text {
   font-weight: 600 !important;
   font-size: 14px !important;
 }
+
+.PhoneInput--focus:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* remove border, ring, and outline on focus for react-phone-number-input */
+.react-phone-number-input__input:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* remove default border when not focused */
+.react-phone-number-input__input {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* In your CSS file (e.g., App.css) */
+.custom-phone-input .PhoneInputInput:focus {
+  outline: none;
+  border: 0px solid #d9d9d9; /* Adjust based on isValid if needed */
+  box-shadow: none;
+}

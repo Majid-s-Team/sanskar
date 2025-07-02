@@ -16,7 +16,7 @@ export const addStudentForm = [
   {
     title: "Date Of Birth",
     name: "date_of_birth",
-    placeholder: "please select",
+    placeholder: "Please select",
     rules: [{ required: true, message: "Please input your date of birth!" }],
     type: "date",
   },
@@ -62,7 +62,7 @@ export const addStudentForm = [
   {
     title: "Is the School year-round?",
     name: "is_school_year_round",
-    placeholder: "please select",
+    placeholder: "Please select",
     rules: [{ required: true, message: "Please input your school year!" }],
     type: "select",
     options: [

@@ -11,15 +11,9 @@ type Props = {
 
 function AnnouncementModal({ isModalOpen, handleCancel }: Props) {
   return (
-    <Modal
-      open={isModalOpen}
-      onCancel={handleCancel}
-      footer={null}
-      //   title="Change Password"
-      centered
-    >
+    <Modal open={isModalOpen} onCancel={handleCancel} footer={null} centered>
       <p className="text-[35px] bold text-center my-8">Add Announcement</p>
-      <Form layout="vertical">
+      <Form onFinish={handleCancel} layout="vertical">
         {announcement.map((item: FeildType) => {
           return (
             <Form.Item

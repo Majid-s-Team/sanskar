@@ -10,7 +10,7 @@ export const withAuthGuard = (
   return (props: AuthRouteProps) => {
     const [user] = useState(getStorageData("user"));
     if (type === RouteTypes.AUTH) {
-      if (!!user) return <Navigate to="/dashboard" />;
+      if (!!user) return <Navigate to="/home" />;
       // @ts-ignore
       return <WrappedComponent {...props} />;
     }

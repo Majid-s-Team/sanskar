@@ -114,6 +114,7 @@ function BaseInput(props: BaseInputProps) {
     phonePicker: (
       <div>
         <PhoneInput
+          className="custom-phone-input"
           placeholder="Enter phone number"
           defaultCountry={defaultCountry}
           value={props.value as string}

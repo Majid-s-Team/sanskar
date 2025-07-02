@@ -5,9 +5,11 @@ import BaseInput from "../../component/shared/BaseInput";
 import { useAuth } from "../../hooks/useAuth";
 import { FeildType, RouteTypes } from "../../types";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
   const { forgotpassword, loading } = useAuth();
+  const navigate = useNavigate();
 
   console.log(loading, forgotpassword, "loading");
 
@@ -34,19 +36,14 @@ function ForgotPassword() {
         <div className="bg-white !w-full p-[30px] rounded-[40px] max-w-[500px] mx-auto shadow-lg">
           <div className="my-[20px]">
             <p className="text-[18px] text-black regular mb-[10px]">
-              Forget Password?
+              Forgot Password?
             </p>
             <p className="text-[40px] text-black medium">Reset Password</p>
             <p className="text-[14px] text-black regular">
               We will email you a link to reset your password
             </p>
           </div>
-          <Form
-            layout="vertical"
-            // onFinish={(email: { email: string }) => {
-            //   forgotpassword(email);
-            // }}
-          >
+          <Form layout="vertical" onFinish={() => navigate("/login")}>
             {forgotPasswordFields.map((item: FeildType) => {
               return (
                 <Form.Item
@@ -59,7 +56,7 @@ function ForgotPassword() {
                 </Form.Item>
               );
             })}
-            <AuthButton loading={loading} htmlType="submit" text={"Submit"} />
+            <AuthButton htmlType="submit" text={"Submit"} />
           </Form>
         </div>
       </div>

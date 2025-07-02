@@ -7,3 +7,4 @@ export * from "./archived";
 export * from "./myClass";
 export * from "./otherClass";
 export * from "./studentList";
+export * from "./addNewAttendance";

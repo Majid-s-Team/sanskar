@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Carousel from "../shared/Carousel";
 
 function HomeSection1({ role }: { role: string }) {
+  const navigate = useNavigate();
   return (
     <div className="grid lg:grid-cols-2 gap-10">
       <div className="grid lg:grid-cols-12 bg-white p-5 rounded-[20.15px]">
@@ -33,19 +34,19 @@ function HomeSection1({ role }: { role: string }) {
           </div>
         </div>
       ) : (
-        <Link
-          to={"/archived"}
+        <div
+          onClick={() => navigate("/archived", { state: 3 })}
           style={{
             backgroundImage: "url(/images/orange-card.png)",
             backgroundSize: "100% 100%",
             boxShadow: "0px 9.06px 27.18px 0px #FF993A66",
             borderRadius: "28px",
           }}
-          className="p-5 rounded-[20.15px] flex justify-center flex-col gap-5 items-center"
+          className="p-5 rounded-[20.15px] flex justify-center flex-col gap-5 items-center cursor-pointer"
         >
           <img className="w-[72px]" src="/icons/wallet.png" alt="" />
           <p className="text-white text-[30px] semibold">View Archives</p>
-        </Link>
+        </div>
       )}
     </div>
   );

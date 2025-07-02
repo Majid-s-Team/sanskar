@@ -11,7 +11,7 @@ function AddWeeklyUpdates() {
   const navigate = useNavigate();
 
   const onFinish = () => {
-    navigate(-1);
+    navigate("/archived", { state: 1 });
   };
   return (
     <HomeLayout>
