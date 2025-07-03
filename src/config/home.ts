@@ -39,7 +39,7 @@ export const card = [
     path: "/home/multimedia",
   },
   {
-    title: "Announcement",
+    title: "Announcements",
     value: "2 New updates",
     percentage: 25,
     image: "/images/boxgreen.png",

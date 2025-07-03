@@ -48,7 +48,7 @@ export const useSidebarLinks = () => {
     },
     {
       key: "/events-rsvp",
-      label: "Events & RSVP’s",
+      label: "Events & RSVPs",
       icon: "/icons/events.png",
       iconactive: "/icons/events-active.png",
     },

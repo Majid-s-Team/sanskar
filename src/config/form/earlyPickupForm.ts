@@ -72,7 +72,7 @@ export const earlyPickupForm2 = [
   {
     title: "Parent's Signature",
     name: "parent_signature",
-    rules: [{ required: true, message: "Please input your signature!" }],
+    // rules: [{ required: true, message: "Please input your signature!" }],
     type: "signature",
   },
 ];

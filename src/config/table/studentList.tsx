@@ -28,7 +28,7 @@ export const studentListColumns = [
 export const studentListData = [
   {
     name: "John Doe",
-    date_of_birth: "2005-02-12",
+    date_of_birth: "12 May 2024",
     hobbies: "Playing soccer, reading books",
     house: "Red House",
     school_name: "Springfield Elementary",
@@ -36,7 +36,7 @@ export const studentListData = [
   },
   {
     name: "Jane Smith",
-    date_of_birth: "2006-08-25",
+    date_of_birth: "12 May 2024",
     hobbies: "Dancing, drawing",
     house: "Blue House",
     school_name: "Springfield Elementary",
@@ -44,7 +44,7 @@ export const studentListData = [
   },
   {
     name: "Bob Johnson",
-    date_of_birth: "2004-01-01",
+    date_of_birth: "12 May 2024",
     hobbies: "Playing basketball, playing video games",
     house: "Green House",
     school_name: "Springfield Elementary",
@@ -52,7 +52,7 @@ export const studentListData = [
   },
   {
     name: "Alice Brown",
-    date_of_birth: "2005-05-15",
+    date_of_birth: "12 May 2024",
     hobbies: "Playing tennis, listening to music",
     house: "Yellow House",
     school_name: "Springfield Elementary",
@@ -60,7 +60,7 @@ export const studentListData = [
   },
   {
     name: "Mike Davis",
-    date_of_birth: "2006-09-20",
+    date_of_birth: "12 May 2024",
     hobbies: "Playing football, watching movies",
     house: "Red House",
     school_name: "Springfield Elementary",

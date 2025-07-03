@@ -47,11 +47,11 @@ export const studentAttendanceColumns = () => {
       },
     },
     {
-      title: "Participation Points",
+      title: "Accumulated Participation Points",
       dataIndex: "participation",
     },
     {
-      title: "Homework Points",
+      title: "Accumulated Homework Points",
       dataIndex: "homework",
     },
     {

@@ -3,10 +3,14 @@ import HomeLayout from "../component/shared/HomeLayout";
 import { useState } from "react";
 import WriteReasonModal from "../component/partial/WriteReasonModal";
 import { useNavigate } from "react-router-dom";
+import SelectChildModal from "../component/partial/SelectChildModal";
+import { getStorageData } from "../helper";
 
 function EventDetails() {
+  const role = getStorageData("role");
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -52,7 +56,7 @@ function EventDetails() {
             style={{
               boxShadow: "0px 10px 20px 0px #24242440",
             }}
-            onClick={() => navigate(-1)}
+            onClick={() => (role === "parent" ? setOpen2(true) : navigate(-1))}
             className="h-[54px] px-20 !bg-[#006838] rounded-[10px] !border-none text-[20px] medium !text-white"
           >
             Attending
@@ -72,6 +76,12 @@ function EventDetails() {
         <WriteReasonModal
           isModalOpen={open}
           handleCancel={() => setOpen(false)}
+        />
+      )}
+      {open2 && (
+        <SelectChildModal
+          isModalOpen={open2}
+          handleCancel={() => setOpen2(false)}
         />
       )}
     </HomeLayout>
