@@ -54,12 +54,20 @@ export const projectForm1 = [
     type: "select",
     options: [
       {
-        label: "Male",
-        value: "male",
+        label: "A",
+        value: "A",
       },
       {
-        label: "Female",
-        value: "female",
+        label: "B",
+        value: "B",
+      },
+      {
+        label: "C",
+        value: "C",
+      },
+      {
+        label: "D",
+        value: "D",
       },
     ],
   },

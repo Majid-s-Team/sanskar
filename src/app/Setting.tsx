@@ -27,11 +27,11 @@ const setting = [
 ];
 
 const setting2 = [
-  {
-    title: "Edit Profile",
-    icon: "/icons/profile.png",
-    path: "",
-  },
+  // {
+  //   title: "Edit Profile",
+  //   icon: "/icons/profile.png",
+  //   path: "",
+  // },
   {
     title: "About",
     icon: "/icons/about.png",

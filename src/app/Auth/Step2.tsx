@@ -4,7 +4,7 @@ import { FeildType } from "../../types";
 import { step1, step2 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
 import FormButtons from "../../component/shared/FormButtons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Step2() {
   const navigate = useNavigate();
@@ -17,9 +17,11 @@ function Step2() {
       className="min-h-screen overflow-hidden grid lg:grid-cols-12 lg:p-10 p-5"
     >
       <div className="lg:col-span-4">
-        <p className="text-white text-[26px] semibold">Sanskar</p>
+        <Link to="/login">
+          <p className="text-white text-[26px] semibold">Sanskar</p>
+        </Link>
         <div className="space-y-2 lg:mt-[130px] my-[50px] lg:ml-[30px] ml-0">
-          <p className="text-white text-[29px] medium">Sign in to</p>
+          <p className="text-white text-[29px] medium">Sign up to</p>
           <p className="text-white text-[33px] bold">SANSKAR!</p>
           <p className="text-white text-[13px] light">
             Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -29,7 +31,7 @@ function Step2() {
         </div>
       </div>
       <div className="lg:col-span-8 lg:p-10 col-span-12">
-        <div className="bg-white lg:p-[10px] p-8 lg:px-[40px] rounded-[40px] mx-auto shadow-lg">
+        <div className="bg-white lg:p-[10px] p-8 lg:px-[40px] rounded-[40px] mx-auto shadow-lg h-full">
           <div className="flex lg:flex-row flex-col justify-between items-center">
             <p className="text-[28px] semibold">Student Information</p>
             <div className="lg:w-[250px] w-full">

@@ -28,6 +28,12 @@ export const addStudentForm = [
     type: "text",
   },
   {
+    title: "Gurukul Class Name",
+    name: "gurukul_class_name",
+    rules: [{ required: true, message: "Please input your gurukul class!" }],
+    type: "text",
+  },
+  {
     title: "School Grade",
     name: "school_grade",
     placeholder: "Please select",

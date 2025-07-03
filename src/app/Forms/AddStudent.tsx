@@ -33,7 +33,7 @@ function AddStudent() {
               );
             })}
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-10">
             <CustomButton htmlType="submit" title="Submit" />
           </div>
         </Form>

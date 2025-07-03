@@ -25,8 +25,10 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
       }}
       className="min-h-screen overflow-hidden grid lg:grid-cols-12 "
     >
-      <div className="p-10 lg:col-span-7">
-        <img className="w-[150px] mb-10" src="/images/logo.png" alt="" />
+      <div className="p-10 h-full lg:col-span-7">
+        <Link to="/login">
+          <img className="w-[150px] mb-10" src="/images/logo.png" alt="" />
+        </Link>
         <div className="grid lg:grid-cols-12 lg:h-[378px]">
           <div className="lg:col-span-6 col-span-12 flex flex-col justify-center lg:pl-10 ">
             <p className="text-white text-[29px] medium">
@@ -34,7 +36,7 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
             </p>
             <p className="text-white text-[33px] bold">SANSKAR!</p>
             {pathname === "/signup" ? (
-              <p className="text-white text-[13px] light">
+              <p className="text-white text-[13px] light lg:w-[300px]">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
                 text ever since the 1500s,

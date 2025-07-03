@@ -1,12 +1,26 @@
 import { useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import { Select } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const events = ["All Requests", "Accepted Requests", "Rejected Requests"];
+const events = [
+  { id: 1, name: "All Requests" },
+  { id: 2, name: "Accepted Requests" },
+  { id: 3, name: "Rejected Requests" },
+];
 
 function RequestManagement() {
-  const [active, setActive] = useState(0);
+  const { state } = useLocation();
+
+  const [active, setActive] = useState<number>(() => {
+    const id = typeof state === "number" ? state : 1;
+    return events.some((tab) => tab.id === id) ? id : events[3].id;
+  });
+
+  const handleTabClick = (id: number) => {
+    setActive(id);
+  };
+
   return (
     <HomeLayout>
       <div className="bg-white lg:p-10 p-5 rounded-[24.59px]">
@@ -15,7 +29,6 @@ function RequestManagement() {
             Request Management
           </p>
           <Select
-            // defaultValue="All"
             style={{
               width: 200,
             }}
@@ -31,18 +44,18 @@ function RequestManagement() {
                   key={index}
                   style={{
                     boxShadow:
-                      active === index
+                      active === item.id
                         ? "0px 10.87px 32.62px 0px #FF993A66"
                         : "none",
                   }}
-                  onClick={() => setActive(index)}
+                  onClick={() => handleTabClick(item.id)}
                   className={`semibold p-5 rounded-[21.75px] cursor-pointer min-w-max ${
-                    active === index
+                    active === item.id
                       ? "text-white bg-[#D57D25] text-xl scale-105 transition-transform duration-300 ease-out"
                       : "text-[#242424] border border-[#CCCCCC] text-lg transition-transform duration-300 ease-in"
                   }`}
                 >
-                  {item}
+                  {item.name}
                 </p>
               );
             })}

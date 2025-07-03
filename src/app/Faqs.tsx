@@ -29,7 +29,7 @@ function Faqs() {
 
   return (
     <HomeLayout>
-      <p className="text-[40px] font-semibold mb-5">FAQ'S</p>
+      <p className="text-[40px] font-semibold mb-5">FAQ's</p>
       <div className="space-y-4">
         {faqData.map((item) => {
           const isActive = item.key === activeKey;

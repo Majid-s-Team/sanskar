@@ -1,10 +1,11 @@
 import HomeLayout from "../../component/shared/HomeLayout";
 import { Form } from "antd";
 import { FeildType } from "../../types";
-import { earlyPickupForm } from "../../config";
+import { earlyPickupForm, earlyPickupForm2 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
 import CustomButton from "../../component/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
+import SignatureInput from "../../component/shared/SignatureInput";
 
 function EarlyPickUpForm() {
   const navigate = useNavigate();
@@ -19,19 +20,39 @@ function EarlyPickUpForm() {
           Early Pick-up Request Form
         </p>
         <Form onFinish={onFinish} layout="vertical" className="mt-5 ">
-          <div className="grid lg:grid-cols-2 gap-5 form-m">
-            {earlyPickupForm.map((item: FeildType) => {
-              return (
-                <Form.Item
-                  label={item.title}
-                  key={item.name}
-                  name={item.name}
-                  rules={item.rules}
-                >
-                  <BaseInput {...item} />
-                </Form.Item>
-              );
-            })}
+          <div className="grid lg:grid-cols-2 gap-5">
+            <div>
+              {earlyPickupForm.map((item: FeildType) => {
+                return (
+                  <Form.Item
+                    label={item.title}
+                    key={item.name}
+                    name={item.name}
+                    rules={item.rules}
+                  >
+                    <BaseInput {...item} />
+                  </Form.Item>
+                );
+              })}
+            </div>
+            <div>
+              {earlyPickupForm2.map((item: FeildType) => {
+                return (
+                  <Form.Item
+                    label={item.title}
+                    key={item.name}
+                    name={item.name}
+                    rules={item.rules}
+                  >
+                    {item.type === "signature" ? (
+                      <SignatureInput />
+                    ) : (
+                      <BaseInput {...item} />
+                    )}
+                  </Form.Item>
+                );
+              })}
+            </div>
           </div>
           <div className="flex justify-center w-[100%] mt-10">
             <CustomButton

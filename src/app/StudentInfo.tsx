@@ -17,6 +17,7 @@ const studentData = {
   tee_shirt_size: "M",
   join_book_club: "yes",
   any_allergies: "Peanuts",
+  gurukul_class_name: "A",
 };
 
 type StudentDataKey = keyof typeof studentData;

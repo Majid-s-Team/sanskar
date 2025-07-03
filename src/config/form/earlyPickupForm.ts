@@ -21,17 +21,6 @@ export const earlyPickupForm = [
     ],
   },
   {
-    title: "Name of Person Picking up Student",
-    name: "name_of_person_picking_up_student",
-    rules: [
-      {
-        required: true,
-        message: "Please input your name of person picking up student!",
-      },
-    ],
-    type: "text",
-  },
-  {
     title: "Class Name",
     name: "class_name",
     rules: [{ required: true, message: "Please select your class!" }],
@@ -59,12 +48,19 @@ export const earlyPickupForm = [
     rules: [{ required: true, message: "Please input your pick-up time!" }],
     type: "time",
   },
+];
 
+export const earlyPickupForm2 = [
   {
-    title: "Parent's Signature",
-    name: "parent_signature",
-    rules: [{ required: true, message: "Please input your signature!" }],
-    type: "signature",
+    title: "Name of Person Picking up Student",
+    name: "name_of_person_picking_up_student",
+    rules: [
+      {
+        required: true,
+        message: "Please input your name of person picking up student!",
+      },
+    ],
+    type: "text",
   },
   {
     title: "Reason",
@@ -72,5 +68,11 @@ export const earlyPickupForm = [
     placeholder: "Reason",
     rules: [{ required: true, message: "Please input your reason!" }],
     type: "textarea",
+  },
+  {
+    title: "Parent's Signature",
+    name: "parent_signature",
+    rules: [{ required: true, message: "Please input your signature!" }],
+    type: "signature",
   },
 ];

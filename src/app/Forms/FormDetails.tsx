@@ -12,7 +12,7 @@ function FormDetails() {
       <div className="bg-white p-8 rounded-[24.59px]">
         <p className="text-[40px] semibold text-center">Form Details</p>
         <Form
-          onFinish={() => navigate(-1)}
+          onFinish={() => navigate("/request-management", { state: 2 })}
           layout="vertical"
           className="mt-5 mx-auto lg:w-[60%]"
         >
@@ -39,7 +39,7 @@ function FormDetails() {
               Accept
             </Button>
             <Button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/request-management", { state: 3 })}
               style={{
                 boxShadow: "0px 10px 20px 0px #24242440",
               }}
