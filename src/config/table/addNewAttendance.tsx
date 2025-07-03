@@ -1,3 +1,4 @@
+import { InputNumber } from "antd";
 import { useState } from "react";
 
 export const addNewAttendanceColumns = () => {
@@ -49,10 +50,26 @@ export const addNewAttendanceColumns = () => {
     {
       title: "Participation Points",
       dataIndex: "participation",
+      render: (text: string) => (
+        <InputNumber
+          className="!border !border-gray-100 custom-number-input"
+          defaultValue={text}
+          controls
+          // onChange={(e) => console.log(e.target.value)}
+        />
+      ),
     },
     {
       title: "Homework Points",
       dataIndex: "homework",
+      render: (text: string) => (
+        <InputNumber
+          className="!border !border-gray-100 custom-number-input"
+          defaultValue={text}
+          controls={true}
+          // onChange={(e) => console.log(e.target.value)}
+        />
+      ),
     },
   ];
 };
