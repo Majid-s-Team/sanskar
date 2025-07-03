@@ -13,7 +13,7 @@ function MediaModal({ isModalOpen, handleCancel }: Props) {
   return (
     <Modal open={isModalOpen} onCancel={handleCancel} footer={null} centered>
       <p className="text-[35px] bold text-center my-8">Add Multimedia</p>
-      <Form layout="vertical">
+      <Form onFinish={handleCancel} layout="vertical">
         {mediaForm.map((item: FeildType) => {
           return (
             <Form.Item

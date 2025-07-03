@@ -30,7 +30,9 @@ function About() {
         >
           <img className="w-[40px]" src={"/icons/about-black.png"} alt="" />
           <div>
-            <p className="text-[24px] bold !text-[#333342]">Teachers Manual</p>
+            <p className="text-[24px] bold !text-[#333342] uppercase">
+              Teachers Manual
+            </p>
           </div>
         </Link>
       )}

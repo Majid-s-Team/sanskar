@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import BaseInput from "../../component/shared/BaseInput";
 import HomeLayout from "../../component/shared/HomeLayout";
 import { formDetailsForm } from "../../config";
@@ -5,11 +6,16 @@ import { FeildType } from "../../types";
 import { Button, Form } from "antd";
 
 function FormDetails() {
+  const navigate = useNavigate();
   return (
     <HomeLayout>
       <div className="bg-white p-8 rounded-[24.59px]">
         <p className="text-[40px] semibold text-center">Form Details</p>
-        <Form layout="vertical" className="mt-5 mx-auto lg:w-[60%]">
+        <Form
+          onFinish={() => navigate(-1)}
+          layout="vertical"
+          className="mt-5 mx-auto lg:w-[60%]"
+        >
           {formDetailsForm.map((item: FeildType) => {
             return (
               <Form.Item
@@ -24,6 +30,7 @@ function FormDetails() {
           })}
           <div className="flex lg:flex-row flex-col gap-8 mt-10 justify-center">
             <Button
+              htmlType="submit"
               style={{
                 boxShadow: "0px 10px 20px 0px #24242440",
               }}
@@ -32,6 +39,7 @@ function FormDetails() {
               Accept
             </Button>
             <Button
+              onClick={() => navigate(-1)}
               style={{
                 boxShadow: "0px 10px 20px 0px #24242440",
               }}

@@ -70,28 +70,6 @@ export const step4 = [
     ],
   },
   {
-    title: "Father Interested in Volunteer",
-    name: "father_interested_in_volunteer",
-    rules: [
-      {
-        required: true,
-        message: "Please select your father interested in volunteer!",
-      },
-    ],
-    placeholder: "Please select",
-    type: "select",
-    options: [
-      {
-        label: "Yes",
-        value: "yes",
-      },
-      {
-        label: "No",
-        value: "no",
-      },
-    ],
-  },
-  {
     title: "Activities",
     name: "activities",
     rules: [{ required: true, message: "Please select your activities" }],
@@ -117,6 +95,28 @@ export const step4 = [
       {
         label: "Dancing",
         value: "dancing",
+      },
+    ],
+  },
+  {
+    title: "Father Interested in Volunteer",
+    name: "father_interested_in_volunteer",
+    rules: [
+      {
+        required: true,
+        message: "Please select your father interested in volunteer!",
+      },
+    ],
+    placeholder: "Please select",
+    type: "select",
+    options: [
+      {
+        label: "Yes",
+        value: "yes",
+      },
+      {
+        label: "No",
+        value: "no",
       },
     ],
   },

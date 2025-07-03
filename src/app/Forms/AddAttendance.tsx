@@ -2,8 +2,10 @@ import HomeLayout from "../../component/shared/HomeLayout";
 import { DatePicker, Table } from "antd";
 import CustomButton from "../../component/shared/CustomButton";
 import { addNewAttendanceColumns, addNewAttendanceData } from "../../config";
+import { useNavigate } from "react-router-dom";
 
 function AddAttendance() {
+  const navigate = useNavigate();
   return (
     <HomeLayout>
       <div className="bg-white p-8 rounded-[24.59px]">
@@ -24,6 +26,7 @@ function AddAttendance() {
 
         <div className="flex justify-center mt-10">
           <CustomButton
+            onClick={() => navigate(-1)}
             className="lg:w-[300px] w-[100%] h-[50px] text-[18px]"
             title="Save Changes"
           />

@@ -9,7 +9,7 @@ function HomeSection3({ role }: { role: string }) {
     <div className="grid lg:grid-cols-12 gap-10 my-10">
       <div
         className={`bg-white p-5 rounded-[26.61px] space-y-5 ${
-          role === "parent" ? "lg:col-span-8" : "lg:col-span-12"
+          role === "parent" ? "lg:col-span-7" : "lg:col-span-12"
         }`}
       >
         <div className="flex justify-between items-center">
@@ -41,7 +41,7 @@ function HomeSection3({ role }: { role: string }) {
         </div>
       </div>
       {role === "parent" && (
-        <div className="bg-white p-8 rounded-[26.61px] lg:col-span-4">
+        <div className="bg-white xl:p-8 lg:p-5  rounded-[26.61px] lg:col-span-5">
           <div className="flex justify-between items-center">
             <p className="text-[20px] semibold">Gurukal Calender</p>
             <Link
