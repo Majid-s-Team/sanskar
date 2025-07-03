@@ -15,7 +15,7 @@ export const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col bg-[#D57D25] custom-shadow2 !h-100">
+    <div className="flex flex-col bg-[#D57D25] custom-shadow2 !h-full rounded-[20.15px]">
       <Link to="/home" className="cursor-pointer">
         <img
           className="w-[180px] ml-5 py-5"
