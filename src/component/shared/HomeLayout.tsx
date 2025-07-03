@@ -35,7 +35,7 @@ function HomeLayout({ children, loading }: Props) {
         <Sider
           trigger={null}
           width={290}
-          className="text-white flex flex-col !h-[95vh] !bg-transparent overflow-auto hide-scrollbar rounded-[20.15px] !mb-6"
+          className="text-white flex flex-col !h-[95vh] !bg-[#D57D25] overflow-auto hide-scrollbar rounded-[20.15px] !mb-6"
         >
           {<Sidebar />}
         </Sider>
