@@ -10,6 +10,9 @@ export const weeklyUpdateColumns = [
   {
     title: "Description",
     dataIndex: "description",
+    render: () => (
+      <p className="text-[#48B3FF] underline medium">View Details</p>
+    ),
   },
   {
     title: "Download",

@@ -12,7 +12,7 @@ function MyAttendance() {
           data={teacherAttendanceData}
           title="Attendance Management"
           input={
-            <div className="flex lg:flex-row flex-col justify-end gap-5">
+            <div className="flex lg:flex-row flex-col justify-end gap-10">
               <Link
                 to={""}
                 style={{
