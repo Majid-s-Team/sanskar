@@ -279,3 +279,11 @@ span.ant-progress-text {
   border: 0px solid #d9d9d9; /* Adjust based on isValid if needed */
   box-shadow: none;
 }
+
+th.ant-table-cell {
+  text-align: center !important;
+}
+
+td.ant-table-cell {
+  text-align: center !important;
+}

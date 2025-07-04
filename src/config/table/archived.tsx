@@ -22,7 +22,7 @@ export const archivedColumns = [
     title: "Download",
     dataIndex: "download",
     render: () => (
-      <div className="flex gap-5">
+      <div className="flex gap-5 justify-center">
         <div className="flex items-center gap-3">
           <img className="w-[30px]" src="/icons/pdf.png" alt="" />
           <div>
