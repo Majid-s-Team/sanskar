@@ -25,16 +25,16 @@ type BaseInputProps = {
 };
 
 function BaseInput(props: BaseInputProps) {
-  const [defaultCountry, setDefaultCountry] = useState<CountryCode>("AE");
+  const [defaultCountry, setDefaultCountry] = useState<CountryCode>("US");
   const [isValid, setIsValid] = useState(true);
 
   useEffect(() => {
     if (props.type === "phonePicker" && props.value) {
       try {
         const phoneNumber = parsePhoneNumber(props.value as string);
-        setDefaultCountry(phoneNumber.country || "AE");
+        setDefaultCountry(phoneNumber.country || "US");
       } catch {
-        setDefaultCountry("AE");
+        setDefaultCountry("US");
       }
     }
   }, [props.value, props.type]);

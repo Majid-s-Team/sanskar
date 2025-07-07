@@ -75,6 +75,12 @@ export const step1 = [
     rules: [{ required: true, message: "Please input your mobile number!" }],
     type: "text",
   },
+  {
+    title: "Student Email Address",
+    name: "student_email_address",
+    rules: [{ required: true, message: "Please input your email!" }],
+    type: "text",
+  },
 ];
 
 export const step2 = [
