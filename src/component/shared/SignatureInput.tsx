@@ -18,7 +18,11 @@ const SignatureInput = () => {
         canvasProps={{ className: "w-full h-[80px] border-b" }}
       />
       <div className="flex justify-between mt-2">
-        <button onClick={clear} className="px-3 py-1 border rounded">
+        <button
+          type="button"
+          onClick={clear}
+          className="px-3 py-1 border rounded"
+        >
           Clear
         </button>
         {/* <button onClick={save} className="px-3 py-1 border rounded">
