@@ -14,11 +14,11 @@ const setting = [
     icon: "/icons/student-card.png",
     path: "/home/student-info",
   },
-  {
-    title: "Re-Registration Form",
-    icon: "/icons/form.png",
-    path: "/re-registration-form",
-  },
+  // {
+  //   title: "Re-Registration Form",
+  //   icon: "/icons/form.png",
+  //   path: "/re-registration-form",
+  // },
   {
     title: "About",
     icon: "/icons/about.png",

@@ -5,13 +5,43 @@ import BaseInput from "../../component/shared/BaseInput";
 import FormButtons from "../../component/shared/FormButtons";
 import { Link, useNavigate } from "react-router-dom";
 import { setStorageData } from "../../helper";
+import { useState } from "react";
+import { ActivityList } from "../../component/partial/ActivityList";
 
 function Step3() {
+  const [fatherActivity, setFatherActivity] = useState<string[]>([]);
+  const [motherActivity, setMotherActivity] = useState<string[]>([]);
   const navigate = useNavigate();
+  const [form] = Form.useForm();
+
   const loginAuth = () => {
     navigate("/home");
     setStorageData("role", "parent");
   };
+
+  const onUnSelect = (item: string, isFather: boolean) => {
+    const updatedActivities = isFather
+      ? fatherActivity.filter((i) => i !== item)
+      : motherActivity.filter((i) => i !== item);
+    if (isFather) {
+      setFatherActivity(updatedActivities);
+      form.setFieldValue("father_activities", updatedActivities);
+    } else {
+      setMotherActivity(updatedActivities);
+      form.setFieldValue("mother_activities", updatedActivities);
+    }
+  };
+
+  const handleActivityChange = (val: string[], name: string) => {
+    if (name === "father_activities") {
+      setFatherActivity(val);
+      form.setFieldValue(name, val);
+    } else if (name === "mother_activities") {
+      setMotherActivity(val);
+      form.setFieldValue(name, val);
+    }
+  };
+
   return (
     <div
       style={{
@@ -30,29 +60,27 @@ function Step3() {
           <p className="text-white text-[13px] light">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s,
+            ever since the 1500s.
           </p>
         </div>
       </div>
       <div className="lg:col-span-9 col-span-12 lg:p-10">
         <div className="flex items-center justify-center h-full">
-          <Form layout="vertical">
+          <Form form={form} layout="vertical">
             <div className="bg-white lg:p-[40px] p-8 rounded-[40px] mx-auto shadow-lg grid lg:grid-cols-2 lg:gap-10">
               <div className="space-y-4">
                 <p className="text-[28px] semibold">Address Information</p>
                 <div>
-                  {step3.map((item: FeildType) => {
-                    return (
-                      <Form.Item
-                        label={item.title}
-                        key={item.name}
-                        name={item.name}
-                        rules={item.rules}
-                      >
-                        <BaseInput {...item} />
-                      </Form.Item>
-                    );
-                  })}
+                  {step3.map((item: FeildType) => (
+                    <Form.Item
+                      label={item.title}
+                      key={item.name}
+                      name={item.name}
+                      rules={item.rules}
+                    >
+                      <BaseInput {...item} />
+                    </Form.Item>
+                  ))}
                 </div>
               </div>
 
@@ -61,19 +89,36 @@ function Step3() {
                   Parent Volunteering Information
                 </p>
                 <div className="grid gap-4 lg:grid-cols-2">
-                  {step4.map((item: FeildType) => {
-                    return (
-                      <Form.Item
-                        label={item.title}
-                        key={item.name}
-                        name={item.name}
-                        rules={item.rules}
-                      >
-                        <BaseInput {...item} />
-                      </Form.Item>
-                    );
-                  })}
+                  {step4.map((item: FeildType) => (
+                    <Form.Item
+                      label={item.title}
+                      key={item.name}
+                      name={item.name}
+                      rules={item.rules}
+                    >
+                      <BaseInput
+                        {...item}
+                        onChange={(val: string[]) =>
+                          handleActivityChange(val, item.name)
+                        }
+                      />
+                    </Form.Item>
+                  ))}
                 </div>
+
+                {/* Mother Activities */}
+                <ActivityList
+                  activityList={motherActivity}
+                  onUnSelect={(item) => onUnSelect(item, false)}
+                  title="Mother Activities"
+                />
+
+                {/* Father Activities */}
+                <ActivityList
+                  activityList={fatherActivity}
+                  onUnSelect={(item) => onUnSelect(item, true)}
+                  title="Father Activities"
+                />
               </div>
             </div>
             <div className="mt-10 flex justify-end">

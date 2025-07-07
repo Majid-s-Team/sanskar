@@ -39,7 +39,10 @@ function Step2() {
             </div>
           </div>
 
-          <Form layout="vertical" className="grid lg:grid-cols-2 lg:gap-20">
+          <Form
+            layout="vertical"
+            className="grid lg:grid-cols-2 xl:gap-20 lg:gap-10"
+          >
             <div>
               {step1.map((item: FeildType) => {
                 return (
@@ -54,20 +57,22 @@ function Step2() {
                 );
               })}
             </div>
-            <div>
-              {step2.map((item: FeildType) => {
-                return (
-                  <Form.Item
-                    label={item.title}
-                    key={item.name}
-                    name={item.name}
-                    rules={item.rules}
-                  >
-                    <BaseInput {...item} />
-                  </Form.Item>
-                );
-              })}
-              <div className="">
+            <div className="flex flex-col justify-between">
+              <div>
+                {step2.map((item: FeildType) => {
+                  return (
+                    <Form.Item
+                      label={item.title}
+                      key={item.name}
+                      name={item.name}
+                      rules={item.rules}
+                    >
+                      <BaseInput {...item} />
+                    </Form.Item>
+                  );
+                })}
+              </div>
+              <div className="mb-5">
                 <FormButtons
                   onSubmit={() => navigate("/signup/address")}
                   onCancel={() => navigate(-1)}

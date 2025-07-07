@@ -66,6 +66,13 @@ function SignUp() {
           >
             <BaseInput type="password" />
           </Form.Item>
+          <Form.Item
+            label={"Member of HSNC"}
+            name={"menever_of_hsnc"}
+            rules={[{ required: true, message: "Please input your HSNC!" }]}
+          >
+            <BaseInput type="text" placeholder="HSNC" />
+          </Form.Item>
         </div>
 
         <AuthButton

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Carousel from "../shared/Carousel";
 
 function HomeSection1({ role }: { role: string }) {
@@ -22,14 +22,14 @@ function HomeSection1({ role }: { role: string }) {
         </div>
       </div>
       {role === "parent" ? (
-        <div className="bg-white p-5 rounded-[20.15px] ">
-          <Link
+        <div className="bg-white p-5 rounded-[20.15px] flex justify-center items-center ">
+          {/* <Link
             to={"/forms/add-student"}
             className="float-right px-8 mb-5 h-[38.4px] flex justify-center items-center !bg-[#FF881A] rounded-[10px] !border-none text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
           >
             Add Student
-          </Link>
-          <div className="flex justify-center items-center lg:w-full w-[330px]">
+          </Link> */}
+          <div className="lg:w-full w-[330px]">
             <Carousel />
           </div>
         </div>

@@ -287,3 +287,7 @@ th.ant-table-cell {
 td.ant-table-cell {
   text-align: center !important;
 }
+
+.ant-select-selection-overflow {
+  height: 38px;
+}

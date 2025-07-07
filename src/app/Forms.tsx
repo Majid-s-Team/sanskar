@@ -21,6 +21,12 @@ const forms = [
     icon: "/icons/wallet.png",
     path: "/forms/sibling-enrollment-form",
   },
+  {
+    title: "Re-Registration Form",
+    date: "28 Oct 2023 | 122 MB",
+    icon: "/icons/wallet.png",
+    path: "/re-registration-form",
+  },
 ];
 
 const forms2 = [

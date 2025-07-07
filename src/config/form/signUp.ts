@@ -41,26 +41,11 @@ export const signUpFields = [
     rules: [{ required: true, message: "Please input your secondary mobile!" }],
     type: "text",
   },
-  {
-    title: "Member of HSNC",
-    name: "menever_of_hsnc",
-    placeholder: "",
-    rules: [{ required: true, message: "Please input your HSNC!" }],
-    type: "text",
-  },
-  //   {
-  //     title: "Enter your Password",
-  //     name: "password",
-  //     placeholder: "Password",
-  //     rules: [
-  //       { required: true, message: "Please enter your password!" },
-  //       {
-  //         pattern:
-  //           /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-  //         message:
-  //           "Password must include uppercase, lowercase, number, and special character!",
-  //       },
-  //     ],
-  //     type: "password",
-  //   },
+  // {
+  //   title: "Member of HSNC",
+  //   name: "menever_of_hsnc",
+  //   placeholder: "",
+  //   rules: [{ required: true, message: "Please input your HSNC!" }],
+  //   type: "text",
+  // },
 ];

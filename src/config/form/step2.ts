@@ -1,16 +1,16 @@
 export const step1 = [
   {
-    title: "Father’s Name",
-    name: "fathers_name",
+    title: "First Name",
+    name: "first_name",
     placeholder: "Name",
-    rules: [{ required: true, message: "Please input your name!" }],
+    rules: [{ required: true, message: "Please input your first name!" }],
     type: "text",
   },
   {
-    title: "Mother’s Name",
-    name: "mothers_name",
+    title: "Last Name",
+    name: "last_name",
     placeholder: "Name",
-    rules: [{ required: true, message: "Please input your name!" }],
+    rules: [{ required: true, message: "Please input your last name!" }],
     type: "text",
   },
   {
@@ -31,6 +31,7 @@ export const step1 = [
     rules: [
       { required: true, message: "Please input your school year round!" },
     ],
+    placeholder: "Please select",
     type: "select",
     options: [
       {
@@ -44,15 +45,34 @@ export const step1 = [
     ],
   },
   {
-    title: "Class Name",
-    name: "class_name",
-    rules: [{ required: true, message: "Please input your class name!" }],
-    type: "text",
-  },
-  {
     title: "School Grade",
     name: "school_grade",
-    rules: [{ required: true, message: "Please input your school grade!" }],
+    placeholder: "Please select",
+    rules: [{ required: true, message: "Please select your grade!" }],
+    type: "select",
+    options: [
+      {
+        label: "A",
+        value: "A",
+      },
+      {
+        label: "B",
+        value: "B",
+      },
+      {
+        label: "C",
+        value: "C",
+      },
+      {
+        label: "D",
+        value: "D",
+      },
+    ],
+  },
+  {
+    title: "Student Mobile Number",
+    name: "student_mobile_number",
+    rules: [{ required: true, message: "Please input your mobile number!" }],
     type: "text",
   },
 ];
@@ -61,6 +81,7 @@ export const step2 = [
   {
     title: "Gurukul Class Name",
     name: "gurukul_class_name",
+    placeholder: "Please select",
     rules: [{ required: true, message: "Please select your gurukul class!" }],
     type: "select",
     options: [
@@ -85,6 +106,7 @@ export const step2 = [
   {
     title: "Tee-shirt Size",
     name: "tee_shirt_size",
+    placeholder: "Please select",
     rules: [{ required: true, message: "Please select your tee-shirt size!" }],
     type: "select",
     options: [
@@ -116,6 +138,7 @@ export const step2 = [
     rules: [
       { required: true, message: "Please select your join the book club!" },
     ],
+    placeholder: "Please select",
     type: "select",
     options: [
       {

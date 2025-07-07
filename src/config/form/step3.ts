@@ -71,9 +71,10 @@ export const step4 = [
   },
   {
     title: "Activities",
-    name: "activities",
+    name: "mother_activities",
     rules: [{ required: true, message: "Please select your activities" }],
     type: "select",
+    mode: "multiple",
     placeholder: "Please select",
     options: [
       {
@@ -122,10 +123,11 @@ export const step4 = [
   },
   {
     title: "Activities",
-    name: "activities2",
+    name: "father_activities",
     rules: [{ required: true, message: "Please select your activities" }],
     type: "select",
     placeholder: "Please select",
+    mode: "multiple",
     options: [
       {
         label: "Reading",
