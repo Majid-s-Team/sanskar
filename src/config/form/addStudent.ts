@@ -30,8 +30,62 @@ export const addStudentForm = [
   {
     title: "Gurukul Class Name",
     name: "gurukul_class_name",
-    rules: [{ required: true, message: "Please input your gurukul class!" }],
-    type: "text",
+    rules: [{ required: true, message: "Please select your gurukul class!" }],
+    type: "select",
+    options: [
+      {
+        label: "Agastya",
+        value: "agastya",
+      },
+      {
+        label: "Angirasa",
+        value: "angirasa",
+      },
+      {
+        label: "Anasuya",
+        value: "anasuya",
+      },
+      {
+        label: "Bhargava",
+        value: "bhargava",
+      },
+      {
+        label: "Dhruva",
+        value: "dhruva",
+      },
+      {
+        label: "Janaki",
+        value: "janaki",
+      },
+      {
+        label: "Kashyapa",
+        value: "kashyapa",
+      },
+      {
+        label: "Meera",
+        value: "meera",
+      },
+      {
+        label: "Nachiketa",
+        value: "nachiketa",
+      },
+      {
+        label: "Sabari",
+        value: "sabari",
+      },
+      {
+        label: "Sandipani",
+        value: "sandipani",
+      },
+      {
+        label: "Valmiki",
+        value: "valmiki",
+      },
+      {
+        label: "Vyaasa",
+        value: "vyaasa",
+      },
+    ],
   },
   {
     title: "School Grade",
@@ -40,22 +94,18 @@ export const addStudentForm = [
     rules: [{ required: true, message: "Please select your grade!" }],
     type: "select",
     options: [
-      {
-        label: "A",
-        value: "A",
-      },
-      {
-        label: "B",
-        value: "B",
-      },
-      {
-        label: "C",
-        value: "C",
-      },
-      {
-        label: "D",
-        value: "D",
-      },
+      { label: "Grade 1", value: "grade1" },
+      { label: "Grade 2", value: "grade2" },
+      { label: "Grade 3", value: "grade3" },
+      { label: "Grade 4", value: "grade4" },
+      { label: "Grade 5", value: "grade5" },
+      { label: "Grade 6", value: "grade6" },
+      { label: "Grade 7", value: "grade7" },
+      { label: "Grade 8", value: "grade8" },
+      { label: "Grade 9", value: "grade9" },
+      { label: "Grade 10", value: "grade10" },
+      { label: "Grade 11", value: "grade11" },
+      { label: "Grade 12", value: "grade12" },
     ],
   },
   {
@@ -129,24 +179,36 @@ export const addStudentForm = [
     type: "select",
     options: [
       {
-        label: "S",
-        value: "S",
+        label: "Youth Small",
+        value: "Youth Small",
       },
       {
-        label: "M",
-        value: "M",
+        label: "Youth Medium",
+        value: "Youth Medium",
       },
       {
-        label: "L",
-        value: "L",
+        label: "Youth Large",
+        value: "Youth Large",
       },
       {
-        label: "XL",
-        value: "XL",
+        label: "Youth X-Large",
+        value: "Youth X-Large",
       },
       {
-        label: "XXL",
-        value: "XXL",
+        label: "Small",
+        value: "Small",
+      },
+      {
+        label: "Medium",
+        value: "Medium",
+      },
+      {
+        label: "Large",
+        value: "Large",
+      },
+      {
+        label: "X-Large",
+        value: "X-Large",
       },
     ],
   },

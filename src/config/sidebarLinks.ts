@@ -12,7 +12,7 @@ export const useSidebarLinks = () => {
     },
     {
       key: "/my-attendance",
-      label: "My Attendance",
+      label: "Attendance Management",
       icon: "/icons/attendance.png",
       iconactive: "/icons/attendance-active.png",
     },
@@ -59,6 +59,12 @@ export const useSidebarLinks = () => {
       iconactive: "/icons/forms-active.png",
     },
     {
+      key: "/about",
+      label: "About",
+      icon: "/icons/forms.png",
+      iconactive: "/icons/forms-active.png",
+    },
+    {
       key: "/settings",
       label: "Settings",
       icon: "/icons/settings.png",
@@ -78,6 +84,7 @@ export const useSidebarLinks = () => {
       "/gurukul-prayer",
       "/events-rsvp",
       "/forms",
+      "/about",
       "/settings",
       "/login",
     ],
@@ -90,6 +97,7 @@ export const useSidebarLinks = () => {
       "/request-management",
       "/events-rsvp",
       "/forms",
+      "/about",
       "/settings",
       "/login",
     ],

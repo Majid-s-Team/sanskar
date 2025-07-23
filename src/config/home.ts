@@ -12,7 +12,7 @@ export const info = [
   {
     icon: "/images/info4.png",
     title: "House",
-    value: "Assigned",
+    value: "Atharva Veda",
   },
   {
     icon: "/images/info3.png",
@@ -31,14 +31,6 @@ export const card = [
     path: "/home/weekly-updates",
   },
   {
-    title: "Multimedia",
-    value: "42 Items",
-    percentage: 50,
-    image: "/images/boxorange.png",
-    shadow: "0px 9.62px 28.85px 0px #FF993A66",
-    path: "/home/multimedia",
-  },
-  {
     title: "Announcements",
     value: "2 New updates",
     percentage: 25,
@@ -46,6 +38,15 @@ export const card = [
     shadow: "0px 9.62px 28.85px 0px #8AC53E66",
     path: "/home/announcement",
   },
+  {
+    title: "Multimedia",
+    value: "42 Items",
+    percentage: 50,
+    image: "/images/boxorange.png",
+    shadow: "0px 9.62px 28.85px 0px #FF993A66",
+    path: "/home/multimedia",
+  },
+
   {
     title: "Contact Teacher",
     value: "Tap to view Profile",

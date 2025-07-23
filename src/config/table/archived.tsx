@@ -1,11 +1,11 @@
 export const archivedColumns = [
   {
-    title: "Date",
-    dataIndex: "date",
-  },
-  {
     title: "Week #",
     dataIndex: "week_number",
+  },
+  {
+    title: "Date",
+    dataIndex: "date",
   },
   {
     title: "Class",

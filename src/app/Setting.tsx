@@ -19,25 +19,25 @@ const setting = [
   //   icon: "/icons/form.png",
   //   path: "/re-registration-form",
   // },
-  {
-    title: "About",
-    icon: "/icons/about.png",
-    path: "/about",
-  },
+  // {
+  //   title: "About",
+  //   icon: "/icons/about.png",
+  //   path: "/about",
+  // },
 ];
 
-const setting2 = [
-  // {
-  //   title: "Edit Profile",
-  //   icon: "/icons/profile.png",
-  //   path: "",
-  // },
-  {
-    title: "About",
-    icon: "/icons/about.png",
-    path: "/about",
-  },
-];
+// const setting2 = [
+//   // {
+//   //   title: "Edit Profile",
+//   //   icon: "/icons/profile.png",
+//   //   path: "",
+//   // },
+//   // {
+//   //   title: "About",
+//   //   icon: "/icons/about.png",
+//   //   path: "/about",
+//   // },
+// ];
 
 function Setting() {
   const role = getStorageData("role");
@@ -73,7 +73,7 @@ function Setting() {
               <p className="text-[20px] regular">janecooper@gmail.com</p>
             </div>
           </div>
-          {setting2.map((item, index) => {
+          {/* {setting2.map((item, index) => {
             return (
               <Link
                 to={item.path}
@@ -88,7 +88,7 @@ function Setting() {
                 </div>
               </Link>
             );
-          })}
+          })} */}
         </div>
       )}
     </HomeLayout>

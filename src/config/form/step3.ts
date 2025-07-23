@@ -48,7 +48,7 @@ export const step3 = [
 
 export const step4 = [
   {
-    title: "Mother Interested in Volunteer",
+    title: "Mother Volunteering?",
     name: "mother_interested_in_volunteer",
     rules: [
       {
@@ -78,29 +78,33 @@ export const step4 = [
     placeholder: "Please select",
     options: [
       {
-        label: "Reading",
-        value: "reading",
+        label: "Arts and Crafts",
+        value: "arts_crafts",
       },
       {
-        label: "Writing",
-        value: "writing",
+        label: "Book Club",
+        value: "book_club",
       },
       {
-        label: "Drawing",
-        value: "drawing",
+        label: "Carpool",
+        value: "carpool",
       },
       {
-        label: "Singing",
-        value: "singing",
+        label: "Events",
+        value: "events",
       },
       {
-        label: "Dancing",
-        value: "dancing",
+        label: "Teaching",
+        value: "teaching",
+      },
+      {
+        label: "Weekly General Help",
+        value: "weekly_general_help",
       },
     ],
   },
   {
-    title: "Father Interested in Volunteer",
+    title: "Father Volunteering?",
     name: "father_interested_in_volunteer",
     rules: [
       {
@@ -130,24 +134,28 @@ export const step4 = [
     mode: "multiple",
     options: [
       {
-        label: "Reading",
-        value: "reading",
+        label: "Arts and Crafts",
+        value: "arts_crafts",
       },
       {
-        label: "Writing",
-        value: "writing",
+        label: "Book Club",
+        value: "book_club",
       },
       {
-        label: "Drawing",
-        value: "drawing",
+        label: "Carpool",
+        value: "carpool",
       },
       {
-        label: "Singing",
-        value: "singing",
+        label: "Events",
+        value: "events",
       },
       {
-        label: "Dancing",
-        value: "dancing",
+        label: "Teaching",
+        value: "teaching",
+      },
+      {
+        label: "Weekly General Help",
+        value: "weekly_general_help",
       },
     ],
   },

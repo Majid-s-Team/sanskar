@@ -19,7 +19,7 @@ function HomeSection2({ role }: { role: string }) {
       <div className="bg-white p-5 rounded-[26.61px] lg:col-span-5">
         <div className="flex justify-between items-center">
           <p className="text-[20px] semibold">
-            {role === "parent" ? "Student Information" : "Calenders"}
+            {role === "parent" ? "Student Information" : "Calendars"}
           </p>
           <Link
             to={role === "parent" ? "/home/student-info" : "/gurukul-calendar"}
@@ -83,7 +83,7 @@ function HomeSection2({ role }: { role: string }) {
             })}
             <div className="flex justify-center mt-20">
               <CustomButton
-                onClick={() => navigate("/home/announcement")}
+                onClick={() => navigate("/home/gurukul-announcements")}
                 title="Gurukul Announcements"
               />
             </div>
@@ -96,7 +96,6 @@ function HomeSection2({ role }: { role: string }) {
           {(role === "parent" ? card : card2).map((item: CardItem, index) => (
             <div
               onClick={() => navigate(item.path, { state: 1 })}
-              // to={item.path || ""}
               key={index}
               style={{
                 backgroundImage: `url(${item.image})`,

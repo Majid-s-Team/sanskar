@@ -6,7 +6,7 @@ function Calendar() {
     <HomeLayout>
       <div className="bg-white lg:p-10 p-5 rounded-[24.59px] h-full">
         <p className="text-[40px] semibold">Calendar</p>
-        <p className="text-[32px] semibold my-5">Gurukal Calender</p>
+        <p className="text-[32px] semibold my-5">Gurukal Calendar</p>
 
         <div className="flex items-center justify-between gap-5 mt-5 border border-[#ECECEC] p-5 rounded-[24px]">
           <div className="flex items-center gap-5">

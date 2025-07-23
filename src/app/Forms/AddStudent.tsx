@@ -28,7 +28,14 @@ function AddStudent() {
                   name={item.name}
                   rules={item.rules}
                 >
-                  <BaseInput {...item} />
+                  <BaseInput
+                    {...item}
+                    disabled={
+                      item.name === "gurukul_class_name" ||
+                      item.name === "last_year_class" ||
+                      item.name === "join_book_club"
+                    }
+                  />
                 </Form.Item>
               );
             })}

@@ -8,6 +8,13 @@ export const otherClassColumns = [
     dataIndex: "date",
   },
   {
+    title: "Description",
+    dataIndex: "description",
+    render: () => (
+      <p className="text-[#48B3FF] underline medium">View Details</p>
+    ),
+  },
+  {
     title: "Class",
     dataIndex: "class",
   },
