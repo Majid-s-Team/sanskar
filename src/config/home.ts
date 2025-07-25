@@ -7,7 +7,7 @@ export const info = [
   {
     icon: "/images/info2.png",
     title: "Class Name",
-    value: "English",
+    value: "Agastya",
   },
   {
     icon: "/images/info4.png",
