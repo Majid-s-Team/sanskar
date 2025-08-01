@@ -80,6 +80,7 @@ function BaseInput(props: BaseInputProps) {
           props.icon && <img className="w-[24px]" src={props.icon} alt="icon" />
         }
         onChange={props.onChange}
+        maxTagCount="responsive"
         className="!rounded-[8px] h-[44px]"
         options={props.options}
         value={props.initialValue}

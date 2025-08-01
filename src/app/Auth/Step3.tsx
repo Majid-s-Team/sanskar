@@ -8,9 +8,17 @@ import { setStorageData } from "../../helper";
 import { useState } from "react";
 import { ActivityList } from "../../component/partial/ActivityList";
 
+type Options = {
+  label: string;
+  value: string;
+};
+
 function Step3() {
-  const [fatherActivity, setFatherActivity] = useState<string[]>([]);
-  const [motherActivity, setMotherActivity] = useState<string[]>([]);
+  const [fatherActivity, setFatherActivity] = useState<Options[]>([]);
+  const [motherActivity, setMotherActivity] = useState<Options[]>([]);
+
+  console.log(fatherActivity);
+
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
@@ -21,8 +29,8 @@ function Step3() {
 
   const onUnSelect = (item: string, isFather: boolean) => {
     const updatedActivities = isFather
-      ? fatherActivity.filter((i) => i !== item)
-      : motherActivity.filter((i) => i !== item);
+      ? fatherActivity.filter((i) => i.value !== item)
+      : motherActivity.filter((i) => i.value !== item);
     if (isFather) {
       setFatherActivity(updatedActivities);
       form.setFieldValue("father_activities", updatedActivities);
@@ -32,7 +40,7 @@ function Step3() {
     }
   };
 
-  const handleActivityChange = (val: string[], name: string) => {
+  const handleActivityChange = (val: Options[], name: string) => {
     if (name === "father_activities") {
       setFatherActivity(val);
       form.setFieldValue(name, val);
@@ -98,9 +106,9 @@ function Step3() {
                     >
                       <BaseInput
                         {...item}
-                        onChange={(val: string[]) =>
-                          handleActivityChange(val, item.name)
-                        }
+                        onChange={(_: string, val: Options[]) => {
+                          handleActivityChange(val, item.name);
+                        }}
                       />
                     </Form.Item>
                   ))}
