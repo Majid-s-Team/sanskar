@@ -8,9 +8,14 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ActivityList } from "../component/partial/ActivityList";
 
+type Options = {
+  label: string;
+  value: string;
+};
+
 function ParentProfile() {
-  const [fatherActivity, setFatherActivity] = useState<string[]>([]);
-  const [motherActivity, setMotherActivity] = useState<string[]>([]);
+  const [fatherActivity, setFatherActivity] = useState<Options[]>([]);
+  const [motherActivity, setMotherActivity] = useState<Options[]>([]);
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -20,8 +25,8 @@ function ParentProfile() {
 
   const onUnSelect = (item: string, isFather: boolean) => {
     const updatedActivities = isFather
-      ? fatherActivity.filter((i) => i !== item)
-      : motherActivity.filter((i) => i !== item);
+      ? fatherActivity.filter((i) => i.value !== item)
+      : motherActivity.filter((i) => i.value !== item);
     if (isFather) {
       setFatherActivity(updatedActivities);
       form.setFieldValue("father_activities", updatedActivities);
@@ -31,7 +36,7 @@ function ParentProfile() {
     }
   };
 
-  const handleActivityChange = (val: string[], name: string) => {
+  const handleActivityChange = (val: Options[], name: string) => {
     if (name === "father_activities") {
       setFatherActivity(val);
       form.setFieldValue(name, val);
@@ -108,9 +113,9 @@ function ParentProfile() {
                       >
                         <BaseInput
                           {...item}
-                          onChange={(val: string[]) =>
-                            handleActivityChange(val, item.name)
-                          }
+                          onChange={(_: string, val: Options[]) => {
+                            handleActivityChange(val, item.name);
+                          }}
                         />
                       </Form.Item>
                     );
