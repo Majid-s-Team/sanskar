@@ -32,15 +32,15 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
 
     execute({
       body: {
-        file: event?.target?.files?.[0],
-        mode: "single",
+        media: event?.target?.files?.[0],
+        key: "user_image",
       },
       body_type: "formData",
       cbSuccess(res) {
         // @ts-ignore
-        onChange(res.data?.attachment);
+        onChange(res.data?.url);
         // @ts-ignore
-        setImgSrc(res.data?.attachment);
+        setImgSrc(res.data?.url);
       },
     });
   };
@@ -64,13 +64,13 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
       ) : (
         <>
           {imgSrc ? (
-            <Avatar size={110} src={imgSrc} onClick={() => setImgSrc("")} />
+            <Avatar size={120} src={imgSrc} onClick={() => setImgSrc("")} />
           ) : (
-            <div className="pointer mx-auto lg:mx-0 w-[90px]">
+            <div className="pointer mx-auto lg:mx-0 w-[120px]">
               <label>
                 <img
                   className="mx-auto pb-4 "
-                  src="/images/img-picker.png"
+                  src="/images/upload.png"
                   alt="Upload icon"
                 />
                 <input

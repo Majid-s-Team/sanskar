@@ -1,12 +1,13 @@
-import { Form } from "antd";
-import { FeildType } from "../../types";
+import { Form, notification } from "antd";
 import { step3, step4 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
 import FormButtons from "../../component/shared/FormButtons";
-import { Link, useNavigate } from "react-router-dom";
-import { setStorageData } from "../../helper";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { optionpPicker } from "../../helper";
 import { useState } from "react";
 import { ActivityList } from "../../component/partial/ActivityList";
+import { activity, signUp } from "../../repositories";
+import { useRequest } from "../../hooks/useRequest";
 
 type Options = {
   label: string;
@@ -14,18 +15,20 @@ type Options = {
 };
 
 function Step3() {
+  const { state } = useLocation();
   const [fatherActivity, setFatherActivity] = useState<Options[]>([]);
   const [motherActivity, setMotherActivity] = useState<Options[]>([]);
-
-  console.log(fatherActivity);
-
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  console.log(state, "state");
 
-  const loginAuth = () => {
-    navigate("/home");
-    setStorageData("role", "parent");
-  };
+  const { data: activityData } = useRequest(activity.url, activity.method, {
+    type: "mount",
+  });
+
+  const { execute, loading } = useRequest(signUp.url, signUp.method, {
+    type: "delay",
+  });
 
   const onUnSelect = (item: string, isFather: boolean) => {
     const updatedActivities = isFather
@@ -41,13 +44,54 @@ function Step3() {
   };
 
   const handleActivityChange = (val: Options[], name: string) => {
-    if (name === "father_activities") {
+    console.log(val, name, "val");
+
+    if (name === "father_activity_ids") {
       setFatherActivity(val);
       form.setFieldValue(name, val);
-    } else if (name === "mother_activities") {
+    } else if (name === "mother_activity_ids") {
       setMotherActivity(val);
       form.setFieldValue(name, val);
     }
+  };
+
+  const onFinish = (e: any) => {
+    const data = {
+      ...e,
+      // father_activity_ids: (e.father_activity_ids || []).map(
+      //   (i: any) => i.value
+      // ),
+      // mother_activity_ids: (e.mother_activity_ids || []).map(
+      //   (i: any) => i.value
+      // ),
+      father_activity_ids: (e.father_activity_ids || []).map((i: any) =>
+        typeof i === "object" ? i.value : i
+      ),
+      mother_activity_ids: (e.mother_activity_ids || []).map((i: any) =>
+        typeof i === "object" ? i.value : i
+      ),
+    };
+    execute({
+      body: { ...state, ...data },
+      cbSuccess: (res: any) => {
+        navigate("/payment/" + res?.data?.id);
+        // setStorageData("role", "parent");
+      },
+      cbFailure: (res: any) => {
+        if (res?.message === "The primary email has already been taken.") {
+          notification.error({
+            message: "Error",
+            description: res.message,
+          });
+          navigate("/signup", { state: { ...state, ...data } });
+        } else {
+          notification.error({
+            message: "Error",
+            description: res.message,
+          });
+        }
+      },
+    });
   };
 
   return (
@@ -74,17 +118,18 @@ function Step3() {
       </div>
       <div className="lg:col-span-9 col-span-12 lg:p-10">
         <div className="flex items-center justify-center h-full">
-          <Form form={form} layout="vertical">
+          <Form form={form} layout="vertical" onFinish={onFinish}>
             <div className="bg-white lg:p-[40px] p-8 rounded-[40px] mx-auto shadow-lg grid lg:grid-cols-2 lg:gap-10">
               <div className="space-y-4">
                 <p className="text-[28px] semibold">Address Information</p>
                 <div>
-                  {step3.map((item: FeildType) => (
+                  {step3.map((item) => (
                     <Form.Item
                       label={item.title}
                       key={item.name}
                       name={item.name}
                       rules={item.rules}
+                      initialValue={state?.[item.name]}
                     >
                       <BaseInput {...item} />
                     </Form.Item>
@@ -97,15 +142,23 @@ function Step3() {
                   Parent Volunteering Information
                 </p>
                 <div className="grid gap-4 lg:grid-cols-2">
-                  {step4.map((item: FeildType) => (
+                  {step4.map((item) => (
                     <Form.Item
                       label={item.title}
                       key={item.name}
                       name={item.name}
                       rules={item.rules}
+                      initialValue={state?.[item.name]}
                     >
                       <BaseInput
                         {...item}
+                        options={
+                          item.name === "mother_activity_ids"
+                            ? optionpPicker(activityData as any[])
+                            : item.name === "father_activity_ids"
+                            ? optionpPicker(activityData as any[])
+                            : item.options
+                        }
                         onChange={(_: string, val: Options[]) => {
                           handleActivityChange(val, item.name);
                         }}
@@ -132,9 +185,10 @@ function Step3() {
             <div className="mt-10 flex justify-end">
               <div className="lg:w-[450px] w-full">
                 <FormButtons
-                  onSubmit={loginAuth}
+                  htmlType="submit"
+                  loading={loading}
                   onCancel={() => navigate(-1)}
-                  title="Sign up"
+                  title="Next"
                   title2="Back"
                 />
               </div>

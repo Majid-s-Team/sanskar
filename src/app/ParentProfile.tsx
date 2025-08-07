@@ -99,11 +99,10 @@ function ParentProfile() {
                   })}
                 </div>
               </div>
-
               <div className="space-y-4">
                 <p className="text-[28px] medium">Volunteering Information</p>
                 <div className="grid gap-4 lg:grid-cols-2">
-                  {step4.map((item: FeildType) => {
+                  {step4.map((item) => {
                     return (
                       <Form.Item
                         label={item.title}

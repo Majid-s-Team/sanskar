@@ -14,7 +14,7 @@ import { useUser } from "./useUser";
 import { UserActionTypes } from "../types/contexts";
 export const useAuth = () => {
   const navigate = useNavigate();
-  const { email } = useParams();
+  const { email } = useParams<{ email: string }>();
   const [loading, setLoading] = useState(false);
   const [user, dispatch] = useUser();
 
@@ -30,7 +30,11 @@ export const useAuth = () => {
     console.log("error", response);
   };
 
-  const login = (valus: { email: string; password: string }) => {
+  const login = (valus: {
+    login: string;
+    password: string;
+    role: "parent" | "teacher";
+  }) => {
     setLoading(true);
     request(loginUser.url, loginUser.method)
       .setBody({
@@ -45,55 +49,68 @@ export const useAuth = () => {
         });
         setStorageData("access_token", headers["access_token"]);
         setStorageData("user", res?.data);
-        navigate("/dashboard");
+        navigate("/home");
+        setStorageData("role", valus.role);
         setLoading(false);
       })
-      .onFailure(handleFailure)
+      .onFailure((res: any) => {
+        setLoading(false);
+        notification.error({
+          message: "Error",
+          description: res.message,
+        });
+        if (
+          res?.message ===
+          "Payment not completed. Please complete your payment to proceed."
+        ) {
+          navigate("/payment/" + res?.data?.id);
+        }
+      })
       .call();
   };
 
-  const forgotpassword = (value: { email: string }) => {
+  const forgotpassword = (value: { primary_email: string }) => {
     setLoading(true);
     request(forgotPassword.url, forgotPassword.method)
-      .setBody({ ...value, mode: "email", identifier: value["email"] })
-      .onSuccess((res) => {
-        console.log(res);
+      .setBody({ ...value })
+      .onSuccess((res: any) => {
         setLoading(false);
-        navigate(`/otp/${btoa(value["email"])}`);
+        navigate(`/otp/${btoa(value["primary_email"])}`);
+        notification.success({
+          message: "OTP",
+          description: res?.data?.otp,
+        });
       })
       .onFailure(handleFailure)
       .call();
   };
 
-  const otp = (value: { code: string }) => {
+  const otp = (value: { otp: string }) => {
     setLoading(true);
-
+    const decodedEmail = email ? atob(email) : "";
     request(verifyCode.url, verifyCode.method)
       .setBody({
         ...value,
-        mode: "email",
-        email: atob(email as string),
+        primary_email: decodedEmail,
       })
-      .onSuccess((res, headers) => {
+      .onSuccess((res) => {
         console.log(res);
-        navigate("/reset-password/" + headers["reset_password_token"]);
+        navigate(`/reset-password/${btoa(decodedEmail)}`);
         setLoading(false);
       })
       .onFailure(handleFailure)
       .call();
   };
 
-  const resetpassowrd = (
-    value: { password: string },
-    reset_password_token: string
-  ) => {
+  const resetpassowrd = (value: { password: string }, email: string) => {
     setLoading(true);
     request(resetPassowrd.url, resetPassowrd.method)
-      .setHeaders({
-        reset_password_token,
-      })
+      // .setHeaders({
+      //   reset_password_token,
+      // })
       .setBody({
         ...value,
+        primary_email: atob(email),
       })
       .onSuccess(() => {
         navigate("/login");

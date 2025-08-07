@@ -49,7 +49,7 @@ export const step3 = [
 export const step4 = [
   {
     title: "Mother Volunteering?",
-    name: "mother_interested_in_volunteer",
+    name: "mother_volunteering",
     rules: [
       {
         required: true,
@@ -61,17 +61,17 @@ export const step4 = [
     options: [
       {
         label: "Yes",
-        value: "yes",
+        value: true,
       },
       {
         label: "No",
-        value: "no",
+        value: false,
       },
     ],
   },
   {
     title: "Activities",
-    name: "mother_activities",
+    name: "mother_activity_ids",
     rules: [{ required: true, message: "Please select your activities" }],
     type: "select",
     mode: "multiple",
@@ -105,7 +105,7 @@ export const step4 = [
   },
   {
     title: "Father Volunteering?",
-    name: "father_interested_in_volunteer",
+    name: "father_volunteering",
     rules: [
       {
         required: true,
@@ -117,17 +117,17 @@ export const step4 = [
     options: [
       {
         label: "Yes",
-        value: "yes",
+        value: true,
       },
       {
         label: "No",
-        value: "no",
+        value: false,
       },
     ],
   },
   {
     title: "Activities",
-    name: "father_activities",
+    name: "father_activity_ids",
     rules: [{ required: true, message: "Please select your activities" }],
     type: "select",
     placeholder: "Please select",

@@ -75,7 +75,7 @@ function RegistrationForm() {
               })}
             </div>
             <div className="space-y-5">
-              {step4.map((item: FeildType) => {
+              {step4.map((item) => {
                 return (
                   <Form.Item
                     label={item.title}

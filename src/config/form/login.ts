@@ -1,7 +1,7 @@
 export const loginFields = [
   {
     title: "Enter your username or email address",
-    name: "email",
+    name: "login",
     placeholder: "Username or email address",
     rules: [{ required: true, message: "Please input your email!" }],
     type: "text",

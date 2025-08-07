@@ -80,18 +80,18 @@ export const removeStorageData = (key: string) => {
 
 export const optionpPicker = (
   data: any[],
-  valuekey: string = "_id",
+  valuekey: string = "id",
   labelkey: string = "name"
 ) => {
   return data.map((item: any) => ({
     value: item[valuekey],
     label: item[labelkey],
-    data: {
-      _id: item[valuekey],
-      name: item[labelkey],
-      image_url: item?.image_url,
-      slug: item?.slug,
-    },
+    // data: {
+    //   _id: item[valuekey],
+    //   name: item[labelkey],
+    //   image_url: item?.image_url,
+    //   slug: item?.slug,
+    // },
   }));
 };
 

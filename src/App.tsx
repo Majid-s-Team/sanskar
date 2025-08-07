@@ -44,6 +44,7 @@ import Calendar from "./app/Calendar";
 import AddWeeklyUpdates from "./app/Forms/AddWeeklyUpdates";
 import TeachersManual from "./app/TeachersManual";
 import GurukulAnnouncements from "./app/GurukulAnnouncements";
+import Payment from "./app/Auth/Payment";
 const App: React.FC = () => {
   return (
     <>
@@ -55,10 +56,8 @@ const App: React.FC = () => {
         <Route path="/signup/address" element={<Step3 />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/otp/:email" element={<Otp />} />
-        <Route
-          path="/reset-password/:reset_password_token"
-          element={<Resetpassword />}
-        />
+        <Route path="/reset-password/:email" element={<Resetpassword />} />
+        <Route path="/payment/:id" element={<Payment />} />
 
         {/* home routes */}
         <Route path="/home" element={<Home />} />

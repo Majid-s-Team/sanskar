@@ -15,6 +15,12 @@ export const user: ApiRoute = {
   auth: true,
 };
 
+export const profile: ApiRoute = {
+  url: "/profile",
+  method: requestMethods.GET,
+  auth: true,
+};
+
 export const updateUser: ApiRoute = {
   url: "/user",
   method: requestMethods.PATCH,
@@ -22,25 +28,25 @@ export const updateUser: ApiRoute = {
 };
 
 export const loginUser: ApiRoute = {
-  url: "/user/login",
+  url: "/login",
   method: requestMethods.POST,
   auth: false,
 };
 
 export const forgotPassword: ApiRoute = {
-  url: "/user/forgot-password",
+  url: "/forgot-password",
   method: requestMethods.POST,
   auth: false,
 };
 
 export const verifyCode: ApiRoute = {
-  url: "/user/verify-code",
+  url: "/verify-otp",
   method: requestMethods.POST,
   auth: false,
 };
 
 export const resetPassowrd: ApiRoute = {
-  url: "/user/set-password",
+  url: "/reset-password",
   method: requestMethods.POST,
   auth: false,
 };
@@ -52,109 +58,43 @@ export const changePassword: ApiRoute = {
 };
 
 export const uploadfile: ApiRoute = {
-  url: "/general/file-upload",
+  url: "/upload-media",
   method: requestMethods.POST,
   auth: true,
 };
 
-export const advertisements: ApiRoute = {
-  url: "/advertisement",
-  method: requestMethods.GET,
-  auth: true,
-};
-
-export const bookingRequest: ApiRoute = {
-  url: "/booking-request",
-  method: requestMethods.GET,
-  auth: true,
-};
-
-export const categories: ApiRoute = {
-  url: "/category",
-  method: requestMethods.GET,
-  auth: true,
-};
-
-export const categoriesPost: ApiRoute = {
-  url: "/category",
+export const signUp: ApiRoute = {
+  url: "/signup",
   method: requestMethods.POST,
-  auth: true,
+  auth: false,
 };
 
-export const categoriesUpdate: ApiRoute = {
-  url: "/category",
-  method: requestMethods.PATCH,
-  auth: true,
-};
-
-export const categoriesDelete: ApiRoute = {
-  url: "/category",
-  method: requestMethods.DELETE,
-  auth: true,
-};
-
-export const faqsGet: ApiRoute = {
-  url: "/faq",
+export const gurukal: ApiRoute = {
+  url: "/gurukal",
   method: requestMethods.GET,
   auth: true,
 };
 
-export const faqsPost: ApiRoute = {
-  url: "/faq",
-  method: requestMethods.POST,
-  auth: true,
-};
-
-export const faqsDelete: ApiRoute = {
-  url: "/faq",
-  method: requestMethods.DELETE,
-  auth: true,
-};
-
-export const faqsUpdate: ApiRoute = {
-  url: "/faq",
-  method: requestMethods.PATCH,
-  auth: true,
-};
-
-export const boostingRequest: ApiRoute = {
-  url: "/boosting-package",
+export const teeshirtSize: ApiRoute = {
+  url: "/teeshirt-size",
   method: requestMethods.GET,
   auth: true,
 };
 
-export const queries: ApiRoute = {
-  url: "/help-query",
+export const grade: ApiRoute = {
+  url: "/grade",
   method: requestMethods.GET,
   auth: true,
 };
 
-export const boostingPackage: ApiRoute = {
-  url: "/boosting-package",
+export const activity: ApiRoute = {
+  url: "/activity",
   method: requestMethods.GET,
   auth: true,
 };
 
-export const createBoostingPackage: ApiRoute = {
-  url: "/boosting-package",
-  method: requestMethods.POST,
-  auth: true,
-};
-
-export const updateBoostingPackage: ApiRoute = {
-  url: "/boosting-package",
-  method: requestMethods.PATCH,
-  auth: true,
-};
-
-export const deleteBoostingPackage: ApiRoute = {
-  url: "/boosting-package",
-  method: requestMethods.DELETE,
-  auth: true,
-};
-
-export const dashboard: ApiRoute = {
-  url: "/home/admin",
+export const students: ApiRoute = {
+  url: "/student",
   method: requestMethods.GET,
   auth: true,
 };

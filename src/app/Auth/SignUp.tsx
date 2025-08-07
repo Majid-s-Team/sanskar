@@ -3,23 +3,30 @@ import AuthButton from "../../component/partial/AuthButton";
 import BaseInput from "../../component/shared/BaseInput";
 import { FeildType, RouteTypes } from "../../types";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
-import { useAuth } from "../../hooks/useAuth";
 import AuthLayout from "../../component/shared/AuthLayout";
 import { useState } from "react";
 import { signUpFields } from "../../config/form/signUp";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const { state } = useLocation();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const { login } = useAuth();
   const [role, setRole] = useState<"parent" | "teacher">("parent");
 
-  console.log(login);
+  console.log(state, "state");
+
+  const onFinish = (e: any) => {
+    if (state === null) {
+      navigate("/signup/add-student", { state: e });
+    } else {
+      navigate("/signup/address", { state: { ...state, ...e } });
+    }
+  };
 
   return (
     <AuthLayout path="/login" role={role} setRole={setRole}>
-      <Form form={form} layout="vertical">
+      <Form form={form} layout="vertical" onFinish={onFinish}>
         <div className="h-[500px] overflow-y-scroll hide-scrollbar">
           {signUpFields.map((item: FeildType) => {
             return (
@@ -28,6 +35,7 @@ function SignUp() {
                 key={item.name}
                 name={item.name}
                 rules={item.rules}
+                initialValue={state?.[item.name]}
               >
                 <BaseInput {...item} />
               </Form.Item>
@@ -36,6 +44,7 @@ function SignUp() {
           <Form.Item
             label={"Enter your Password"}
             name={"password"}
+            initialValue={state?.password}
             rules={[
               { required: true, message: "Please enter your password!" },
               {
@@ -50,7 +59,8 @@ function SignUp() {
           </Form.Item>
           <Form.Item
             label={"Confirm password"}
-            name={"confirm_password"}
+            name={"password_confirmation"}
+            initialValue={state?.password_confirmation}
             rules={[
               { required: true, message: "Please confirm your password!" },
               {
@@ -68,17 +78,27 @@ function SignUp() {
           </Form.Item>
           <Form.Item
             label={"Member of HSNC"}
-            name={"menever_of_hsnc"}
+            name={"is_hsnc_member"}
+            initialValue={state?.is_hsnc_member}
             rules={[{ required: true, message: "Please input your HSNC!" }]}
           >
-            <BaseInput type="text" placeholder="HSNC" />
+            <BaseInput
+              type="select"
+              options={[
+                {
+                  label: "Yes",
+                  value: true,
+                },
+                {
+                  label: "No",
+                  value: false,
+                },
+              ]}
+              placeholder="HSNC"
+            />
           </Form.Item>
         </div>
-
-        <AuthButton
-          onClick={() => navigate("/signup/add-student")}
-          text={"Next"}
-        />
+        <AuthButton htmlType="submit" text={"Next"} />
       </Form>
     </AuthLayout>
   );

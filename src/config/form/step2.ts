@@ -15,7 +15,7 @@ export const step1 = [
   },
   {
     title: "Date Of Birth",
-    name: "date_of_birth",
+    name: "dob",
     rules: [{ required: true, message: "Please input your date of birth!" }],
     type: "date",
   },
@@ -27,7 +27,7 @@ export const step1 = [
   },
   {
     title: "Is the School year-round?",
-    name: "is_school_year_round",
+    name: "is_school_year_around",
     rules: [
       { required: true, message: "Please input your school year round!" },
     ],
@@ -36,17 +36,17 @@ export const step1 = [
     options: [
       {
         label: "Yes",
-        value: "yes",
+        value: true,
       },
       {
         label: "No",
-        value: "no",
+        value: false,
       },
     ],
   },
   {
     title: "School Grade",
-    name: "school_grade",
+    name: "school_grade_id",
     placeholder: "Please select",
     rules: [{ required: true, message: "Please select your grade!" }],
     type: "select",
@@ -67,8 +67,14 @@ export const step1 = [
   },
   {
     title: "Student Email Address",
-    name: "student_email_address",
-    rules: [{ required: true, message: "Please input your email!" }],
+    name: "student_email",
+    rules: [
+      { required: true, message: "Please input your email!" },
+      {
+        pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        message: "Invalid email address",
+      },
+    ],
     type: "text",
   },
   {
@@ -82,7 +88,7 @@ export const step1 = [
 export const step2 = [
   {
     title: "Gurukul Class Name",
-    name: "gurukul_class_name",
+    name: "gurukal_id",
     placeholder: "Please select",
     rules: [{ required: true, message: "Please select your gurukul class!" }],
     type: "select",
@@ -143,7 +149,7 @@ export const step2 = [
   },
   {
     title: "Tee-shirt Size",
-    name: "tee_shirt_size",
+    name: "teeshirt_size_id",
     placeholder: "Please select",
     rules: [{ required: true, message: "Please select your tee-shirt size!" }],
     type: "select",
@@ -184,7 +190,7 @@ export const step2 = [
   },
   {
     title: "Join the Book Club?",
-    name: "join_book_club",
+    name: "join_the_club",
     rules: [
       { required: true, message: "Please select your join the book club!" },
     ],
@@ -193,17 +199,17 @@ export const step2 = [
     options: [
       {
         label: "Yes",
-        value: "yes",
+        value: true,
       },
       {
         label: "No",
-        value: "no",
+        value: false,
       },
     ],
   },
   {
     title: "Hobbies/Interests",
-    name: "hobbies_interests",
+    name: "hobbies_interest",
     rules: [{ required: true, message: "Please input your hobbies!" }],
     type: "text",
   },

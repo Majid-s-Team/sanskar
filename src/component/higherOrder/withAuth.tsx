@@ -5,7 +5,7 @@ import { getStorageData } from "../../helper";
 
 export const withAuthGuard = (
   WrappedComponent: React.FC,
-  type: RouteTypes = RouteTypes.PUBLIC
+  type: RouteTypes = RouteTypes.PRIVATE
 ) => {
   return (props: AuthRouteProps) => {
     const [user] = useState(getStorageData("user"));

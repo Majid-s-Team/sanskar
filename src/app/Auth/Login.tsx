@@ -5,30 +5,25 @@ import { loginFields } from "../../config/index";
 import { FeildType, RouteTypes } from "../../types";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
 import { useAuth } from "../../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthLayout from "../../component/shared/AuthLayout";
 import { useState } from "react";
-import { setStorageData } from "../../helper";
 
 function Login() {
-  const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
   const [role, setRole] = useState<"parent" | "teacher">("parent");
-
-  console.log(login);
-
-  const loginAuth = () => {
-    navigate("/home");
-    setStorageData("role", role);
-  };
 
   return (
     <AuthLayout path="/signup" role={role} setRole={setRole}>
       <Form
         layout="vertical"
-        // onFinish={(values: { email: string; password: string }) => {
-        //   login(values);
-        // }}
+        onFinish={(values: {
+          login: string;
+          password: string;
+          role: "parent" | "teacher";
+        }) => {
+          login(values);
+        }}
       >
         {loginFields.map((item: FeildType) => {
           return (
@@ -52,7 +47,7 @@ function Login() {
             Forgot Password?
           </Link>
         )}
-        <AuthButton text={"Sign in"} onClick={loginAuth} />
+        <AuthButton text={"Sign in"} htmlType="submit" loading={loading} />
       </Form>
     </AuthLayout>
   );
