@@ -33,9 +33,13 @@ function Payment() {
     routeParams: id + "/students",
   });
 
-  const { execute } = useRequest(payment.url, payment.method, {
-    type: "delay",
-  });
+  const { execute, loading: loading2 } = useRequest(
+    payment.url,
+    payment.method,
+    {
+      type: "delay",
+    }
+  );
 
   const amount = 1000 * (data?.length ?? 0);
 
@@ -108,7 +112,11 @@ function Payment() {
                 Total Registration Fee:{" "}
                 {Array.isArray(data) ? data.length * 1000 : 0}
               </p>
-              <AuthButton onClick={onFinish} text="Continue Payment" />
+              <AuthButton
+                loading={loading2}
+                onClick={onFinish}
+                text="Continue Payment"
+              />
             </div>
           )}
         </div>

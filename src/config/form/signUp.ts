@@ -3,7 +3,13 @@ export const signUpFields = [
     title: "Primary Email Address",
     name: "primary_email",
     placeholder: "Email address",
-    rules: [{ required: true, message: "Please input your email!" }],
+    rules: [
+      { required: true, message: "Please input your email!" },
+      {
+        pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        message: "Invalid email address",
+      },
+    ],
     type: "text",
   },
   {
