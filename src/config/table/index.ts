@@ -1,4 +1,3 @@
-export * from "./dashboard";
 export * from "./attendanceManagement";
 export * from "./weeklyUpdate";
 export * from "./teacherAttendance";

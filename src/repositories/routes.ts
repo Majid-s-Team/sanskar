@@ -98,3 +98,9 @@ export const students: ApiRoute = {
   method: requestMethods.GET,
   auth: true,
 };
+
+export const payment: ApiRoute = {
+  url: "/create-stripe-session",
+  method: requestMethods.POST,
+  auth: true,
+};

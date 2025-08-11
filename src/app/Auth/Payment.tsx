@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import AuthButton from "../../component/partial/AuthButton";
 import { useRequest } from "../../hooks/useRequest";
-import { user } from "../../repositories";
+import { payment, user } from "../../repositories";
 import { Student } from "../../types";
 import { Spin } from "antd";
 
@@ -33,7 +33,25 @@ function Payment() {
     routeParams: id + "/students",
   });
 
-  console.log(data, "data");
+  const { execute } = useRequest(payment.url, payment.method, {
+    type: "delay",
+  });
+
+  const amount = 1000 * (data?.length ?? 0);
+
+  const onFinish = () => {
+    execute({
+      body: {
+        user_id: id,
+        amount: amount,
+        currency: "usd",
+      },
+      cbSuccess(res) {
+        console.log(res?.url, "url");
+        window.location.href = res?.url as any;
+      },
+    });
+  };
 
   return (
     <div
@@ -90,7 +108,7 @@ function Payment() {
                 Total Registration Fee:{" "}
                 {Array.isArray(data) ? data.length * 1000 : 0}
               </p>
-              <AuthButton text="Continue Payment" />
+              <AuthButton onClick={onFinish} text="Continue Payment" />
             </div>
           )}
         </div>

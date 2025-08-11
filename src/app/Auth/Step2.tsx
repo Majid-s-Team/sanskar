@@ -17,8 +17,6 @@ function Step2() {
   const [students, setStudents] = useState<any[]>([]);
   const { state } = useLocation();
 
-  console.log(students, "student");
-
   const { data: gurukalData } = useRequest(gurukal.url, gurukal.method, {
     type: "mount",
   });
@@ -34,8 +32,6 @@ function Step2() {
   const { data: gradeData } = useRequest(grade.url, grade.method, {
     type: "mount",
   });
-
-  console.log(gurukalData);
 
   // const handleAddStudent = async () => {
   //   try {
@@ -94,6 +90,8 @@ function Step2() {
         values &&
         Object.values(values).some((val) => val !== undefined && val !== "");
 
+      console.log(isFormFilled);
+
       const data = {
         ...values,
         dob: dayjs(values.dob).format("YYYY-MM-DD"),
@@ -142,7 +140,15 @@ function Step2() {
       <div className="lg:col-span-8 lg:p-10 col-span-12">
         <div className="bg-white lg:p-[10px] p-8 lg:px-[40px] rounded-[40px] mx-auto shadow-lg h-full">
           <div className="flex lg:flex-row flex-col justify-between items-center mb-5">
-            <p className="text-[28px] semibold">Student Information</p>
+            <div>
+              <p className="text-[28px] semibold">Student Information</p>
+              <p className="text-[18px] regular">
+                Student Fee :{" "}
+                <span className="text-[#FF881A]">
+                  {1000 * students.length || 1000}
+                </span>
+              </p>
+            </div>
             <div className="lg:w-[250px] w-full">
               <AuthButton text="Add More Student" onClick={handleAddStudent} />
             </div>
