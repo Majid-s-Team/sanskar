@@ -17,12 +17,8 @@ function Login() {
     <AuthLayout path="/signup" role={role} setRole={setRole}>
       <Form
         layout="vertical"
-        onFinish={(values: {
-          login: string;
-          password: string;
-          role: "parent" | "teacher";
-        }) => {
-          login(values);
+        onFinish={(values: { login: string; password: string }) => {
+          login(values, role);
         }}
       >
         {loginFields.map((item: FeildType) => {

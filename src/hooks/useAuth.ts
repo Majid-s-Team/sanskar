@@ -30,11 +30,10 @@ export const useAuth = () => {
     console.log("error", response);
   };
 
-  const login = (valus: {
-    login: string;
-    password: string;
-    role: "parent" | "teacher";
-  }) => {
+  const login = (
+    valus: { login: string; password: string },
+    role: "parent" | "teacher"
+  ) => {
     setLoading(true);
     request(loginUser.url, loginUser.method)
       .setBody({
@@ -50,7 +49,7 @@ export const useAuth = () => {
         setStorageData("access_token", headers["access_token"]);
         setStorageData("user", res?.data);
         navigate("/home");
-        setStorageData("role", valus.role);
+        setStorageData("role", role);
         setLoading(false);
       })
       .onFailure((res: any) => {
