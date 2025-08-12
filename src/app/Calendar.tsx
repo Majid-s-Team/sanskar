@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function Calendar() {
   return (
@@ -37,4 +38,4 @@ function Calendar() {
   );
 }
 
-export default Calendar;
+export default withAuthGuard(Calendar);

@@ -4,6 +4,7 @@ import { getStorageData } from "../helper";
 import AuthButton from "../component/partial/AuthButton";
 import { useState } from "react";
 import AnnouncementModal from "../component/partial/AnnouncementModal";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const announcement = [
   {
@@ -88,4 +89,4 @@ function Announcement() {
   );
 }
 
-export default Announcement;
+export default withAuthGuard(Announcement);

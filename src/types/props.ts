@@ -19,6 +19,7 @@ export type ButtonComponentProps = {
   onClick?: () => void;
   htmlType?: "submit" | "reset" | "button";
   loading?: boolean;
+  disabled?: boolean;
 };
 
 export type AuthRouteProps = {

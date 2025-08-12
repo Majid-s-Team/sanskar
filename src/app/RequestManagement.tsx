@@ -2,6 +2,7 @@ import { useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import { Select } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const events = [
   { id: 1, name: "All Requests" },
@@ -93,4 +94,4 @@ function RequestManagement() {
   );
 }
 
-export default RequestManagement;
+export default withAuthGuard(RequestManagement);

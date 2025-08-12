@@ -3,20 +3,23 @@ import { step1, step2 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
 import FormButtons from "../../component/shared/FormButtons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRequest } from "../../hooks/useRequest";
 import { grade, gurukal, teeshirtSize } from "../../repositories";
 import { optionpPicker } from "../../helper";
 import dayjs from "dayjs";
 import AuthButton from "../../component/partial/AuthButton";
 import ImagePicker from "../../component/partial/ImagePicker";
+import { EditFilled } from "@ant-design/icons";
 
 function Step2() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [image, setImage] = useState<any>(null);
-  const [students, setStudents] = useState<any[]>([]);
   const { state } = useLocation();
+  const [students, setStudents] = useState<any[]>([]);
+
+  console.log(state, "state");
 
   const { data: gurukalData } = useRequest(gurukal.url, gurukal.method, {
     type: "mount",
@@ -121,16 +124,35 @@ function Step2() {
   };
 
   const handleEdit = (index: number) => {
-    const student = students[index];
-    setImage(student.profile_image);
-    form.setFieldsValue({
-      ...student,
-      dob: student.dob ? dayjs(student.dob) : undefined, // fix date
-    });
-    handleRemove(index);
+    if (students && students?.length > 0) {
+      const student = students[index];
+      setImage(student.profile_image);
+      form.setFieldsValue({
+        ...student,
+        dob: student.dob ? dayjs(student.dob) : undefined, // fix date
+      });
+      handleRemove(index);
+    } else {
+      console.error("Students array is empty or null");
+    }
   };
 
-  console.log(handleEdit);
+  useEffect(() => {
+    if (state?.students && state?.students?.length > 0) {
+      form.setFieldsValue({
+        ...state.students[0],
+        dob: state.students[0].dob ? dayjs(state.students[0].dob) : undefined, // fix date
+      });
+
+      const uniqueStudents = state.students.filter(
+        (student: any, index: number, self: any[]) =>
+          index ===
+          self.findIndex((s) => s.student_email === student.student_email)
+      );
+
+      setStudents(uniqueStudents);
+    }
+  }, [state.students]);
 
   return (
     <div
@@ -152,8 +174,8 @@ function Step2() {
             industry.
           </p>
         </div>
-        {/* <div className="h-[900px] flex items-center !z-10">
-          <div className="flex justify-center items-end flex-wrap gap-4">
+        <div className="h-[900px] flex items-center !z-10">
+          <div className="grid grid-cols-2 gap-4">
             {students?.map((child: any, index: number) => (
               <div
                 key={index}
@@ -173,11 +195,16 @@ function Step2() {
                 <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize">
                   {child?.student_mobile_number || "+123456789"}
                 </p>
-                <p onClick={() => handleEdit(index)}>edit</p>
+                <div className="mt-auto">
+                  <EditFilled
+                    onClick={() => handleEdit(index)}
+                    className="text-white"
+                  />
+                </div>
               </div>
             ))}
           </div>
-        </div> */}
+        </div>
       </div>
 
       <div className="lg:col-span-8 lg:p-10 col-span-12">
@@ -186,9 +213,9 @@ function Step2() {
             <div>
               <p className="text-[28px] semibold">Student Information</p>
               <p className="text-[18px] regular">
-                Student Fee :{" "}
+                Per Student Fee :{" "}
                 <span className="text-[#FF881A]">
-                  {1000 * students.length || 1000}
+                  ${100 * students.length || 100}
                 </span>
               </p>
             </div>
@@ -209,7 +236,15 @@ function Step2() {
                 },
               ]}
             >
-              <ImagePicker onChange={() => {}} initialImgSrc={image} />
+              <ImagePicker
+                onChange={() => {}}
+                initialImgSrc={
+                  image ||
+                  (state?.students && state.students.length > 0
+                    ? state.students[0].profile_image
+                    : null)
+                }
+              />
             </Form.Item>
             <div className="grid lg:grid-cols-2 xl:gap-20 lg:gap-10">
               <div>
@@ -219,6 +254,7 @@ function Step2() {
                     key={item.name}
                     name={item.name}
                     rules={item.rules}
+                    //  initialValue={state?.students?.[0]?.[item.name]}
                   >
                     <BaseInput
                       {...item}
@@ -239,6 +275,7 @@ function Step2() {
                       key={item.name}
                       name={item.name}
                       rules={item.rules}
+                      // initialValue={state?.students?.[0]?.[item.name]}
                     >
                       <BaseInput
                         {...item}
@@ -256,7 +293,14 @@ function Step2() {
                 <div className="mb-5">
                   <FormButtons
                     onSubmit={handleNext}
-                    onCancel={() => navigate(-1)}
+                    onCancel={() =>
+                      navigate("/signup", {
+                        state: {
+                          ...state,
+                          path: "/signup/add-student",
+                        },
+                      })
+                    }
                     title="Next"
                     title2="Back"
                   />

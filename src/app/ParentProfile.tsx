@@ -7,6 +7,7 @@ import CustomButton from "../component/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ActivityList } from "../component/partial/ActivityList";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 type Options = {
   label: string;
@@ -148,4 +149,4 @@ function ParentProfile() {
   );
 }
 
-export default ParentProfile;
+export default withAuthGuard(ParentProfile);

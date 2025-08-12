@@ -1,31 +1,28 @@
-interface Location {
-  type: string;
-  coordinates: number[];
-}
-
 export type UserType = {
-  is_admin_approved?: boolean | undefined;
-  current_location?: Location;
-  rating?: number;
-  reviews?: number;
-  _id?: string;
-  role?: string;
-  name?: string;
-  email?: string;
-  username?: string;
-  image_url?: string;
-  license?: string;
-  mobile_no?: string;
-  gender?: string;
-  dob?: string;
-  online_status?: boolean;
-  profile_verified?: boolean;
-  payment_active?: boolean;
-  email_verified?: boolean;
-  mobile_no_verified?: boolean;
-  slug?: string;
-  created_at?: string;
-  id_back?: string;
-  id_front?: string;
-  address?: string;
+  address: string;
+  city: string;
+  created_at: string;
+  deleted_at: string | null;
+  father_activities: object[];
+  father_name: string;
+  father_volunteering: number;
+  id: number;
+  is_active: number;
+  is_hsnc_member: number;
+  is_otp_verified: number;
+  is_payment_done: number;
+  mobile_number: string;
+  mother_activities: object[];
+  mother_name: string;
+  mother_volunteering: number;
+  otp: string | null;
+  otp_expires_at: string | null;
+  primary_email: string;
+  profile_image: string | null;
+  secondary_email: string;
+  secondary_mobile_number: string;
+  state: string;
+  students: object[];
+  updated_at: string;
+  zip_code: string;
 };

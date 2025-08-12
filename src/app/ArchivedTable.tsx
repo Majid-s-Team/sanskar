@@ -9,6 +9,7 @@ import {
   weeklyUpdateData,
 } from "../config";
 import { Link, useLocation } from "react-router-dom";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const tabs = [
   { id: 1, label: "My Class Updates", columns: myClassColumns },
@@ -105,4 +106,4 @@ function ArchivedTable() {
   );
 }
 
-export default ArchivedTable;
+export default withAuthGuard(ArchivedTable);

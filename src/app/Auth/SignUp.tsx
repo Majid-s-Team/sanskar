@@ -14,11 +14,9 @@ function SignUp() {
   const [form] = Form.useForm();
   const [role, setRole] = useState<"parent" | "teacher">("parent");
 
-  console.log(state, "state");
-
   const onFinish = (e: any) => {
-    if (state === null) {
-      navigate("/signup/add-student", { state: e });
+    if (state === null || state.path === "/signup/add-student") {
+      navigate("/signup/add-student", { state: { e, ...state } });
     } else {
       navigate("/signup/address", { state: { ...state, ...e } });
     }
@@ -27,7 +25,7 @@ function SignUp() {
   return (
     <AuthLayout path="/login" role={role} setRole={setRole}>
       <Form form={form} layout="vertical" onFinish={onFinish}>
-        <div className="h-[500px] overflow-y-scroll hide-scrollbar">
+        <div className="h-[500px] overflow-y-scroll">
           {signUpFields.map((item: FeildType) => {
             return (
               <Form.Item

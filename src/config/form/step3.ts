@@ -72,7 +72,7 @@ export const step4 = [
   {
     title: "Activities",
     name: "mother_activity_ids",
-    rules: [{ required: true, message: "Please select your activities" }],
+    // rules: [{ required: true, message: "Please select your activities" }],
     type: "select",
     mode: "multiple",
     placeholder: "Please select",
@@ -128,7 +128,7 @@ export const step4 = [
   {
     title: "Activities",
     name: "father_activity_ids",
-    rules: [{ required: true, message: "Please select your activities" }],
+    // rules: [{ required: true, message: "Please select your activities" }],
     type: "select",
     placeholder: "Please select",
     mode: "multiple",

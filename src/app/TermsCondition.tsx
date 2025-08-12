@@ -1,3 +1,4 @@
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 import HomeLayout from "../component/shared/HomeLayout";
 
 function TermsCondition() {
@@ -33,4 +34,4 @@ function TermsCondition() {
   );
 }
 
-export default TermsCondition;
+export default withAuthGuard(TermsCondition);

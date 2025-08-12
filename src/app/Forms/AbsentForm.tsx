@@ -6,6 +6,7 @@ import CustomButton from "../../component/shared/CustomButton";
 import HomeLayout from "../../component/shared/HomeLayout";
 import { getStorageData } from "../../helper";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function AbsentForm() {
   const naviagte = useNavigate();
@@ -51,4 +52,4 @@ function AbsentForm() {
   );
 }
 
-export default AbsentForm;
+export default withAuthGuard(AbsentForm);

@@ -80,8 +80,14 @@ export const step1 = [
   {
     title: "Student Mobile Number",
     name: "student_mobile_number",
-    rules: [{ required: true, message: "Please input your mobile number!" }],
-    type: "text",
+    rules: [
+      { required: true, message: "Please input your mobile number!" },
+      {
+        max: 19,
+        message: "Mobile number must be less than 20 characters long",
+      },
+    ],
+    type: "phonePicker",
   },
 ];
 

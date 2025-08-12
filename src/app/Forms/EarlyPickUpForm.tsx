@@ -6,6 +6,7 @@ import BaseInput from "../../component/shared/BaseInput";
 import CustomButton from "../../component/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
 import SignatureInput from "../../component/shared/SignatureInput";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function EarlyPickUpForm() {
   const navigate = useNavigate();
@@ -66,4 +67,4 @@ function EarlyPickUpForm() {
   );
 }
 
-export default EarlyPickUpForm;
+export default withAuthGuard(EarlyPickUpForm);

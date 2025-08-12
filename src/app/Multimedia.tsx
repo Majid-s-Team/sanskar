@@ -4,6 +4,7 @@ import { getStorageData } from "../helper";
 import AuthButton from "../component/partial/AuthButton";
 import { useState } from "react";
 import MediaModal from "../component/partial/MediaModal";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const students = [
   {
@@ -114,4 +115,4 @@ function Multimedia() {
   );
 }
 
-export default Multimedia;
+export default withAuthGuard(Multimedia);

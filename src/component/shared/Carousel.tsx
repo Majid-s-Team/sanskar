@@ -4,23 +4,31 @@ import { EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import { useState } from "react";
 
-const students = [
-  {
-    image: "/images/parent.png",
-    child: "Child 2",
-  },
-  {
-    image: "/images/parent.png",
-    child: "Child 1",
-  },
-  {
-    image: "/images/parent.png",
-    child: "Child 3",
-  },
-];
+// const students = [
+//   {
+//     image: "/images/parent.png",
+//     child: "Child 2",
+//   },
+//   {
+//     image: "/images/parent.png",
+//     child: "Child 1",
+//   },
+//   {
+//     image: "/images/parent.png",
+//     child: "Child 3",
+//   },
+// ];
 
-export default function MovieCarousel() {
+// type Props = {
+//   data: any;
+//   setStudent: any;
+// };
+
+export default function MovieCarousel({ data, setStudent }: any) {
   const [activeIndex, setActiveIndex] = useState(1);
+
+  console.log(data, "data");
+
   return (
     <Swiper
       modules={[EffectCoverflow]}
@@ -37,11 +45,17 @@ export default function MovieCarousel() {
         modifier: 2.5,
         slideShadows: false, // ✅ Prevent visual bugs on edges
       }}
-      onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+      onSlideChange={(swiper) => {
+        const currentIndex = swiper.realIndex; // ✅ current index
+        const currentStudent = data?.[currentIndex]; // ✅ current student data
+        setActiveIndex(currentIndex);
+        setStudent(currentStudent || data?.[1]);
+        console.log("Current Student:", currentStudent);
+      }}
       initialSlide={activeIndex}
       className="lg:w-full"
     >
-      {students.map((item, index) => (
+      {data?.map((item: any, index: number) => (
         <SwiperSlide
           key={index}
           className="w-[150px] h-[200px] transition-all duration-300 overflow-hidden rounded-xl"
@@ -53,8 +67,14 @@ export default function MovieCarousel() {
                 : "bg-[#FFEDDC]"
             }`}
           >
-            <img className="w-[80px] mx-auto" src={item.image} alt="" />
-            <h3 className="mt-2 text-[15px] medium">{item.child}</h3>
+            <img
+              className="w-[80px] h-[80px] mx-auto rounded-full"
+              src={item.profile_image}
+              alt=""
+            />
+            <h3 className="mt-2 text-[15px] medium">
+              {item.first_name + " " + item.last_name}
+            </h3>
           </div>
         </SwiperSlide>
       ))}

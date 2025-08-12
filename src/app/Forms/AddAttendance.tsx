@@ -3,6 +3,7 @@ import { DatePicker, Table } from "antd";
 import CustomButton from "../../component/shared/CustomButton";
 import { addNewAttendanceColumns, addNewAttendanceData } from "../../config";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function AddAttendance() {
   const navigate = useNavigate();
@@ -36,4 +37,4 @@ function AddAttendance() {
   );
 }
 
-export default AddAttendance;
+export default withAuthGuard(AddAttendance);

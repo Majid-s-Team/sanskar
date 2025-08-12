@@ -1,3 +1,4 @@
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 import HomeLayout from "../component/shared/HomeLayout";
 
 function Notifications() {
@@ -31,4 +32,4 @@ function Notifications() {
   );
 }
 
-export default Notifications;
+export default withAuthGuard(Notifications);

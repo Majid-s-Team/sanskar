@@ -3,6 +3,7 @@ import AnnouncementModal from "../component/partial/AnnouncementModal";
 import HomeLayout from "../component/shared/HomeLayout";
 import { getStorageData } from "../helper";
 import { useState } from "react";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const announcement = [
   {
@@ -83,4 +84,4 @@ function GurukulAnnouncements() {
   );
 }
 
-export default GurukulAnnouncements;
+export default withAuthGuard(GurukulAnnouncements);

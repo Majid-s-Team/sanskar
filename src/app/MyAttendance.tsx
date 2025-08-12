@@ -2,6 +2,7 @@ import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { Link } from "react-router-dom";
 import { teacherAttendanceColumns, teacherAttendanceData } from "../config";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function MyAttendance() {
   return (
@@ -56,4 +57,4 @@ function MyAttendance() {
   );
 }
 
-export default MyAttendance;
+export default withAuthGuard(MyAttendance);

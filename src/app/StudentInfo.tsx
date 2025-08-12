@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import { addStudentForm } from "../config";
 import { Form, Input } from "antd";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const studentData = {
   first_name: "John",
@@ -61,4 +62,4 @@ function StudentInfo() {
   );
 }
 
-export default StudentInfo;
+export default withAuthGuard(StudentInfo);

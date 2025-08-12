@@ -4,6 +4,7 @@ import HomeLayout from "../../component/shared/HomeLayout";
 import { formDetailsForm } from "../../config";
 import { FeildType } from "../../types";
 import { Button, Form } from "antd";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function FormDetails() {
   const navigate = useNavigate();
@@ -54,4 +55,4 @@ function FormDetails() {
   );
 }
 
-export default FormDetails;
+export default withAuthGuard(FormDetails);

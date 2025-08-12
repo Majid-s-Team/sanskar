@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { attendanceColumns, attendanceData } from "../config";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
-export default function AttendanceManagement() {
+function AttendanceManagement() {
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -57,3 +58,5 @@ export default function AttendanceManagement() {
     </HomeLayout>
   );
 }
+
+export default withAuthGuard(AttendanceManagement);

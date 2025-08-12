@@ -6,6 +6,7 @@ import CustomButton from "../../component/shared/CustomButton";
 import { FeildType } from "../../types";
 import FileUploader from "../../component/shared/FileUploader";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function ExpenseForm() {
   const navigate = useNavigate();
@@ -61,4 +62,4 @@ function ExpenseForm() {
   );
 }
 
-export default ExpenseForm;
+export default withAuthGuard(ExpenseForm);

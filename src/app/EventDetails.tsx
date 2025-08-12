@@ -5,6 +5,7 @@ import WriteReasonModal from "../component/partial/WriteReasonModal";
 import { useNavigate } from "react-router-dom";
 import SelectChildModal from "../component/partial/SelectChildModal";
 import { getStorageData } from "../helper";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function EventDetails() {
   const role = getStorageData("role");
@@ -88,4 +89,4 @@ function EventDetails() {
   );
 }
 
-export default EventDetails;
+export default withAuthGuard(EventDetails);

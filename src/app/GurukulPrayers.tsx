@@ -1,5 +1,6 @@
 import { Input } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function GurukulPrayers() {
   return (
@@ -44,4 +45,4 @@ function GurukulPrayers() {
   );
 }
 
-export default GurukulPrayers;
+export default withAuthGuard(GurukulPrayers);

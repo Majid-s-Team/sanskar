@@ -1,6 +1,7 @@
 import { Avatar } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import CustomButton from "../component/shared/CustomButton";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function ContactTeacher() {
   return (
@@ -37,4 +38,4 @@ function ContactTeacher() {
   );
 }
 
-export default ContactTeacher;
+export default withAuthGuard(ContactTeacher);

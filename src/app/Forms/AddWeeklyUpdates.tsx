@@ -6,6 +6,7 @@ import CustomButton from "../../component/shared/CustomButton";
 import { addWeeklyUpdates } from "../../config";
 import FileUploader from "../../component/shared/FileUploader";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function AddWeeklyUpdates() {
   const navigate = useNavigate();
@@ -47,4 +48,4 @@ function AddWeeklyUpdates() {
   );
 }
 
-export default AddWeeklyUpdates;
+export default withAuthGuard(AddWeeklyUpdates);

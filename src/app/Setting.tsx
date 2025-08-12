@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import { getStorageData } from "../helper";
 import { Avatar } from "antd";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const setting = [
   {
@@ -95,4 +96,4 @@ function Setting() {
   );
 }
 
-export default Setting;
+export default withAuthGuard(Setting);

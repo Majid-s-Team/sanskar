@@ -51,7 +51,7 @@ export const signUpFields = [
     name: "secondary_mobile_number",
     placeholder: "optional",
     rules: [{ required: true, message: "Please input your secondary mobile!" }],
-    type: "text",
+    type: "phonePicker",
   },
   // {
   //   title: "Member of HSNC",

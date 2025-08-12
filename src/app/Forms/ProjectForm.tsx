@@ -10,6 +10,7 @@ import {
 } from "../../config";
 import { FeildType } from "../../types";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function renderFields(fields: FeildType[]) {
   return fields.map((item) => (
@@ -72,4 +73,4 @@ function ProjectForm() {
   );
 }
 
-export default ProjectForm;
+export default withAuthGuard(ProjectForm);

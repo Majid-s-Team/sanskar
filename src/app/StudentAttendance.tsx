@@ -2,6 +2,7 @@ import { Input, Table } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { Link } from "react-router-dom";
 import { studentAttendanceColumns, studentAttendanceData } from "../config";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function StudentAttendance() {
   return (
@@ -69,4 +70,4 @@ function StudentAttendance() {
   );
 }
 
-export default StudentAttendance;
+export default withAuthGuard(StudentAttendance);

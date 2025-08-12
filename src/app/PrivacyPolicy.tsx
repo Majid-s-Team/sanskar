@@ -1,3 +1,4 @@
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 import HomeLayout from "../component/shared/HomeLayout";
 
 function PrivacyPolicy() {
@@ -33,4 +34,4 @@ function PrivacyPolicy() {
   );
 }
 
-export default PrivacyPolicy;
+export default withAuthGuard(PrivacyPolicy);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CaretRightOutlined } from "@ant-design/icons";
 import HomeLayout from "../component/shared/HomeLayout";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const faqData = [
   {
@@ -71,4 +72,4 @@ function Faqs() {
   );
 }
 
-export default Faqs;
+export default withAuthGuard(Faqs);

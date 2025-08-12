@@ -44,7 +44,7 @@ export const useAuth = () => {
       .onSuccess((res, headers) => {
         dispatch({
           type: UserActionTypes.POST,
-          payload: res?.data as UserType,
+          payload: (res?.data as { user: UserType })?.user,
         });
         setStorageData("access_token", headers["access_token"]);
         setStorageData("user", res?.data);
@@ -80,7 +80,13 @@ export const useAuth = () => {
           description: res?.data?.otp,
         });
       })
-      .onFailure(handleFailure)
+      .onFailure((res) => {
+        notification.error({
+          message: "Error",
+          description: res.message,
+        });
+        setLoading(false);
+      })
       .call();
   };
 
@@ -111,9 +117,13 @@ export const useAuth = () => {
         ...value,
         primary_email: atob(email),
       })
-      .onSuccess(() => {
+      .onSuccess((res) => {
         navigate("/login");
         setLoading(false);
+        notification.success({
+          message: "Success",
+          description: res?.message,
+        });
       })
       .onFailure(handleFailure)
       .call();

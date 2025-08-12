@@ -4,6 +4,7 @@ import TableData from "../component/shared/Table";
 import { studentListColumns, studentListData } from "../config";
 import StudentDetailsModal from "../component/partial/StudentDetailsModal";
 import { useState } from "react";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function StudentList() {
   const [openModal, setOpenModal] = useState(false);
@@ -44,4 +45,4 @@ function StudentList() {
   );
 }
 
-export default StudentList;
+export default withAuthGuard(StudentList);

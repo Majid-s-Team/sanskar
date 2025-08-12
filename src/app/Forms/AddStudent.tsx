@@ -5,6 +5,7 @@ import BaseInput from "../../component/shared/BaseInput";
 import CustomButton from "../../component/shared/CustomButton";
 import { FeildType } from "../../types";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function AddStudent() {
   const navigate = useNavigate();
@@ -49,4 +50,4 @@ function AddStudent() {
   );
 }
 
-export default AddStudent;
+export default withAuthGuard(AddStudent);

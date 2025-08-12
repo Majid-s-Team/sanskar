@@ -1,6 +1,7 @@
 import HomeLayout from "../component/shared/HomeLayout";
 import { Link } from "react-router-dom";
 import { getStorageData } from "../helper";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const setting = [
   {
@@ -54,4 +55,4 @@ function About() {
   );
 }
 
-export default About;
+export default withAuthGuard(About);

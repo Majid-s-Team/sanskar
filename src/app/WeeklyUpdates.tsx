@@ -2,6 +2,7 @@ import { Input } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { weeklyUpdateColumns, weeklyUpdateData } from "../config";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function WeeklyUpdates() {
   return (
@@ -34,4 +35,4 @@ function WeeklyUpdates() {
   );
 }
 
-export default WeeklyUpdates;
+export default withAuthGuard(WeeklyUpdates);

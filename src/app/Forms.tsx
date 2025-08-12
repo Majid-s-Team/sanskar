@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import { getStorageData } from "../helper";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 const forms = [
   {
@@ -80,4 +81,4 @@ function Forms() {
   );
 }
 
-export default Forms;
+export default withAuthGuard(Forms);

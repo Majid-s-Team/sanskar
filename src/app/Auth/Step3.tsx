@@ -18,6 +18,8 @@ function Step3() {
   const { state } = useLocation();
   const [fatherActivity, setFatherActivity] = useState<Options[]>([]);
   const [motherActivity, setMotherActivity] = useState<Options[]>([]);
+  const [fatherActive, setFatherActive] = useState<boolean>(true);
+  const [motherActive, setMotherActive] = useState<boolean>(true);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   console.log(state, "state");
@@ -152,6 +154,13 @@ function Step3() {
                     >
                       <BaseInput
                         {...item}
+                        disabled={
+                          item.name === "father_activity_ids"
+                            ? !fatherActive
+                            : item.name === "mother_activity_ids"
+                            ? !motherActive
+                            : false
+                        }
                         options={
                           item.name === "mother_activity_ids"
                             ? optionpPicker(activityData as any[])
@@ -159,8 +168,17 @@ function Step3() {
                             ? optionpPicker(activityData as any[])
                             : item.options
                         }
-                        onChange={(_: string, val: Options[]) => {
-                          handleActivityChange(val, item.name);
+                        onChange={(value: any, val: any[]) => {
+                          if (
+                            item.name === "father_activity_ids" ||
+                            item.name === "mother_activity_ids"
+                          ) {
+                            handleActivityChange(val, item.name);
+                          } else if (item.name === "father_volunteering") {
+                            setFatherActive(value);
+                          } else if (item.name === "mother_volunteering") {
+                            setMotherActive(value);
+                          }
                         }}
                       />
                     </Form.Item>
@@ -187,7 +205,9 @@ function Step3() {
                 <FormButtons
                   htmlType="submit"
                   loading={loading}
-                  onCancel={() => navigate(-1)}
+                  onCancel={() =>
+                    navigate("/signup/add-student", { state: state })
+                  }
                   title="Next"
                   title2="Back"
                 />

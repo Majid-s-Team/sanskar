@@ -1,6 +1,7 @@
 import { useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import { Avatar } from "antd";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 
 function StudentManagement() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -73,4 +74,4 @@ function StudentManagement() {
   );
 }
 
-export default StudentManagement;
+export default withAuthGuard(StudentManagement);

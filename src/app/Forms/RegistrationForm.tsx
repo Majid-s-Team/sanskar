@@ -7,6 +7,7 @@ import { FeildType } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ActivityList } from "../../component/partial/ActivityList";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 type Options = {
   label: string;
@@ -118,4 +119,4 @@ function RegistrationForm() {
   );
 }
 
-export default RegistrationForm;
+export default withAuthGuard(RegistrationForm);

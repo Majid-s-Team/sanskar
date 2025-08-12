@@ -1,9 +1,10 @@
 import { useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import { EventCard } from "../component/partial/EventCard";
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 const events = ["All Events", "My Events", "Past Events"];
 
-export default function Events() {
+function Events() {
   const [active, setActive] = useState(0);
   return (
     <HomeLayout>
@@ -43,3 +44,5 @@ export default function Events() {
     </HomeLayout>
   );
 }
+
+export default withAuthGuard(Events);

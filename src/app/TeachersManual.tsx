@@ -1,3 +1,4 @@
+import { withAuthGuard } from "../component/higherOrder/withAuth";
 import HomeLayout from "../component/shared/HomeLayout";
 
 function TeachersManual() {
@@ -33,4 +34,4 @@ function TeachersManual() {
   );
 }
 
-export default TeachersManual;
+export default withAuthGuard(TeachersManual);

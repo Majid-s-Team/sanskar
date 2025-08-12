@@ -43,7 +43,12 @@ function Login() {
             Forgot Password?
           </Link>
         )}
-        <AuthButton text={"Sign in"} htmlType="submit" loading={loading} />
+        <AuthButton
+          text={"Sign in"}
+          htmlType="submit"
+          loading={loading}
+          disabled={role === "teacher" ? true : false}
+        />
       </Form>
     </AuthLayout>
   );

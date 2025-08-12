@@ -5,6 +5,7 @@ import HomeLayout from "../../component/shared/HomeLayout";
 import { siblingEnrollmentForm } from "../../config";
 import { FeildType } from "../../types";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 function SiblingEnrollmentForm() {
   const navigate = useNavigate();
@@ -45,4 +46,4 @@ function SiblingEnrollmentForm() {
   );
 }
 
-export default SiblingEnrollmentForm;
+export default withAuthGuard(SiblingEnrollmentForm);

@@ -41,7 +41,7 @@ function Payment() {
     }
   );
 
-  const amount = 1000 * (data?.length ?? 0);
+  const amount = 100 * (data?.length ?? 0);
 
   const onFinish = () => {
     execute({
@@ -109,8 +109,8 @@ function Payment() {
                 ))}
               </div>
               <p className="text-black text-[20px] text-center semibold my-5">
-                Total Registration Fee:{" "}
-                {Array.isArray(data) ? data.length * 1000 : 0}
+                Total Registration Fee: $
+                {Array.isArray(data) ? data.length * 100 : 0}
               </p>
               <AuthButton
                 loading={loading2}
