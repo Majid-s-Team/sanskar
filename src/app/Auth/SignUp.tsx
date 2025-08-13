@@ -16,7 +16,7 @@ function SignUp() {
 
   const onFinish = (e: any) => {
     if (state === null || state.path === "/signup/add-student") {
-      navigate("/signup/add-student", { state: { ...e, ...state } });
+      navigate("/signup/add-student", { state: { ...state, ...e } });
     } else {
       navigate("/signup/address", { state: { ...state, ...e } });
     }
