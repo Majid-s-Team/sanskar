@@ -18,6 +18,7 @@ function Step2() {
   const [image, setImage] = useState<any>(null);
   const { state } = useLocation();
   const [students, setStudents] = useState<any[]>([]);
+  const [editIndex, setEditIndex] = useState<number | null>(null);
 
   console.log(state, "state");
 
@@ -64,26 +65,40 @@ function Step2() {
   //   }
   // };
 
-  const handleAddStudent = async () => {
-    try {
-      const values = await form.validateFields();
+  // const handleAddStudent = async () => {
+  //   try {
+  //     const values = await form.validateFields();
 
-      const data = {
-        ...values,
-        dob: dayjs(values.dob).format("YYYY-MM-DD"),
-      };
-      const isFormFilled = Object.values(data).some(
-        (val) => val !== undefined && val !== ""
-      );
+  //     const data = {
+  //       ...values,
+  //       dob: dayjs(values.dob).format("YYYY-MM-DD"),
+  //     };
 
-      if (!isFormFilled) return;
+  //     const isFormFilled = Object.values(data).some(
+  //       (val) => val !== undefined && val !== ""
+  //     );
+  //     if (!isFormFilled) return;
 
-      setStudents((prev) => [...prev, data]);
-      form.resetFields();
-    } catch (err) {
-      // do nothing
-    }
-  };
+  //     // ✅ Add the new student first, then filter unique
+  //     const updatedStudents = [...students, data];
+  //     const uniqueStudents = updatedStudents.filter(
+  //       (student, index, self) =>
+  //         index ===
+  //         self.findIndex(
+  //           (t) =>
+  //             t.name === student.name &&
+  //             t.dob === student.dob &&
+  //             t.email === student.email
+  //         )
+  //     );
+
+  //     setStudents(uniqueStudents);
+  //     setImage(null);
+  //     form.resetFields();
+  //   } catch (err) {
+  //     // do nothing
+  //   }
+  // };
 
   const handleNext = async () => {
     try {
@@ -93,8 +108,6 @@ function Step2() {
       const isFormFilled =
         values &&
         Object.values(values).some((val) => val !== undefined && val !== "");
-
-      console.log(isFormFilled);
 
       const data = {
         ...values,
@@ -119,21 +132,73 @@ function Step2() {
     }
   };
 
-  const handleRemove = (index: number) => {
-    setStudents((prev) => prev.filter((_, i) => i !== index));
-  };
+  // const handleRemove = (index: number) => {
+  //   setStudents((prev) => prev.filter((_, i) => i !== index));
+  // };
+
+  // const handleEdit = (index: number) => {
+  //   if (students && students?.length > 0) {
+  //     const student = students[index];
+  //     setImage(student.profile_image);
+  //     form.setFieldsValue({
+  //       ...student,
+  //       dob: student.dob ? dayjs(student.dob) : undefined, // fix date
+  //     });
+  //     handleRemove(index);
+  //   } else {
+  //     console.error("Students array is empty or null");
+  //   }
+  // };
 
   const handleEdit = (index: number) => {
-    if (students && students?.length > 0) {
-      const student = students[index];
-      setImage(student.profile_image);
-      form.setFieldsValue({
-        ...student,
-        dob: student.dob ? dayjs(student.dob) : undefined, // fix date
-      });
-      handleRemove(index);
-    } else {
-      console.error("Students array is empty or null");
+    if (!students || students.length === 0) return;
+
+    const student = students[index];
+    setImage(student.profile_image);
+    form.setFieldsValue({
+      ...student,
+      dob: student.dob ? dayjs(student.dob) : undefined,
+    });
+    setEditIndex(index); // ✅ remember which student is being edited
+  };
+
+  const handleAddStudent = async () => {
+    try {
+      const values = await form.validateFields();
+
+      const data = {
+        ...values,
+        dob: dayjs(values.dob).format("YYYY-MM-DD"),
+      };
+
+      const isFormFilled = Object.values(data).some(
+        (val) => val !== undefined && val !== ""
+      );
+      if (!isFormFilled) return;
+
+      if (editIndex !== null) {
+        // ✅ update existing
+        setStudents((prev) =>
+          prev.map((student, i) => (i === editIndex ? data : student))
+        );
+        setEditIndex(null);
+      } else {
+        // ✅ add new with uniqueness check
+        const updated = [...students, data];
+        const unique = updated.filter(
+          (s, idx, arr) =>
+            idx ===
+            arr.findIndex(
+              (t) => t.name === s.name && t.dob === s.dob && t.email === s.email
+            )
+        );
+        setStudents(unique);
+      }
+
+      setImage(null);
+      form.resetFields();
+    } catch {
+      // ignore
     }
   };
 
@@ -143,6 +208,8 @@ function Step2() {
         ...state.students[0],
         dob: state.students[0].dob ? dayjs(state.students[0].dob) : undefined, // fix date
       });
+
+      setImage(state.students[0].profile_image);
 
       const uniqueStudents = state.students.filter(
         (student: any, index: number, self: any[]) =>
@@ -213,10 +280,7 @@ function Step2() {
             <div>
               <p className="text-[28px] semibold">Student Information</p>
               <p className="text-[18px] regular">
-                Per Student Fee :{" "}
-                <span className="text-[#FF881A]">
-                  ${100 * students.length || 100}
-                </span>
+                Per Student Fee : <span className="text-[#FF881A]">$100</span>
               </p>
             </div>
             <div className="lg:w-[250px] w-full">
@@ -236,15 +300,7 @@ function Step2() {
                 },
               ]}
             >
-              <ImagePicker
-                onChange={() => {}}
-                initialImgSrc={
-                  image ||
-                  (state?.students && state.students.length > 0
-                    ? state.students[0].profile_image
-                    : null)
-                }
-              />
+              <ImagePicker onChange={() => {}} initialImgSrc={image} />
             </Form.Item>
             <div className="grid lg:grid-cols-2 xl:gap-20 lg:gap-10">
               <div>
