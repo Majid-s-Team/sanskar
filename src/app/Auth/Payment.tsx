@@ -1,9 +1,10 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AuthButton from "../../component/partial/AuthButton";
 import { useRequest } from "../../hooks/useRequest";
 import { payment, user } from "../../repositories";
 import { Student } from "../../types";
 import { Spin } from "antd";
+import { useEffect } from "react";
 
 // const children = [
 //   {
@@ -28,6 +29,8 @@ import { Spin } from "antd";
 
 function Payment() {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const { data, loading } = useRequest<Student[]>(user.url, user.method, {
     type: "mount",
     routeParams: id + "/students",
@@ -56,6 +59,12 @@ function Payment() {
       },
     });
   };
+
+  useEffect(() => {
+    window.onpopstate = () => {
+      navigate("/payment/" + id);
+    };
+  }, [navigate]);
 
   return (
     <div

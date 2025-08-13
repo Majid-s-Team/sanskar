@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Form, notification } from "antd";
-import { OtpInput } from "reactjs-otp-input";
 import AuthButton from "../../component/partial/AuthButton";
 import { useAuth } from "../../hooks/useAuth";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
 import { RouteTypes } from "../../types";
 import { Link } from "react-router-dom";
+import AntdOtp from "../../component/shared/AntdOtp";
 
 function Otp() {
   const [otp, setOtp] = useState<string>("");
@@ -17,7 +17,7 @@ function Otp() {
     if (otp.length < 6) {
       notification.info({
         message: "Invalid Code",
-        description: "Code should be 4 digit",
+        description: "Code should be 6 digit",
       });
     } else {
       verifyCode({ otp: otp });
@@ -56,7 +56,7 @@ function Otp() {
             <Form.Item
               rules={[{ required: true, message: "Please input your otp!" }]}
             >
-              <OtpInput
+              {/* <OtpInput
                 inputStyle={{
                   width: "61.6px",
                   height: "61.6px",
@@ -68,7 +68,8 @@ function Otp() {
                 value={otp}
                 onChange={handleChange}
                 numInputs={6}
-              />
+              /> */}
+              <AntdOtp length={6} onChange={handleChange} />
             </Form.Item>
             <AuthButton loading={loading} htmlType="submit" text={"Verify"} />
           </Form>

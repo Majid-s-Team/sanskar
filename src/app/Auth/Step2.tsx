@@ -11,14 +11,17 @@ import dayjs from "dayjs";
 import AuthButton from "../../component/partial/AuthButton";
 import ImagePicker from "../../component/partial/ImagePicker";
 import { EditFilled } from "@ant-design/icons";
+import { v4 as uuidv4 } from "uuid";
 
 function Step2() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [image, setImage] = useState<any>(null);
+  const [image, setImage] = useState<string | undefined>(undefined);
   const { state } = useLocation();
   const [students, setStudents] = useState<any[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
+
+  console.log(state, "state");
 
   const { data: gurukalData } = useRequest(gurukal.url, gurukal.method, {
     type: "mount",
@@ -102,24 +105,27 @@ function Step2() {
     try {
       const values = await form.validateFields().catch(() => null);
 
-      // Check if form has any non-empty field
       const isFormFilled =
         values &&
         Object.values(values).some((val) => val !== undefined && val !== "");
 
-      const data = {
-        ...values,
-        dob: dayjs(values.dob).format("YYYY-MM-DD"),
-      };
+      const data = values
+        ? {
+            ...values,
+            dob: dayjs(values.dob).format("YYYY-MM-DD"),
+            id: uuidv4(),
+          }
+        : {};
 
-      const allStudents = [...students];
+      let allStudents = [...students];
+
       if (isFormFilled) {
         allStudents.push(data);
       }
 
+      // ✅ Condition: form khali hai lekin students list mein pehle se 1+ student ho to allow next
       if (allStudents.length === 0) {
-        // No student added at all
-        return;
+        return; // bilkul koi student nahi, next block
       }
 
       navigate("/signup/address", {
@@ -148,25 +154,28 @@ function Step2() {
   //   }
   // };
 
-  const handleEdit = (index: number) => {
+  const handleEdit = (id: string) => {
     if (!students || students.length === 0) return;
 
-    const student = students[index];
+    const student = students.find((s) => s.id === id);
+    if (!student) return;
+
     setImage(student.profile_image);
     form.setFieldsValue({
       ...student,
       dob: student.dob ? dayjs(student.dob) : undefined,
     });
-    setEditIndex(index); // ✅ remember which student is being edited
+
+    setEditIndex(students.findIndex((s) => s.id === id)); // ✅ still store index for update logic
   };
 
   const handleAddStudent = async () => {
     try {
       const values = await form.validateFields();
-
       const data = {
         ...values,
         dob: dayjs(values.dob).format("YYYY-MM-DD"),
+        id: uuidv4(), // ✅ ID set here
       };
 
       const isFormFilled = Object.values(data).some(
@@ -175,25 +184,19 @@ function Step2() {
       if (!isFormFilled) return;
 
       if (editIndex !== null) {
-        // ✅ update existing
         setStudents((prev) =>
           prev.map((student, i) => (i === editIndex ? data : student))
         );
         setEditIndex(null);
       } else {
-        // ✅ add new with uniqueness check
         const updated = [...students, data];
         const unique = updated.filter(
-          (s, idx, arr) =>
-            idx ===
-            arr.findIndex(
-              (t) => t.name === s.name && t.dob === s.dob && t.email === s.email
-            )
+          (s, idx, arr) => idx === arr.findIndex((t) => t.id === s.id)
         );
         setStudents(unique);
       }
 
-      setImage(null);
+      setImage(undefined);
       form.resetFields();
     } catch {
       // ignore
@@ -204,18 +207,21 @@ function Step2() {
     if (state?.students && state?.students?.length > 0) {
       form.setFieldsValue({
         ...state.students[0],
-        dob: state.students[0].dob ? dayjs(state.students[0].dob) : undefined, // fix date
+        dob: state.students[0].dob ? dayjs(state.students[0].dob) : undefined,
       });
 
       setImage(state.students[0].profile_image);
 
       const uniqueStudents = state.students.filter(
         (student: any, index: number, self: any[]) =>
-          index ===
-          self.findIndex((s) => s.student_email === student.student_email)
+          index === self.findIndex((s) => s.id === student.id)
       );
-
       setStudents(uniqueStudents);
+      setEditIndex(
+        state.students.findIndex(
+          (s: { id: any }) => s.id === uniqueStudents[0].id
+        )
+      );
     }
   }, [state.students]);
 
@@ -231,7 +237,7 @@ function Step2() {
         <Link to="/login">
           <p className="text-white text-[26px] semibold">Sanskar</p>
         </Link>
-        <div className="space-y-2 lg:mt-[130px] my-[50px] lg:ml-[30px] ml-0">
+        <div className="space-y-2 lg:mt-[130px] my-[50px] h-[400px] lg:ml-[30px] ml-0">
           <p className="text-white text-[29px] medium">Sign up to</p>
           <p className="text-white text-[33px] bold">SANSKAR!</p>
           <p className="text-white text-[13px] light">
@@ -239,17 +245,21 @@ function Step2() {
             industry.
           </p>
         </div>
-        <div className="!h-[900px] flex items-center overflow-hidden">
-          <div className="grid grid-cols-2 gap-4 ">
+        <div className="!h-[500px] flex items-center overflow-y-auto">
+          <div className="grid grid-cols-2 gap-4 h-full">
             {students?.map((child: any, index: number) => (
               <div
-                onClick={() => handleEdit(index)}
+                onClick={() => handleEdit(child.id)}
                 key={index}
-                className="rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 cursor-pointer"
+                className={`rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 cursor-pointer ${
+                  index === editIndex
+                    ? "!border-2 !border-[#000]"
+                    : "border-2 border-transparent"
+                }`}
               >
                 <img
                   className="w-[80px] h-[80px] mx-auto rounded-full"
-                  src={child?.profile_image || "/images/user.png"}
+                  src={child?.profile_image}
                   alt={child?.first_name}
                 />
                 <h3 className="mt-2 text-[20px] regular text-[#FFFFFF] capitalize">
@@ -343,7 +353,9 @@ function Step2() {
                 </div>
                 <div className="mb-5">
                   <FormButtons
-                    onSubmit={handleNext}
+                    onSubmit={
+                      editIndex !== null ? handleAddStudent : handleNext
+                    }
                     onCancel={() =>
                       navigate("/signup", {
                         state: {

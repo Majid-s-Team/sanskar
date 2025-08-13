@@ -4,7 +4,7 @@ import BaseInput from "../../component/shared/BaseInput";
 import FormButtons from "../../component/shared/FormButtons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { optionpPicker } from "../../helper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityList } from "../../component/partial/ActivityList";
 import { activity, signUp } from "../../repositories";
 import { useRequest } from "../../hooks/useRequest";
@@ -66,12 +66,6 @@ function Step3() {
   const onFinish = (e: any) => {
     const data = {
       ...e,
-      // father_activity_ids: (e.father_activity_ids || []).map(
-      //   (i: any) => i.value
-      // ),
-      // mother_activity_ids: (e.mother_activity_ids || []).map(
-      //   (i: any) => i.value
-      // ),
       father_activity_ids: (e.father_activity_ids || []).map((i: any) =>
         typeof i === "object" ? i.value : i
       ),
@@ -85,14 +79,18 @@ function Step3() {
         navigate("/payment/" + res?.data?.id);
       },
       cbFailure: (res: any) => {
-        if (
-          res?.message === "The primary email has already been taken." ||
-          res?.message === "The mobile number has already been taken."
-        ) {
+        Object.keys(res.errors).forEach((key) => {
           notification.error({
             message: "Error",
-            description: res.message,
+            description: res.errors[key][0],
           });
+        });
+        if (
+          res?.errors?.primary_email?.[0] ===
+            "The primary email has already been taken." ||
+          res?.errors?.mobile_number?.[0] ===
+            "The mobile number has already been taken."
+        ) {
           navigate("/signup", { state: { ...data, ...state } });
         } else {
           notification.error({
@@ -103,6 +101,17 @@ function Step3() {
       },
     });
   };
+
+  useEffect(() => {
+    if (fatherActive === false) {
+      setFatherActivity([]);
+      form.resetFields(["father_activity_ids"]); // ✅ correct field name
+    }
+    if (motherActive === false) {
+      setMotherActivity([]);
+      form.resetFields(["mother_activity_ids"]); // ✅ correct field name
+    }
+  }, [fatherActive, motherActive]);
 
   return (
     <div
