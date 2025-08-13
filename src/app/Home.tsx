@@ -7,36 +7,44 @@ import { getStorageData } from "../helper";
 import Carousel from "../component/shared/Carousel";
 import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../component/shared/CustomButton";
-import { Avatar } from "antd";
+import { Avatar, Spin } from "antd";
 import { forms } from "../config";
 import { useAuth } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { useRequest } from "../hooks/useRequest";
-import { students } from "../repositories";
+import { user } from "../repositories";
+import { Student } from "../types";
 
 const Home = () => {
   const role = getStorageData("role");
   const [activeStudent, setActiveStudent] = useState<any>();
-  const { user } = useAuth();
+  const { user: userData } = useAuth();
   const navigate = useNavigate();
 
-  console.log(activeStudent, "user");
+  const { data, execute, loading } = useRequest<Student[]>(
+    user.url,
+    user.method,
+    {}
+  );
 
-  const { data } = useRequest(students.url, students.method, {
-    type: "mount",
-  });
-
-  console.log(data);
+  console.log(data, "user");
 
   useEffect(() => {
-    if (user?.students && user.students.length > 1) {
-      setActiveStudent(user.students[1]);
-    } else {
-      setActiveStudent(user?.students[0]);
+    if (userData && userData?.id) {
+      execute({
+        type: "mount",
+        routeParams: userData?.id + "/students",
+      });
     }
-  }, [user]);
+  }, [userData]);
 
-  console.log(user);
+  // useEffect(() => {
+  //   if (data?.students && data.students.length > 1) {
+  //     setActiveStudent(data.students[1]);
+  //   } else {
+  //     setActiveStudent(data?.students[0]);
+  //   }
+  // }, [data]);
 
   return (
     <HomeLayout>
@@ -44,7 +52,13 @@ const Home = () => {
         {role === "parent" ? (
           <div className="bg-white p-5 rounded-[20.15px] flex justify-center items-center ">
             <div className="lg:w-full w-[330px]">
-              <Carousel data={user?.students} setStudent={setActiveStudent} />
+              {loading ? (
+                <div className="flex justify-center items-center">
+                  <Spin size="large" />
+                </div>
+              ) : (
+                <Carousel data={data} setStudent={setActiveStudent} />
+              )}
             </div>
           </div>
         ) : (
@@ -79,51 +93,61 @@ const Home = () => {
             </Link>
           </div>
           {role === "parent" ? (
-            <Link to="/home/student-info" className="!text-black">
-              <div className="flex gap-2 mt-5 items-center">
-                <Avatar
-                  size={64}
-                  src={activeStudent?.profile_image || "/images/parent.png"}
-                />
-                <div>
-                  <p className="text-[12px] regular">Student Name</p>
-                  <p className="text-[20px] regular">
-                    {activeStudent?.first_name + " " + activeStudent?.last_name}
-                  </p>
+            <div>
+              {loading ? (
+                <div className="h-[500px] flex justify-center items-center">
+                  <Spin size="large" />
                 </div>
-              </div>
-              <div></div>
-              {[
-                {
-                  icon: "/images/info1.png",
-                  title: "Student ID",
-                  value: activeStudent?.id || "-",
-                },
-                {
-                  icon: "/images/info2.png",
-                  title: "Class Name",
-                  value: activeStudent?.class_name || "-",
-                },
-                {
-                  icon: "/images/info4.png",
-                  title: "House",
-                  value: activeStudent?.house || "-",
-                },
-                {
-                  icon: "/images/info3.png",
-                  title: "Book Club",
-                  value: activeStudent?.join_the_club ? "Yes" : "No",
-                },
-              ].map((item, index) => (
-                <div key={index} className="flex gap-2 mt-5 items-center">
-                  <img className="w-[72.98px]" src={item.icon} alt="" />
-                  <div>
-                    <p className="text-[12px] regular">{item.title}</p>
-                    <p className="text-[20px] regular">{item.value}</p>
+              ) : (
+                <Link to="/home/student-info" className="!text-black">
+                  <div className="flex gap-2 mt-5 items-center">
+                    <Avatar
+                      size={64}
+                      src={activeStudent?.profile_image || "/images/parent.png"}
+                    />
+                    <div>
+                      <p className="text-[12px] regular">Student Name</p>
+                      <p className="text-[20px] regular capitalize">
+                        {activeStudent?.first_name +
+                          " " +
+                          activeStudent?.last_name}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </Link>
+                  <div></div>
+                  {[
+                    {
+                      icon: "/images/info1.png",
+                      title: "Student ID",
+                      value: activeStudent?.id || "-",
+                    },
+                    {
+                      icon: "/images/info2.png",
+                      title: "Class Name",
+                      value: activeStudent?.gurukal?.name || "-",
+                    },
+                    {
+                      icon: "/images/info4.png",
+                      title: "House",
+                      value: activeStudent?.house || "Atharva Veda",
+                    },
+                    {
+                      icon: "/images/info3.png",
+                      title: "Book Club",
+                      value: activeStudent?.join_the_club ? "Yes" : "No",
+                    },
+                  ].map((item, index) => (
+                    <div key={index} className="flex gap-2 mt-5 items-center">
+                      <img className="w-[72.98px]" src={item.icon} alt="" />
+                      <div>
+                        <p className="text-[12px] regular">{item.title}</p>
+                        <p className="text-[20px] regular">{item.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </Link>
+              )}
+            </div>
           ) : (
             <div>
               {forms.map((form, index) => {

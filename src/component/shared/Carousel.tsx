@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow } from "swiper/modules";
 // @ts-ignore
 import "swiper/css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // const students = [
 //   {
@@ -27,7 +27,15 @@ import { useState } from "react";
 export default function MovieCarousel({ data, setStudent }: any) {
   const [activeIndex, setActiveIndex] = useState(1);
 
-  console.log(data, "data");
+  useEffect(() => {
+    if (data.length > 1) {
+      setActiveIndex(1);
+      setStudent(data?.[1]);
+    } else {
+      setActiveIndex(0);
+      setStudent(data?.[0]);
+    }
+  }, [data]);
 
   return (
     <Swiper
@@ -72,7 +80,7 @@ export default function MovieCarousel({ data, setStudent }: any) {
               src={item.profile_image}
               alt=""
             />
-            <h3 className="mt-2 text-[15px] medium">
+            <h3 className="mt-2 text-[15px] medium capitalize">
               {item.first_name + " " + item.last_name}
             </h3>
           </div>
