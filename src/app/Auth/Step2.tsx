@@ -20,8 +20,6 @@ function Step2() {
   const [students, setStudents] = useState<any[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
 
-  console.log(state, "state");
-
   const { data: gurukalData } = useRequest(gurukal.url, gurukal.method, {
     type: "mount",
   });
@@ -241,12 +239,13 @@ function Step2() {
             industry.
           </p>
         </div>
-        <div className="h-[900px] flex items-center !z-10">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="!h-[900px] flex items-center overflow-hidden">
+          <div className="grid grid-cols-2 gap-4 ">
             {students?.map((child: any, index: number) => (
               <div
+                onClick={() => handleEdit(index)}
                 key={index}
-                className="rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 "
+                className="rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 cursor-pointer"
               >
                 <img
                   className="w-[80px] h-[80px] mx-auto rounded-full"
@@ -263,10 +262,7 @@ function Step2() {
                   {child?.student_mobile_number || "+123456789"}
                 </p>
                 <div className="mt-auto">
-                  <EditFilled
-                    onClick={() => handleEdit(index)}
-                    className="text-white"
-                  />
+                  <EditFilled className="text-white" />
                 </div>
               </div>
             ))}
@@ -310,7 +306,6 @@ function Step2() {
                     key={item.name}
                     name={item.name}
                     rules={item.rules}
-                    //  initialValue={state?.students?.[0]?.[item.name]}
                   >
                     <BaseInput
                       {...item}
@@ -357,7 +352,7 @@ function Step2() {
                         },
                       })
                     }
-                    title="Next"
+                    title={editIndex !== null ? "Update" : "Next"}
                     title2="Back"
                   />
                 </div>

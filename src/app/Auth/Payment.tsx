@@ -89,20 +89,20 @@ function Payment() {
                 {data?.map((child: any, index: number) => (
                   <div
                     key={index}
-                    className="rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 "
+                    className="rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 w-[230px]"
                   >
                     <img
                       className="w-[120px] h-[120px] mx-auto rounded-full"
                       src={child?.profile_image || "/images/user.png"}
                       alt={child?.first_name}
                     />
-                    <h3 className="mt-2 text-[28px] regular text-[#FFFFFF] capitalize">
+                    <h3 className="mt-2 text-[24px] regular text-[#FFFFFF] capitalize truncate">
                       {child?.first_name + " " + child?.last_name}
                     </h3>
-                    <p className="text-[#FFFFFF] text-[15.88px] text-center regular capitalize my-1">
+                    <p className="text-[#FFFFFF] text-[15px] text-center regular capitalize my-1 truncate">
                       {child?.student_email || "child@example.com"}
                     </p>
-                    <p className="text-[#FFFFFF] text-[15.88px] text-center regular capitalize">
+                    <p className="text-[#FFFFFF] text-[15px] text-center regular capitalize truncate">
                       {child?.student_mobile_number || "+123456789"}
                     </p>
                   </div>

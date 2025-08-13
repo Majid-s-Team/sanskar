@@ -117,12 +117,12 @@ export const useAuth = () => {
         ...value,
         primary_email: atob(email),
       })
-      .onSuccess((res) => {
+      .onSuccess(() => {
         navigate("/login");
         setLoading(false);
         notification.success({
           message: "Success",
-          description: res?.message,
+          description: "Password has been reset successfully.",
         });
       })
       .onFailure(handleFailure)

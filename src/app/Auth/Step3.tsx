@@ -18,11 +18,17 @@ function Step3() {
   const { state } = useLocation();
   const [fatherActivity, setFatherActivity] = useState<Options[]>([]);
   const [motherActivity, setMotherActivity] = useState<Options[]>([]);
-  const [fatherActive, setFatherActive] = useState<boolean>(true);
-  const [motherActive, setMotherActive] = useState<boolean>(true);
+  const [fatherActive, setFatherActive] = useState<boolean>(
+    state?.father_volunteering ?? true
+  );
+  const [motherActive, setMotherActive] = useState<boolean>(
+    state?.mother_volunteering ?? true
+  );
+
+  console.log(state, "state");
+
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  console.log(state, "state");
 
   const { data: activityData } = useRequest(activity.url, activity.method, {
     type: "mount",
@@ -77,15 +83,17 @@ function Step3() {
       body: { ...state, ...data },
       cbSuccess: (res: any) => {
         navigate("/payment/" + res?.data?.id);
-        // setStorageData("role", "parent");
       },
       cbFailure: (res: any) => {
-        if (res?.message === "The primary email has already been taken.") {
+        if (
+          res?.message === "The primary email has already been taken." ||
+          res?.message === "The mobile number has already been taken."
+        ) {
           notification.error({
             message: "Error",
             description: res.message,
           });
-          navigate("/signup", { state: { ...state, ...data } });
+          navigate("/signup", { state: { ...data, ...state } });
         } else {
           notification.error({
             message: "Error",
