@@ -103,7 +103,13 @@ export const useAuth = () => {
         navigate(`/reset-password/${btoa(decodedEmail)}`);
         setLoading(false);
       })
-      .onFailure(handleFailure)
+      .onFailure(() => {
+        notification.error({
+          message: "Error",
+          description: "Invalid OTP",
+        });
+        setLoading(false);
+      })
       .call();
   };
 
