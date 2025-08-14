@@ -94,7 +94,7 @@ function Step3() {
           res?.errors?.mobile_number?.[0] ===
             "The mobile number has already been taken."
         ) {
-          navigate("/signup", { state: { ...data, ...state } });
+          navigate("/signup", { state: { ...state, ...data } });
         } else {
           notification.error({
             message: "Error",
