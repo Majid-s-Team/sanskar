@@ -57,7 +57,7 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
       {loading ? (
         <div
           style={{ width: "110px" }}
-          className=" h-[170px] flex justify-center items-center"
+          className=" h-[120px] flex justify-center items-center"
         >
           <Spin size="default" />
         </div>

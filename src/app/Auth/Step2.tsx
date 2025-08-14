@@ -20,8 +20,7 @@ function Step2() {
   const { state } = useLocation();
   const [students, setStudents] = useState<any[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
-
-  console.log(state, "state");
+  const [dataSave, setDataSave] = useState<any>(true);
 
   const { data: gurukalData } = useRequest(gurukal.url, gurukal.method, {
     type: "mount",
@@ -136,24 +135,6 @@ function Step2() {
     }
   };
 
-  // const handleRemove = (index: number) => {
-  //   setStudents((prev) => prev.filter((_, i) => i !== index));
-  // };
-
-  // const handleEdit = (index: number) => {
-  //   if (students && students?.length > 0) {
-  //     const student = students[index];
-  //     setImage(student.profile_image);
-  //     form.setFieldsValue({
-  //       ...student,
-  //       dob: student.dob ? dayjs(student.dob) : undefined, // fix date
-  //     });
-  //     handleRemove(index);
-  //   } else {
-  //     console.error("Students array is empty or null");
-  //   }
-  // };
-
   const handleEdit = (id: string) => {
     if (!students || students.length === 0) return;
 
@@ -195,7 +176,7 @@ function Step2() {
         );
         setStudents(unique);
       }
-
+      setDataSave(false);
       setImage(undefined);
       form.resetFields();
     } catch {
@@ -204,26 +185,42 @@ function Step2() {
   };
 
   useEffect(() => {
-    if (state?.students && state?.students?.length > 0) {
-      form.setFieldsValue({
-        ...state.students[0],
-        dob: state.students[0].dob ? dayjs(state.students[0].dob) : undefined,
-      });
+    if (dataSave === true) {
+      if (state?.students && state?.students?.length > 0) {
+        // form.setFieldsValue({
+        //   ...state.students[0],
+        //   dob: state.students[0].dob ? dayjs(state.students[0].dob) : undefined,
+        // });
 
-      setImage(state.students[0].profile_image);
+        // setImage(state.students[0].profile_image);
 
-      const uniqueStudents = state.students.filter(
-        (student: any, index: number, self: any[]) =>
-          index === self.findIndex((s) => s.id === student.id)
-      );
-      setStudents(uniqueStudents);
-      setEditIndex(
-        state.students.findIndex(
-          (s: { id: any }) => s.id === uniqueStudents[0].id
-        )
-      );
+        const uniqueStudents = state.students.filter(
+          (student: any, index: number, self: any[]) =>
+            index === self.findIndex((s) => s.id === student.id)
+        );
+        setStudents(uniqueStudents);
+        // setEditIndex(
+        //   state.students.findIndex(
+        //     (s: { id: any }) => s.id === uniqueStudents[0].id
+        //   )
+        // );
+      }
     }
-  }, [state.students]);
+  }, [state.students, dataSave]);
+
+  useEffect(() => {
+    if (state?.students && state?.students?.length > 0) {
+      const stopRefresh = (e: BeforeUnloadEvent) => {
+        e.preventDefault();
+        e.returnValue = "Kya aap sure hain? Aapke changes lost ho sakte hain.";
+      };
+      window.addEventListener("beforeunload", stopRefresh);
+
+      return () => {
+        window.removeEventListener("beforeunload", stopRefresh);
+      };
+    }
+  }, [state, state.students]);
 
   return (
     <div
@@ -245,13 +242,13 @@ function Step2() {
             industry.
           </p>
         </div>
-        <div className="!h-[500px] flex items-center overflow-y-auto">
+        <div className="!h-[500px] flex items-center overflow-y-auto mt-20">
           <div className="grid grid-cols-2 gap-4 h-full">
             {students?.map((child: any, index: number) => (
               <div
                 onClick={() => handleEdit(child.id)}
                 key={index}
-                className={`rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 cursor-pointer ${
+                className={`rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 cursor-pointer !h-[210px]  ${
                   index === editIndex
                     ? "!border-2 !border-[#000]"
                     : "border-2 border-transparent"
@@ -360,6 +357,7 @@ function Step2() {
                       navigate("/signup", {
                         state: {
                           ...state,
+                          students: students,
                           path: "/signup/add-student",
                         },
                       })

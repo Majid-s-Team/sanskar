@@ -25,8 +25,6 @@ function Step3() {
     state?.mother_volunteering ?? true
   );
 
-  console.log(state, "state");
-
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
@@ -39,15 +37,20 @@ function Step3() {
   });
 
   const onUnSelect = (item: string, isFather: boolean) => {
+    console.log(item, isFather, "item");
+
     const updatedActivities = isFather
       ? fatherActivity.filter((i) => i.value !== item)
       : motherActivity.filter((i) => i.value !== item);
+
+    console.log(updatedActivities, "updatedActivities");
+
     if (isFather) {
       setFatherActivity(updatedActivities);
-      form.setFieldValue("father_activities", updatedActivities);
+      form.setFieldValue("father_activity_ids", updatedActivities);
     } else {
       setMotherActivity(updatedActivities);
-      form.setFieldValue("mother_activities", updatedActivities);
+      form.setFieldValue("mother_activity_ids", updatedActivities);
     }
   };
 
@@ -103,15 +106,37 @@ function Step3() {
   };
 
   useEffect(() => {
-    if (fatherActive === false) {
+    if (!fatherActive) {
       setFatherActivity([]);
-      form.resetFields(["father_activity_ids"]); // ✅ correct field name
+      form.setFieldValue("father_activity_ids", []);
     }
-    if (motherActive === false) {
+    if (!motherActive) {
       setMotherActivity([]);
-      form.resetFields(["mother_activity_ids"]); // ✅ correct field name
+      form.setFieldValue("mother_activity_ids", []);
     }
   }, [fatherActive, motherActive]);
+
+  useEffect(() => {
+    // Mother
+    if (motherActive && state?.mother_activity_ids?.length) {
+      const mappedMother = state.mother_activity_ids.map((id: string) => {
+        const found = (activityData as any[]).find((act) => act.id === id);
+        return { label: found?.name || id, value: id };
+      });
+      setMotherActivity(mappedMother);
+      form.setFieldValue("mother_activity_ids", mappedMother);
+    }
+
+    // Father
+    if (fatherActive && state?.father_activity_ids?.length) {
+      const mappedFather = state.father_activity_ids.map((id: string) => {
+        const found = (activityData as any[]).find((act) => act.id === id);
+        return { label: found?.name || id, value: id };
+      });
+      setFatherActivity(mappedFather);
+      form.setFieldValue("father_activity_ids", mappedFather);
+    }
+  }, [state, fatherActive, motherActive]);
 
   return (
     <div
