@@ -259,13 +259,13 @@ function Step2() {
                   src={child?.profile_image}
                   alt={child?.first_name}
                 />
-                <h3 className="mt-2 text-[20px] regular text-[#FFFFFF] capitalize">
+                <h3 className="mt-2 text-[20px] regular text-[#FFFFFF] capitalize truncate">
                   {child?.first_name + " " + child?.last_name}
                 </h3>
-                <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize my-1">
+                <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize my-1 truncate">
                   {child?.student_email || "child@example.com"}
                 </p>
-                <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize">
+                <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize truncate">
                   {child?.student_mobile_number || "+123456789"}
                 </p>
                 <div className="mt-auto">
