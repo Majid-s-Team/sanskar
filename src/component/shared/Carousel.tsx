@@ -80,7 +80,7 @@ export default function MovieCarousel({ data, setStudent }: any) {
               src={item.profile_image}
               alt=""
             />
-            <h3 className="mt-2 text-[15px] medium capitalize">
+            <h3 className="mt-2 text-[15px] medium capitalize truncate">
               {item.first_name + " " + item.last_name}
             </h3>
           </div>

@@ -121,8 +121,13 @@ function Step3() {
     if (motherActive && state?.mother_activity_ids?.length) {
       const mappedMother = state.mother_activity_ids.map((id: string) => {
         const found = (activityData as any[]).find((act) => act.id === id);
-        return { label: found?.name || id, value: id };
+
+        console.log(found, "found");
+
+        return { label: found?.name, value: id };
       });
+
+      console.log(mappedMother, "mappedFather");
       setMotherActivity(mappedMother);
       form.setFieldValue("mother_activity_ids", mappedMother);
     }
@@ -131,12 +136,15 @@ function Step3() {
     if (fatherActive && state?.father_activity_ids?.length) {
       const mappedFather = state.father_activity_ids.map((id: string) => {
         const found = (activityData as any[]).find((act) => act.id === id);
-        return { label: found?.name || id, value: id };
+        return { label: found?.name, value: id };
       });
+
+      console.log(mappedFather, "mappedFather");
+
       setFatherActivity(mappedFather);
       form.setFieldValue("father_activity_ids", mappedFather);
     }
-  }, [state, fatherActive, motherActive]);
+  }, [state, fatherActive, motherActive, activityData]);
 
   return (
     <div

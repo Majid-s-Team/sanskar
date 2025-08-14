@@ -242,13 +242,13 @@ function Step2() {
             industry.
           </p>
         </div>
-        <div className="!h-[500px] flex items-center overflow-y-auto mt-20">
+        <div className="!h-[500px] flex items-center overflow-y-auto overflow-x-hidden mt-20">
           <div className="grid grid-cols-2 gap-4 h-full">
             {students?.map((child: any, index: number) => (
               <div
                 onClick={() => handleEdit(child.id)}
                 key={index}
-                className={`rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 cursor-pointer !h-[210px]  ${
+                className={`rounded-xl p-4 text-center flex flex-col justify-center bg-[#D57D25] custom-shadow2 cursor-pointer !h-[210px]  ${
                   index === editIndex
                     ? "!border-2 !border-[#000]"
                     : "border-2 border-transparent"
