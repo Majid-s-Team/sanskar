@@ -107,7 +107,7 @@ const Home = () => {
                     />
                     <div>
                       <p className="text-[12px] regular">Student Name</p>
-                      <p className="text-[20px] regular capitalize truncate">
+                      <p className="text-[20px] regular capitalize truncate w-[300px]">
                         {activeStudent?.first_name +
                           " " +
                           activeStudent?.last_name}
