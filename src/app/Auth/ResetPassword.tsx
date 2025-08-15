@@ -19,7 +19,8 @@ function ResetPassword() {
     >
       <div className="p-10">
         <Link to="/login">
-          <img className="w-[150px] mb-10" src="/images/logo.png" alt="" />
+          {/* <img className="w-[150px] mb-10" src="/images/logo.png" alt="" /> */}
+          <p className="text-white text-[30px] bold">Sanskar Academy</p>
         </Link>
         <div className="flex justify-center items-center w-full h-full">
           <img

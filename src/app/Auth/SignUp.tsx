@@ -49,7 +49,7 @@ function SignUp() {
               { required: true, message: "Please enter your password!" },
               {
                 pattern:
-                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\s!@#$%^&*()_+=[\]{}|;:',.<>/?~`-]{8,}$/,
                 message:
                   "Password must include uppercase, lowercase, number, and special character!",
               },

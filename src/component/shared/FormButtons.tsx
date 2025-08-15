@@ -9,6 +9,7 @@ type Props = {
   icon?: string;
   icon2?: string;
   htmlType?: "submit" | "reset" | "button";
+  disabled?: boolean;
 };
 
 export default function FormButtons({
@@ -20,6 +21,7 @@ export default function FormButtons({
   icon,
   icon2,
   htmlType,
+  disabled,
 }: Props) {
   return (
     <div className="flex lg:flex-row flex-col gap-4 mt-5">
@@ -35,6 +37,7 @@ export default function FormButtons({
         onClick={onSubmit}
         htmlType={htmlType}
         loading={loading}
+        disabled={disabled}
         className="w-full h-[54px] !bg-[#D57D25] rounded-[10px] !border-white text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
       >
         {title}

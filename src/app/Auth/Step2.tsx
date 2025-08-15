@@ -283,7 +283,7 @@ function Step2() {
             <div>
               <p className="text-[28px] semibold">Student Information</p>
               <p className="text-[18px] regular">
-                Per Student Fee : <span className="text-[#FF881A]">$100</span>
+                Per Student Fee : <span className="text-[#FF881A]">$300</span>
               </p>
             </div>
             <div className="lg:w-[250px] w-full">
@@ -347,12 +347,17 @@ function Step2() {
                       />
                     </Form.Item>
                   ))}
+                  <AuthButton
+                    text="Done Adding Student"
+                    onClick={handleAddStudent}
+                  />
                 </div>
                 <div className="mb-5">
                   <FormButtons
                     onSubmit={
                       editIndex !== null ? handleAddStudent : handleNext
                     }
+                    disabled={students?.length === 0}
                     onCancel={() =>
                       navigate("/signup", {
                         state: {

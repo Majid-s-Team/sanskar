@@ -43,8 +43,6 @@ function Step3() {
       ? fatherActivity.filter((i) => i.value !== item)
       : motherActivity.filter((i) => i.value !== item);
 
-    console.log(updatedActivities, "updatedActivities");
-
     if (isFather) {
       setFatherActivity(updatedActivities);
       form.setFieldValue("father_activity_ids", updatedActivities);
@@ -55,8 +53,6 @@ function Step3() {
   };
 
   const handleActivityChange = (val: Options[], name: string) => {
-    console.log(val, name, "val");
-
     if (name === "father_activity_ids") {
       setFatherActivity(val);
       form.setFieldValue(name, val);
@@ -76,6 +72,9 @@ function Step3() {
         typeof i === "object" ? i.value : i
       ),
     };
+
+    setFatherActive(data.father_volunteering);
+    setMotherActive(data.mother_volunteering);
     execute({
       body: { ...state, ...data },
       cbSuccess: (res: any) => {
@@ -85,6 +84,7 @@ function Step3() {
         Object.keys(res.errors).forEach((key) => {
           notification.error({
             message: "Error",
+            duration: 5,
             description: res.errors[key][0],
           });
         });
@@ -121,13 +121,8 @@ function Step3() {
     if (motherActive && state?.mother_activity_ids?.length) {
       const mappedMother = state.mother_activity_ids.map((id: string) => {
         const found = (activityData as any[]).find((act) => act.id === id);
-
-        console.log(found, "found");
-
         return { label: found?.name, value: id };
       });
-
-      console.log(mappedMother, "mappedFather");
       setMotherActivity(mappedMother);
       form.setFieldValue("mother_activity_ids", mappedMother);
     }
@@ -138,9 +133,6 @@ function Step3() {
         const found = (activityData as any[]).find((act) => act.id === id);
         return { label: found?.name, value: id };
       });
-
-      console.log(mappedFather, "mappedFather");
-
       setFatherActivity(mappedFather);
       form.setFieldValue("father_activity_ids", mappedFather);
     }
@@ -199,7 +191,13 @@ function Step3() {
                       label={item.title}
                       key={item.name}
                       name={item.name}
-                      rules={item.rules}
+                      rules={
+                        (item.name === "father_activity_ids" &&
+                          !fatherActive) ||
+                        (item.name === "mother_activity_ids" && !motherActive)
+                          ? []
+                          : item.rules
+                      }
                       initialValue={state?.[item.name]}
                     >
                       <BaseInput

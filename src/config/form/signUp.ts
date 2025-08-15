@@ -13,21 +13,21 @@ export const signUpFields = [
     type: "text",
   },
   {
-    title: "Mobile Number",
+    title: "Primary Mobile Number",
     name: "mobile_number",
     placeholder: "Mobile Number",
     rules: [{ required: true, message: "Please input your mobile number!" }],
     type: "phonePicker",
   },
   {
-    title: "Father’s Name",
+    title: "Father’s Full Name",
     name: "father_name",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your name!" }],
     type: "text",
   },
   {
-    title: "Mother’s Name",
+    title: "Mother’s Full Name",
     name: "mother_name",
     placeholder: "Name",
     rules: [{ required: true, message: "Please input your name!" }],
@@ -38,7 +38,7 @@ export const signUpFields = [
     name: "secondary_email",
     placeholder: "optional",
     rules: [
-      { required: true, message: "Please input your secondary email!" },
+      // { required: true, message: "Please input your secondary email!" },
       {
         pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         message: "Invalid email address",
@@ -50,7 +50,7 @@ export const signUpFields = [
     title: "Secondary Mobile Number",
     name: "secondary_mobile_number",
     placeholder: "optional",
-    rules: [{ required: true, message: "Please input your secondary mobile!" }],
+    // rules: [{ required: true, message: "Please input your secondary mobile!" }],
     type: "phonePicker",
   },
   // {

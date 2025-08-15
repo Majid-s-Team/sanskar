@@ -44,7 +44,16 @@ function Payment() {
     }
   );
 
-  const amount = 100 * (data?.length ?? 0);
+  console.log(data, "data");
+
+  // const amount = 100 * (data?.length ?? 0);
+
+  const baseFee = 300;
+
+  const amount = (data ?? []).reduce((total, student) => {
+    const extraFee = student.join_the_club ? 10 : 0;
+    return total + baseFee + extraFee;
+  }, 0);
 
   const onFinish = () => {
     execute({
@@ -89,45 +98,56 @@ function Payment() {
         </div>
       </div>
       <div className="lg:col-span-9 col-span-12 lg:p-10">
-        <div className="flex items-center justify-center h-full bg-white lg:p-[40px] p-8 rounded-[40px] mx-auto shadow-lg">
-          {loading ? (
-            <Spin size="large" />
-          ) : (
-            <div>
-              <div className="flex justify-center flex-wrap gap-4">
-                {data?.map((child: any, index: number) => (
-                  <div
-                    key={index}
-                    className="rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 w-[230px]"
-                  >
-                    <img
-                      className="w-[120px] h-[120px] mx-auto rounded-full"
-                      src={child?.profile_image || "/images/user.png"}
-                      alt={child?.first_name}
-                    />
-                    <h3 className="mt-2 text-[24px] regular text-[#FFFFFF] capitalize truncate">
-                      {child?.first_name + " " + child?.last_name}
-                    </h3>
-                    <p className="text-[#FFFFFF] text-[15px] text-center regular capitalize my-1 truncate">
-                      {child?.student_email || "child@example.com"}
-                    </p>
-                    <p className="text-[#FFFFFF] text-[15px] text-center regular capitalize truncate">
-                      {child?.student_mobile_number || "+123456789"}
-                    </p>
-                  </div>
-                ))}
+        <div className="bg-white lg:p-[40px] p-8 rounded-[40px] mx-auto shadow-lg  h-full">
+          <p className="text-[30px] semibold text-center">
+            Registration Confirmation
+          </p>
+          <div className="flex items-center justify-center h-full">
+            {loading ? (
+              <Spin size="large" />
+            ) : (
+              <div>
+                <div className="flex justify-center flex-wrap gap-4">
+                  {data?.map((child: any, index: number) => (
+                    <div
+                      key={index}
+                      className="rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 w-[230px]"
+                    >
+                      <img
+                        className="w-[120px] h-[120px] mx-auto rounded-full"
+                        src={child?.profile_image || "/images/user.png"}
+                        alt={child?.first_name}
+                      />
+                      <h3 className="mt-2 text-[24px] regular text-[#FFFFFF] capitalize truncate">
+                        {child?.first_name + " " + child?.last_name}
+                      </h3>
+                      <p className="text-[#FFFFFF] text-[15px] text-center regular capitalize my-1 truncate">
+                        {child?.student_email || "child@example.com"}
+                      </p>
+                      <p className="text-[#FFFFFF] text-[15px] text-center regular capitalize truncate">
+                        {child?.student_mobile_number || "+123456789"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-black text-[20px] text-center semibold my-5">
+                  Total Registration Fee: ${amount}
+                </p>
+                <div className="w-[400px] mx-auto">
+                  <AuthButton
+                    loading={loading2}
+                    onClick={onFinish}
+                    text="Make Payment"
+                  />
+                </div>
+                <p className="text-black text-[15px] text-center regular w-[80%] mx-auto">
+                  Please make a payment to complete the registration.
+                  Registration is not considered complete until payment is
+                  received. Unpaid registrations will be cancelled.
+                </p>
               </div>
-              <p className="text-black text-[20px] text-center semibold my-5">
-                Total Registration Fee: $
-                {Array.isArray(data) ? data.length * 100 : 0}
-              </p>
-              <AuthButton
-                loading={loading2}
-                onClick={onFinish}
-                text="Continue Payment"
-              />
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

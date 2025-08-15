@@ -16,6 +16,7 @@ export const step1 = [
   {
     title: "Date Of Birth",
     name: "dob",
+    placeholder: "DD-MM-YYYY",
     rules: [{ required: true, message: "Please input your date of birth!" }],
     type: "date",
   },
