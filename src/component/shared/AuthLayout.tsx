@@ -40,9 +40,9 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
             </p>
             {pathname === "/signup" ? (
               <p className="text-white text-[13px] light lg:w-[300px]">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
+                {/* Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s,
+                text ever since the 1500s, */}
               </p>
             ) : (
               <p className="text-white text-[18px] light space-y-2">

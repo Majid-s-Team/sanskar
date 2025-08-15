@@ -236,11 +236,11 @@ function Step2() {
         </Link>
         <div className="space-y-2 lg:mt-[130px] my-[50px] h-[400px] lg:ml-[30px] ml-0">
           <p className="text-white text-[29px] medium">Sign up to</p>
-          <p className="text-white text-[33px] bold">SANSKAR!</p>
-          <p className="text-white text-[13px] light">
+          <p className="text-white text-[33px] bold">Gurukul Classes</p>
+          {/* <p className="text-white text-[13px] light">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry.
-          </p>
+          </p> */}
         </div>
         <div className="!h-[500px] flex items-center overflow-y-auto overflow-x-hidden mt-20">
           <div className="grid grid-cols-2 gap-4 h-full">
