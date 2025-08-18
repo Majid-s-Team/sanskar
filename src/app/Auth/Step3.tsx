@@ -1,4 +1,4 @@
-import { Form, notification } from "antd";
+import { Checkbox, Form, notification } from "antd";
 import { step3, step4 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
 import FormButtons from "../../component/shared/FormButtons";
@@ -147,17 +147,12 @@ function Step3() {
       className="min-h-screen overflow-hidden grid lg:grid-cols-12 lg:p-10 p-5"
     >
       <div className="lg:col-span-3 col-span-6">
-        <Link to="/login">
-          <p className="text-white text-[26px] semibold">Sanskar</p>
+        <Link to="/login" className="cursor-pointer">
+          <p className="text-white text-[30px] semibold">Sanskar Academy</p>
         </Link>
         <div className="space-y-2 lg:mt-[130px] my-[50px] lg:ml-[30px] ml-0">
           <p className="text-white text-[29px] medium">Sign up to</p>
           <p className="text-white text-[33px] bold">Gurukul Classes</p>
-          {/* <p className="text-white text-[13px] light">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
-          </p> */}
         </div>
       </div>
       <div className="lg:col-span-9 col-span-12 lg:p-10">
@@ -247,6 +242,16 @@ function Step3() {
                   title="Father Activities"
                 />
               </div>
+              <Checkbox>
+                I agree to{" "}
+                <Link
+                  to="/terms-and-conditions"
+                  target="_blank"
+                  className="!text-black"
+                >
+                  Policy/Requirements/Terms and Conditions
+                </Link>{" "}
+              </Checkbox>
             </div>
             <div className="mt-10 flex justify-end">
               <div className="lg:w-[450px] w-full">

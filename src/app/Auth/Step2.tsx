@@ -231,8 +231,8 @@ function Step2() {
       className="min-h-screen overflow-hidden grid lg:grid-cols-12 lg:p-10 p-5"
     >
       <div className="lg:col-span-4 h-full">
-        <Link to="/login">
-          <p className="text-white text-[26px] semibold">Sanskar</p>
+        <Link to="/login" className="cursor-pointer">
+          <p className="text-white text-[30px] semibold">Sanskar Academy</p>
         </Link>
         <div className="space-y-2 lg:mt-[130px] my-[50px] h-[400px] lg:ml-[30px] ml-0">
           <p className="text-white text-[29px] medium">Sign up to</p>

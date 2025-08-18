@@ -33,9 +33,8 @@ function Otp() {
       className="min-h-screen overflow-hidden grid lg:grid-cols-2 "
     >
       <div className="p-10">
-        <Link to="/login">
-          {/* <img className="w-[150px] mb-10" src="/images/logo.png" alt="" /> */}
-          <p className="text-white text-[30px] bold">Sanskar Academy</p>
+        <Link to="/login" className="cursor-pointer">
+          <p className="text-white text-[30px] semibold">Sanskar Academy</p>
         </Link>
         <div className="flex justify-center items-center w-full h-full">
           <img

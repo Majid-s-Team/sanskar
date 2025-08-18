@@ -94,6 +94,23 @@ export const step1 = [
 
 export const step2 = [
   {
+    title: "New Student?",
+    name: "is_new_student",
+    rules: [{ required: true, message: "Please select your new student!" }],
+    placeholder: "Please select",
+    type: "select",
+    options: [
+      {
+        label: "Yes",
+        value: true,
+      },
+      {
+        label: "No",
+        value: false,
+      },
+    ],
+  },
+  {
     title: "Gurukul Class Name",
     name: "gurukal_id",
     placeholder: "Please select",

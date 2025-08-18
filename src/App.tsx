@@ -45,6 +45,7 @@ import AddWeeklyUpdates from "./app/Forms/AddWeeklyUpdates";
 import TeachersManual from "./app/TeachersManual";
 import GurukulAnnouncements from "./app/GurukulAnnouncements";
 import Payment from "./app/Auth/Payment";
+import TermsAndCondition from "./app/Auth/TermsAndCondition";
 const App: React.FC = () => {
   return (
     <>
@@ -122,6 +123,8 @@ const App: React.FC = () => {
           path="/home/gurukul-announcements"
           element={<GurukulAnnouncements />}
         />
+
+        <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
       </Routes>
     </>
   );

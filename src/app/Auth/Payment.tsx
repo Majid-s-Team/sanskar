@@ -85,16 +85,11 @@ function Payment() {
     >
       <div className="lg:col-span-3 col-span-6">
         <Link to="/login">
-          <p className="text-white text-[26px] semibold">Sanskar</p>
+          <p className="text-white text-[26px] semibold">Sanskar Academy</p>
         </Link>
         <div className="space-y-2 lg:mt-[130px] my-[50px] lg:ml-[30px] ml-0">
           <p className="text-white text-[29px] medium">Sign up to</p>
-          <p className="text-white text-[33px] bold">SANSKAR!</p>
-          <p className="text-white text-[13px] light">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
-          </p>
+          <p className="text-white text-[33px] bold">Sanskar Academy</p>
         </div>
       </div>
       <div className="lg:col-span-9 col-span-12 lg:p-10">
