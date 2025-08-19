@@ -242,16 +242,32 @@ function Step3() {
                   title="Father Activities"
                 />
               </div>
-              <Checkbox>
-                I agree to{" "}
-                <Link
-                  to="/terms-and-conditions"
-                  target="_blank"
-                  className="!text-black"
-                >
-                  Policy/Requirements/Terms and Conditions
-                </Link>{" "}
-              </Checkbox>
+              <Form.Item
+                name="terms"
+                valuePropName="checked"
+                dependencies={["terms"]}
+                rules={[
+                  {
+                    validator: (_, value) =>
+                      value
+                        ? Promise.resolve()
+                        : Promise.reject(
+                            new Error("Please agree to terms and conditions")
+                          ),
+                  },
+                ]}
+              >
+                <Checkbox>
+                  I agree to{" "}
+                  <Link
+                    to="/terms-and-conditions"
+                    target="_blank"
+                    className="!text-blue-500"
+                  >
+                    Policy/Requirements/Terms and Conditions
+                  </Link>
+                </Checkbox>
+              </Form.Item>
             </div>
             <div className="mt-10 flex justify-end">
               <div className="lg:w-[450px] w-full">

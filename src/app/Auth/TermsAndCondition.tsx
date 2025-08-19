@@ -10,7 +10,7 @@ function TermsAndCondition() {
       </div>
       <div className="mx-auto p-6 px-[100px]">
         <h1 className="text-3xl bold text-center text-[#d57d26] mb-6">
-          Sanskar Gurukul Parent Information
+          Sanskar Gurukul Rules and Requirements
         </h1>
 
         <section className="mb-8">
