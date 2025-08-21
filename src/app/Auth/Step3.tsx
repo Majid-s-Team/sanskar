@@ -258,13 +258,16 @@ function Step3() {
                 ]}
               >
                 <Checkbox>
-                  I agree to{" "}
+                  {/* I agree to{" "} */}
                   <Link
                     to="/terms-and-conditions"
                     target="_blank"
                     className="!text-blue-500"
                   >
-                    Policy/Requirements/Terms and Conditions
+                    By checking this box, we acknowledge that we have carefully
+                    read and understand the Sanskar Gurukul Rules and
+                    Requirements and the Terms and Conditions of the Sanskar
+                    Academy Release of Claims for Liability.
                   </Link>
                 </Checkbox>
               </Form.Item>

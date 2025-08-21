@@ -1,4 +1,4 @@
-import { Avatar, Spin } from "antd";
+import { Avatar, notification, Spin } from "antd";
 import { useState, useEffect } from "react";
 import { uploadfile } from "../../repositories";
 import { useRequest } from "../../hooks/useRequest";
@@ -41,6 +41,12 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
         onChange(res.data?.url);
         // @ts-ignore
         setImgSrc(res.data?.url);
+      },
+      cbFailure(res) {
+        notification.error({
+          message: "Error",
+          description: res.message,
+        });
       },
     });
   };

@@ -18,7 +18,7 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
 export class RequestSingleton<T = unknown> {
   private static instance = axios.create({
     baseURL: Server.baseUrl, // Replace with your API base URL
-    timeout: 10000,
+    timeout: 30000,
   });
 
   public config: CustomAxiosRequestConfig = {
