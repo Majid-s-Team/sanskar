@@ -17,22 +17,33 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    // onChange(event.target.files[0]);
-    if (file) {
-      const img = new Image();
-      const objectURL = URL.createObjectURL(file);
-      // setImgSrc(objectURL);
-      img.src = objectURL;
+    if (!file) return;
 
-      // const formData = new FormData();
-      // formData.append("file", file);
-      // formData.append("mode", "single");
-      // onChange(formData);
+    // ✅ File type validation
+    const validTypes = ["image/jpeg", "image/png"];
+    if (!validTypes.includes(file.type)) {
+      notification.error({
+        message: "Invalid File",
+        description: "Only JPG and PNG images are allowed",
+      });
+      return;
     }
+
+    // ✅ File size validation (5MB = 5 * 1024 * 1024 bytes)
+    if (file.size > 5 * 1024 * 1024) {
+      notification.error({
+        message: "Invalid File",
+        description: "Image size must be less than 5 MB",
+      });
+      return;
+    }
+
+    const objectURL = URL.createObjectURL(file);
+    setImgSrc(objectURL);
 
     execute({
       body: {
-        media: event?.target?.files?.[0],
+        media: file,
         key: "user_image",
       },
       body_type: "formData",
