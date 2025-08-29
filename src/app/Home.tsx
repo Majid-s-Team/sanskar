@@ -27,7 +27,7 @@ const Home = () => {
     {}
   );
 
-  console.log(data, "user");
+  console.log(activeStudent, "user");
 
   useEffect(() => {
     if (userData && userData?.id) {
@@ -134,7 +134,7 @@ const Home = () => {
                     {
                       icon: "/images/info3.png",
                       title: "Book Club",
-                      value: activeStudent?.join_the_club ? "Yes" : "No",
+                      value: activeStudent?.join_the_club === 1 ? "Yes" : "No",
                     },
                   ].map((item, index) => (
                     <div key={index} className="flex gap-2 mt-5 items-center">

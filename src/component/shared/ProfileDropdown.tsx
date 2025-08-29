@@ -1,12 +1,11 @@
 import { Avatar } from "antd";
-import { useAuth } from "../../hooks/useAuth";
+// import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { getStorageData } from "../../helper";
 
 function ProfileDropdown() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const role = getStorageData("role");
-  console.log(user, "user");
 
   // Media query for responsive layout: max-width 768px (mobile)
   // const isMobile = window.matchMedia("(max-width: 768px)").matches;
