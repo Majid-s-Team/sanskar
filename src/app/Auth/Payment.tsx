@@ -3,7 +3,7 @@ import AuthButton from "../../component/partial/AuthButton";
 import { useRequest } from "../../hooks/useRequest";
 import { payment, students, user } from "../../repositories";
 import { Student } from "../../types";
-import { Spin } from "antd";
+import { notification, Popconfirm, Spin } from "antd";
 import { useEffect } from "react";
 import { DeleteFilled } from "@ant-design/icons";
 
@@ -82,6 +82,12 @@ function Payment() {
   }, [navigate]);
 
   const handleDelete = (id: number) => {
+    if (data?.length === 1) {
+      return notification.error({
+        message: "Error",
+        description: "At least one student is required",
+      });
+    }
     executeDelete({
       type: "mount",
       routeParams: String(id),
@@ -139,10 +145,12 @@ function Payment() {
                         {child?.student_mobile_number || "+123456789"}
                       </p>
                       <div className="flex gap-4 mt-4 justify-center">
-                        <DeleteFilled
-                          onClick={() => handleDelete(child.id)}
-                          className="text-white cursor-pointer text-[20px]"
-                        />
+                        <Popconfirm
+                          title="Are you sure you want to delete this student?"
+                          onConfirm={() => handleDelete(child.id)}
+                        >
+                          <DeleteFilled className="text-white cursor-pointer text-[20px]" />
+                        </Popconfirm>
                       </div>
                     </div>
                   ))}

@@ -1,4 +1,4 @@
-import { Form } from "antd";
+import { Form, Popconfirm } from "antd";
 import { step1, step2 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
 import FormButtons from "../../component/shared/FormButtons";
@@ -186,35 +186,39 @@ function Step2() {
             {students?.map((child: any, index: number) => (
               <div
                 key={index}
-                className={`rounded-xl p-4 text-center flex flex-col justify-center bg-[#D57D25] custom-shadow2 !h-[210px]  ${
+                className={`rounded-xl p-4 text-center flex flex-col justify-center bg-[#D57D25] custom-shadow2 !h-[230px]  ${
                   index === editIndex
                     ? "!border-2 !border-[#000]"
                     : "border-2 border-transparent"
                 }`}
               >
                 <img
-                  className="w-[80px] h-[80px] mx-auto rounded-full"
+                  className="!w-[80px] !h-[80px] object-cover mx-auto rounded-full"
                   src={child?.profile_image}
                   alt={child?.first_name}
                 />
-                <h3 className="mt-2 text-[20px] regular text-[#FFFFFF] capitalize truncate">
-                  {child?.first_name + " " + child?.last_name}
-                </h3>
-                <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize my-1 truncate">
-                  {child?.student_email || "child@example.com"}
-                </p>
-                <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize truncate">
-                  {child?.student_mobile_number || "+123456789"}
-                </p>
+                <div className="space-y-1">
+                  <h3 className="text-[20px] regular text-[#FFFFFF] capitalize truncate">
+                    {child?.first_name + " " + child?.last_name}
+                  </h3>
+                  <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize truncate">
+                    {child?.student_email || "child@example.com"}
+                  </p>
+                  <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize truncate">
+                    {child?.student_mobile_number || "+123456789"}
+                  </p>
+                </div>
                 <div className="flex gap-4 mt-4 justify-center">
                   <EditFilled
                     onClick={() => handleEdit(child.id)}
                     className="text-white cursor-pointer text-[20px]"
                   />
-                  <DeleteFilled
-                    onClick={() => handleDelete(child.id)}
-                    className="text-white cursor-pointer text-[20px]"
-                  />
+                  <Popconfirm
+                    title="Are you sure you want to delete this student?"
+                    onConfirm={() => handleDelete(child.id)}
+                  >
+                    <DeleteFilled className="text-white cursor-pointer text-[20px]" />
+                  </Popconfirm>
                 </div>
               </div>
             ))}

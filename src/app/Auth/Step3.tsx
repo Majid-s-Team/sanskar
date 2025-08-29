@@ -246,6 +246,7 @@ function Step3() {
                 name="terms"
                 valuePropName="checked"
                 dependencies={["terms"]}
+                className="flex gap-4"
                 rules={[
                   {
                     validator: (_, value) =>
@@ -257,19 +258,19 @@ function Step3() {
                   },
                 ]}
               >
-                <Checkbox>
-                  {/* I agree to{" "} */}
+                <div className="flex gap-2 items-start">
+                  <Checkbox>{/* I agree to{" "} */}</Checkbox>
                   <Link
                     to="/terms-and-conditions"
                     target="_blank"
-                    className="!text-blue-500"
+                    className="!text-blue-500 mt-[-1px]"
                   >
                     By checking this box, we acknowledge that we have carefully
                     read and understand the Sanskar Gurukul Rules and
                     Requirements and the Terms and Conditions of the Sanskar
                     Academy Release of Claims for Liability.
                   </Link>
-                </Checkbox>
+                </div>
               </Form.Item>
             </div>
             <div className="mt-10 flex justify-end">
