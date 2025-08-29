@@ -10,7 +10,7 @@ import { optionpPicker } from "../../helper";
 import dayjs from "dayjs";
 import AuthButton from "../../component/partial/AuthButton";
 import ImagePicker from "../../component/partial/ImagePicker";
-import { EditFilled } from "@ant-design/icons";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import { v4 as uuidv4 } from "uuid";
 
 function Step2() {
@@ -37,68 +37,6 @@ function Step2() {
   const { data: gradeData } = useRequest(grade.url, grade.method, {
     type: "mount",
   });
-
-  // const handleAddStudent = async () => {
-  //   try {
-  //     const values = await form.validateFields();
-  //     setStudents((prev) => [...prev, values]);
-  //     form.resetFields(); // 👈 clear form for next student
-  //   } catch (err) {
-  //     console.log("Validation failed:", err);
-  //   }
-  // };
-
-  // const handleNext = async () => {
-  //   try {
-  //     const values = await form.validateFields();
-
-  //     const data = {
-  //       ...values,
-  //       dob: dayjs(values.dob).format("YYYY-MM-DD"),
-  //     };
-  //     const allStudents = [...students, data];
-  //     navigate("/signup/address", {
-  //       state: { ...state, students: allStudents },
-  //     });
-  //   } catch (err) {
-  //     console.log("Validation failed:", err);
-  //   }
-  // };
-
-  // const handleAddStudent = async () => {
-  //   try {
-  //     const values = await form.validateFields();
-
-  //     const data = {
-  //       ...values,
-  //       dob: dayjs(values.dob).format("YYYY-MM-DD"),
-  //     };
-
-  //     const isFormFilled = Object.values(data).some(
-  //       (val) => val !== undefined && val !== ""
-  //     );
-  //     if (!isFormFilled) return;
-
-  //     // ✅ Add the new student first, then filter unique
-  //     const updatedStudents = [...students, data];
-  //     const uniqueStudents = updatedStudents.filter(
-  //       (student, index, self) =>
-  //         index ===
-  //         self.findIndex(
-  //           (t) =>
-  //             t.name === student.name &&
-  //             t.dob === student.dob &&
-  //             t.email === student.email
-  //         )
-  //     );
-
-  //     setStudents(uniqueStudents);
-  //     setImage(null);
-  //     form.resetFields();
-  //   } catch (err) {
-  //     // do nothing
-  //   }
-  // };
 
   const handleNext = async () => {
     try {
@@ -148,6 +86,11 @@ function Step2() {
     });
 
     setEditIndex(students.findIndex((s) => s.id === id)); // ✅ still store index for update logic
+  };
+
+  const handleDelete = (id: string) => {
+    setStudents((prev) => prev.filter((s) => s.id !== id));
+    // setDataSave(false);
   };
 
   const handleAddStudent = async () => {
@@ -237,18 +180,13 @@ function Step2() {
         <div className="space-y-2 lg:mt-[130px] my-[50px] h-[400px] lg:ml-[30px] ml-0">
           <p className="text-white text-[29px] medium">Sign up to</p>
           <p className="text-white text-[33px] bold">Gurukul Classes</p>
-          {/* <p className="text-white text-[13px] light">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry.
-          </p> */}
         </div>
         <div className="!h-[500px] flex items-center overflow-y-auto overflow-x-hidden mt-20">
           <div className="grid grid-cols-2 gap-4 h-full">
             {students?.map((child: any, index: number) => (
               <div
-                onClick={() => handleEdit(child.id)}
                 key={index}
-                className={`rounded-xl p-4 text-center flex flex-col justify-center bg-[#D57D25] custom-shadow2 cursor-pointer !h-[210px]  ${
+                className={`rounded-xl p-4 text-center flex flex-col justify-center bg-[#D57D25] custom-shadow2 !h-[210px]  ${
                   index === editIndex
                     ? "!border-2 !border-[#000]"
                     : "border-2 border-transparent"
@@ -268,8 +206,15 @@ function Step2() {
                 <p className="text-[#FFFFFF] text-[12px] text-center regular capitalize truncate">
                   {child?.student_mobile_number || "+123456789"}
                 </p>
-                <div className="mt-auto">
-                  <EditFilled className="text-white" />
+                <div className="flex gap-4 mt-4 justify-center">
+                  <EditFilled
+                    onClick={() => handleEdit(child.id)}
+                    className="text-white cursor-pointer text-[20px]"
+                  />
+                  <DeleteFilled
+                    onClick={() => handleDelete(child.id)}
+                    className="text-white cursor-pointer text-[20px]"
+                  />
                 </div>
               </div>
             ))}

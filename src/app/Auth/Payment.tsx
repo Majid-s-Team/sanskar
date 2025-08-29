@@ -1,10 +1,11 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AuthButton from "../../component/partial/AuthButton";
 import { useRequest } from "../../hooks/useRequest";
-import { payment, user } from "../../repositories";
+import { payment, students, user } from "../../repositories";
 import { Student } from "../../types";
 import { Spin } from "antd";
 import { useEffect } from "react";
+import { DeleteFilled } from "@ant-design/icons";
 
 // const children = [
 //   {
@@ -31,10 +32,20 @@ function Payment() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data, loading } = useRequest<Student[]>(user.url, user.method, {
-    type: "mount",
-    routeParams: id + "/students",
-  });
+  const { data, loading, setData } = useRequest<Student[]>(
+    user.url,
+    user.method,
+    {
+      type: "mount",
+      routeParams: id + "/students",
+    }
+  );
+
+  const { execute: executeDelete, loading: loadingDelete } = useRequest(
+    students.url,
+    "DELETE",
+    {}
+  );
 
   const { execute, loading: loading2 } = useRequest(
     payment.url,
@@ -44,12 +55,7 @@ function Payment() {
     }
   );
 
-  console.log(data, "data");
-
-  // const amount = 100 * (data?.length ?? 0);
-
   const baseFee = 300;
-
   const amount = (data ?? []).reduce((total, student) => {
     const extraFee = student.join_the_club ? 10 : 0;
     return total + baseFee + extraFee;
@@ -75,6 +81,16 @@ function Payment() {
     };
   }, [navigate]);
 
+  const handleDelete = (id: number) => {
+    executeDelete({
+      type: "mount",
+      routeParams: String(id),
+      cbSuccess() {
+        setData((prev) => prev?.filter((s) => s.id !== id));
+      },
+    });
+  };
+
   return (
     <div
       style={{
@@ -98,7 +114,7 @@ function Payment() {
             Registration Confirmation
           </p>
           <div className="flex items-center justify-center h-full">
-            {loading ? (
+            {loading || loadingDelete ? (
               <Spin size="large" />
             ) : (
               <div>
@@ -122,6 +138,12 @@ function Payment() {
                       <p className="text-[#FFFFFF] text-[15px] text-center regular capitalize truncate">
                         {child?.student_mobile_number || "+123456789"}
                       </p>
+                      <div className="flex gap-4 mt-4 justify-center">
+                        <DeleteFilled
+                          onClick={() => handleDelete(child.id)}
+                          className="text-white cursor-pointer text-[20px]"
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>
