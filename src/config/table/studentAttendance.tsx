@@ -1,18 +1,11 @@
-import { useState } from "react";
-
 export const studentAttendanceColumns = () => {
-  const [selectedStatus, setSelectedStatus] = useState<Record<string, string>>(
-    {}
-  );
-
-  const handleChange = (setudentId: string, value: string) => {
-    setSelectedStatus((prev) => ({ ...prev, [setudentId]: value }));
-  };
-
   return [
     {
       title: "Name",
-      dataIndex: "name",
+      dataIndex: "student_name",
+      // render: (_: string, record: any) => (
+      //   <p>{record?.first_name + " " + record?.last_name}</p>
+      // ),
     },
     {
       title: "Student ID",
@@ -21,40 +14,41 @@ export const studentAttendanceColumns = () => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (_: any, record: any) => {
-        const currentStatus =
-          selectedStatus[record?.student_id] || record?.status;
+      render: (text: string) => {
         return (
           <div className="flex justify-center">
-            <select
-              value={currentStatus}
-              onChange={(e) => handleChange(record.student_id, e.target.value)}
-              className={`text-sm rounded-[30px] block p-1 ${
-                currentStatus === "Excused Absence"
+            <p
+              className={`text-sm rounded-[30px] block p-1 px-5 ${
+                text === "excused_absence"
                   ? "!bg-[#FFF8EF] text-[#D6A54B]"
-                  : currentStatus === "Present"
+                  : text === "present"
                   ? "!bg-[#EFFFF1] text-[#4BD670]"
-                  : currentStatus === "Unexcused Absence"
+                  : text === "unexcused_absence"
                   ? "!bg-[#FFF4FD] text-[#FF9BA4]"
-                  : " !bg-[#EFFDFF] text-[#4BBCD6]"
+                  : "!bg-[#EFFDFF] text-[#4BBCD6]"
               }`}
             >
-              <option value="Present">Present</option>
-              <option value="Excused Absence">Excused Absence</option>
-              <option value="Not Recorded">Not Recorded</option>
-              <option value="Unexcused Absence">Unexcused Absence</option>
-            </select>
+              {text === "present"
+                ? "Present"
+                : text === "not_recorded"
+                ? "Not Recorded"
+                : text === "excused_absence"
+                ? "Excused Absence"
+                : text === "unexcused_absence"
+                ? "Unexcused Absence"
+                : "Absent"}
+            </p>
           </div>
         );
       },
     },
     {
       title: "Accumulated Participation Points",
-      dataIndex: "participation",
+      dataIndex: "participation_points",
     },
     {
       title: "Accumulated Homework Points",
-      dataIndex: "homework",
+      dataIndex: "homework_points",
     },
     {
       title: "Contact Info",

@@ -1,41 +1,62 @@
-export const myClassColumns = [
+import dayjs from "dayjs";
+
+export const myClassColumns = () => [
   {
     title: "Week #",
-    dataIndex: "week_number",
+    dataIndex: "id",
   },
   {
     title: "Date",
     dataIndex: "date",
+    render: (text: string) => <p>{dayjs(text).format("DD-MM-YYYY")}</p>,
   },
   {
     title: "Description",
     dataIndex: "description",
-    render: () => (
-      <p className="text-[#48B3FF] underline medium">View Details</p>
-    ),
+    // render: () => (
+    //   <p className="text-[#48B3FF] underline medium">View Details</p>
+    // ),
   },
   {
     title: "Download",
-    dataIndex: "download",
-    render: () => (
-      <div className="flex gap-5 justify-center">
-        <div className="flex items-center gap-3">
+    dataIndex: "media",
+    render: (media: any) => (
+      <div className="flex gap-5 justify-center items-center">
+        <div className="space-y-2">
+          {media.map((item: any) => {
+            return (
+              <div className="flex justify-between items-center gap-5">
+                <div className="flex items-center gap-1">
+                  <img className="w-[30px]" src="/icons/pdf.png" alt="" />
+                  <div>
+                    <p className="text-[12px] medium text-black truncate w-[100px]">
+                      {item.name || "Class Update Form"}
+                    </p>
+                    {/* <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p> */}
+                  </div>
+                </div>
+                <img
+                  className="w-[20px] h-[20px] cursor-pointer"
+                  src="/icons/download-orange.png"
+                  // onClick={() => handleDownload(item.url, item.name)}
+                  alt=""
+                />
+                <img
+                  className="w-[24px] h-[24px] cursor-pointer"
+                  src="/icons/eye.png"
+                  alt=""
+                />
+              </div>
+            );
+          })}
+        </div>
+        {/* <div className="flex items-center gap-3">
           <img className="w-[30px]" src="/icons/pdf.png" alt="" />
           <div>
             <p className="text-[12px] medium text-black">Class Update Form</p>
             <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p>
           </div>
-        </div>
-        <img
-          className="w-[20px] h-[20px] cursor-pointer"
-          src="/icons/download-orange.png"
-          alt=""
-        />
-        <img
-          className="w-[24px] h-[24px] cursor-pointer"
-          src="/icons/eye.png"
-          alt=""
-        />
+        </div> */}
       </div>
     ),
   },

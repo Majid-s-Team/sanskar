@@ -65,6 +65,7 @@ export default function TableData({
         onChange={(page) => {
           onPaginationChange?.({ ...pagination, current: page }, {}, {});
         }}
+        pageSize={(pagination as TablePaginationConfig)?.pageSize || 10}
       />
     </div>
   );

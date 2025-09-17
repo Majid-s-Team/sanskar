@@ -10,6 +10,7 @@ import {
 } from "../config";
 import { Link, useLocation } from "react-router-dom";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useRequest } from "../hooks/useRequest";
 
 const tabs = [
   { id: 1, label: "My Class Updates", columns: myClassColumns },
@@ -19,7 +20,6 @@ const tabs = [
 
 function ArchivedTable() {
   const { state } = useLocation();
-
   const [active, setActive] = useState<number>(() => {
     const id = typeof state === "number" ? state : 1;
     return tabs.some((tab) => tab.id === id) ? id : tabs[3].id;
@@ -32,6 +32,33 @@ function ArchivedTable() {
   };
 
   const activeTab = tabs.find((tab) => tab.id === active);
+
+  const { data, loading } = useRequest("/weekly-updates", "GET", {
+    type: "mount",
+  });
+
+  console.log(data);
+
+  const handleDownload = async (url: string, name: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = name; // force download with name
+      link.click();
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
+
+  console.log(handleDownload);
+
+  // Example usage
+  // <button onClick={() => handleDownload(file.url, file.name)}>Download</button>;
 
   return (
     <HomeLayout>
@@ -60,8 +87,10 @@ function ArchivedTable() {
       </div>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
-          columns={activeTab?.columns || []}
-          data={weeklyUpdateData}
+          // @ts-ignore
+          columns={activeTab?.id === 1 ? myClassColumns() : activeTab?.columns}
+          data={activeTab?.id === 1 ? data : (weeklyUpdateData as any)}
+          loading={loading}
           title={
             activeTab?.label === "Other Class Updates"
               ? "Other Class Updates"

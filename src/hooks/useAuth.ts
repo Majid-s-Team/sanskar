@@ -30,10 +30,7 @@ export const useAuth = () => {
     console.log("error", response);
   };
 
-  const login = (
-    valus: { login: string; password: string },
-    role: "parent" | "teacher"
-  ) => {
+  const login = (valus: { login: string; password: string }) => {
     setLoading(true);
     request(loginUser.url, loginUser.method)
       .setBody({
@@ -41,15 +38,19 @@ export const useAuth = () => {
         device: "web",
         device_token: "1234567890",
       })
-      .onSuccess((res, headers) => {
+      .onSuccess((res) => {
+        console.log(res, "res");
+
         dispatch({
           type: UserActionTypes.POST,
-          payload: (res?.data as { user: UserType })?.user,
+          payload: res?.data as UserType,
         });
-        setStorageData("access_token", headers["access_token"]);
+        // @ts-ignore
+        setStorageData("access_token", res?.data?.token);
         setStorageData("user", res?.data);
         navigate("/home");
-        setStorageData("role", role);
+        // @ts-ignore
+        setStorageData("role", res?.data?.roles?.[0]);
         setLoading(false);
       })
       .onFailure((res: any) => {

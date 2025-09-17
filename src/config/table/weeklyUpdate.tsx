@@ -1,7 +1,7 @@
 export const weeklyUpdateColumns = [
   {
     title: "Week #",
-    dataIndex: "week_number",
+    dataIndex: "id",
   },
   {
     title: "Date",

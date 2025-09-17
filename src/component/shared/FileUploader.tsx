@@ -6,6 +6,9 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
+import { useRequest } from "../../hooks/useRequest";
+import { uploadfile } from "../../repositories";
+import { notification } from "antd";
 
 type FileStatus = "uploading" | "success" | "error";
 
@@ -14,74 +17,125 @@ interface UploadedFile {
   name: string;
   size: string;
   status: FileStatus;
+  type: "image" | "video" | "pdf" | "link";
+  url?: string;
   errorMessage?: string;
 }
 
-const MAX_SIZE_MB = 2;
-const ALLOWED_TYPES = ["image/png", "image/jpeg", "application/pdf"];
+const MAX_SIZE_MB = 10;
+const ALLOWED_TYPES: Record<string, UploadedFile["type"]> = {
+  "image/png": "image",
+  "image/jpeg": "image",
+  "application/pdf": "pdf",
+  "video/mp4": "video",
+};
 
-export default function FileUploader() {
+export default function FileUploader({
+  onChange,
+}: {
+  onChange: (media: { name: string; type: string; url: string }[]) => void;
+}) {
   const [files, setFiles] = useState<UploadedFile[]>([]);
-  // const [uploading, setUploading] = useState(false);
+  const { execute } = useRequest(uploadfile.url, uploadfile.method, {
+    type: "delay",
+  });
 
   const formatSize = (size: number) => `${(size / (1024 * 1024)).toFixed(2)}MB`;
 
-  const handleFiles = (selectedFiles: FileList | null) => {
-    if (!selectedFiles) return;
+  const updateOnChange = (updated: UploadedFile[]) => {
+    const media = updated
+      .filter((f) => f.status === "success" && f.url)
+      .map((f) => ({
+        name: f.name,
+        type: f.type,
+        url: f.url!,
+      }));
 
-    const newFiles: UploadedFile[] = [];
+    onChange(media);
+  };
 
-    Array.from(selectedFiles).forEach((file, i) => {
-      const isValidType = ALLOWED_TYPES.includes(file.type);
+  // sequential upload handler
+  const uploadSequentially = (fileList: File[]) => {
+    if (!fileList.length) return;
+
+    const processFile = (index: number) => {
+      const file = fileList[index];
+      if (!file) return;
+
+      const mappedType = ALLOWED_TYPES[file.type];
       const isValidSize = file.size / 1024 / 1024 <= MAX_SIZE_MB;
 
-      const id = Date.now() + i;
+      const id = Date.now() + index;
       const base: UploadedFile = {
         id,
         name: file.name,
         size: formatSize(file.size),
         status: "uploading",
+        type: mappedType || "link",
       };
 
-      if (!isValidType) {
-        newFiles.push({
+      if (!mappedType) {
+        const errorFile = {
           ...base,
-          status: "error",
+          status: "error" as FileStatus,
           errorMessage: "This file format is not supported",
-        });
+        };
+        setFiles((prev) => [...prev, errorFile]);
+        updateOnChange([...files, errorFile]);
+        processFile(index + 1);
       } else if (!isValidSize) {
-        newFiles.push({
+        const errorFile = {
           ...base,
-          status: "error",
-          errorMessage: "File exceeds 2MB limit",
-        });
+          status: "error" as FileStatus,
+          errorMessage: `File exceeds ${MAX_SIZE_MB}MB limit`,
+        };
+        setFiles((prev) => [...prev, errorFile]);
+        updateOnChange([...files, errorFile]);
+        processFile(index + 1);
       } else {
-        // Simulate upload delay
-        newFiles.push({ ...base });
-        setTimeout(() => {
-          setFiles((prev) =>
-            prev.map((f) => (f.id === id ? { ...f, status: "success" } : f))
-          );
-        }, 1000);
-      }
-    });
+        setFiles((prev) => [...prev, base]);
 
-    setFiles((prev) => [...prev, ...newFiles]);
+        execute({
+          body: { media: file, key: "user_image" },
+          body_type: "formData",
+          cbSuccess: (res) => {
+            setFiles((prev) =>
+              prev.map((f) =>
+                f.id === id
+                  ? // @ts-ignore
+                    { ...f, status: "success", url: res.data?.url }
+                  : f
+              )
+            );
+            updateOnChange(
+              res.data
+                ? // @ts-ignore
+                  [...files, { ...base, status: "success", url: res.data?.url }]
+                : files
+            );
+            processFile(index + 1); // move to next file
+          },
+          cbFailure: (res) => {
+            // setFiles((prev) =>
+            //   prev.map((f) =>
+            //     f.id === id
+            //       ? { ...f, status: "error", errorMessage: res.message }
+            //       : f
+            //   )
+            // );
+            notification.error({ message: "Error", description: res.message });
+            processFile(index + 1);
+          },
+        });
+      }
+    };
+
+    processFile(0);
   };
 
-  const retryUpload = (file: UploadedFile) => {
-    const id = file.id;
-    setFiles((prev) =>
-      prev.map((f) =>
-        f.id === id ? { ...f, status: "uploading", errorMessage: "" } : f
-      )
-    );
-
-    setTimeout(() => {
-      setFiles((prev) =>
-        prev.map((f) => (f.id === id ? { ...f, status: "success" } : f))
-      );
-    }, 1000);
+  const handleFiles = (selectedFiles: FileList | null) => {
+    if (!selectedFiles) return;
+    uploadSequentially(Array.from(selectedFiles));
   };
 
   return (
@@ -90,10 +144,10 @@ export default function FileUploader() {
         htmlFor="file-upload"
         className="border-2 border-dashed border-[#D0D5DD] rounded-md p-4 flex items-center gap-2 cursor-pointer"
       >
-        <div className="bg-[#667085] text-white px-4 rounded-[5px] !text-sm !h-[29px] regular flex items-center gap-1">
+        <div className="bg-[#667085] text-white px-4 rounded-[5px] text-sm h-[29px] flex items-center gap-1">
           <div className="w-4 h-4 rounded-[1px] bg-[#858d9d]"></div> Upload
         </div>
-        <span className="text-sm regular text-[#667085]">or Drop Files</span>
+        <span className="text-sm text-[#667085]">Choose Files</span>
         <input
           id="file-upload"
           type="file"
@@ -103,19 +157,6 @@ export default function FileUploader() {
         />
       </label>
 
-      {/* Drop Area */}
-      {/* <div
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault();
-          handleFiles(e.dataTransfer.files);
-        }}
-        className="mt-2 text-sm text-gray-400 text-center"
-      >
-        Drag & drop files here
-      </div> */}
-
-      {/* File List */}
       <div className="mt-5 space-y-4">
         {files.map((file) => (
           <div
@@ -128,7 +169,7 @@ export default function FileUploader() {
 
               {file.status === "success" && (
                 <p className="flex items-center gap-1 text-green-600 text-sm font-medium">
-                  <CheckCircleOutlined /> Successful
+                  <CheckCircleOutlined /> Uploaded ({file.type})
                 </p>
               )}
 
@@ -137,6 +178,7 @@ export default function FileUploader() {
                   <CloseCircleOutlined /> {file.errorMessage}
                 </p>
               )}
+
               {file.status === "uploading" && (
                 <p className="text-sm text-orange-500 flex items-center gap-1">
                   <LoadingOutlined /> Uploading...
@@ -145,9 +187,7 @@ export default function FileUploader() {
             </div>
 
             <div className="flex gap-2 pt-1 text-gray-500 text-lg cursor-pointer">
-              {file.status === "error" && (
-                <ReloadOutlined onClick={() => retryUpload(file)} />
-              )}
+              {file.status === "error" && <ReloadOutlined />}
               <MoreOutlined />
             </div>
           </div>

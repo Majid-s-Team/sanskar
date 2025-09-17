@@ -18,7 +18,7 @@ function Login() {
       <Form
         layout="vertical"
         onFinish={(values: { login: string; password: string }) => {
-          login(values, role);
+          login(values);
         }}
       >
         {loginFields.map((item: FeildType) => {
@@ -47,7 +47,7 @@ function Login() {
           text={"Sign in"}
           htmlType="submit"
           loading={loading}
-          disabled={role === "teacher" ? true : false}
+          // disabled={role === "teacher" ? true : false}
         />
       </Form>
     </AuthLayout>

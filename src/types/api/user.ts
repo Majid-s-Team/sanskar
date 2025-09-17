@@ -25,4 +25,13 @@ export type UserType = {
   students?: object[];
   updated_at?: string;
   zip_code?: string;
+  teacher: TeacherType;
+};
+
+type TeacherType = {
+  id: number;
+  name: string;
+  is_active: number;
+  created_at: string | null;
+  updated_at: string | null;
 };

@@ -7,12 +7,22 @@ import { addWeeklyUpdates } from "../../config";
 import FileUploader from "../../component/shared/FileUploader";
 import { useNavigate } from "react-router-dom";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
+import { useRequest } from "../../hooks/useRequest";
+import { useState } from "react";
+import dayjs from "dayjs";
 
 function AddWeeklyUpdates() {
   const navigate = useNavigate();
+  const [media, setMedia] = useState([]);
+  const { execute: execute2 } = useRequest("/weekly-updates", "POST", {});
 
-  const onFinish = () => {
-    navigate("/archived", { state: 1 });
+  const onFinish = (val: any) => {
+    execute2({
+      body: { ...val, media, date: dayjs(val.date).format("YYYY-MM-DD") },
+      cbSuccess() {
+        navigate("/archived", { state: 1 });
+      },
+    });
   };
   return (
     <HomeLayout>
@@ -35,11 +45,18 @@ function AddWeeklyUpdates() {
               </Form.Item>
             );
           })}
-          <FileUploader />
+          {/* <Form.Item
+            label="Media"
+            name="media"
+            rules={[{ required: true, message: "Please input your media!" }]}
+          > */}
+          <FileUploader onChange={(val: any) => setMedia(val)} />
+          {/* </Form.Item> */}
           <div className="flex justify-center mt-10">
             <CustomButton
               className="lg:w-[300px] w-[100%] h-[50px] text-[18px]"
               title="Save Update"
+              htmlType="submit"
             />
           </div>
         </Form>

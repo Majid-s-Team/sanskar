@@ -2,10 +2,12 @@ export const CustomPagination = ({
   current = 1,
   total = 1,
   onChange,
+  pageSize = 10,
 }: {
   current: number;
   total: number;
   onChange: (page: number) => void;
+  pageSize?: number;
 }) => {
   return (
     <div className="flex justify-between items-center px-4 py-2 mt-5">
@@ -18,7 +20,7 @@ export const CustomPagination = ({
       </button>
 
       <span className="text-[#CBCCCD] semibold text-[14px]">
-        Page {current} of {total}
+        Page {current} of {Math.ceil(total / pageSize)}
       </span>
 
       <button

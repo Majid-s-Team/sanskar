@@ -1,10 +1,38 @@
 import { Input, Table } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { Link } from "react-router-dom";
-import { studentAttendanceColumns, studentAttendanceData } from "../config";
+import { studentAttendanceColumns } from "../config";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useRequest } from "../hooks/useRequest";
+import { useAuth } from "../hooks/useAuth";
+import { useEffect } from "react";
+import { AttendanceData } from "../types/api/studentAttendanceType";
 
 function StudentAttendance() {
+  const { user } = useAuth();
+
+  const { data, loading, execute } = useRequest<AttendanceData>(
+    "/teacher",
+    "GET",
+    {}
+  );
+
+  const totalAbsences =
+    (data?.counts ?? { total_students: 0 }).total_students -
+    (data?.counts?.present ?? 0);
+  const present = data?.counts?.present || 0;
+
+  console.log(present);
+
+  useEffect(() => {
+    if (user?.teacher?.id) {
+      execute({
+        type: "mount",
+        routeParams: `${user?.teacher?.id}/attendances`,
+      });
+    }
+  }, [user]);
+
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -47,14 +75,16 @@ function StudentAttendance() {
                 <img className="w-[50px]" src="/icons/book1.png" alt="" />
                 <div>
                   <p className="text-[14px] regular">Total# of Absences</p>
-                  <p className="text-[20px] semibold">10</p>
+                  <p className="text-[20px] semibold">{totalAbsences || "0"}</p>
                 </div>
               </div>
               <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
                 <img className="w-[50px]" src="/icons/book2.png" alt="" />
                 <div>
                   <p className="text-[14px] regular">Total# of Presence</p>
-                  <p className="text-[20px] semibold">10</p>
+                  <p className="text-[20px] semibold">
+                    {String(present) || "10"}
+                  </p>
                 </div>
               </div>
             </div>
@@ -63,7 +93,8 @@ function StudentAttendance() {
         <Table
           scroll={{ x: 800 }}
           columns={studentAttendanceColumns()}
-          dataSource={studentAttendanceData}
+          dataSource={data?.arrays?.all}
+          loading={loading}
         />
       </div>
     </HomeLayout>
