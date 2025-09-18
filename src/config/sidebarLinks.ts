@@ -78,7 +78,7 @@ export const useSidebarLinks = () => {
   ];
 
   const routes = {
-    parent: [
+    user: [
       "/home",
       "/attendance-management",
       "/gurukul-prayer",
@@ -103,7 +103,7 @@ export const useSidebarLinks = () => {
     ],
   };
 
-  const allowedRoutes = routes[role as keyof typeof routes] || "parent";
+  const allowedRoutes = routes[role as keyof typeof routes] || "user";
 
   return sidebarLinks.filter(
     (link) => link.key === "/logout" || allowedRoutes.includes(link.key)

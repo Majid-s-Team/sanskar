@@ -1,21 +1,51 @@
 import { Input } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
-import { studentListColumns, studentListData } from "../config";
+import { studentListColumns } from "../config";
 import StudentDetailsModal from "../component/partial/StudentDetailsModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useRequest } from "../hooks/useRequest";
+import { useAuth } from "../hooks/useAuth";
 
 function StudentList() {
   const [openModal, setOpenModal] = useState(false);
+  const [studentDetails, setStudentDetails] = useState<any>(null);
+  const { user } = useAuth();
+  const {
+    data: studentList,
+    loading,
+    pagination,
+    onPaginationChange,
+    execute,
+  } = useRequest<any>("/teachers", "GET", {
+    routeParams: `${user?.teacher?.id}/students`,
+  });
+
+  console.log(studentDetails, "studentList");
+
+  useEffect(() => {
+    if (user?.teacher?.id) {
+      execute({
+        type: "mount",
+      });
+    }
+  }, [user]);
+
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
           columns={studentListColumns}
-          data={studentListData}
+          data={studentList?.students as any}
+          loading={loading}
+          pagination={pagination}
+          onPaginationChange={onPaginationChange}
           title="Student List"
-          onClick={() => setOpenModal(true)}
+          onClick={(row: any) => {
+            setStudentDetails(row?.student);
+            setOpenModal(true);
+          }}
           input={
             <div className="flex gap-5 items-center">
               <div>
@@ -36,6 +66,7 @@ function StudentList() {
         />
         {openModal && (
           <StudentDetailsModal
+            record={studentDetails}
             isModalOpen={openModal}
             handleCancel={() => setOpenModal(false)}
           />

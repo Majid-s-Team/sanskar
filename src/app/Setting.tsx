@@ -13,7 +13,7 @@ const setting = [
   {
     title: "Students Information",
     icon: "/icons/student-card.png",
-    path: "/home/student-info",
+    path: "/home/all-student-info",
   },
   // {
   //   title: "Re-Registration Form",
@@ -44,7 +44,7 @@ function Setting() {
   const role = getStorageData("role");
   return (
     <HomeLayout>
-      {role === "parent" ? (
+      {role === "user" ? (
         <>
           <p className="text-[40px] semibold">Settings</p>
           {setting.map((item, index) => {

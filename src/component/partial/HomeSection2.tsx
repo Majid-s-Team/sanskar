@@ -25,7 +25,7 @@ function HomeSection2({
       <div className="bg-white p-5 rounded-[26.61px] lg:col-span-7">
         <p className="text-[20px] semibold">Class Information</p>
         <div className="grid lg:grid-cols-2 gap-5 mt-5">
-          {(role === "parent" ? card : card2).map((item: CardItem, index) => (
+          {(role === "user" ? card : card2).map((item: CardItem, index) => (
             <div
               onClick={() => navigate(item.path, { state: 1 })}
               key={index}
@@ -41,7 +41,7 @@ function HomeSection2({
                 <p className="text-white text-[20px] semibold">{item.title}</p>
                 <p className="text-white text-[14px] medium">{item.value}</p>
               </div>
-              {role === "parent" && item?.percentage && (
+              {role === "user" && item?.percentage && (
                 <Progress
                   type="circle"
                   strokeColor="#fff"

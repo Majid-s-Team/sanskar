@@ -3,8 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 type AuthlayoutProps = {
   children: React.ReactNode;
-  role?: "parent" | "teacher";
-  setRole?: (role: "parent" | "teacher") => void | undefined;
+  role?: "user" | "teacher";
+  setRole?: (role: "user" | "teacher") => void | undefined;
   path?: string;
 };
 
@@ -13,7 +13,7 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
   const navigate = useNavigate();
   const isMobile = window.innerWidth < 1024;
 
-  const changeRole = (role: "parent" | "teacher") => {
+  const changeRole = (role: "user" | "teacher") => {
     setRole && setRole(role);
     navigate("/login");
   };
@@ -62,32 +62,36 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
           <div>
             <p className="text-[18px] mb-6 r">Login as</p>
             <div className="flex space-x-1">
-              {["parent", "teacher"].map((roleName) => (
+              {[
+                { name: "Parent", val: "user" },
+                { name: "Teacher", val: "teacher" },
+              ].map((roleName) => (
                 <div
-                  key={roleName}
+                  key={roleName.val}
                   onClick={
                     path === "/login"
-                      ? () => changeRole(roleName as "parent" | "teacher")
+                      ? () => changeRole(roleName.val as "teacher" | "user")
                       : () =>
-                          setRole && setRole(roleName as "parent" | "teacher")
+                          setRole && setRole(roleName.val as "teacher" | "user")
                   }
                   className={`cursor-pointer h-40 p-4 rounded-xl flex flex-col justify-center text-center transition-all duration-500 ease-in-out transform w-[150px] ${
-                    role === roleName
+                    role === roleName.val
                       ? "bg-[#D57D25] text-white scale-110 translate-y-[-6px] shadow-[0px_4px_4px_0px_rgba(245,223,201)] border-2 border-white"
                       : "bg-[#FFEDDC] text-black scale-95 translate-y-0"
                   }`}
                 >
                   <img
-                    src={`/images/${roleName}.png`}
-                    alt={roleName.charAt(0).toUpperCase() + roleName.slice(1)}
+                    src={`/images/${
+                      roleName.val === "user" ? "parent" : "teacher"
+                    }.png`}
                     className="rounded-full w-14 h-14 mx-auto mb-2"
                   />
                   <p
                     className={`text-[18px] capitalize ${
-                      role === roleName ? "medium" : "regular"
+                      role === roleName.val ? "medium" : "regular"
                     }`}
                   >
-                    {roleName}
+                    {roleName.name}
                   </p>
                 </div>
               ))}
@@ -125,7 +129,7 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
                 Welcome to{" "}
                 <span className="text-[#D57D25] medium"> Sanskar Academy</span>
               </p>
-              {role === "parent" && (
+              {role === "user" && (
                 <p className="text-[13px] text-[#8D8D8D] regular">
                   {path === "/login" ? "Have an Account" : "No Account"} ?
                   <br />

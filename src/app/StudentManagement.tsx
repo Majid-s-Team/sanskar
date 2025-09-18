@@ -1,20 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
-import { Avatar } from "antd";
+import { Avatar, TablePaginationConfig } from "antd";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useAuth } from "../hooks/useAuth";
+import { useRequest } from "../hooks/useRequest";
+import { CustomPagination } from "../component/shared/CustomPagination";
 
 function StudentManagement() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const { user } = useAuth();
+  const {
+    data: studentList,
+    loading,
+    pagination,
+    onPaginationChange,
+    execute,
+  } = useRequest<any>("/teachers", "GET", {
+    routeParams: `${user?.teacher?.id}/students`,
+  });
+
+  useEffect(() => {
+    if (user?.teacher?.id) {
+      execute({
+        type: "mount",
+      });
+    }
+  }, [user]);
 
   const handleToggle = (index: number) => {
     setActiveIndex((prev) => (prev === index ? null : index));
   };
 
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading}>
       <p className="text-[30px] semibold">Student Management</p>
-      {[1, 2, 3, 4].map((_, index) => {
+      {studentList?.students?.map((item: any, index: number) => {
         const isOpen = activeIndex === index;
+
         return (
           <div
             onClick={() => handleToggle(index)}
@@ -32,11 +55,21 @@ function StudentManagement() {
                   : "flex items-center gap-5"
               }`}
             >
-              <Avatar size={80} src="/images/teacher.png" />
+              <Avatar
+                size={80}
+                src={item?.student?.profile_image || "/images/teacher.png"}
+              />
               <div className={isOpen ? "space-y-1" : ""}>
-                <p className="text-[16px] semibold">Jane Cooper</p>
-                <p className="text-[12px] regular">+011 384 792302</p>
-                <p className="text-[12px] regular">janecooper@gmail.com</p>
+                <p className="text-[16px] semibold capitalize">
+                  {item?.student?.first_name + " " + item?.student?.last_name ||
+                    "Jane Cooper"}
+                </p>
+                <p className="text-[12px] regular">
+                  {item?.student?.student_mobile_number || "+011 384 792302"}
+                </p>
+                <p className="text-[12px] regular">
+                  {item?.student?.student_email || "janecooper@gmail.com"}
+                </p>
               </div>
             </div>
 
@@ -58,11 +91,15 @@ function StudentManagement() {
                 <div className="flex justify-between">
                   <div>
                     <p className="text-[20px] semibold">Date Of Birth</p>
-                    <p className="text-[20px] regular">08/08/2015</p>
+                    <p className="text-[20px] regular">
+                      {item?.student?.dob || "08/08/2015"}
+                    </p>
                   </div>
                   <div>
                     <p className="text-[20px] semibold">School Name</p>
-                    <p className="text-[20px] regular">The School</p>
+                    <p className="text-[20px] regular">
+                      {item?.student?.school_name || "The School"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -70,6 +107,14 @@ function StudentManagement() {
           </div>
         );
       })}
+      <CustomPagination
+        current={(pagination?.current ?? 1) || 1}
+        total={(pagination as TablePaginationConfig)?.total || 1}
+        onChange={(page: any) => {
+          onPaginationChange?.({ current: page });
+        }}
+        pageSize={(pagination as TablePaginationConfig)?.pageSize || 10}
+      />
     </HomeLayout>
   );
 }

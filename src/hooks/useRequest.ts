@@ -70,23 +70,23 @@ export function useRequest<T>(
               if (apiOptions.cbSuccess)
                 apiOptions.cbSuccess(response_body, response_headers);
               setData(response_body.data as T);
-              // if (response_body.pagination)
-              //   setPagination({
-              //     total: response_body.pagination.count,
-              //     pageSize: response_body.pagination.perPage,
-              //     current: response_body.pagination.currentPage,
-              //   });
+              if (response_body.pagination)
+                setPagination({
+                  total: response_body.pagination.count,
+                  pageSize: response_body.pagination.perPage,
+                  current: response_body.pagination.currentPage,
+                });
 
               // @ts-ignore
-              if (response_body.data?.pagination)
-                setPagination({
-                  // @ts-ignore
-                  total: response_body?.data?.pagination.count,
-                  // @ts-ignore
-                  pageSize: response_body?.data?.pagination.perPage,
-                  // @ts-ignore
-                  current: response_body?.data?.pagination.currentPage,
-                });
+              // if (response_body.data?.pagination)
+              //   setPagination({
+              //     // @ts-ignore
+              //     total: response_body?.data?.pagination.count,
+              //     // @ts-ignore
+              //     pageSize: response_body?.data?.pagination.perPage,
+              //     // @ts-ignore
+              //     current: response_body?.data?.pagination.currentPage,
+              //   });
             }
           )
           .onFailure((err: ResponseError) => {

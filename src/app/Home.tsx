@@ -21,45 +21,46 @@ const Home = () => {
   const { user: userData } = useAuth();
   const navigate = useNavigate();
 
+  console.log(userData, "userData");
+
   const { data, execute, loading } = useRequest<Student[]>(
     user.url,
     user.method,
     {}
   );
 
-  console.log(activeStudent, "user");
-
   useEffect(() => {
-    if (userData && userData?.id) {
+    if (userData && userData.user?.id && userData.user?.role === "user") {
       execute({
         type: "mount",
-        routeParams: userData?.id + "/students",
+        routeParams: userData?.user?.id + "/students",
       });
     }
   }, [userData]);
 
-  // useEffect(() => {
-  //   if (data?.students && data.students.length > 1) {
-  //     setActiveStudent(data.students[1]);
-  //   } else {
-  //     setActiveStudent(data?.students[0]);
-  //   }
-  // }, [data]);
-
   return (
     <HomeLayout>
       <HomeSection1>
-        {role === "parent" ? (
-          <div className="bg-white p-5 rounded-[20.15px] flex justify-center items-center ">
-            <div className="lg:w-full w-[330px]">
-              {loading ? (
-                <div className="flex justify-center items-center">
-                  <Spin size="large" />
+        {role === "user" ? (
+          <div className="bg-white p-5 rounded-[20.15px]">
+            {loading ? (
+              <div className="flex justify-center items-center h-[200px]">
+                <Spin size="large" />
+              </div>
+            ) : (
+              <div>
+                <div className="flex justify-center items-center ">
+                  <div className="lg:w-full w-[330px]">
+                    <Carousel data={data} setStudent={setActiveStudent} />
+                  </div>
                 </div>
-              ) : (
-                <Carousel data={data} setStudent={setActiveStudent} />
-              )}
-            </div>
+                <CustomButton
+                  className="mt-5 w-full"
+                  onClick={() => navigate("/home/add-student")}
+                  title="Add Student"
+                />
+              </div>
+            )}
           </div>
         ) : (
           <div
@@ -81,25 +82,28 @@ const Home = () => {
         <div className="bg-white p-5 rounded-[26.61px] lg:col-span-5">
           <div className="flex justify-between items-center">
             <p className="text-[20px] semibold">
-              {role === "parent" ? "Student Information" : "Calendars"}
+              {role === "user" ? "Student Information" : "Calendars"}
             </p>
             <Link
               to={
-                role === "parent" ? "/home/student-info" : "/gurukul-calendar"
+                role === "user" ? `/home/all-student-info` : "/gurukul-calendar"
               }
               className="text-[#0089ED] text-[13px] regular underline"
             >
               View All
             </Link>
           </div>
-          {role === "parent" ? (
+          {role === "user" ? (
             <div>
               {loading ? (
                 <div className="h-[500px] flex justify-center items-center">
                   <Spin size="large" />
                 </div>
               ) : (
-                <Link to="/home/student-info" className="!text-black">
+                <Link
+                  to={`/home/student-info/${String(activeStudent?.id)}`}
+                  className="!text-black"
+                >
                   <div className="flex gap-2 mt-5 items-center">
                     <Avatar
                       size={64}

@@ -104,3 +104,9 @@ export const payment: ApiRoute = {
   method: requestMethods.POST,
   auth: true,
 };
+
+export const announcementUrl: ApiRoute = {
+  url: "/announcements",
+  method: requestMethods.GET,
+  auth: true,
+};

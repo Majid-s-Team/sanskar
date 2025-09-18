@@ -16,8 +16,6 @@ function AddAttendance() {
   const [date, setDate] = useState<any>("");
   const [attendance, setAttendance] = useState<any>([]);
 
-  console.log(attendance, "attendance");
-
   const {
     data: studentList,
     loading,
@@ -27,8 +25,6 @@ function AddAttendance() {
   } = useRequest<any>("/teachers", "GET", {
     routeParams: `${user?.teacher?.id}/students`,
   });
-
-  console.log(pagination, "pagination");
 
   const { execute: execute2, loading: loading2 } = useRequest(
     "/teacher",

@@ -12,9 +12,7 @@ function SignUp() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [role, setRole] = useState<"parent" | "teacher">("parent");
-
-  console.log(state, "state");
+  const [role, setRole] = useState<"user" | "teacher">("user");
 
   const onFinish = (e: any) => {
     if (state === null || state.path === "/signup/add-student") {

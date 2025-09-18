@@ -78,6 +78,7 @@ function GurukulAnnouncements() {
         <AnnouncementModal
           isModalOpen={open}
           handleCancel={() => setOpen(false)}
+          setData={undefined}
         />
       )}
     </HomeLayout>

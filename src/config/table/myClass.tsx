@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export const myClassColumns = () => [
+export const myClassColumns = (handleViewDetails: any) => [
   {
     title: "Week #",
     dataIndex: "id",
@@ -44,6 +44,7 @@ export const myClassColumns = () => [
                 <img
                   className="w-[24px] h-[24px] cursor-pointer"
                   src="/icons/eye.png"
+                  onClick={() => handleViewDetails(item.url)}
                   alt=""
                 />
               </div>
@@ -63,8 +64,34 @@ export const myClassColumns = () => [
   {
     title: "Action",
     dataIndex: "action",
-    render: () => (
+    render: (_: any) => (
       <div className="flex gap-5 justify-center">
+        {/* <Dropdown
+          menu={{
+            items: [
+              // {
+              //   key: "1",
+              //   label: <p className="text-[#000]">View</p>,
+              // },
+              {
+                key: "2",
+                label: (
+                  <Link to={`/add-weekly-updates/edit/${record.id}`}>Edit</Link>
+                ),
+              },
+              {
+                key: "3",
+                label: <p className="text-[#000]">Delete</p>,
+              },
+            ],
+          }}
+        >
+          <img
+            className="w-[24px] h-[24px] cursor-pointer"
+            src="/icons/dots.png"
+            alt=""
+          />
+        </Dropdown> */}
         <img
           className="w-[24px] h-[24px] cursor-pointer"
           src="/icons/dots.png"

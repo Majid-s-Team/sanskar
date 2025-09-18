@@ -1,27 +1,39 @@
 export const studentListColumns = [
   {
     title: "Student Name",
-    dataIndex: "name",
+    dataIndex: "student",
+    render: (text: any) => (
+      <p className="capitalize">{text?.first_name + " " + text?.last_name}</p>
+    ),
   },
   {
     title: "Date of Birth (DOB)",
-    dataIndex: "date_of_birth",
+    dataIndex: "student",
+    render: (text: any) => <p>{text?.dob}</p>,
   },
   {
     title: "Hobbies/Interests",
-    dataIndex: "hobbies",
+    dataIndex: "student",
+    render: (text: any) => <p>{text?.hobbies_interest}</p>,
   },
-  {
-    title: "House",
-    dataIndex: "house",
-  },
+  // {
+  //   title: "House",
+  //   dataIndex: "house",
+  // },
   {
     title: "School Name",
-    dataIndex: "school_name",
+    dataIndex: "student",
+    render: (text: any) => <p>{text?.school_name}</p>,
   },
   {
     title: "Contact Phone & Email",
-    dataIndex: "contact_info",
+    dataIndex: "student",
+    render: (text: any) => (
+      <div>
+        <p>{text?.student_mobile_number}</p>
+        <p>{text?.student_email}</p>
+      </div>
+    ),
   },
 ];
 

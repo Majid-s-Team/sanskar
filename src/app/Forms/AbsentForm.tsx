@@ -20,13 +20,13 @@ function AbsentForm() {
       <div className="bg-white xl:px-40 lg:px-20 p-5 lg:py-20 lg:mx-20 rounded-[24.59px] flex flex-col justify-center">
         <p
           className={`semibold ${
-            role === "parent" ? "text-[30px]" : "text-center text-[40px] "
+            role === "user" ? "text-[30px]" : "text-center text-[40px] "
           }`}
         >
           Absent Request Form
         </p>
         <Form onFinish={onFinish} layout="vertical" className="mt-5 ">
-          {(role === "parent" ? absentForm : teacherAbsentForm).map(
+          {(role === "user" ? absentForm : teacherAbsentForm).map(
             (item: FeildType) => {
               return (
                 <Form.Item

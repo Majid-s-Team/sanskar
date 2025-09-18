@@ -1,16 +1,16 @@
-import { UserType } from "../api/user";
+import { UserResponse } from "../api/user";
 
 export enum UserActionTypes {
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE",
 }
 
-export type UserContextType = UserType | null;
+export type UserContextType = UserResponse | null;
 
 type POST = {
   type: UserActionTypes.POST;
-  payload: UserType;
+  payload: UserResponse;
 };
 
 type DELETE = {
@@ -19,7 +19,7 @@ type DELETE = {
 
 type PUT = {
   type: UserActionTypes.PUT;
-  payload: Partial<UserType>;
+  payload: Partial<UserResponse>;
 };
 
 export type UserActions = POST | DELETE | PUT;

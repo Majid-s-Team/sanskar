@@ -11,7 +11,7 @@ import { useState } from "react";
 
 function Login() {
   const { login, loading } = useAuth();
-  const [role, setRole] = useState<"parent" | "teacher">("parent");
+  const [role, setRole] = useState<"user" | "teacher">("user");
 
   return (
     <AuthLayout path="/signup" role={role} setRole={setRole}>
@@ -34,7 +34,7 @@ function Login() {
           );
         })}
 
-        {role === "parent" && (
+        {role === "user" && (
           <Link
             to="/forgot-password"
             type="link"

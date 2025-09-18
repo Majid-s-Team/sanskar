@@ -1,42 +1,112 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import { addStudentForm } from "../config";
-import { Form, Input } from "antd";
+import { Avatar, Form, Input, Select } from "antd";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
-
-const studentData = {
-  first_name: "John",
-  last_name: "Doe",
-  date_of_birth: "2005-01-01",
-  school_name: "Springfield High School",
-  school_grade: "A",
-  student_email_address: "johndoe@example.com",
-  is_school_year_round: "Yes",
-  hobbies_interests: "Reading, Soccer",
-  student_mobile_number: "123-456-7890",
-  last_year_class: "B",
-  tee_shirt_size: "M",
-  join_book_club: "yes",
-  any_allergies: "Peanuts",
-  gurukul_class_name: "A",
-};
-
-type StudentDataKey = keyof typeof studentData;
+import { useRequest } from "../hooks/useRequest";
+import { Student } from "../types";
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { user } from "../repositories";
 
 function StudentInfo() {
+  const { id } = useParams();
+  const [form] = Form.useForm();
+  const [selectStudent, setSelectStudent] = useState<any>();
+  const {
+    data: studentData,
+    loading,
+    execute: studentExecute,
+  } = useRequest<Student>("/student", "GET", {
+    type: "mount",
+    routeParams: String(id),
+  });
+  const { user: userData } = useAuth();
+  const {
+    execute,
+    loading: studentLoading,
+    data: allStudents,
+  } = useRequest<Student[]>(user.url, user.method, {});
+
+  console.log(studentData, "studentData");
+
+  useEffect(() => {
+    if (userData?.user?.id && !id) {
+      execute({
+        type: "mount",
+        routeParams: `${userData.user.id}/students`,
+        cbSuccess(res) {
+          // const student = res?.data.find(
+          //   (item: any) => String(item.id) === String(id)
+          // );
+          setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+        },
+      });
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (selectStudent) {
+      studentExecute({
+        type: "mount",
+        routeParams: String(selectStudent),
+      });
+    }
+  }, [selectStudent]);
+
+  useEffect(() => {
+    if (studentData) {
+      form.setFieldsValue({
+        ...studentData,
+        // dob: studentData.dob ? dayjs(studentData.dob) : undefined,
+        is_new_student: studentData.is_new_student ? "Yes" : "No",
+        is_school_year_around: studentData.is_school_year_around ? "Yes" : "No",
+        teeshirt_size_id: studentData?.teeshirt_size?.name,
+        school_grade_id: studentData?.school_grade?.name,
+        gurukal_id: studentData?.gurukal?.name,
+        join_the_club: studentData.join_the_club ? "Yes" : "No",
+      });
+    }
+  }, [studentData]);
+
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading || studentLoading}>
       <div className="bg-white p-8 rounded-[24.59px]">
         <div className="flex justify-between items-center">
           <p className="text-[30px] semibold">Student Information</p>
-          <Link
-            to={"/forms/add-student"}
-            className="float-right px-8 mb-5 h-[45px] flex justify-center items-center !bg-[#FF881A] rounded-[10px] !border-none text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
-          >
-            Edit
-          </Link>
+          <div className="flex items-center gap-5">
+            {!id && (
+              <Select
+                options={allStudents?.map((item: any) => ({
+                  value: item.id,
+                  label: (
+                    <p className="capitalize regular">
+                      {item.first_name} {item.last_name}
+                    </p>
+                  ),
+                }))}
+                value={selectStudent}
+                onChange={(value) => setSelectStudent(value)}
+                className=""
+                style={{
+                  width: "180px",
+                }}
+              />
+            )}
+            <Link
+              to={`/forms/add-student/${id}`}
+              className="float-right px-8 h-[45px] flex justify-center items-center !bg-[#FF881A] rounded-[10px] !border-none text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
+            >
+              Edit
+            </Link>
+          </div>
         </div>
-        <Form layout="vertical" className="mt-5 form-m">
+        <Form form={form} layout="vertical" className="mt-5 form-m">
+          <Avatar
+            size={120}
+            src={studentData?.profile_image}
+            className="mb-5"
+          />
           <div className="grid lg:grid-cols-2 gap-5 ">
             {addStudentForm.map((item) => {
               return (
@@ -45,7 +115,7 @@ function StudentInfo() {
                   key={item.name}
                   name={item.name}
                   rules={item.rules}
-                  initialValue={studentData[item.name as StudentDataKey]}
+                  // initialValue={studentData[item.name]}
                 >
                   <Input
                     disabled

@@ -5,9 +5,14 @@ import { FeildType } from "../types";
 import BaseInput from "../component/shared/BaseInput";
 import CustomButton from "../component/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityList } from "../component/partial/ActivityList";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { optionpPicker } from "../helper";
+import { useRequest } from "../hooks/useRequest";
+import { activity } from "../repositories";
+// import { useUser } from "../hooks/useUser";
+// import { UserActionTypes } from "../types/contexts";
 
 type Options = {
   label: string;
@@ -15,40 +20,133 @@ type Options = {
 };
 
 function ParentProfile() {
+  const [form] = Form.useForm();
+  // const [, dispatch] = useUser();
   const [fatherActivity, setFatherActivity] = useState<Options[]>([]);
   const [motherActivity, setMotherActivity] = useState<Options[]>([]);
-  const [form] = Form.useForm();
+  const [fatherActive, setFatherActive] = useState<boolean>(true);
+  // state?.father_volunteering ?? true
+  const [motherActive, setMotherActive] = useState<boolean>(true);
+  // state?.mother_volunteering ?? true
   const navigate = useNavigate();
 
-  const onFinish = () => {
-    navigate(-1);
+  const { data, loading: profileLoading } = useRequest<any>("/profile", "GET", {
+    type: "mount",
+  });
+
+  console.log(data);
+
+  const { data: activityData } = useRequest(activity.url, activity.method, {
+    type: "mount",
+  });
+
+  const { execute, loading } = useRequest("/profile-update", "POST", {});
+
+  const onFinish = (e: any) => {
+    const data = {
+      ...e,
+      father_activity_ids: (e.father_activity_ids || []).map((i: any) =>
+        typeof i === "object" ? i.value : i
+      ),
+      mother_activity_ids: (e.mother_activity_ids || []).map((i: any) =>
+        typeof i === "object" ? i.value : i
+      ),
+    };
+
+    setFatherActive(data.father_volunteering);
+    setMotherActive(data.mother_volunteering);
+
+    execute({
+      body: { ...data },
+      type: "mount",
+      cbSuccess() {
+        // dispatch({
+        //   type: UserActionTypes.PUT,
+        //   payload: res?.data,
+        // });
+        navigate(-1);
+      },
+    });
   };
 
   const onUnSelect = (item: string, isFather: boolean) => {
     const updatedActivities = isFather
       ? fatherActivity.filter((i) => i.value !== item)
       : motherActivity.filter((i) => i.value !== item);
+
     if (isFather) {
       setFatherActivity(updatedActivities);
-      form.setFieldValue("father_activities", updatedActivities);
+      form.setFieldValue("father_activity_ids", updatedActivities);
     } else {
       setMotherActivity(updatedActivities);
-      form.setFieldValue("mother_activities", updatedActivities);
+      form.setFieldValue("mother_activity_ids", updatedActivities);
     }
   };
 
   const handleActivityChange = (val: Options[], name: string) => {
-    if (name === "father_activities") {
+    if (name === "father_activity_ids") {
       setFatherActivity(val);
       form.setFieldValue(name, val);
-    } else if (name === "mother_activities") {
+    } else if (name === "mother_activity_ids") {
       setMotherActivity(val);
       form.setFieldValue(name, val);
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      form.setFieldsValue({
+        ...data,
+        is_hsnc_member: data?.is_hsnc_member === 1 ? true : false,
+        mother_volunteering: data?.mother_volunteering === 1 ? true : false,
+        father_volunteering: data?.father_volunteering === 1 ? true : false,
+      });
+      setMotherActive(data?.mother_volunteering === 1 ? true : false);
+      setFatherActive(data?.father_volunteering === 1 ? true : false);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (!fatherActive) {
+      setFatherActivity([]);
+      form.setFieldValue("father_activity_ids", []);
+    }
+    if (!motherActive) {
+      setMotherActivity([]);
+      form.setFieldValue("mother_activity_ids", []);
+    }
+  }, [fatherActive, motherActive]);
+
+  useEffect(() => {
+    // Mother
+    if (motherActive && data?.mother_activities?.length) {
+      const mappedMother = data.mother_activities.map((act: any) => ({
+        label: act.name,
+        value: act.id,
+      }));
+      setMotherActivity(mappedMother);
+      form.setFieldValue(
+        "mother_activity_ids",
+        mappedMother.map((i: any) => i.value)
+      );
+    }
+
+    // Father
+    if (fatherActive && data?.father_activities?.length) {
+      const mappedFather = data.father_activities.map((act: any) => ({
+        label: act.name,
+        value: act.id,
+      }));
+      setFatherActivity(mappedFather);
+      form.setFieldValue(
+        "father_activity_ids",
+        mappedFather.map((i: any) => i.value)
+      );
+    }
+  }, [data, fatherActive, motherActive]);
+
   return (
-    <HomeLayout>
+    <HomeLayout loading={profileLoading}>
       <div className="bg-white lg:p-10 p-5 rounded-[24.59px]">
         <p className="text-[40px] bold">Parent's Profile</p>
         <Form
@@ -59,7 +157,7 @@ function ParentProfile() {
         >
           <div className="grid lg:grid-cols-2 gap-10">
             <div>
-              {parentProfile.map((item: FeildType) => {
+              {parentProfile.map((item) => {
                 return (
                   <Form.Item
                     label={
@@ -109,12 +207,41 @@ function ParentProfile() {
                         label={item.title}
                         key={item.name}
                         name={item.name}
-                        rules={item.rules}
+                        rules={
+                          (item.name === "father_activity_ids" &&
+                            !fatherActive) ||
+                          (item.name === "mother_activity_ids" && !motherActive)
+                            ? []
+                            : item.rules
+                        }
                       >
                         <BaseInput
                           {...item}
-                          onChange={(_: string, val: Options[]) => {
-                            handleActivityChange(val, item.name);
+                          disabled={
+                            item.name === "father_activity_ids"
+                              ? !fatherActive
+                              : item.name === "mother_activity_ids"
+                              ? !motherActive
+                              : false
+                          }
+                          options={
+                            item.name === "mother_activity_ids"
+                              ? optionpPicker(activityData as any[])
+                              : item.name === "father_activity_ids"
+                              ? optionpPicker(activityData as any[])
+                              : item.options
+                          }
+                          onChange={(value: any, val: any[]) => {
+                            if (
+                              item.name === "father_activity_ids" ||
+                              item.name === "mother_activity_ids"
+                            ) {
+                              handleActivityChange(val, item.name);
+                            } else if (item.name === "father_volunteering") {
+                              setFatherActive(value);
+                            } else if (item.name === "mother_volunteering") {
+                              setMotherActive(value);
+                            }
                           }}
                         />
                       </Form.Item>
@@ -140,6 +267,8 @@ function ParentProfile() {
           </div>
 
           <CustomButton
+            loading={loading}
+            htmlType="submit"
             className="w-full h-[50px] text-[18px] mt-10"
             title="Update & Save Changes"
           />

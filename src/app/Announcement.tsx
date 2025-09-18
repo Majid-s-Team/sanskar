@@ -5,39 +5,47 @@ import AuthButton from "../component/partial/AuthButton";
 import { useState } from "react";
 import AnnouncementModal from "../component/partial/AnnouncementModal";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useRequest } from "../hooks/useRequest";
 
-const announcement = [
-  {
-    icon: "/icons/ball1.png",
-    title: "Sports Day Announcement",
-    description:
-      "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
-  },
-  {
-    icon: "/icons/ball2.png",
-    title: "Summer Break Start Date",
-    description:
-      "Summer break begins on May 25, 2024. Have a wonderful holiday!",
-  },
-  {
-    icon: "/icons/ball1.png",
-    title: "Sports Day Announcement",
-    description:
-      "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
-  },
-  {
-    icon: "/icons/ball2.png",
-    title: "Summer Break Start Date",
-    description:
-      "Summer break begins on May 25, 2024. Have a wonderful holiday!",
-  },
-];
+// const announcement = [
+//   {
+//     icon: "/icons/ball1.png",
+//     title: "Sports Day Announcement",
+//     description:
+//       "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
+//   },
+//   {
+//     icon: "/icons/ball2.png",
+//     title: "Summer Break Start Date",
+//     description:
+//       "Summer break begins on May 25, 2024. Have a wonderful holiday!",
+//   },
+//   {
+//     icon: "/icons/ball1.png",
+//     title: "Sports Day Announcement",
+//     description:
+//       "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
+//   },
+//   {
+//     icon: "/icons/ball2.png",
+//     title: "Summer Break Start Date",
+//     description:
+//       "Summer break begins on May 25, 2024. Have a wonderful holiday!",
+//   },
+// ];
 
 function Announcement() {
   const role = getStorageData("role");
   const [open, setOpen] = useState(false);
+  const url = role === "teacher" ? "/announcements" : "/annoucement-student";
+  const { data, loading, setData } = useRequest<any>(url, "GET", {
+    type: "mount",
+  });
+
+  console.log(data);
+
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <div className="flex lg:flex-row flex-col justify-between lg:items-center">
           <p className="text-[30px] semibold">Announcements</p>
@@ -62,27 +70,36 @@ function Announcement() {
             </div>
           )}
         </div>
-        {announcement.map((form, index) => {
-          return (
-            <div
-              key={index}
-              className="flex items-center gap-5 mt-5 border border-[#ECECEC] p-2 rounded-[20px]"
-            >
-              <img className="w-[50px]" src={form.icon} alt="" />
-              <div>
-                <p className="text-[14px] medium">{form.title}</p>
-                <p className="text-[12px] text-[#969696] regular">
-                  {form.description}
-                </p>
+        {data?.length > 0 ? (
+          data?.map((form: any, index: number) => {
+            // const icons = ["/icons/ball1.png", "/icons/ball2.png"];
+            // const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+            return (
+              <div
+                key={index}
+                className="flex items-center gap-5 mt-5 border border-[#ECECEC] p-2 rounded-[20px]"
+              >
+                <img className="w-[50px]" src={"/icons/ball2.png"} alt="" />
+                <div>
+                  <p className="text-[14px] medium capitalize">{form.title}</p>
+                  <p className="text-[12px] text-[#969696] regular capitalize">
+                    {form.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <p className="text-[18px] text-[#969696] regular text-center h-[70vh] flex items-center justify-center">
+            No announcement available.
+          </p>
+        )}
       </div>
       {open && (
         <AnnouncementModal
           isModalOpen={open}
           handleCancel={() => setOpen(false)}
+          setData={setData}
         />
       )}
     </HomeLayout>

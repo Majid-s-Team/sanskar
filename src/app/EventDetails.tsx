@@ -57,7 +57,7 @@ function EventDetails() {
             style={{
               boxShadow: "0px 10px 20px 0px #24242440",
             }}
-            onClick={() => (role === "parent" ? setOpen2(true) : navigate(-1))}
+            onClick={() => (role === "user" ? setOpen2(true) : navigate(-1))}
             className="h-[54px] px-20 !bg-[#006838] rounded-[10px] !border-none text-[20px] medium !text-white"
           >
             Attending

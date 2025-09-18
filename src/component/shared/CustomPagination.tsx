@@ -12,7 +12,7 @@ export const CustomPagination = ({
   return (
     <div className="flex justify-between items-center px-4 py-2 mt-5">
       <button
-        className="border border-[#DEDEDE] px-4 py-1 rounded-[6.15px] text-[#404040] regular cursor-pointer"
+        className="border border-[#DEDEDE] px-4 py-1 rounded-[6.15px] text-[#404040] regular cursor-pointer !bg-white"
         disabled={current === 1}
         onClick={() => onChange(current - 1)}
       >
@@ -24,7 +24,7 @@ export const CustomPagination = ({
       </span>
 
       <button
-        className="border border-[#DEDEDE] px-4 py-1 rounded-[6.15px] text-[#404040] regular cursor-pointer"
+        className="border border-[#DEDEDE] px-4 py-1 rounded-[6.15px] !bg-white text-[#404040] regular cursor-pointer"
         disabled={current === total}
         onClick={() => onChange(current + 1)}
       >

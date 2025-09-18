@@ -12,6 +12,8 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
     value: any,
     record?: any
   ) => {
+    console.log(value, "value");
+
     setAttendance((prev: any[]) => {
       const exists = prev.find((a) => a.student_id === studentId);
 
@@ -44,27 +46,36 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
   return [
     {
       title: "Name",
-      dataIndex: "student_name",
+      dataIndex: "student",
+      render: (text: any) => (
+        <p className="capitalize">{text?.first_name + " " + text?.last_name}</p>
+      ),
     },
     {
       title: "Student ID",
-      dataIndex: "student_id",
+      dataIndex: "student",
+      render: (text: any) => <p className="capitalize">{text?.id}</p>,
     },
     {
       title: "Status",
       dataIndex: "status",
       render: (_: any, record: any) => {
         const currentStatus =
-          selectedStatus[record?.student_id] ||
-          record?.status ||
+          selectedStatus[record?.student?.id] ||
+          record?.attendance?.status ||
           "not_recorded";
 
         return (
           <div className="flex justify-center">
             <select
               value={currentStatus}
+              // disabled={record?.attendance?.status !== "not_recorded"}
               onChange={(e) =>
-                handleChange(record?.student_id, e.target.value, record)
+                handleChange(
+                  record?.student.id,
+                  e.target.value,
+                  record.attendance.status
+                )
               }
               className={`text-sm rounded-[30px] block p-1 ${
                 currentStatus === "excused_absence"
@@ -87,23 +98,24 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
     },
     {
       title: "Participation Points",
-      dataIndex: "participation_points",
-      render: (text: number, record: any) => (
+      dataIndex: "attendance",
+      render: (text: any, record: any) => (
         <InputNumber
           max={3}
           min={0}
+          // disabled={text?.participation_points !== 0 ? true : false}
           className="!border !border-gray-100 custom-number-input"
-          defaultValue={text}
+          defaultValue={text.participation_points}
           onChange={(value: any) => {
             if (value > 3 || value < 0) {
               message.error("Value must be 0, 1, 2, or 3");
               return;
             }
             updateAttendance(
-              record.student_id,
+              record?.student?.id,
               "participation_points",
               value,
-              record
+              text.participation_points
             );
           }}
           controls
@@ -112,25 +124,26 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
     },
     {
       title: "Homework Points",
-      dataIndex: "homework_points",
-      render: (text: number, record: any) => (
+      dataIndex: "attendance",
+      render: (text: any, record: any) => (
         <InputNumber
           max={3}
           min={0}
+          // disabled={text?.homework_points !== 0 ? true : false}
           onChange={(value: any) => {
             if (value > 3 || value < 0) {
               message.error("Value must be 0, 1, 2, or 3");
               return;
             }
             updateAttendance(
-              record.student_id,
+              record?.student?.id,
               "homework_points",
               value,
-              record
+              text.homework_points
             );
           }}
           className="!border !border-gray-100 custom-number-input"
-          defaultValue={text}
+          defaultValue={text.homework_points}
           controls
         />
       ),

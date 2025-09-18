@@ -72,7 +72,8 @@ const App: React.FC = () => {
         <Route path="/settings" element={<Setting />} />
 
         {/* inner routes */}
-        <Route path="/forms/add-student" element={<AddStudent />} />
+        <Route path="/forms/add-student/:id" element={<AddStudent />} />
+        <Route path="/home/add-student" element={<AddStudent />} />
         <Route path="/forms/absent-request-form" element={<AbsentForm />} />
         <Route path="/forms/early-pickup-form" element={<EarlyPickUpForm />} />
         <Route
@@ -84,7 +85,8 @@ const App: React.FC = () => {
         <Route path="/home/multimedia" element={<Multimedia />} />
         <Route path="/home/announcement" element={<Announcement />} />
         <Route path="/home/contact-teacher" element={<ContactTeacher />} />
-        <Route path="/home/student-info" element={<StudentInfo />} />
+        <Route path="/home/student-info/:id" element={<StudentInfo />} />
+        <Route path="/home/all-student-info" element={<StudentInfo />} />
         <Route path="/event/details" element={<EventDetails />} />
 
         <Route path="/parents-profile" element={<ParentProfile />} />
@@ -110,6 +112,7 @@ const App: React.FC = () => {
         <Route path="/archived" element={<ArchivedTable />} />
         <Route path="/student-list" element={<StudentList />} />
         <Route path="/add-attendance" element={<AddAttendance />} />
+        <Route path="/edit-attendance" element={<AddAttendance />} />
         <Route
           path="/request-management/form-details"
           element={<FormDetails />}

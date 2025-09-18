@@ -8,7 +8,7 @@ import {
 } from "../repositories";
 import { useNavigate, useParams } from "react-router-dom";
 import { setStorageData } from "../helper";
-import { ResponseError, UserType } from "../types";
+import { ResponseError, UserResponse } from "../types";
 import { notification } from "antd";
 import { useUser } from "./useUser";
 import { UserActionTypes } from "../types/contexts";
@@ -43,7 +43,7 @@ export const useAuth = () => {
 
         dispatch({
           type: UserActionTypes.POST,
-          payload: res?.data as UserType,
+          payload: res?.data as UserResponse,
         });
         // @ts-ignore
         setStorageData("access_token", res?.data?.token);

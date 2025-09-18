@@ -11,6 +11,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
+import ViewDetails from "../component/shared/ViewDetails";
 
 const tabs = [
   { id: 1, label: "My Class Updates", columns: myClassColumns },
@@ -20,12 +21,12 @@ const tabs = [
 
 function ArchivedTable() {
   const { state } = useLocation();
+  const [open, setOpen] = useState(false);
+  const [viewDetails, setViewDetails] = useState<any>();
   const [active, setActive] = useState<number>(() => {
     const id = typeof state === "number" ? state : 1;
     return tabs.some((tab) => tab.id === id) ? id : tabs[3].id;
   });
-
-  console.log(state);
 
   const handleTabClick = (id: number) => {
     setActive(id);
@@ -57,8 +58,10 @@ function ArchivedTable() {
 
   console.log(handleDownload);
 
-  // Example usage
-  // <button onClick={() => handleDownload(file.url, file.name)}>Download</button>;
+  const handleViewDetails = (data: any) => {
+    setOpen(true);
+    setViewDetails(data);
+  };
 
   return (
     <HomeLayout>
@@ -88,7 +91,11 @@ function ArchivedTable() {
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
           // @ts-ignore
-          columns={activeTab?.id === 1 ? myClassColumns() : activeTab?.columns}
+          columns={
+            activeTab?.id === 1
+              ? myClassColumns(handleViewDetails)
+              : activeTab?.columns
+          }
           data={activeTab?.id === 1 ? data : (weeklyUpdateData as any)}
           loading={loading}
           title={
@@ -131,6 +138,13 @@ function ArchivedTable() {
           }
         />
       </div>
+      {open && (
+        <ViewDetails
+          open={open}
+          onClose={() => setOpen(false)}
+          data={viewDetails}
+        />
+      )}
     </HomeLayout>
   );
 }

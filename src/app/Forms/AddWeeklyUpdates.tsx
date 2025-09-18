@@ -50,7 +50,10 @@ function AddWeeklyUpdates() {
             name="media"
             rules={[{ required: true, message: "Please input your media!" }]}
           > */}
-          <FileUploader onChange={(val: any) => setMedia(val)} />
+          <FileUploader
+            onChange={(val: any) => setMedia(val)}
+            initialFiles={[]}
+          />
           {/* </Form.Item> */}
           <div className="flex justify-center mt-10">
             <CustomButton

@@ -2,9 +2,9 @@ import { useState } from "react";
 import {
   LoadingOutlined,
   ReloadOutlined,
-  MoreOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  DeleteFilled,
 } from "@ant-design/icons";
 import { useRequest } from "../../hooks/useRequest";
 import { uploadfile } from "../../repositories";
@@ -32,10 +32,17 @@ const ALLOWED_TYPES: Record<string, UploadedFile["type"]> = {
 
 export default function FileUploader({
   onChange,
+  initialFiles,
 }: {
-  onChange: (media: { name: string; type: string; url: string }[]) => void;
+  onChange?: (media: { name: string; type: string; url: string }[]) => void;
+  initialFiles?: { name: string; type: string; url: string }[];
 }) {
-  const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [files, setFiles] = useState<UploadedFile[]>(
+    initialFiles?.map((f) => ({
+      ...f,
+      status: "success",
+    })) as UploadedFile[] | (() => UploadedFile[])
+  );
   const { execute } = useRequest(uploadfile.url, uploadfile.method, {
     type: "delay",
   });
@@ -51,7 +58,7 @@ export default function FileUploader({
         url: f.url!,
       }));
 
-    onChange(media);
+    onChange?.(media);
   };
 
   // sequential upload handler
@@ -138,6 +145,11 @@ export default function FileUploader({
     uploadSequentially(Array.from(selectedFiles));
   };
 
+  const handleRemove = (id?: number, name?: string) => {
+    setFiles((prev) => prev.filter((f) => f.id !== id || f.name !== name));
+    updateOnChange(files.filter((f) => f.id !== id || f.name !== name));
+  };
+
   return (
     <div className="max-w-[600px]">
       <label
@@ -188,7 +200,8 @@ export default function FileUploader({
 
             <div className="flex gap-2 pt-1 text-gray-500 text-lg cursor-pointer">
               {file.status === "error" && <ReloadOutlined />}
-              <MoreOutlined />
+              {/* <MoreOutlined /> */}
+              <DeleteFilled onClick={() => handleRemove(file.id, file.name)} />
             </div>
           </div>
         ))}

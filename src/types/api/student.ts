@@ -1,4 +1,5 @@
 export type Student = {
+  is_new_student: any;
   id: number;
   user_id: number;
   first_name: string;

@@ -40,17 +40,32 @@ function StudentAttendance() {
           <p className="text-[#242424] text-[40px] semibold lg:mb-0 mb-4">
             Student Attendance
           </p>
-          <Link
-            to={"/add-attendance"}
-            style={{
-              backgroundImage: "url(/images/card2.png)",
-              backgroundSize: "100% 100%",
-            }}
-            className="p-5 gap-4 rounded-[20px] flex items-center w-[260px] shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
-          >
-            <img className="w-[40px]" src="/icons/plus.png" alt="" />
-            <p className="text-white text-[14px] medium">Add New Attendance</p>
-          </Link>
+          <div className="flex gap-5 items-center">
+            {/* <Link
+              to={"/add-attendance/edit"}
+              style={{
+                backgroundImage: "url(/images/card2.png)",
+                backgroundSize: "100% 100%",
+              }}
+              className="p-5 gap-4 rounded-[20px] flex items-center w-[260px] shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
+            >
+              <img className="w-[40px]" src="/icons/plus.png" alt="" />
+              <p className="text-white text-[14px] medium">Edit Attendance</p>
+            </Link> */}
+            <Link
+              to={"/add-attendance"}
+              style={{
+                backgroundImage: "url(/images/card2.png)",
+                backgroundSize: "100% 100%",
+              }}
+              className="p-5 gap-4 rounded-[20px] flex items-center w-[260px] shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
+            >
+              <img className="w-[40px]" src="/icons/plus.png" alt="" />
+              <p className="text-white text-[14px] medium">
+                Add New Attendance
+              </p>
+            </Link>
+          </div>
         </div>
         <div className="lg:flex justify-between mb-5">
           <p className="text-[#242424] text-[24px] semibold lg:mb-0 mb-4">
@@ -92,6 +107,7 @@ function StudentAttendance() {
         </div>
         <Table
           scroll={{ x: 800 }}
+          pagination={false}
           columns={studentAttendanceColumns()}
           dataSource={data?.arrays?.all}
           loading={loading}

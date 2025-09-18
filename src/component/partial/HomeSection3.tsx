@@ -7,7 +7,7 @@ function HomeSection3({ role }: { role: string }) {
   const navigate = useNavigate();
   return (
     <div className="grid lg:grid-cols-12 gap-10 my-10">
-      {role === "parent" && (
+      {role === "user" && (
         <div className="bg-white xl:p-8 lg:p-5  rounded-[26.61px] lg:col-span-5">
           <div className="flex justify-between items-center">
             <p className="text-[20px] semibold">Gurukal Calendar</p>
@@ -47,7 +47,7 @@ function HomeSection3({ role }: { role: string }) {
       )}
       <div
         className={`bg-white p-5 rounded-[26.61px] space-y-5 ${
-          role === "parent" ? "lg:col-span-7" : "lg:col-span-12"
+          role === "user" ? "lg:col-span-7" : "lg:col-span-12"
         }`}
       >
         <div className="flex justify-between items-center">

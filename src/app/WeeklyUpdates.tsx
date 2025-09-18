@@ -1,19 +1,107 @@
-import { Input } from "antd";
+import { Input, Select } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
-import { weeklyUpdateColumns, weeklyUpdateData } from "../config";
+import { weeklyUpdateColumns } from "../config";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useRequest } from "../hooks/useRequest";
+import { user } from "../repositories";
+import { Student } from "../types";
+import ViewDetails from "../component/shared/ViewDetails";
+// import { saveAs } from "file-saver";
+// import axios from "axios";
 
 function WeeklyUpdates() {
+  const { user: userData } = useAuth();
+  const [open, setOpen] = useState(false);
+  const [viewDetails, setViewDetails] = useState<any>();
+  const [selectStudent, setSelectStudent] = useState<any>();
+  const { data, execute, loading } = useRequest<Student[]>(
+    user.url,
+    user.method,
+    {}
+  );
+
+  const {
+    data: forStudentData,
+    loading: forStudentLoading,
+    execute: execute2,
+  } = useRequest("/for-student", "GET", {});
+
+  console.log(forStudentData);
+
+  useEffect(() => {
+    if (userData && userData.user?.id) {
+      execute({
+        type: "mount",
+        routeParams: userData?.user?.id + "/students",
+        cbSuccess(res) {
+          setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+        },
+      });
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (selectStudent) {
+      execute2({
+        type: "mount",
+        params: { student_id: selectStudent },
+      });
+    }
+  }, [selectStudent]);
+
+  // const handleDownload = (url: string, name: string) => {
+  //   const link = document.createElement("a");
+  //   link.href = url;
+  //   link.download = name;
+  //   link.style.display = "none"; // Hide the link element
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // };
+
+  // const handleDownload = async (url: string, name: string) => {
+  //   try {
+  //     const response = await axios.get(url, { responseType: "blob" });
+  //     saveAs(response.data, name);
+  //   } catch (error) {
+  //     console.error("Download failed:", error);
+  //   }
+  // };
+
+  const handleViewDetails = (data: any) => {
+    setOpen(true);
+    setViewDetails(data);
+  };
+
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
-          columns={weeklyUpdateColumns}
-          data={weeklyUpdateData}
+          columns={weeklyUpdateColumns(() => {}, handleViewDetails)}
+          data={forStudentData as any}
+          loading={forStudentLoading}
           title="Weekly Updates"
           input={
             <div className="flex gap-5 items-center">
+              <Select
+                options={data?.map((item: any) => ({
+                  value: item.id,
+                  label: (
+                    <p className="capitalize regular">
+                      {item.first_name} {item.last_name}
+                    </p>
+                  ),
+                }))}
+                value={selectStudent}
+                onChange={(value) => setSelectStudent(value)}
+                className=""
+                style={{
+                  width: "180px",
+                }}
+              />
               <Input
                 placeholder="Search"
                 className={`search-input h-[35px] lg:w-[227.28px]`}
@@ -31,6 +119,13 @@ function WeeklyUpdates() {
           }
         />
       </div>
+      {open && (
+        <ViewDetails
+          open={open}
+          onClose={() => setOpen(false)}
+          data={viewDetails}
+        />
+      )}
     </HomeLayout>
   );
 }

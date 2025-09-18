@@ -57,7 +57,7 @@ function Forms() {
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
         <p className="text-[40px] semibold">Forms</p>
-        {(role === "parent" ? forms : forms2).map((form, index) => {
+        {(role === "user" ? forms : forms2).map((form, index) => {
           return (
             <Link
               to={form.path}
