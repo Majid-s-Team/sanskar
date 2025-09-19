@@ -1,6 +1,9 @@
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import { Popconfirm } from "antd";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
-export const myClassColumns = (handleViewDetails: any) => [
+export const myClassColumns = (handleViewDetails: any, handleDelete: any) => [
   {
     title: "Week #",
     dataIndex: "id",
@@ -64,9 +67,26 @@ export const myClassColumns = (handleViewDetails: any) => [
   {
     title: "Action",
     dataIndex: "action",
-    render: (_: any) => (
+    render: (_: any, record: any) => (
       <div className="flex gap-5 justify-center">
+        <Link to={`/add-weekly-updates/edit/${record.id}`} state={record}>
+          <EditFilled
+            className="w-[24px] h-[24px] cursor-pointer"
+            onClick={() => handleViewDetails(record)}
+          />
+        </Link>
+
+        <Popconfirm
+          title="Are you sure you want to delete this class?"
+          okText="Yes"
+          onConfirm={() => handleDelete(record.id)}
+          cancelText="No"
+        >
+          <DeleteFilled className="w-[24px] h-[24px] cursor-pointer" />
+        </Popconfirm>
+
         {/* <Dropdown
+          trigger={["click"]}
           menu={{
             items: [
               // {
@@ -76,12 +96,27 @@ export const myClassColumns = (handleViewDetails: any) => [
               {
                 key: "2",
                 label: (
-                  <Link to={`/add-weekly-updates/edit/${record.id}`}>Edit</Link>
+                  <Link
+                    to={`/add-weekly-updates/edit/${record.id}`}
+                    state={record}
+                  >
+                    Edit
+                  </Link>
                 ),
               },
               {
                 key: "3",
-                label: <p className="text-[#000]">Delete</p>,
+                // onClick: () => handleDelete(record.id),
+                label: (
+                  <Popconfirm
+                    title="Are you sure you want to delete this class?"
+                    okText="Yes"
+                    onConfirm={() => handleDelete(record.id)}
+                    cancelText="No"
+                  >
+                    <p className="text-[#000]">Delete</p>
+                  </Popconfirm>
+                ),
               },
             ],
           }}
@@ -92,11 +127,11 @@ export const myClassColumns = (handleViewDetails: any) => [
             alt=""
           />
         </Dropdown> */}
-        <img
+        {/* <img
           className="w-[24px] h-[24px] cursor-pointer"
           src="/icons/dots.png"
           alt=""
-        />
+        /> */}
       </div>
     ),
   },

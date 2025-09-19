@@ -53,15 +53,15 @@ function StudentDetailsModal({ isModalOpen, handleCancel, record }: Props) {
             // },
             {
               title: "Parent Name",
-              value: "Doe",
+              value: record?.user?.father_name || "Doe",
             },
             {
               title: "Parent Email",
-              value: "janecooper@gmail.com",
+              value: record?.user?.primary_email || "janecooper@gmail.com",
             },
             {
               title: "Parent Phone #",
-              value: "+011 384 792302",
+              value: record?.user?.mobile_number || "+011 384 792302",
             },
             {
               title: "Hobbies/Interests",

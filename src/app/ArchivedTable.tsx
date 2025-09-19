@@ -34,11 +34,9 @@ function ArchivedTable() {
 
   const activeTab = tabs.find((tab) => tab.id === active);
 
-  const { data, loading } = useRequest("/weekly-updates", "GET", {
+  const { data, loading, setData } = useRequest("/weekly-updates", "GET", {
     type: "mount",
   });
-
-  console.log(data);
 
   const handleDownload = async (url: string, name: string) => {
     try {
@@ -61,6 +59,22 @@ function ArchivedTable() {
   const handleViewDetails = (data: any) => {
     setOpen(true);
     setViewDetails(data);
+  };
+
+  const { execute: executeDelete, loading: deleteLoading } = useRequest(
+    "/weekly-updates",
+    "DELETE",
+    {}
+  );
+
+  const handleDelete = (id: string) => {
+    executeDelete({
+      routeParams: String(id),
+      type: "mount",
+      cbSuccess: () => {
+        setData((p: any[]) => p.filter((item) => item.id !== id));
+      },
+    });
   };
 
   return (
@@ -93,11 +107,11 @@ function ArchivedTable() {
           // @ts-ignore
           columns={
             activeTab?.id === 1
-              ? myClassColumns(handleViewDetails)
+              ? myClassColumns(handleViewDetails, handleDelete)
               : activeTab?.columns
           }
           data={activeTab?.id === 1 ? data : (weeklyUpdateData as any)}
-          loading={loading}
+          loading={loading || deleteLoading}
           title={
             activeTab?.label === "Other Class Updates"
               ? "Other Class Updates"

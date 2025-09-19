@@ -12,7 +12,7 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
     value: any,
     record?: any
   ) => {
-    console.log(value, "value");
+    console.log(record, "value");
 
     setAttendance((prev: any[]) => {
       const exists = prev.find((a) => a.student_id === studentId);
@@ -29,9 +29,9 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
         ...prev,
         {
           student_id: studentId,
-          status: record?.status ?? "not_recorded",
-          participation_points: record?.participation_points ?? 0,
-          homework_points: record?.homework_points ?? 0,
+          status: record?.attendance?.status ?? "not_recorded",
+          participation_points: record?.attendance?.participation_points ?? 0,
+          homework_points: record?.attendance?.homework_points ?? 0,
           [key]: value, // jo naya change hua usko overwrite karo
         },
       ];
@@ -71,11 +71,7 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
               value={currentStatus}
               // disabled={record?.attendance?.status !== "not_recorded"}
               onChange={(e) =>
-                handleChange(
-                  record?.student.id,
-                  e.target.value,
-                  record.attendance.status
-                )
+                handleChange(record?.student.id, e.target.value, record)
               }
               className={`text-sm rounded-[30px] block p-1 ${
                 currentStatus === "excused_absence"
@@ -115,7 +111,7 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
               record?.student?.id,
               "participation_points",
               value,
-              text.participation_points
+              record
             );
           }}
           controls
@@ -139,7 +135,7 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
               record?.student?.id,
               "homework_points",
               value,
-              text.homework_points
+              record
             );
           }}
           className="!border !border-gray-100 custom-number-input"
