@@ -30,7 +30,7 @@ const Home = () => {
   );
 
   useEffect(() => {
-    if (userData && userData.user?.id && userData.user?.role === "user") {
+    if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
       execute({
         type: "mount",
         routeParams: userData?.user?.id + "/students",
