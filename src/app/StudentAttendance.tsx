@@ -36,9 +36,9 @@ function StudentAttendance() {
   //   (data?.counts?.present ?? 0);
   const present = data?.counts?.present || 0;
 
-  const absences = data?.counts?.excused_absence;
-  // @ts-ignore
-  +data?.counts?.unexcused_absence;
+  const absences =
+    (data?.counts?.excused_absence ?? 0) +
+    (data?.counts?.unexcused_absence ?? 0);
 
   console.log(present);
 
