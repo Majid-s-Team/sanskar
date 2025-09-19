@@ -1,40 +1,41 @@
-export const studentAttendanceColumns = () => {
+export const studentAttendanceColumns = (handleDetails: any) => {
   return [
     {
       title: "Name",
-      dataIndex: "student_name",
-      // render: (_: string, record: any) => (
-      //   <p>{record?.first_name + " " + record?.last_name}</p>
-      // ),
+      dataIndex: "student",
+      render: (text: any) => (
+        <p className="capitalize">{text?.first_name + " " + text?.last_name}</p>
+      ),
     },
     {
       title: "Student ID",
-      dataIndex: "student_id",
+      dataIndex: "student",
+      render: (text: any) => <p className="capitalize">{text?.id}</p>,
     },
     {
       title: "Status",
-      dataIndex: "status",
-      render: (text: string) => {
+      dataIndex: "attendance",
+      render: (text: any) => {
         return (
           <div className="flex justify-center">
             <p
               className={`text-sm rounded-[30px] block p-1 px-5 ${
-                text === "excused_absence"
+                text.status === "excused_absence"
                   ? "!bg-[#FFF8EF] text-[#D6A54B]"
-                  : text === "present"
+                  : text.status === "present"
                   ? "!bg-[#EFFFF1] text-[#4BD670]"
-                  : text === "unexcused_absence"
+                  : text.status === "unexcused_absence"
                   ? "!bg-[#FFF4FD] text-[#FF9BA4]"
                   : "!bg-[#EFFDFF] text-[#4BBCD6]"
               }`}
             >
-              {text === "present"
+              {text.status === "present"
                 ? "Present"
-                : text === "not_recorded"
+                : text.status === "not_recorded"
                 ? "Not Recorded"
-                : text === "excused_absence"
+                : text.status === "excused_absence"
                 ? "Excused Absence"
-                : text === "unexcused_absence"
+                : text.status === "unexcused_absence"
                 ? "Unexcused Absence"
                 : "Absent"}
             </p>
@@ -44,17 +45,22 @@ export const studentAttendanceColumns = () => {
     },
     {
       title: "Accumulated Participation Points",
-      dataIndex: "participation_points",
+      dataIndex: "attendance",
+      render: (text: any) => <p>{text.participation_points}</p>,
     },
     {
       title: "Accumulated Homework Points",
-      dataIndex: "homework_points",
+      dataIndex: "attendance",
+      render: (text: any) => <p>{text.homework_points}</p>,
     },
     {
       title: "Contact Info",
       dataIndex: "contact_info",
-      render: () => (
-        <p className="text-[#48B3FF] underline text-[14px] semibold">
+      render: (_: any, record: any) => (
+        <p
+          onClick={() => handleDetails(record.student)}
+          className="text-[#48B3FF] underline text-[14px] semibold cursor-pointer"
+        >
           View Details
         </p>
       ),

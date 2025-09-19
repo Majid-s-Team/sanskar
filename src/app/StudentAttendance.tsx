@@ -1,26 +1,43 @@
-import { Input, Table } from "antd";
+import { Input } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { Link } from "react-router-dom";
 import { studentAttendanceColumns } from "../config";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
 import { useAuth } from "../hooks/useAuth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AttendanceData } from "../types/api/studentAttendanceType";
+import TableData from "../component/shared/Table";
+import StudentDetailsModal from "../component/partial/StudentDetailsModal";
 
 function StudentAttendance() {
   const { user } = useAuth();
-
+  const [openModal, setOpenModal] = useState(false);
+  const [studentDetails, setStudentDetails] = useState<any>(null);
   const { data, loading, execute } = useRequest<AttendanceData>(
     "/teacher",
     "GET",
     {}
   );
 
-  const totalAbsences =
-    (data?.counts ?? { total_students: 0 }).total_students -
-    (data?.counts?.present ?? 0);
+  const {
+    data: studentList,
+    loading: loading2,
+    pagination,
+    onPaginationChange,
+    execute: execute2,
+  } = useRequest<any>("/teachers", "GET", {
+    routeParams: `${user?.teacher?.id}/students`,
+  });
+
+  // const totalAbsences =
+  //   (data?.counts ?? { total_students: 0 }).total_students -
+  //   (data?.counts?.present ?? 0);
   const present = data?.counts?.present || 0;
+
+  const absences = data?.counts?.excused_absence;
+  // @ts-ignore
+  +data?.counts?.unexcused_absence;
 
   console.log(present);
 
@@ -30,11 +47,25 @@ function StudentAttendance() {
         type: "mount",
         routeParams: `${user?.teacher?.id}/attendances`,
       });
+
+      execute2({
+        type: "mount",
+      });
     }
   }, [user]);
 
+  // useEffect(() => {
+  //   if (user?.teacher?.id) {
+  //   }
+  // }, [user]);
+
+  const handleDetails = (record: any) => {
+    setStudentDetails(record);
+    setOpenModal(true);
+  };
+
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <div className="lg:flex justify-between mb-5">
           <p className="text-[#242424] text-[40px] semibold lg:mb-0 mb-4">
@@ -90,7 +121,9 @@ function StudentAttendance() {
                 <img className="w-[50px]" src="/icons/book1.png" alt="" />
                 <div>
                   <p className="text-[14px] regular">Total# of Absences</p>
-                  <p className="text-[20px] semibold">{totalAbsences || "0"}</p>
+                  <p className="text-[20px] semibold">
+                    {String(absences) || "0"}
+                  </p>
                 </div>
               </div>
               <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
@@ -105,14 +138,22 @@ function StudentAttendance() {
             </div>
           </div>
         </div>
-        <Table
-          scroll={{ x: 800 }}
-          pagination={false}
-          columns={studentAttendanceColumns()}
-          dataSource={data?.arrays?.all}
-          loading={loading}
+        <TableData
+          pagination={pagination}
+          onPaginationChange={onPaginationChange}
+          columns={studentAttendanceColumns(handleDetails)}
+          // dataSource={data?.arrays?.all}
+          data={studentList?.students as any}
+          loading={loading2}
         />
       </div>
+      {openModal && (
+        <StudentDetailsModal
+          record={studentDetails}
+          isModalOpen={openModal}
+          handleCancel={() => setOpenModal(false)}
+        />
+      )}
     </HomeLayout>
   );
 }

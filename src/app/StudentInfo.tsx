@@ -94,7 +94,11 @@ function StudentInfo() {
               />
             )}
             <Link
-              to={`/forms/add-student/${id}`}
+              to={
+                id
+                  ? `/forms/add-student/${id}`
+                  : `/forms/add-student/${selectStudent}`
+              }
               className="float-right px-8 h-[45px] flex justify-center items-center !bg-[#FF881A] rounded-[10px] !border-none text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
             >
               Edit
