@@ -1,7 +1,7 @@
 import { useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
-import { Input } from "antd";
+import { Input, notification } from "antd";
 import {
   archivedColumns,
   myClassColumns,
@@ -73,6 +73,12 @@ function ArchivedTable() {
       type: "mount",
       cbSuccess: () => {
         setData((p: any[]) => p.filter((item) => item.id !== id));
+      },
+      cbFailure(error) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
       },
     });
   };

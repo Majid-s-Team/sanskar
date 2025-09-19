@@ -1,4 +1,4 @@
-import { Form } from "antd";
+import { Form, notification } from "antd";
 import HomeLayout from "../../component/shared/HomeLayout";
 import { FeildType } from "../../types";
 import BaseInput from "../../component/shared/BaseInput";
@@ -32,6 +32,12 @@ function AddWeeklyUpdates() {
       routeParams: id ? String(id) : undefined,
       cbSuccess() {
         navigate("/archived", { state: 1 });
+      },
+      cbFailure(error) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
       },
     });
   };
