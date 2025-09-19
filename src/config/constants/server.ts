@@ -1,9 +1,9 @@
 export default {
   // local
-  // baseUrl: "https://server.sanskaracademy-dev.org/",
+  baseUrl: "https://server.sanskaracademy-dev.org/",
   // production
   // baseUrl: "https://rentanyserver-production.up.railway.app/",
-  baseUrl: "https://sanskar.retrocubedev.com/",
+  // baseUrl: "https://sanskar.retrocubedev.com/",
   imageUrl: function (url: string): string {
     return this.baseUrl + url;
   },
