@@ -14,28 +14,28 @@ export const studentAttendanceColumns = (handleDetails: any) => {
     },
     {
       title: "Status",
-      dataIndex: "attendance",
+      dataIndex: "status",
       render: (text: any) => {
         return (
           <div className="flex justify-center">
             <p
               className={`text-sm rounded-[30px] block p-1 px-5 ${
-                text.status === "excused_absence"
+                text === "excused_absence"
                   ? "!bg-[#FFF8EF] text-[#D6A54B]"
-                  : text.status === "present"
+                  : text === "present"
                   ? "!bg-[#EFFFF1] text-[#4BD670]"
-                  : text.status === "unexcused_absence"
+                  : text === "unexcused_absence"
                   ? "!bg-[#FFF4FD] text-[#FF9BA4]"
                   : "!bg-[#EFFDFF] text-[#4BBCD6]"
               }`}
             >
-              {text.status === "present"
+              {text === "present"
                 ? "Present"
-                : text.status === "not_recorded"
+                : text === "not_recorded"
                 ? "Not Recorded"
-                : text.status === "excused_absence"
+                : text === "excused_absence"
                 ? "Excused Absence"
-                : text.status === "unexcused_absence"
+                : text === "unexcused_absence"
                 ? "Unexcused Absence"
                 : "Absent"}
             </p>
@@ -45,13 +45,13 @@ export const studentAttendanceColumns = (handleDetails: any) => {
     },
     {
       title: "Accumulated Participation Points",
-      dataIndex: "attendance",
-      render: (text: any) => <p>{text.participation_points}</p>,
+      dataIndex: "participation_points",
+      render: (text: any) => <p>{text}</p>,
     },
     {
       title: "Accumulated Homework Points",
-      dataIndex: "attendance",
-      render: (text: any) => <p>{text.homework_points}</p>,
+      dataIndex: "homework_points",
+      render: (text: any) => <p>{text}</p>,
     },
     {
       title: "Contact Info",

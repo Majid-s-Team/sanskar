@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { DatePicker, Input, Table } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { Link } from "react-router-dom";
 import { studentAttendanceColumns } from "../config";
@@ -7,29 +7,29 @@ import { useRequest } from "../hooks/useRequest";
 import { useAuth } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { AttendanceData } from "../types/api/studentAttendanceType";
-import TableData from "../component/shared/Table";
 import StudentDetailsModal from "../component/partial/StudentDetailsModal";
+import dayjs from "dayjs";
 
 function StudentAttendance() {
   const { user } = useAuth();
   const [openModal, setOpenModal] = useState(false);
   const [studentDetails, setStudentDetails] = useState<any>(null);
-  // const [date, setDate] = useState<any>(null);
+  const [date, setDate] = useState<any>(null);
   const { data, loading, execute } = useRequest<AttendanceData>(
     "/teacher",
     "GET",
     {}
   );
 
-  const {
-    data: studentList,
-    loading: loading2,
-    pagination,
-    onPaginationChange,
-    execute: execute2,
-  } = useRequest<any>("/teachers", "GET", {
-    routeParams: `${user?.teacher?.id}/students`,
-  });
+  // const {
+  //   data: studentList,
+  //   loading: loading2,
+  //   pagination,
+  //   onPaginationChange,
+  //   execute: execute2,
+  // } = useRequest<any>("/teachers", "GET", {
+  //   routeParams: `${user?.teacher?.id}/students`,
+  // });
 
   // const totalAbsences =
   //   (data?.counts ?? { total_students: 0 }).total_students -
@@ -48,21 +48,18 @@ function StudentAttendance() {
         type: "mount",
         routeParams: `${user?.teacher?.id}/attendances`,
       });
-      execute2({
-        type: "mount",
-      });
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   if (date) {
-  //     execute({
-  //       type: "mount",
-  //       routeParams: `${user?.teacher?.id}/attendances`,
-  //       params: { date: dayjs(date).format("YYYY-MM-DD") },
-  //     });
-  //   }
-  // }, [date]);
+  useEffect(() => {
+    if (date) {
+      execute({
+        type: "mount",
+        routeParams: `${user?.teacher?.id}/attendances`,
+        params: { date: dayjs(date).format("YYYY-MM-DD") },
+      });
+    }
+  }, [date]);
 
   const handleDetails = (record: any) => {
     setStudentDetails(record);
@@ -72,7 +69,7 @@ function StudentAttendance() {
   // const handleSearch = (e: any) => {};
 
   return (
-    <HomeLayout loading={loading}>
+    <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
         <div className="lg:flex justify-between mb-5">
           <p className="text-[#242424] text-[40px] semibold lg:mb-0 mb-4">
@@ -111,17 +108,18 @@ function StudentAttendance() {
           </p>
           <div>
             <div className="flex gap-5 items-center justify-end">
-              {/* <DatePicker
+              <DatePicker
                 placeholder="Select Date"
                 className={`search-input h-[45px] lg:w-[300px]`}
                 onChange={(e) => setDate(e)}
                 format={"DD-MM-YYYY"}
+                maxDate={dayjs(new Date())}
                 style={{
                   borderRadius: 12,
                   backgroundColor: "#fff",
                   border: "1px solid #CCCCCC",
                 }}
-              /> */}
+              />
               <Input
                 placeholder="Search"
                 className={`search-input h-[45px] lg:w-[300px]`}
@@ -156,13 +154,14 @@ function StudentAttendance() {
             </div>
           </div>
         </div>
-        <TableData
-          pagination={pagination}
-          onPaginationChange={onPaginationChange}
+        <Table
+          // pagination={pagination}
+          // onPaginationChange={onPaginationChange}
           columns={studentAttendanceColumns(handleDetails)}
-          // dataSource={data?.arrays?.all}
-          data={studentList?.students as any}
-          loading={loading2}
+          dataSource={data?.arrays?.all}
+          pagination={false}
+          // data={studentList?.students as any}
+          loading={loading}
         />
       </div>
       {openModal && (
