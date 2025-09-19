@@ -81,6 +81,7 @@ function AddAttendance() {
               onChange={(e) => setDate(e)}
               format={"DD-MM-YYYY"}
               className="h-[45px] w-full mt-2"
+              maxDate={dayjs(new Date())}
             />
           </div>
         </div>

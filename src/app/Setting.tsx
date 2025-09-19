@@ -3,6 +3,7 @@ import HomeLayout from "../component/shared/HomeLayout";
 import { getStorageData } from "../helper";
 import { Avatar } from "antd";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useAuth } from "../hooks/useAuth";
 
 const setting = [
   {
@@ -42,6 +43,7 @@ const setting = [
 
 function Setting() {
   const role = getStorageData("role");
+  const { user } = useAuth();
   return (
     <HomeLayout>
       {role === "user" ? (
@@ -67,11 +69,17 @@ function Setting() {
       ) : (
         <div className="bg-white p-5 rounded-[24.59px]">
           <div className={`flex flex-col items-center text-center my-10`}>
-            <Avatar size={143} src="/images/teacher.png" />
+            <Avatar size={143} src={user?.teacher?.profile_picture} />
             <div>
-              <p className="text-[28px] semibold">Jane Cooper</p>
-              <p className="text-[20px] regular">+011 384 792302</p>
-              <p className="text-[20px] regular">janecooper@gmail.com</p>
+              <p className="text-[28px] semibold capitalize">
+                {user?.teacher?.full_name}
+              </p>
+              <p className="text-[20px] regular capitalize">
+                {user?.teacher?.phone_number}
+              </p>
+              <p className="text-[20px] regular capitalize">
+                {user?.user?.primary_email}
+              </p>
             </div>
           </div>
           {/* {setting2.map((item, index) => {

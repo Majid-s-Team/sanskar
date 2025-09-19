@@ -14,6 +14,7 @@ function StudentAttendance() {
   const { user } = useAuth();
   const [openModal, setOpenModal] = useState(false);
   const [studentDetails, setStudentDetails] = useState<any>(null);
+  // const [date, setDate] = useState<any>(null);
   const { data, loading, execute } = useRequest<AttendanceData>(
     "/teacher",
     "GET",
@@ -47,7 +48,6 @@ function StudentAttendance() {
         type: "mount",
         routeParams: `${user?.teacher?.id}/attendances`,
       });
-
       execute2({
         type: "mount",
       });
@@ -55,14 +55,21 @@ function StudentAttendance() {
   }, [user]);
 
   // useEffect(() => {
-  //   if (user?.teacher?.id) {
+  //   if (date) {
+  //     execute({
+  //       type: "mount",
+  //       routeParams: `${user?.teacher?.id}/attendances`,
+  //       params: { date: dayjs(date).format("YYYY-MM-DD") },
+  //     });
   //   }
-  // }, [user]);
+  // }, [date]);
 
   const handleDetails = (record: any) => {
     setStudentDetails(record);
     setOpenModal(true);
   };
+
+  // const handleSearch = (e: any) => {};
 
   return (
     <HomeLayout loading={loading}>
@@ -104,6 +111,17 @@ function StudentAttendance() {
           </p>
           <div>
             <div className="flex gap-5 items-center justify-end">
+              {/* <DatePicker
+                placeholder="Select Date"
+                className={`search-input h-[45px] lg:w-[300px]`}
+                onChange={(e) => setDate(e)}
+                format={"DD-MM-YYYY"}
+                style={{
+                  borderRadius: 12,
+                  backgroundColor: "#fff",
+                  border: "1px solid #CCCCCC",
+                }}
+              /> */}
               <Input
                 placeholder="Search"
                 className={`search-input h-[45px] lg:w-[300px]`}
