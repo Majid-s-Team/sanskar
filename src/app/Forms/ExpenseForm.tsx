@@ -35,7 +35,7 @@ function ExpenseForm() {
               );
             })}
             <div>
-              <FileUploader onChange={() => {}} />
+              <FileUploader onChange={() => {}} initialFiles={[]} />
               <CustomButton
                 icon={
                   <img

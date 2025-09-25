@@ -1,4 +1,12 @@
+import { Avatar } from "antd";
+import dayjs from "dayjs";
+
 export const studentListColumns = [
+  {
+    title: "Image",
+    dataIndex: "student",
+    render: (text: any) => <Avatar size={60} src={text?.profile_image} />,
+  },
   {
     title: "Student Name",
     dataIndex: "student",
@@ -9,7 +17,12 @@ export const studentListColumns = [
   {
     title: "Date of Birth (DOB)",
     dataIndex: "student",
-    render: (text: any) => <p>{text?.dob}</p>,
+    render: (text: any) => <p>{dayjs(text?.dob).format("DD-MM-YYYY")}</p>,
+  },
+  {
+    title: "Book Club",
+    dataIndex: "student",
+    render: (text: any) => <p>{text?.join_the_club ? "Yes" : "No"}</p>,
   },
   {
     title: "Hobbies/Interests",

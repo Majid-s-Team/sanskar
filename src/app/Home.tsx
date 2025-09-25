@@ -52,6 +52,7 @@ const Home = () => {
                 <div className="flex justify-center items-center ">
                   <div className="lg:w-full w-[330px]">
                     <Carousel data={data} setStudent={setActiveStudent} />
+                    {/* <SlickCarousel data={data} /> */}
                   </div>
                 </div>
                 <CustomButton

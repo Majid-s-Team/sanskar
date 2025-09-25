@@ -9,6 +9,8 @@ import { useRequest } from "../hooks/useRequest";
 import { user } from "../repositories";
 import { Student } from "../types";
 import ViewDetails from "../component/shared/ViewDetails";
+import axios from "axios";
+import saveAs from "file-saver";
 // import { saveAs } from "file-saver";
 // import axios from "axios";
 
@@ -62,14 +64,16 @@ function WeeklyUpdates() {
   //   document.body.removeChild(link);
   // };
 
-  // const handleDownload = async (url: string, name: string) => {
-  //   try {
-  //     const response = await axios.get(url, { responseType: "blob" });
-  //     saveAs(response.data, name);
-  //   } catch (error) {
-  //     console.error("Download failed:", error);
-  //   }
-  // };
+  const handleDownload = async (url: string, name: string) => {
+    try {
+      const response = await axios.get(`/api${url}`, { responseType: "blob" });
+      saveAs(response.data, name);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
+  };
+
+  // handleDownload(url, "image.png");
 
   const handleViewDetails = (data: any) => {
     setOpen(true);
@@ -80,7 +84,7 @@ function WeeklyUpdates() {
     <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
-          columns={weeklyUpdateColumns(() => {}, handleViewDetails)}
+          columns={weeklyUpdateColumns(handleDownload, handleViewDetails)}
           data={forStudentData as any}
           loading={forStudentLoading}
           title="Weekly Updates"

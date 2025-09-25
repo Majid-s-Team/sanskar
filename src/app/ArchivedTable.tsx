@@ -12,6 +12,8 @@ import { Link, useLocation } from "react-router-dom";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
 import ViewDetails from "../component/shared/ViewDetails";
+import axios from "axios";
+import saveAs from "file-saver";
 
 const tabs = [
   { id: 1, label: "My Class Updates", columns: myClassColumns },
@@ -38,17 +40,26 @@ function ArchivedTable() {
     type: "mount",
   });
 
+  // const handleDownload = async (url: string, name: string) => {
+  //   try {
+  //     const response = await fetch(url);
+  //     const blob = await response.blob();
+
+  //     const blobUrl = window.URL.createObjectURL(blob);
+  //     const link = document.createElement("a");
+  //     link.href = blobUrl;
+  //     link.download = name; // force download with name
+  //     link.click();
+  //     window.URL.revokeObjectURL(blobUrl);
+  //   } catch (error) {
+  //     console.error("Download failed:", error);
+  //   }
+  // };
+
   const handleDownload = async (url: string, name: string) => {
     try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-
-      const blobUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = name; // force download with name
-      link.click();
-      window.URL.revokeObjectURL(blobUrl);
+      const response = await axios.get(`/api${url}`, { responseType: "blob" });
+      saveAs(response.data, name);
     } catch (error) {
       console.error("Download failed:", error);
     }
@@ -113,7 +124,7 @@ function ArchivedTable() {
           // @ts-ignore
           columns={
             activeTab?.id === 1
-              ? myClassColumns(handleViewDetails, handleDelete)
+              ? myClassColumns(handleDownload, handleViewDetails, handleDelete)
               : activeTab?.columns
           }
           data={activeTab?.id === 1 ? data : (weeklyUpdateData as any)}

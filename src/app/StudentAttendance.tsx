@@ -15,32 +15,21 @@ function StudentAttendance() {
   const [openModal, setOpenModal] = useState(false);
   const [studentDetails, setStudentDetails] = useState<any>(null);
   const [date, setDate] = useState<any>(null);
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState<any[]>([]);
   const { data, loading, execute } = useRequest<AttendanceData>(
     "/teacher",
     "GET",
     {}
   );
 
-  // const {
-  //   data: studentList,
-  //   loading: loading2,
-  //   pagination,
-  //   onPaginationChange,
-  //   execute: execute2,
-  // } = useRequest<any>("/teachers", "GET", {
-  //   routeParams: `${user?.teacher?.id}/students`,
-  // });
+  console.log(data);
 
-  // const totalAbsences =
-  //   (data?.counts ?? { total_students: 0 }).total_students -
-  //   (data?.counts?.present ?? 0);
   const present = data?.counts?.present || 0;
 
   const absences =
     (data?.counts?.excused_absence ?? 0) +
     (data?.counts?.unexcused_absence ?? 0);
-
-  console.log(present);
 
   useEffect(() => {
     if (user?.teacher?.id) {
@@ -50,6 +39,12 @@ function StudentAttendance() {
       });
     }
   }, [user]);
+
+  useEffect(() => {
+    if (data?.arrays?.all) {
+      setFilteredData(data.arrays.all);
+    }
+  }, [data]);
 
   useEffect(() => {
     if (date) {
@@ -66,8 +61,20 @@ function StudentAttendance() {
     setOpenModal(true);
   };
 
-  // const handleSearch = (e: any) => {};
-
+  useEffect(() => {
+    if (search) {
+      const result = data?.arrays?.all?.filter(
+        (item: any) =>
+          item.student.first_name
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          item.student.last_name.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredData(result || []);
+    } else {
+      setFilteredData(data?.arrays?.all || []);
+    }
+  }, [search, data]);
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -76,17 +83,6 @@ function StudentAttendance() {
             Student Attendance
           </p>
           <div className="flex gap-5 items-center">
-            {/* <Link
-              to={"/add-attendance/edit"}
-              style={{
-                backgroundImage: "url(/images/card2.png)",
-                backgroundSize: "100% 100%",
-              }}
-              className="p-5 gap-4 rounded-[20px] flex items-center w-[260px] shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
-            >
-              <img className="w-[40px]" src="/icons/plus.png" alt="" />
-              <p className="text-white text-[14px] medium">Edit Attendance</p>
-            </Link> */}
             <Link
               to={"/add-attendance"}
               style={{
@@ -128,6 +124,7 @@ function StudentAttendance() {
                   backgroundColor: "#fff",
                   border: "1px solid #CCCCCC",
                 }}
+                onChange={(e) => setSearch(e.target.value)}
                 suffix={<img className="w-[20px]" src="/icons/filter.png" />}
                 prefix={<img className="w-[20px]" src="/icons/search.png" />}
               />
@@ -158,7 +155,7 @@ function StudentAttendance() {
           // pagination={pagination}
           // onPaginationChange={onPaginationChange}
           columns={studentAttendanceColumns(handleDetails)}
-          dataSource={data?.arrays?.all}
+          dataSource={filteredData}
           pagination={false}
           // data={studentList?.students as any}
           loading={loading}

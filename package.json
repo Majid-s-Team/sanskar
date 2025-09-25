@@ -26,8 +26,10 @@
   "react-quill": "2.0.0",
   "react-router-dom": "^6.26.1",
   "react-signature-canvas": "^1.1.0-alpha.2",
+  "react-slick": "^0.31.0",
   "reactjs-otp-input": "^2.0.10",
   "recharts": "^2.12.7",
+  "slick-carousel": "^1.8.1",
   "swiper": "^11.2.8",
   "uuid": "^11.1.0"
  },
@@ -39,6 +41,7 @@
   "@types/moment": "^2.13.0",
   "@types/react": "^19.1.2",
   "@types/react-dom": "^19.1.2",
+  "@types/react-slick": "^0.23.13",
   "@types/swiper": "^6.0.0",
   "@vitejs/plugin-react": "^4.4.1",
   "autoprefixer": "^10.4.20",

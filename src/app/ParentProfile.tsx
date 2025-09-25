@@ -11,8 +11,9 @@ import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { optionpPicker } from "../helper";
 import { useRequest } from "../hooks/useRequest";
 import { activity } from "../repositories";
-// import { useUser } from "../hooks/useUser";
-// import { UserActionTypes } from "../types/contexts";
+import { UserActionTypes } from "../types/contexts";
+import { useUser } from "../hooks/useUser";
+import ImagePicker from "../component/partial/ImagePicker";
 
 type Options = {
   label: string;
@@ -21,20 +22,18 @@ type Options = {
 
 function ParentProfile() {
   const [form] = Form.useForm();
-  // const [, dispatch] = useUser();
+  const [state, dispatch] = useUser();
   const [fatherActivity, setFatherActivity] = useState<Options[]>([]);
   const [motherActivity, setMotherActivity] = useState<Options[]>([]);
   const [fatherActive, setFatherActive] = useState<boolean>(true);
-  // state?.father_volunteering ?? true
   const [motherActive, setMotherActive] = useState<boolean>(true);
-  // state?.mother_volunteering ?? true
   const navigate = useNavigate();
+
+  console.log(state);
 
   const { data, loading: profileLoading } = useRequest<any>("/profile", "GET", {
     type: "mount",
   });
-
-  console.log(data);
 
   const { data: activityData } = useRequest(activity.url, activity.method, {
     type: "mount",
@@ -59,11 +58,16 @@ function ParentProfile() {
     execute({
       body: { ...data },
       type: "mount",
-      cbSuccess() {
-        // dispatch({
-        //   type: UserActionTypes.PUT,
-        //   payload: res?.data,
-        // });
+      cbSuccess(res) {
+        dispatch({
+          type: UserActionTypes.PUT,
+          payload: {
+            user: {
+              ...state?.user,
+              ...(res?.data as any), // merge with existing user
+            },
+          },
+        });
         navigate(-1);
       },
     });
@@ -155,6 +159,16 @@ function ParentProfile() {
           layout="vertical"
           className="mt-10"
         >
+          <Form.Item
+            name="profile_image"
+            label="Profile Image"
+            rules={[{ required: true, message: "Please input your image!" }]}
+          >
+            <ImagePicker
+              initialImgSrc={data?.profile_image}
+              onChange={() => {}}
+            />
+          </Form.Item>
           <div className="grid lg:grid-cols-2 gap-10">
             <div>
               {parentProfile.map((item) => {

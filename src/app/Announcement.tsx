@@ -6,43 +6,16 @@ import { useState } from "react";
 import AnnouncementModal from "../component/partial/AnnouncementModal";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
-
-// const announcement = [
-//   {
-//     icon: "/icons/ball1.png",
-//     title: "Sports Day Announcement",
-//     description:
-//       "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
-//   },
-//   {
-//     icon: "/icons/ball2.png",
-//     title: "Summer Break Start Date",
-//     description:
-//       "Summer break begins on May 25, 2024. Have a wonderful holiday!",
-//   },
-//   {
-//     icon: "/icons/ball1.png",
-//     title: "Sports Day Announcement",
-//     description:
-//       "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
-//   },
-//   {
-//     icon: "/icons/ball2.png",
-//     title: "Summer Break Start Date",
-//     description:
-//       "Summer break begins on May 25, 2024. Have a wonderful holiday!",
-//   },
-// ];
+import { useAuth } from "../hooks/useAuth";
 
 function Announcement() {
+  const { user } = useAuth();
   const role = getStorageData("role");
   const [open, setOpen] = useState(false);
   const url = role === "teacher" ? "/announcements" : "/annoucement-student";
   const { data, loading, setData } = useRequest<any>(url, "GET", {
     type: "mount",
   });
-
-  console.log(data);
 
   return (
     <HomeLayout loading={loading}>
@@ -57,11 +30,9 @@ function Announcement() {
                   height: "48px",
                 }}
                 className="custom-selector w-full lg:w-[200px]"
-                defaultValue={"French"}
-                options={[
-                  { value: "All", label: "All" },
-                  { value: "Class 1", label: "Class 1" },
-                ]}
+                disabled
+                defaultValue={user?.teacher?.gurukal.name || "French"}
+                options={[]}
               />
               <AuthButton
                 onClick={() => setOpen(true)}
@@ -72,8 +43,6 @@ function Announcement() {
         </div>
         {data?.length > 0 ? (
           data?.map((form: any, index: number) => {
-            // const icons = ["/icons/ball1.png", "/icons/ball2.png"];
-            // const randomIcon = icons[Math.floor(Math.random() * icons.length)];
             return (
               <div
                 key={index}

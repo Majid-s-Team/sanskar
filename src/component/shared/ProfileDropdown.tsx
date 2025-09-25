@@ -1,10 +1,10 @@
 import { Avatar } from "antd";
-// import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { getStorageData } from "../../helper";
+import { useAuth } from "../../hooks/useAuth";
 
 function ProfileDropdown() {
-  // const { user } = useAuth();
+  const { user } = useAuth();
   const role = getStorageData("role");
 
   // Media query for responsive layout: max-width 768px (mobile)
@@ -16,7 +16,10 @@ function ProfileDropdown() {
         <Avatar size={50} src={"/icons/notification.png"} />
       </Link>
       <Link to={`${role === "user" ? "/parents-profile" : "/settings"}`}>
-        <Avatar size={50} src={"/images/user.png"} />
+        <Avatar
+          size={50}
+          src={user?.user?.profile_image || "/images/user.png"}
+        />
       </Link>
     </div>
   );

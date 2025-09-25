@@ -22,31 +22,31 @@ function StudentDetailsModal({ isModalOpen, handleCancel, record }: Props) {
             src={record?.profile_image || "/images/teacher.png"}
           />
           <div className={"mt-5"}>
-            <p className="text-[24px] bold">
+            <p className="text-[24px] bold capitalize">
               {record?.first_name + " " + record?.last_name}
             </p>
             <p className="text-[18px] regular">
               {record?.student_mobile_number || "+011 384 792302"}
             </p>
-            <p className="text-[18px] regular">
+            <p className="text-[18px] regular capitalize">
               {record?.student_email || "janecooper@gmail.com"}
             </p>
           </div>
         </div>
         <div className="grid lg:grid-cols-2 gap-5 mt-10 w-full px-10">
           {[
-            {
-              title: "Student ID",
-              value: record?.id || "#123",
-            },
-            {
-              title: "House",
-              value: record?.school_name || "The School",
-            },
-            {
-              title: "Date Of Birth",
-              value: record?.dob || "01/01/2000",
-            },
+            // {
+            //   title: "Student ID",
+            //   value: record?.id || "#123",
+            // },
+            // {
+            //   title: "House",
+            //   value: record?.school_name || "The School",
+            // },
+            // {
+            //   title: "Date Of Birth",
+            //   value: record?.dob || "01/01/2000",
+            // },
             // {
             //   title: "House",
             //   value: "The School",
@@ -63,15 +63,15 @@ function StudentDetailsModal({ isModalOpen, handleCancel, record }: Props) {
               title: "Parent Phone #",
               value: record?.user?.mobile_number || "+011 384 792302",
             },
-            {
-              title: "Hobbies/Interests",
-              value: record?.hobbies_interest || "Football",
-            },
+            // {
+            //   title: "Hobbies/Interests",
+            //   value: record?.hobbies_interest || "Football",
+            // },
           ].map((item, index) => {
             return (
               <div key={index} className="">
                 <p className="text-[18px] bold">{item.title}</p>
-                <p className="text-[18px] regular">{item.value}</p>
+                <p className="text-[18px] regular capitalize">{item.value}</p>
               </div>
             );
           })}

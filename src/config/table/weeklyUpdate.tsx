@@ -54,10 +54,10 @@ export const weeklyUpdateColumns = (
           {media.map((item: any) => {
             return (
               <div className="flex items-center gap-5">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                   <img className="w-[30px]" src="/icons/pdf.png" alt="" />
                   <div>
-                    <p className="text-[12px] medium text-black">
+                    <p className="text-[12px] medium text-black truncate w-[100px] text-left">
                       {item.name || "Class Update Form"}
                     </p>
                     {/* <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p> */}

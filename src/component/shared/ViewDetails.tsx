@@ -1,45 +1,118 @@
+// import { Modal } from "antd";
+
+// function ViewDetails({ open, onClose, data }: any) {
+//   console.log(data);
+
+//   const renderContent = () => {
+//     if (data) {
+//       return /\.(jpg|jpeg|png)$/i.test(data) ? (
+//         <img className="w-full h-full rounded" src={data} alt="Uploaded File" />
+//       ) : (
+//         <embed src={data} type="application/pdf" width="100%" height="600px" />
+//       );
+//     }
+
+//     return <NoData />;
+//   };
+
+//   return (
+//     <Modal
+//       open={open}
+//       onCancel={onClose}
+//       footer={null}
+//       title={"View Details"}
+//       centered
+//       className="white-modal"
+//     >
+//       <div className="mt-4">{renderContent()}</div>
+//     </Modal>
+//   );
+// }
+
+// const NoData = () => <p className="text-center text-[20px] medium">No Data</p>;
+
+// export default ViewDetails;
+
 import { Modal } from "antd";
 
 function ViewDetails({ open, onClose, data }: any) {
-  console.log(data);
+  console.log("ViewDetails data:", data);
 
   const renderContent = () => {
-    // if (type === "Selfie") {
-    //   return info?.image ? (
-    //     <img className="w-full h-full rounded" src={info.image} alt="Selfie" />
-    //   ) : (
-    //     <NoData />
-    //   );
-    // }
+    if (!data) return <NoData />;
 
-    // if (type === "Passport") {
-    //   return info?.card_back_image_url && info?.card_front_image_url ? (
-    //     <div className="space-y-4">
-    //       <img
-    //         className="w-full h-[200px] rounded"
-    //         src={info.card_back_image_url}
-    //         alt="Passport Back"
-    //       />
-    //       <img
-    //         className="w-full h-[200px] rounded"
-    //         src={info.card_front_image_url}
-    //         alt="Passport Front"
-    //       />
-    //     </div>
-    //   ) : (
-    //     <NoData />
-    //   );
-    // }
+    const lower = data.toLowerCase();
 
-    if (data) {
-      return /\.(jpg|jpeg|png)$/i.test(data) ? (
-        <img className="w-full h-full rounded" src={data} alt="Uploaded File" />
-      ) : (
+    // Image
+    if (/\.(jpg|jpeg|png|gif|webp)$/i.test(lower)) {
+      return (
+        <img className="w-full h-full rounded" src={data} alt="Uploaded" />
+      );
+    }
+
+    // PDF
+    if (/\.pdf$/i.test(lower)) {
+      return (
         <embed src={data} type="application/pdf" width="100%" height="600px" />
       );
     }
 
-    return <NoData />;
+    // Word
+    if (/\.(doc|docx)$/i.test(lower)) {
+      return (
+        <iframe
+          src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
+            data
+          )}`}
+          width="100%"
+          height="600px"
+          frameBorder="0"
+          title="Word Document"
+        />
+      );
+    }
+
+    // PowerPoint
+    if (/\.(ppt|pptx)$/i.test(lower)) {
+      return (
+        <iframe
+          src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
+            data
+          )}`}
+          width="100%"
+          height="600px"
+          frameBorder="0"
+          title="PowerPoint"
+        />
+      );
+    }
+
+    // Video
+    if (/\.(mp4|webm|ogg)$/i.test(lower)) {
+      return (
+        <video controls className="w-full h-[400px] rounded">
+          <source src={data} type="video/mp4" />
+          Your browser does not support video.
+        </video>
+      );
+    }
+
+    // Audio
+    if (/\.(mp3|wav|ogg|m4a)$/i.test(lower)) {
+      return (
+        <audio controls className="w-full mt-4">
+          <source src={data} type="audio/mpeg" />
+          Your browser does not support audio.
+        </audio>
+      );
+    }
+
+    // Default
+    return (
+      <p className="text-center text-[16px] text-gray-500">
+        Unsupported file format
+      </p>
+    );
   };
 
   return (
@@ -47,9 +120,10 @@ function ViewDetails({ open, onClose, data }: any) {
       open={open}
       onCancel={onClose}
       footer={null}
-      title={"View Details"}
+      title="View Details"
       centered
       className="white-modal"
+      width={800}
     >
       <div className="mt-4">{renderContent()}</div>
     </Modal>

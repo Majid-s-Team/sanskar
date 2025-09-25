@@ -137,6 +137,14 @@ function AddStudent() {
                 >
                   <BaseInput
                     {...item}
+                    disabled={
+                      id &&
+                      [
+                        "is_new_student",
+                        "gurukal_id",
+                        "join_the_club",
+                      ].includes(item.name)
+                    }
                     options={
                       item.name === "gurukal_id"
                         ? optionpPicker(gurukalData as any[])

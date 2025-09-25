@@ -17,17 +17,52 @@ interface UploadedFile {
   name: string;
   size: string;
   status: FileStatus;
-  type: "image" | "video" | "pdf" | "link";
+  type:
+    | "image"
+    | "video"
+    | "pdf"
+    | "link"
+    | "word"
+    | "powerpoint"
+    | "audio"
+    | "mp3";
   url?: string;
   errorMessage?: string;
 }
 
 const MAX_SIZE_MB = 10;
+// const ALLOWED_TYPES: Record<string, UploadedFile["type"]> = {
+//   "image/png": "image",
+//   "image/jpeg": "image",
+//   "application/pdf": "pdf",
+//   "video/mp4": "video",
+// };
+
 const ALLOWED_TYPES: Record<string, UploadedFile["type"]> = {
+  // Images
   "image/png": "image",
   "image/jpeg": "image",
+
+  // PDF
   "application/pdf": "pdf",
+
+  // Video
   "video/mp4": "video",
+
+  // Word
+  "application/msword": "word", // .doc
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+    "word", // .docx
+
+  // PowerPoint
+  "application/vnd.ms-powerpoint": "powerpoint", // .ppt
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+    "powerpoint", // .pptx
+
+  // Audio
+  "audio/mpeg": "mp3", // mp3
+  "audio/mp3": "mp3", // some browsers use this
+  "audio/mp4": "mp3", // m4a/mp4 audio
 };
 
 export default function FileUploader({
