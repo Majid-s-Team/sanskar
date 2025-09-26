@@ -15,7 +15,6 @@ function AddAttendance() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [date, setDate] = useState<any>("");
-  const [date2, setDate2] = useState<any>(null);
   const [allStatus, setAllStatus] = useState<any>([]);
   const [attendance, setAttendance] = useState<any>([]);
 
@@ -102,29 +101,20 @@ function AddAttendance() {
   // }, [user]);
 
   useEffect(() => {
-    if (date2) {
+    if (date) {
       execute({
         type: "mount",
         routeParams: `${user?.teacher?.id}/attendances`,
-        params: { date: dayjs(date2).format("YYYY-MM-DD") },
+        params: { date: dayjs(date).format("YYYY-MM-DD") },
       });
     }
-  }, [date2]);
+  }, [date]);
 
   return (
     <HomeLayout>
       <div className="bg-white p-8 rounded-[24.59px]">
         <p className="text-[40px] semibold">Add New Attendance</p>
-        <div className="flex justify-between items-center mt-5">
-          <div className="w-[250px]">
-            <p className="text-[16px] regular">Pervious Attendance</p>
-            <DatePicker
-              onChange={(e) => setDate2(e)}
-              format={"DD-MM-YYYY"}
-              className="h-[45px] w-full mt-2"
-              maxDate={dayjs(new Date())}
-            />
-          </div>
+        <div className="flex justify-end items-center mt-5">
           <div className="w-[250px]">
             <p className="text-[16px] regular">Date</p>
             <DatePicker

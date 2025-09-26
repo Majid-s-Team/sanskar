@@ -193,7 +193,7 @@ function ArchivedTable() {
           input={
             <div className="flex lg:flex-row flex-col gap-5 items-center">
               <div className="flex gap-5 items-center">
-                <img className="w-[25px]" src="/icons/filter.png" />
+                {/* <img className="w-[25px]" src="/icons/filter.png" /> */}
                 <Input
                   placeholder="Search"
                   className={`search-input h-[47px] w-[300px] lg:w-[227.28px]`}
