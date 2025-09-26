@@ -15,11 +15,15 @@ export const myClassColumns = (
   {
     title: "Date",
     dataIndex: "date",
-    render: (text: string) => <p>{dayjs(text).format("DD-MM-YYYY")}</p>,
+    render: (text: string) => (
+      <p className="w-[100px]">{dayjs(text).format("DD-MM-YYYY")}</p>
+    ),
   },
   {
     title: "Description",
     dataIndex: "description",
+    align: "center",
+    render: (text: any) => <p className="capitalize text-center">{text}</p>,
     // render: () => (
     //   <p className="text-[#48B3FF] underline medium">View Details</p>
     // ),
@@ -28,7 +32,7 @@ export const myClassColumns = (
     title: "Download",
     dataIndex: "media",
     render: (media: any) => (
-      <div className="flex gap-5 justify-center items-center">
+      <div className="flex gap-5 justify-center items-center w-[250px]">
         <div className="space-y-2">
           {media.map((item: any) => {
             return (

@@ -160,6 +160,7 @@ function ArchivedTable() {
               ? myClassColumns(handleDownload, handleViewDetails, handleDelete)
               : activeTab?.columns
           }
+          scroll={activeTab?.id === 1 ? 1000 : 800}
           data={
             activeTab?.id === 1
               ? data

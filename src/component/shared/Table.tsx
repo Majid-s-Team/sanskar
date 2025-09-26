@@ -14,6 +14,7 @@ interface TableDataProps<T = Record<string, unknown>> {
     sorter: any // Can be refined further if sorter structure is known
   ) => void;
   loading?: boolean;
+  scroll?: number;
 }
 
 export default function TableData({
@@ -25,6 +26,7 @@ export default function TableData({
   pagination,
   onPaginationChange,
   loading,
+  scroll,
 }: TableDataProps) {
   return (
     <div>
@@ -36,7 +38,7 @@ export default function TableData({
       </div>
       <div className="border-l border-r border-[#E0E0E0] rounded-[12px] overflow-hidden">
         <Table
-          scroll={{ x: 800 }}
+          scroll={{ x: scroll || 800 }}
           columns={columns}
           dataSource={data}
           loading={loading}
