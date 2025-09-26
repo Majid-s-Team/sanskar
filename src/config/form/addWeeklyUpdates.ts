@@ -8,7 +8,7 @@ export const addWeeklyUpdates = [
   {
     title: "Class Name",
     name: "title",
-    rules: [{ required: true, message: "Please input your class!" }],
+    // rules: [{ required: true, message: "Please input your class!" }],
     type: "text",
   },
   {
