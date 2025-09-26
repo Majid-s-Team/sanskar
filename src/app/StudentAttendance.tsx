@@ -125,7 +125,7 @@ function StudentAttendance() {
                   border: "1px solid #CCCCCC",
                 }}
                 onChange={(e) => setSearch(e.target.value)}
-                suffix={<img className="w-[20px]" src="/icons/filter.png" />}
+                // suffix={<img className="w-[20px]" src="/icons/filter.png" />}
                 prefix={<img className="w-[20px]" src="/icons/search.png" />}
               />
             </div>

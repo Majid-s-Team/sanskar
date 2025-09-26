@@ -10,13 +10,18 @@ import { withAuthGuard } from "../../component/higherOrder/withAuth";
 import { useRequest } from "../../hooks/useRequest";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import { useAuth } from "../../hooks";
 
 function AddWeeklyUpdates() {
+  const { user } = useAuth();
   const { id } = useParams();
   const { state } = useLocation();
   const [form] = Form.useForm();
-
   const method = id ? "PUT" : "POST";
+
+  const className = user?.teacher?.gurukal.name;
+
+  console.log(className, "className");
 
   const navigate = useNavigate();
   const [media, setMedia] = useState([]);
@@ -52,6 +57,14 @@ function AddWeeklyUpdates() {
     }
   }, [state]);
 
+  useEffect(() => {
+    if (user?.roles?.[0] === "teacher") {
+      form.setFieldsValue({
+        title: className,
+      });
+    }
+  }, [user]);
+
   return (
     <HomeLayout>
       <div className="bg-white p-8 rounded-[24.59px]">
@@ -70,7 +83,7 @@ function AddWeeklyUpdates() {
                 name={item.name}
                 rules={item.rules}
               >
-                <BaseInput {...item} />
+                <BaseInput {...item} disabled={item.name === "title"} />
               </Form.Item>
             );
           })}

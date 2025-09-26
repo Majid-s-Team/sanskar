@@ -1,7 +1,7 @@
 import { InputNumber, message } from "antd";
 import { useState } from "react";
 
-export const addNewAttendanceColumns = (setAttendance: any) => {
+export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
   const [selectedStatus, setSelectedStatus] = useState<Record<string, string>>(
     {}
   );
@@ -29,9 +29,12 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
         ...prev,
         {
           student_id: studentId,
-          status: record?.attendance?.status ?? "not_recorded",
-          participation_points: record?.attendance?.participation_points ?? 0,
-          homework_points: record?.attendance?.homework_points ?? 0,
+          // status: record?.attendance?.status ?? "not_recorded",
+          // participation_points: record?.attendance?.participation_points ?? 0,
+          // homework_points: record?.attendance?.homework_points ?? 0,
+          status: record?.status ?? "not_recorded",
+          participation_points: record?.participation_points ?? 0,
+          homework_points: record?.homework_points ?? 0,
           [key]: value, // jo naya change hua usko overwrite karo
         },
       ];
@@ -63,6 +66,7 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
         const currentStatus =
           selectedStatus[record?.student?.id] ||
           record?.attendance?.status ||
+          record?.status ||
           "not_recorded";
 
         return (
@@ -83,10 +87,15 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
                   : "!bg-[#EFFDFF] text-[#4BBCD6]"
               }`}
             >
-              <option value="present">Present</option>
+              {/* <option value="present">Present</option>
               <option value="excused_absence">Excused Absence</option>
               <option value="not_recorded">Not Recorded</option>
-              <option value="unexcused_absence">Unexcused Absence</option>
+              <option value="unexcused_absence">Unexcused Absence</option> */}
+              {Object.keys(data?.statuses || {}).map((status) => (
+                <option key={status} value={status}>
+                  {data?.statuses[status]}
+                </option>
+              ))}
             </select>
           </div>
         );
@@ -94,19 +103,22 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
     },
     {
       title: "Participation Points",
-      dataIndex: "attendance",
-      render: (text: any, record: any) => (
+      // dataIndex: "attendance",
+      dataIndex: "participation_points",
+      render: (_: any, record: any) => (
         <InputNumber
           max={3}
           min={0}
           // disabled={text?.participation_points !== 0 ? true : false}
           className="!border !border-gray-100 custom-number-input"
-          defaultValue={text.participation_points}
+          // defaultValue={text.participation_points}
+          value={record.participation_points}
           onChange={(value: any) => {
             if (value > 3 || value < 0) {
               message.error("Value must be 0, 1, 2, or 3");
               return;
             }
+            record.participation_points = value;
             updateAttendance(
               record?.student?.id,
               "participation_points",
@@ -120,17 +132,18 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
     },
     {
       title: "Homework Points",
-      dataIndex: "attendance",
-      render: (text: any, record: any) => (
+      // dataIndex: "attendance",
+      dataIndex: "homework_points",
+      render: (_: any, record: any) => (
         <InputNumber
           max={3}
           min={0}
-          // disabled={text?.homework_points !== 0 ? true : false}
           onChange={(value: any) => {
             if (value > 3 || value < 0) {
               message.error("Value must be 0, 1, 2, or 3");
               return;
             }
+            record.homework_points = value;
             updateAttendance(
               record?.student?.id,
               "homework_points",
@@ -139,7 +152,8 @@ export const addNewAttendanceColumns = (setAttendance: any) => {
             );
           }}
           className="!border !border-gray-100 custom-number-input"
-          defaultValue={text.homework_points}
+          // defaultValue={text.homework_points}
+          value={record.homework_points}
           controls
         />
       ),

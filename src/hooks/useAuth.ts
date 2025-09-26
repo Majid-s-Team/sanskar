@@ -39,18 +39,29 @@ export const useAuth = () => {
         device_token: "1234567890",
       })
       .onSuccess((res) => {
-        console.log(res, "res");
+        if (
+          // @ts-ignore
+          res.data?.roles?.[0] === "user" ||
+          // @ts-ignore
+          res.data?.roles?.[0] === "teacher"
+        ) {
+          dispatch({
+            type: UserActionTypes.POST,
+            payload: res?.data as UserResponse,
+          });
+          // @ts-ignore
+          setStorageData("access_token", res?.data?.token);
+          setStorageData("user", res?.data);
+          navigate("/home");
+          // @ts-ignore
+          setStorageData("role", res?.data?.roles?.[0]);
+        } else {
+          notification.error({
+            message: "Error",
+            description: "Invalid credentials",
+          });
+        }
 
-        dispatch({
-          type: UserActionTypes.POST,
-          payload: res?.data as UserResponse,
-        });
-        // @ts-ignore
-        setStorageData("access_token", res?.data?.token);
-        setStorageData("user", res?.data);
-        navigate("/home");
-        // @ts-ignore
-        setStorageData("role", res?.data?.roles?.[0]);
         setLoading(false);
       })
       .onFailure((res: any) => {

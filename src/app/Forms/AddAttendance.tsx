@@ -9,22 +9,40 @@ import { useAuth } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import TableData from "../../component/shared/Table";
+import { AttendanceData } from "../../types";
 
 function AddAttendance() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [date, setDate] = useState<any>("");
+  const [date2, setDate2] = useState<any>(null);
+  const [allStatus, setAllStatus] = useState<any>([]);
   const [attendance, setAttendance] = useState<any>([]);
 
-  const {
-    data: studentList,
-    loading,
-    pagination,
-    onPaginationChange,
-    execute,
-  } = useRequest<any>("/teachers", "GET", {
-    routeParams: `${user?.teacher?.id}/students`,
-  });
+  const { data, loading, execute } = useRequest<AttendanceData>(
+    "/teacher",
+    "GET",
+    {}
+  );
+
+  useEffect(() => {
+    if (user?.teacher?.id) {
+      execute({
+        type: "mount",
+        routeParams: `${user?.teacher?.id}/attendances`,
+      });
+    }
+  }, [user]);
+
+  // const {
+  //   data: studentList,
+  //   loading,
+  //   pagination,
+  //   onPaginationChange,
+  //   execute,
+  // } = useRequest<any>("/teachers", "GET", {
+  //   routeParams: `${user?.teacher?.id}/students`,
+  // });
 
   const { execute: execute2, loading: loading2 } = useRequest(
     "/teacher",
@@ -33,6 +51,19 @@ function AddAttendance() {
       routeParams: `${user?.teacher?.id}/attendance`,
     }
   );
+
+  const { execute: execute3 } = useRequest("/attendance/statuses", "GET", {
+    type: "mount",
+  });
+
+  useEffect(() => {
+    execute3({
+      type: "mount",
+      cbSuccess(data) {
+        setAllStatus(data);
+      },
+    });
+  }, []);
 
   const onFinish = () => {
     execute2({
@@ -62,19 +93,38 @@ function AddAttendance() {
     });
   };
 
+  // useEffect(() => {
+  //   if (user?.teacher?.id) {
+  //     execute({
+  //       type: "mount",
+  //     });
+  //   }
+  // }, [user]);
+
   useEffect(() => {
-    if (user?.teacher?.id) {
+    if (date2) {
       execute({
         type: "mount",
+        routeParams: `${user?.teacher?.id}/attendances`,
+        params: { date: dayjs(date2).format("YYYY-MM-DD") },
       });
     }
-  }, [user]);
+  }, [date2]);
 
   return (
     <HomeLayout>
       <div className="bg-white p-8 rounded-[24.59px]">
         <p className="text-[40px] semibold">Add New Attendance</p>
-        <div className="flex justify-end items-center">
+        <div className="flex justify-between items-center mt-5">
+          <div className="w-[250px]">
+            <p className="text-[16px] regular">Pervious Attendance</p>
+            <DatePicker
+              onChange={(e) => setDate2(e)}
+              format={"DD-MM-YYYY"}
+              className="h-[45px] w-full mt-2"
+              maxDate={dayjs(new Date())}
+            />
+          </div>
           <div className="w-[250px]">
             <p className="text-[16px] regular">Date</p>
             <DatePicker
@@ -87,11 +137,13 @@ function AddAttendance() {
         </div>
         {/* <div className="border-l border-r border-[#E0E0E0] rounded-[12px] overflow-hidden my-10"> */}
         <TableData
-          columns={addNewAttendanceColumns(setAttendance)}
-          data={studentList?.students as any}
+          columns={addNewAttendanceColumns(setAttendance, allStatus)}
+          // data={studentList?.students as any}
+          data={data?.arrays?.all as any}
           loading={loading}
-          pagination={pagination}
-          onPaginationChange={onPaginationChange}
+          pagination={false}
+          // pagination={pagination}
+          // onPaginationChange={onPaginationChange}
         />
         {/* </div> */}
 

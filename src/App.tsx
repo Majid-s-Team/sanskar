@@ -46,94 +46,91 @@ import TeachersManual from "./app/TeachersManual";
 import GurukulAnnouncements from "./app/GurukulAnnouncements";
 import Payment from "./app/Auth/Payment";
 import TermsAndCondition from "./app/Auth/TermsAndCondition";
+import Payment2 from "./app/Payment2";
 const App: React.FC = () => {
   return (
-    <>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signup/add-student" element={<Step2 />} />
-        <Route path="/signup/address" element={<Step3 />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/otp/:email" element={<Otp />} />
-        <Route path="/reset-password/:email" element={<Resetpassword />} />
-        <Route path="/payment/:id" element={<Payment />} />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="*" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/signup/add-student" element={<Step2 />} />
+      <Route path="/signup/address" element={<Step3 />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/otp/:email" element={<Otp />} />
+      <Route path="/reset-password/:email" element={<Resetpassword />} />
+      <Route path="/payment/:id" element={<Payment />} />
 
-        {/* home routes */}
-        <Route path="/home" element={<Home />} />
-        <Route
-          path="/attendance-management"
-          element={<AttendanceManagement />}
-        />
-        <Route path="/gurukul-prayer" element={<GurukulPrayers />} />
-        <Route path="/events-rsvp" element={<Events />} />
-        <Route path="/forms" element={<Forms />} />
-        <Route path="/settings" element={<Setting />} />
+      {/* home routes */}
+      <Route path="/home" element={<Home />} />
+      <Route path="/attendance-management" element={<AttendanceManagement />} />
+      <Route path="/gurukul-prayer" element={<GurukulPrayers />} />
+      <Route path="/events-rsvp" element={<Events />} />
+      <Route path="/forms" element={<Forms />} />
+      <Route path="/settings" element={<Setting />} />
 
-        {/* inner routes */}
-        <Route path="/forms/add-student/:id" element={<AddStudent />} />
-        <Route path="/home/add-student" element={<AddStudent />} />
-        <Route path="/forms/absent-request-form" element={<AbsentForm />} />
-        <Route path="/forms/early-pickup-form" element={<EarlyPickUpForm />} />
-        <Route
-          path="/forms/sibling-enrollment-form"
-          element={<SiblingEnrollmentForm />}
-        />
+      {/* inner routes */}
+      <Route path="/forms/add-student/:id" element={<AddStudent />} />
+      <Route path="/home/add-student" element={<AddStudent />} />
+      <Route path="/forms/absent-request-form" element={<AbsentForm />} />
+      <Route path="/forms/early-pickup-form" element={<EarlyPickUpForm />} />
+      <Route
+        path="/forms/sibling-enrollment-form"
+        element={<SiblingEnrollmentForm />}
+      />
 
-        <Route path="/home/weekly-updates" element={<WeeklyUpdates />} />
-        <Route path="/home/multimedia" element={<Multimedia />} />
-        <Route path="/home/announcement" element={<Announcement />} />
-        <Route path="/home/contact-teacher" element={<ContactTeacher />} />
-        <Route path="/home/student-info/:id" element={<StudentInfo />} />
-        <Route path="/home/all-student-info" element={<StudentInfo />} />
-        <Route path="/event/details" element={<EventDetails />} />
+      <Route path="/home/weekly-updates" element={<WeeklyUpdates />} />
+      <Route path="/home/multimedia" element={<Multimedia />} />
+      <Route path="/home/announcement" element={<Announcement />} />
+      <Route path="/home/contact-teacher" element={<ContactTeacher />} />
+      <Route path="/home/student-info/:id" element={<StudentInfo />} />
+      <Route path="/home/all-student-info" element={<StudentInfo />} />
+      <Route path="/event/details" element={<EventDetails />} />
 
-        <Route path="/parents-profile" element={<ParentProfile />} />
-        <Route path="/re-registration-form" element={<RegistrationForm />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/about/terms-conditions" element={<TermsCondition />} />
-        <Route path="/about/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/about/faqs" element={<Faqs />} />
+      <Route path="/parents-profile" element={<ParentProfile />} />
+      <Route path="/re-registration-form" element={<RegistrationForm />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/about/terms-conditions" element={<TermsCondition />} />
+      <Route path="/about/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/about/faqs" element={<Faqs />} />
 
-        {/* teacher routes */}
-        <Route path="/my-attendance" element={<MyAttendance />} />
-        <Route path="student-management" element={<StudentManagement />} />
-        <Route path="/student-attendance" element={<StudentAttendance />} />
-        <Route path="/request-management" element={<RequestManagement />} />
-        <Route
-          path="/forms/arts-and-craft-project-form"
-          element={<ProjectForm />}
-        />
-        <Route
-          path="/forms/expense-reimbursement-form"
-          element={<ExpenseForm />}
-        />
-        <Route path="/archived" element={<ArchivedTable />} />
-        <Route path="/student-list" element={<StudentList />} />
-        <Route path="/add-attendance" element={<AddAttendance />} />
-        <Route path="/edit-attendance" element={<AddAttendance />} />
-        <Route
-          path="/request-management/form-details"
-          element={<FormDetails />}
-        />
+      {/* teacher routes */}
+      <Route path="/my-attendance" element={<MyAttendance />} />
+      <Route path="student-management" element={<StudentManagement />} />
+      <Route path="/student-attendance" element={<StudentAttendance />} />
+      <Route path="/request-management" element={<RequestManagement />} />
+      <Route
+        path="/forms/arts-and-craft-project-form"
+        element={<ProjectForm />}
+      />
+      <Route
+        path="/forms/expense-reimbursement-form"
+        element={<ExpenseForm />}
+      />
+      <Route path="/archived" element={<ArchivedTable />} />
+      <Route path="/student-list" element={<StudentList />} />
+      <Route path="/add-attendance" element={<AddAttendance />} />
+      <Route path="/edit-attendance" element={<AddAttendance />} />
+      <Route
+        path="/request-management/form-details"
+        element={<FormDetails />}
+      />
 
-        <Route path="/notifications" element={<Notifications />} />
-        <Route path="/gurukul-calendar" element={<Calendar />} />
-        <Route path="/add-weekly-updates" element={<AddWeeklyUpdates />} />
-        <Route
-          path="/add-weekly-updates/edit/:id"
-          element={<AddWeeklyUpdates />}
-        />
-        <Route path="/about/teacher-manual" element={<TeachersManual />} />
-        <Route
-          path="/home/gurukul-announcements"
-          element={<GurukulAnnouncements />}
-        />
+      <Route path="/notifications" element={<Notifications />} />
+      <Route path="/gurukul-calendar" element={<Calendar />} />
+      <Route path="/add-weekly-updates" element={<AddWeeklyUpdates />} />
+      <Route
+        path="/add-weekly-updates/edit/:id"
+        element={<AddWeeklyUpdates />}
+      />
+      <Route path="/about/teacher-manual" element={<TeachersManual />} />
+      <Route
+        path="/home/gurukul-announcements"
+        element={<GurukulAnnouncements />}
+      />
 
-        <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
-      </Routes>
-    </>
+      <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
+      <Route path="/student-payment" element={<Payment2 />} />
+    </Routes>
   );
 };
 

@@ -22,10 +22,11 @@ interface UploadedFile {
     | "video"
     | "pdf"
     | "link"
-    | "word"
+    | "docx"
     | "powerpoint"
     | "audio"
-    | "mp3";
+    | "mp3"
+    | "excel";
   url?: string;
   errorMessage?: string;
 }
@@ -50,14 +51,18 @@ const ALLOWED_TYPES: Record<string, UploadedFile["type"]> = {
   "video/mp4": "video",
 
   // Word
-  "application/msword": "word", // .doc
+  "application/msword": "docx", // .doc
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-    "word", // .docx
+    "docx", // .docx
 
   // PowerPoint
   "application/vnd.ms-powerpoint": "powerpoint", // .ppt
   "application/vnd.openxmlformats-officedocument.presentationml.presentation":
     "powerpoint", // .pptx
+
+  // Excel
+  "application/vnd.ms-excel": "excel", // .xls
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "excel",
 
   // Audio
   "audio/mpeg": "mp3", // mp3

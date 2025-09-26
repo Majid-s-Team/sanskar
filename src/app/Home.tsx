@@ -17,6 +17,7 @@ import { Student } from "../types";
 
 const Home = () => {
   const role = getStorageData("role");
+  // const [open, setOpen] = useState(false);
   const [activeStudent, setActiveStudent] = useState<any>();
   const { user: userData } = useAuth();
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const Home = () => {
         type: "mount",
         routeParams: userData?.user?.id + "/students",
       });
+      // setOpen(true);
     }
   }, [userData]);
 
@@ -75,7 +77,7 @@ const Home = () => {
             className="p-5 rounded-[20.15px] flex justify-center flex-col gap-5 items-center cursor-pointer"
           >
             <img className="w-[72px]" src="/icons/wallet.png" alt="" />
-            <p className="text-white text-[30px] semibold">View Archives</p>
+            <p className="text-white text-[30px] semibold">View Teacher List</p>
           </div>
         )}
       </HomeSection1>
@@ -202,6 +204,7 @@ const Home = () => {
         </div>
       </HomeSection2>
       <HomeSection3 role={role} />
+      {/* <StudentDetailsModal2 open={open} onClose={() => setOpen(false)} /> */}
     </HomeLayout>
   );
 };

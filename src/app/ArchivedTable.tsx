@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { Input, notification } from "antd";
 import {
-  archivedColumns,
   myClassColumns,
   otherClassColumns,
+  teacherManagementColumns,
   weeklyUpdateData,
 } from "../config";
 import { Link, useLocation } from "react-router-dom";
@@ -14,47 +14,66 @@ import { useRequest } from "../hooks/useRequest";
 import ViewDetails from "../component/shared/ViewDetails";
 import axios from "axios";
 import saveAs from "file-saver";
+import { useDebounce } from "../hooks";
 
 const tabs = [
-  { id: 1, label: "My Class Updates", columns: myClassColumns },
-  { id: 2, label: "Other Class Updates", columns: otherClassColumns },
-  { id: 3, label: "Archived", columns: archivedColumns },
+  {
+    id: 1,
+    label: "My Class Updates",
+    columns: myClassColumns,
+    url: "/weekly-updates",
+  },
+  {
+    id: 2,
+    label: "Other Class Updates",
+    columns: otherClassColumns,
+    url: null,
+  },
+  {
+    id: 3,
+    label: "Teacher List",
+    columns: teacherManagementColumns,
+    url: "/teachers",
+  },
 ];
 
 function ArchivedTable() {
   const { state } = useLocation();
   const [open, setOpen] = useState(false);
   const [viewDetails, setViewDetails] = useState<any>();
+  const [search, setSearch] = useState<string | undefined>(undefined);
+  const searchFIlter = useDebounce(search, 500);
   const [active, setActive] = useState<number>(() => {
     const id = typeof state === "number" ? state : 1;
     return tabs.some((tab) => tab.id === id) ? id : tabs[3].id;
   });
+  const activeTab = tabs.find((tab) => tab.id === active);
 
   const handleTabClick = (id: number) => {
     setActive(id);
   };
 
-  const activeTab = tabs.find((tab) => tab.id === active);
+  console.log(activeTab, "activeTab");
 
-  const { data, loading, setData } = useRequest("/weekly-updates", "GET", {
+  const {
+    data,
+    loading,
+    setData,
+    pagination: pagination2,
+    onPaginationChange: onPaginationChange2,
+  } = useRequest("/weekly-updates", "GET", {
     type: "mount",
   });
 
-  // const handleDownload = async (url: string, name: string) => {
-  //   try {
-  //     const response = await fetch(url);
-  //     const blob = await response.blob();
-
-  //     const blobUrl = window.URL.createObjectURL(blob);
-  //     const link = document.createElement("a");
-  //     link.href = blobUrl;
-  //     link.download = name; // force download with name
-  //     link.click();
-  //     window.URL.revokeObjectURL(blobUrl);
-  //   } catch (error) {
-  //     console.error("Download failed:", error);
-  //   }
-  // };
+  const {
+    data: teacherList,
+    loading: teacherListLoading,
+    pagination,
+    onPaginationChange,
+    execute: searchExecute,
+  } = useRequest("/teachers", "GET", {
+    type: "mount",
+  });
 
   const handleDownload = async (url: string, name: string) => {
     try {
@@ -64,8 +83,6 @@ function ArchivedTable() {
       console.error("Download failed:", error);
     }
   };
-
-  console.log(handleDownload);
 
   const handleViewDetails = (data: any) => {
     setOpen(true);
@@ -93,6 +110,22 @@ function ArchivedTable() {
       },
     });
   };
+
+  useEffect(() => {
+    if (searchFIlter && searchFIlter.trim() !== "") {
+      // 🔍 search API
+      searchExecute({
+        type: "mount",
+        params: { full_name: searchFIlter },
+      });
+    } else {
+      // 🔄 reset full list
+      searchExecute({
+        type: "mount",
+        params: {},
+      });
+    }
+  }, [searchFIlter]);
 
   return (
     <HomeLayout>
@@ -127,12 +160,34 @@ function ArchivedTable() {
               ? myClassColumns(handleDownload, handleViewDetails, handleDelete)
               : activeTab?.columns
           }
-          data={activeTab?.id === 1 ? data : (weeklyUpdateData as any)}
-          loading={loading || deleteLoading}
+          data={
+            activeTab?.id === 1
+              ? data
+              : activeTab?.id === 2
+              ? (weeklyUpdateData as any)
+              : teacherList
+          }
+          loading={loading || deleteLoading || teacherListLoading}
           title={
-            activeTab?.label === "Other Class Updates"
-              ? "Other Class Updates"
-              : "Weekly Updates"
+            activeTab?.id === 1
+              ? activeTab?.label
+              : activeTab?.id === 2
+              ? activeTab?.label
+              : "Teachers List"
+          }
+          pagination={
+            activeTab?.id === 1
+              ? pagination2
+              : activeTab?.id === 2
+              ? pagination
+              : false
+          }
+          onPaginationChange={
+            activeTab?.id === 1
+              ? onPaginationChange2
+              : activeTab?.id === 2
+              ? undefined
+              : onPaginationChange
           }
           input={
             <div className="flex lg:flex-row flex-col gap-5 items-center">
@@ -146,6 +201,13 @@ function ArchivedTable() {
                     backgroundColor: "#F5F4F9",
                     border: "none",
                   }}
+                  onChange={
+                    activeTab?.id === 3
+                      ? (e) => {
+                          setSearch(e.target.value);
+                        }
+                      : undefined
+                  }
                   prefix={<img className="w-[20px]" src="/icons/search.png" />}
                 />
               </div>

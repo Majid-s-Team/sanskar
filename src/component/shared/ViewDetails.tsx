@@ -36,8 +36,6 @@
 import { Modal } from "antd";
 
 function ViewDetails({ open, onClose, data }: any) {
-  console.log("ViewDetails data:", data);
-
   const renderContent = () => {
     if (!data) return <NoData />;
 
@@ -46,7 +44,11 @@ function ViewDetails({ open, onClose, data }: any) {
     // Image
     if (/\.(jpg|jpeg|png|gif|webp)$/i.test(lower)) {
       return (
-        <img className="w-full h-full rounded" src={data} alt="Uploaded" />
+        <img
+          className="w-[100%] h-[400px] object-contain rounded"
+          src={data}
+          alt="Uploaded"
+        />
       );
     }
 
@@ -94,6 +96,21 @@ function ViewDetails({ open, onClose, data }: any) {
           <source src={data} type="video/mp4" />
           Your browser does not support video.
         </video>
+      );
+    }
+
+    // Excel
+    if (/\.(xls|xlsx|csv)$/i.test(lower)) {
+      return (
+        <iframe
+          src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
+            data
+          )}`}
+          width="100%"
+          height="600px"
+          frameBorder="0"
+          title="Excel File"
+        />
       );
     }
 

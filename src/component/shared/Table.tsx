@@ -59,14 +59,17 @@ export default function TableData({
           onChange={onPaginationChange}
         />
       </div>
-      <CustomPagination
-        current={(pagination === false ? 1 : pagination?.current) || 1}
-        total={(pagination as TablePaginationConfig)?.total || 1}
-        onChange={(page) => {
-          onPaginationChange?.({ ...pagination, current: page }, {}, {});
-        }}
-        pageSize={(pagination as TablePaginationConfig)?.pageSize || 10}
-      />
+      {pagination === false ? null : (
+        <CustomPagination
+          // @ts-ignore
+          current={(pagination === false ? 1 : pagination?.current) || 1}
+          total={(pagination as TablePaginationConfig)?.total || 1}
+          onChange={(page) => {
+            onPaginationChange?.({ ...pagination, current: page }, {}, {});
+          }}
+          pageSize={(pagination as TablePaginationConfig)?.pageSize || 10}
+        />
+      )}
     </div>
   );
 }

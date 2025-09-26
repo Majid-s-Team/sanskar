@@ -54,19 +54,18 @@ function WeeklyUpdates() {
     }
   }, [selectStudent]);
 
-  // const handleDownload = (url: string, name: string) => {
-  //   const link = document.createElement("a");
-  //   link.href = url;
-  //   link.download = name;
-  //   link.style.display = "none"; // Hide the link element
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
+  // const handleDownload = async (url: string, name: string) => {
+  //   try {
+  //     const response = await axios.get(`/api/${url}`, { responseType: "blob" });
+  //     saveAs(response.data, name);
+  //   } catch (error) {
+  //     console.error("Download failed:", error);
+  //   }
   // };
 
   const handleDownload = async (url: string, name: string) => {
     try {
-      const response = await axios.get(`/api${url}`, { responseType: "blob" });
+      const response = await axios.get(url, { responseType: "blob" });
       saveAs(response.data, name);
     } catch (error) {
       console.error("Download failed:", error);
