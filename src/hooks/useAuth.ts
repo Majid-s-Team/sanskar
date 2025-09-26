@@ -43,6 +43,10 @@ export const useAuth = () => {
           // @ts-ignore
           res.data?.roles?.[0] === "user" ||
           // @ts-ignore
+          res.data.user.role === "user" ||
+          // @ts-ignore
+          res.data.user.role === "teacher" ||
+          // @ts-ignore
           res.data?.roles?.[0] === "teacher"
         ) {
           dispatch({
@@ -53,8 +57,11 @@ export const useAuth = () => {
           setStorageData("access_token", res?.data?.token);
           setStorageData("user", res?.data);
           navigate("/home");
-          // @ts-ignore
-          setStorageData("role", res?.data?.roles?.[0]);
+          setStorageData(
+            "role",
+            // @ts-ignore
+            res?.data?.roles?.[0] || res?.data?.user?.role
+          );
         } else {
           notification.error({
             message: "Error",

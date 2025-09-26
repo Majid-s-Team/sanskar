@@ -89,7 +89,7 @@ function StudentInfo() {
                 onChange={(value) => setSelectStudent(value)}
                 className=""
                 style={{
-                  width: "180px",
+                  width: "250px",
                 }}
               />
             )}
