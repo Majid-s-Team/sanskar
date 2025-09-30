@@ -2,15 +2,25 @@ import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import { Popconfirm } from "antd";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import weekOfYear from "dayjs/plugin/weekOfYear";
 
-export const myClassColumns = (
-  handleDownload: any,
-  handleViewDetails: any,
-  handleDelete: any
-) => [
+dayjs.extend(weekOfYear);
+
+type Props = {
+  handleDownload: (url: string, name: string) => void;
+  handleViewDetails: (data: any) => void;
+  handleDelete: (id: string) => void;
+};
+
+export const myClassColumns = ({
+  handleDownload,
+  handleViewDetails,
+  handleDelete,
+}: Props) => [
   {
     title: "Week #",
-    dataIndex: "id",
+    dataIndex: "created_at",
+    render: (text: string) => <p>{dayjs(text)?.week()}</p>,
   },
   {
     title: "Date",
@@ -62,18 +72,11 @@ export const myClassColumns = (
             );
           })}
         </div>
-        {/* <div className="flex items-center gap-3">
-          <img className="w-[30px]" src="/icons/pdf.png" alt="" />
-          <div>
-            <p className="text-[12px] medium text-black">Class Update Form</p>
-            <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p>
-          </div>
-        </div> */}
       </div>
     ),
   },
   {
-    title: "Action",
+    title: "Actions",
     dataIndex: "action",
     render: (_: any, record: any) => (
       <div className="flex gap-5 justify-center">
@@ -85,61 +88,13 @@ export const myClassColumns = (
         </Link>
 
         <Popconfirm
-          title="Are you sure you want to delete this class?"
+          title="Are you sure you want to delete this class update?"
           okText="Yes"
           onConfirm={() => handleDelete(record.id)}
           cancelText="No"
         >
           <DeleteFilled className="w-[24px] h-[24px] cursor-pointer" />
         </Popconfirm>
-
-        {/* <Dropdown
-          trigger={["click"]}
-          menu={{
-            items: [
-              // {
-              //   key: "1",
-              //   label: <p className="text-[#000]">View</p>,
-              // },
-              {
-                key: "2",
-                label: (
-                  <Link
-                    to={`/add-weekly-updates/edit/${record.id}`}
-                    state={record}
-                  >
-                    Edit
-                  </Link>
-                ),
-              },
-              {
-                key: "3",
-                // onClick: () => handleDelete(record.id),
-                label: (
-                  <Popconfirm
-                    title="Are you sure you want to delete this class?"
-                    okText="Yes"
-                    onConfirm={() => handleDelete(record.id)}
-                    cancelText="No"
-                  >
-                    <p className="text-[#000]">Delete</p>
-                  </Popconfirm>
-                ),
-              },
-            ],
-          }}
-        >
-          <img
-            className="w-[24px] h-[24px] cursor-pointer"
-            src="/icons/dots.png"
-            alt=""
-          />
-        </Dropdown> */}
-        {/* <img
-          className="w-[24px] h-[24px] cursor-pointer"
-          src="/icons/dots.png"
-          alt=""
-        /> */}
       </div>
     ),
   },

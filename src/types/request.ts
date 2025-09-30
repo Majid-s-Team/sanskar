@@ -11,6 +11,7 @@ export type ApiRoute = {
 };
 
 export type UseRequestOptions<T> = {
+  endpoint?: string;
   type?: "mount" | "unmount" | "delay";
   body?: Record<string, string | number | object | null | undefined | boolean>;
   params?: Record<string, string | number | null | undefined | boolean>;

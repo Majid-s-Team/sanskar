@@ -1,5 +1,5 @@
 import HomeLayout from "../../component/shared/HomeLayout";
-import { DatePicker, notification } from "antd";
+import { DatePicker, Input, notification } from "antd";
 import CustomButton from "../../component/shared/CustomButton";
 import { addNewAttendanceColumns } from "../../config";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,8 @@ function AddAttendance() {
   const [date, setDate] = useState<any>("");
   const [allStatus, setAllStatus] = useState<any>([]);
   const [attendance, setAttendance] = useState<any>([]);
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState<any[]>([]);
 
   const { data, loading, execute } = useRequest<AttendanceData>(
     "/teacher",
@@ -32,16 +34,6 @@ function AddAttendance() {
       });
     }
   }, [user]);
-
-  // const {
-  //   data: studentList,
-  //   loading,
-  //   pagination,
-  //   onPaginationChange,
-  //   execute,
-  // } = useRequest<any>("/teachers", "GET", {
-  //   routeParams: `${user?.teacher?.id}/students`,
-  // });
 
   const { execute: execute2, loading: loading2 } = useRequest(
     "/teacher",
@@ -67,9 +59,7 @@ function AddAttendance() {
   const onFinish = () => {
     execute2({
       body: {
-        attendance_date:
-          dayjs(date).format("YYYY-MM-DD") ||
-          dayjs(new Date()).format("YYYY-MM-DD"),
+        attendance_date: dayjs(date).format("YYYY-MM-DD"),
         attendance: attendance,
       },
       type: "mount",
@@ -92,13 +82,22 @@ function AddAttendance() {
     });
   };
 
-  // useEffect(() => {
-  //   if (user?.teacher?.id) {
-  //     execute({
-  //       type: "mount",
-  //     });
-  //   }
-  // }, [user]);
+  // && !dayjs(date).isSame(dayjs(), "day")
+
+  useEffect(() => {
+    if (search) {
+      const result = data?.arrays?.all?.filter(
+        (item: any) =>
+          item.student.first_name
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          item.student.last_name.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredData(result || []);
+    } else {
+      setFilteredData(data?.arrays?.all || []);
+    }
+  }, [search, data]);
 
   useEffect(() => {
     if (date) {
@@ -114,13 +113,25 @@ function AddAttendance() {
     <HomeLayout>
       <div className="bg-white p-8 rounded-[24.59px]">
         <p className="text-[40px] semibold">Add New Attendance</p>
-        <div className="flex justify-end items-center mt-5">
-          <div className="w-[250px]">
+        <div className="flex justify-between items-end mt-5">
+          <Input
+            placeholder="Search"
+            className={`search-input h-[45px] lg:w-[300px]`}
+            style={{
+              borderRadius: 12,
+              backgroundColor: "#fff",
+              border: "1px solid #CCCCCC",
+            }}
+            onChange={(e) => setSearch(e.target.value)}
+            // suffix={<img className="w-[20px]" src="/icons/filter.png" />}
+            prefix={<img className="w-[20px]" src="/icons/search.png" />}
+          />
+          <div className="w-[250px] space-y-1">
             <p className="text-[16px] regular">Date</p>
             <DatePicker
               onChange={(e) => setDate(e)}
               format={"DD-MM-YYYY"}
-              className="h-[45px] w-full mt-2"
+              className="h-[45px] w-full"
               maxDate={dayjs(new Date())}
             />
           </div>
@@ -129,7 +140,7 @@ function AddAttendance() {
         <TableData
           columns={addNewAttendanceColumns(setAttendance, allStatus)}
           // data={studentList?.students as any}
-          data={data?.arrays?.all as any}
+          data={filteredData}
           loading={loading}
           pagination={false}
           // pagination={pagination}

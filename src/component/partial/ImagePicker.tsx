@@ -2,6 +2,7 @@ import { Avatar, notification, Spin } from "antd";
 import { useState, useEffect } from "react";
 import { uploadfile } from "../../repositories";
 import { useRequest } from "../../hooks/useRequest";
+import { EditFilled } from "@ant-design/icons";
 
 interface ProfileimgProps {
   onChange: (data: string) => void | undefined;
@@ -38,8 +39,8 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
       return;
     }
 
-    const objectURL = URL.createObjectURL(file);
-    setImgSrc(objectURL);
+    // const objectURL = URL.createObjectURL(file);
+    // setImgSrc(objectURL);
 
     execute({
       body: {
@@ -79,14 +80,14 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
           <Spin size="default" />
         </div>
       ) : (
-        <>
+        <div className="relative w-[120px]">
           {imgSrc ? (
             <Avatar size={120} src={imgSrc} onClick={() => setImgSrc("")} />
           ) : (
-            <div className="pointer mx-auto lg:mx-0 w-[120px]">
+            <div className="pointer mx-auto lg:mx-0 w-[120px] relative">
               <label>
                 <img
-                  className="mx-auto pb-4 "
+                  className="mx-auto"
                   src="/images/upload.png"
                   alt="Upload icon"
                 />
@@ -98,7 +99,8 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
               </label>
             </div>
           )}
-        </>
+          <EditFilled className="absolute bottom-[15px] right-[0px] bg-[#d57d26] p-1.5 rounded-full text-white" />
+        </div>
       )}
     </div>
   );

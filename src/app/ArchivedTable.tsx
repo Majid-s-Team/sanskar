@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
-import { Input, notification } from "antd";
+import { DatePicker, Input, notification } from "antd";
 import {
   myClassColumns,
   otherClassColumns,
@@ -43,6 +43,7 @@ function ArchivedTable() {
   const [viewDetails, setViewDetails] = useState<any>();
   const [search, setSearch] = useState<string | undefined>(undefined);
   const searchFIlter = useDebounce(search, 500);
+  const [rangeDate, setRangeDate] = useState<any>(null);
   const [active, setActive] = useState<number>(() => {
     const id = typeof state === "number" ? state : 1;
     return tabs.some((tab) => tab.id === id) ? id : tabs[3].id;
@@ -53,14 +54,13 @@ function ArchivedTable() {
     setActive(id);
   };
 
-  console.log(activeTab, "activeTab");
-
   const {
     data,
     loading,
     setData,
     pagination: pagination2,
     onPaginationChange: onPaginationChange2,
+    execute: searchExecute2,
   } = useRequest("/weekly-updates", "GET", {
     type: "mount",
   });
@@ -77,7 +77,7 @@ function ArchivedTable() {
 
   const handleDownload = async (url: string, name: string) => {
     try {
-      const response = await axios.get(`/api${url}`, { responseType: "blob" });
+      const response = await axios.get(`${url}`, { responseType: "blob" });
       saveAs(response.data, name);
     } catch (error) {
       console.error("Download failed:", error);
@@ -110,6 +110,18 @@ function ArchivedTable() {
       },
     });
   };
+
+  useEffect(() => {
+    if (rangeDate) {
+      searchExecute2({
+        type: "mount",
+        params: {
+          start_date: rangeDate[0].format("YYYY-MM-DD"),
+          end_date: rangeDate[1].format("YYYY-MM-DD"),
+        },
+      });
+    }
+  }, [rangeDate]);
 
   useEffect(() => {
     if (searchFIlter && searchFIlter.trim() !== "") {
@@ -157,7 +169,11 @@ function ArchivedTable() {
           // @ts-ignore
           columns={
             activeTab?.id === 1
-              ? myClassColumns(handleDownload, handleViewDetails, handleDelete)
+              ? myClassColumns({
+                  handleDownload,
+                  handleViewDetails,
+                  handleDelete,
+                })
               : activeTab?.columns
           }
           scroll={activeTab?.id === 1 ? 1000 : 800}
@@ -194,23 +210,38 @@ function ArchivedTable() {
             <div className="flex lg:flex-row flex-col gap-5 items-center">
               <div className="flex gap-5 items-center">
                 {/* <img className="w-[25px]" src="/icons/filter.png" /> */}
-                <Input
-                  placeholder="Search"
-                  className={`search-input h-[47px] w-[300px] lg:w-[227.28px]`}
-                  style={{
-                    borderRadius: 6,
-                    backgroundColor: "#F5F4F9",
-                    border: "none",
-                  }}
-                  onChange={
-                    activeTab?.id === 3
-                      ? (e) => {
-                          setSearch(e.target.value);
-                        }
-                      : undefined
-                  }
-                  prefix={<img className="w-[20px]" src="/icons/search.png" />}
-                />
+                {activeTab?.id === 1 ? (
+                  <DatePicker.RangePicker
+                    onChange={(e) => setRangeDate(e)}
+                    style={{
+                      borderRadius: 6,
+                      backgroundColor: "#F5F4F9",
+                      border: "none",
+                    }}
+                    className={`search-input h-[47px] w-full lg:w-[300px]`}
+                    allowClear={true}
+                  />
+                ) : (
+                  <Input
+                    placeholder="Search"
+                    className={`search-input h-[47px] w-[300px] lg:w-[227.28px]`}
+                    style={{
+                      borderRadius: 6,
+                      backgroundColor: "#F5F4F9",
+                      border: "none",
+                    }}
+                    onChange={
+                      activeTab?.id === 3
+                        ? (e) => {
+                            setSearch(e.target.value);
+                          }
+                        : undefined
+                    }
+                    prefix={
+                      <img className="w-[20px]" src="/icons/search.png" />
+                    }
+                  />
+                )}
               </div>
 
               {activeTab?.id === 1 && (

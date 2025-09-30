@@ -2,10 +2,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import AuthButton from "../../component/partial/AuthButton";
 import { useRequest } from "../../hooks/useRequest";
 import { payment, students, user } from "../../repositories";
-import { Student } from "../../types";
+import { RouteTypes, Student } from "../../types";
 import { notification, Popconfirm, Spin } from "antd";
 import { useEffect } from "react";
 import { DeleteFilled } from "@ant-design/icons";
+import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
 // const children = [
 //   {
@@ -179,4 +180,4 @@ function Payment() {
   );
 }
 
-export default Payment;
+export default withAuthGuard(Payment, RouteTypes.AUTH);

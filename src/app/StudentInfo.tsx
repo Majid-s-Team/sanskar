@@ -28,8 +28,6 @@ function StudentInfo() {
     data: allStudents,
   } = useRequest<Student[]>(user.url, user.method, {});
 
-  console.log(studentData, "studentData");
-
   useEffect(() => {
     if (userData?.user?.id && !id) {
       execute({

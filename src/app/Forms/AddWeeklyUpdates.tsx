@@ -13,17 +13,13 @@ import dayjs from "dayjs";
 import { useAuth } from "../../hooks";
 
 function AddWeeklyUpdates() {
-  const { user } = useAuth();
+  const { user: userData } = useAuth();
   const { id } = useParams();
   const { state } = useLocation();
   const [form] = Form.useForm();
   const method = id ? "PUT" : "POST";
-
-  const className = user?.teacher?.gurukal.name;
-
-  console.log(className, "className");
-
   const navigate = useNavigate();
+
   const [media, setMedia] = useState([]);
   const { execute: execute2, loading } = useRequest(
     "/weekly-updates",
@@ -31,6 +27,22 @@ function AddWeeklyUpdates() {
     {}
   );
 
+  const {
+    data: user,
+    execute,
+    loading: userLoading,
+  } = useRequest<any>("/teachers", "GET", {});
+
+  useEffect(() => {
+    if (userData?.roles?.[0] === "teacher" && userData?.teacher?.id) {
+      execute({
+        type: "mount",
+        routeParams: `${userData?.teacher?.id}`,
+      });
+    }
+  }, [userData]);
+
+  const className = user?.gurukal?.name;
   const onFinish = (val: any) => {
     execute2({
       body: { ...val, media, date: dayjs(val.date).format("YYYY-MM-DD") },
@@ -58,7 +70,7 @@ function AddWeeklyUpdates() {
   }, [state]);
 
   useEffect(() => {
-    if (user?.roles?.[0] === "teacher") {
+    if (className) {
       form.setFieldsValue({
         title: className,
       });
@@ -66,7 +78,7 @@ function AddWeeklyUpdates() {
   }, [user]);
 
   return (
-    <HomeLayout>
+    <HomeLayout loading={userLoading}>
       <div className="bg-white p-8 rounded-[24.59px]">
         <p className="text-[40px] semibold text-center">Add Weekly Updates</p>
         <Form

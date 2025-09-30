@@ -39,7 +39,7 @@ function AnnouncementModal({ isModalOpen, handleCancel, setData }: Props) {
       body: values,
       cbSuccess: (res) => {
         handleCancel();
-        setData((prev: any) => [...prev, res?.data]);
+        setData((prev: any) => [res?.data, ...prev]);
       },
     });
   };
