@@ -25,7 +25,7 @@ function Announcement() {
     onPaginationChange,
     execute: getAnnouncement,
   } = useRequest<any>(url, "GET", {
-    type: "mount",
+    type: role === "teacher" ? "mount" : "delay",
   });
 
   const { data: TeacherData, execute } = useRequest<any>(
@@ -64,7 +64,7 @@ function Announcement() {
   useEffect(() => {
     if (selectStudent && selectStudent !== "") {
       getAnnouncement({
-        type: "delay",
+        type: "mount",
         params: {
           student_id: selectStudent,
         },
@@ -73,7 +73,7 @@ function Announcement() {
   }, [selectStudent]);
 
   return (
-    <HomeLayout loading={loading}>
+    <HomeLayout loading={loading || studentLoading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <div className="flex lg:flex-row flex-col justify-between lg:items-center">
           <p className="text-[30px] semibold">Announcements</p>

@@ -100,7 +100,7 @@ function AddAttendance() {
   }, [search, data]);
 
   useEffect(() => {
-    if (date) {
+    if (date && !dayjs(date).isSame(dayjs(), "day")) {
       execute({
         type: "mount",
         routeParams: `${user?.teacher?.id}/attendances`,

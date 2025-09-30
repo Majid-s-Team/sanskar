@@ -2,23 +2,30 @@ import { Form, Modal } from "antd";
 import { useAuth, useRequest } from "../../hooks";
 import { Student } from "../../types";
 import { user } from "../../repositories";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BaseInput from "./BaseInput";
 import AuthButton from "../partial/AuthButton";
 
-function StudentDetailsModal2({ open, onClose }: any) {
+function StudentDetailsModal3({ open, onClose }: any) {
+  const [allStudents, setAllStudents] = useState<Student[]>([]);
   const { user: userData } = useAuth();
-  const {
-    loading,
-    execute: execute2,
-    data,
-  } = useRequest<Student[]>(user.url, user.method, {});
+  const { loading, execute: execute2 } = useRequest<Student[]>(
+    user.url,
+    user.method,
+    {}
+  );
 
   useEffect(() => {
     if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
       execute2({
         type: "mount",
         routeParams: userData?.user?.id + "/students",
+        cbSuccess(res) {
+          const filteredData = res?.data?.filter(
+            (item: any) => item.is_new_student === false
+          );
+          setAllStudents(filteredData);
+        },
       });
     }
   }, [userData]);
@@ -30,7 +37,7 @@ function StudentDetailsModal2({ open, onClose }: any) {
   return (
     <Modal
       open={open}
-      onCancel={onClose}
+      onCancel={allStudents.length === 0 && onClose}
       footer={null}
       title="View Details"
       centered
@@ -43,7 +50,7 @@ function StudentDetailsModal2({ open, onClose }: any) {
         <Form.List name="students">
           {() => (
             <>
-              {data?.map((item: Student, index: number) => (
+              {allStudents?.map((item: Student, index: number) => (
                 <div
                   key={item.id}
                   className="grid lg:grid-cols-2 gap-5 mt-10 w-full px-10 border-b pb-10"
@@ -90,4 +97,4 @@ function StudentDetailsModal2({ open, onClose }: any) {
   );
 }
 
-export default StudentDetailsModal2;
+export default StudentDetailsModal3;

@@ -23,8 +23,6 @@ function StudentAttendance() {
     {}
   );
 
-  console.log(data);
-
   const present = data?.counts?.present || 0;
 
   const absences =
