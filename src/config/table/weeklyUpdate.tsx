@@ -6,7 +6,8 @@ export const weeklyUpdateColumns = (
 ) => [
   {
     title: "Week #",
-    dataIndex: "id",
+    dataIndex: "created_at",
+    render: (text: string) => <p>{dayjs(text)?.week()}</p>,
   },
   {
     title: "Date",
