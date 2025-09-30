@@ -31,8 +31,6 @@ function WeeklyUpdates() {
     execute: execute2,
   } = useRequest("/for-student", "GET", {});
 
-  console.log(forStudentData);
-
   useEffect(() => {
     if (userData && userData.user?.id) {
       execute({
@@ -71,8 +69,6 @@ function WeeklyUpdates() {
       console.error("Download failed:", error);
     }
   };
-
-  // handleDownload(url, "image.png");
 
   const handleViewDetails = (data: any) => {
     setOpen(true);
