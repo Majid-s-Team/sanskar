@@ -87,6 +87,7 @@ function WeeklyUpdates() {
   };
 
   useEffect(() => {
+    if (!selectStudent) return;
     if (rangeDate) {
       execute2({
         type: "mount",
