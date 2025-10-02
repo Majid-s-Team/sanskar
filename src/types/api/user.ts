@@ -78,9 +78,17 @@ type Gurukal = {
   updated_at?: string;
 };
 
+type Stats = {
+  total_weekly_updates: number;
+  total_announcements: number;
+  total_multimedia: number;
+  total_students: number;
+};
+
 export type UserResponse = {
   user?: User;
   roles?: string[];
   token?: string;
   teacher?: Teacher;
+  stats?: Stats;
 };

@@ -1,6 +1,5 @@
-import { Progress } from "antd";
 import { useNavigate } from "react-router-dom";
-import { card2, card } from "../../config";
+import { useAuth } from "../../hooks";
 
 interface CardItem {
   title: string;
@@ -8,7 +7,7 @@ interface CardItem {
   image: string;
   shadow: string;
   path: string;
-  percentage?: number; // add this property
+  percentage?: number;
 }
 
 function HomeSection2({
@@ -19,6 +18,79 @@ function HomeSection2({
   children: React.ReactNode;
 }) {
   const navigate = useNavigate();
+  const { user: userData } = useAuth();
+
+  const card = [
+    {
+      title: "Weekly Update",
+      value: userData?.stats?.total_weekly_updates + " Lesson" || "0 Lesson",
+      percentage: 75,
+      image: "/images/boxblue.png",
+      shadow: "0px 9.62px 28.85px 0px #369FFF66",
+      path: "/home/weekly-updates",
+    },
+    {
+      title: "Announcements",
+      value:
+        userData?.stats?.total_announcements + " New updates" ||
+        "0 New updates",
+      percentage: 25,
+      image: "/images/boxgreen.png",
+      shadow: "0px 9.62px 28.85px 0px #8AC53E66",
+      path: "/home/announcement",
+    },
+    {
+      title: "Multimedia",
+      value: userData?.stats?.total_multimedia + " Items" || "0 Items",
+      percentage: 50,
+      image: "/images/boxorange.png",
+      shadow: "0px 9.62px 28.85px 0px #FF993A66",
+      path: "/home/multimedia",
+    },
+
+    {
+      title: "Contact Teacher",
+      value: "Tap to view Profile",
+      image: "/images/boxyellow.png",
+      shadow: "0px 9.62px 28.85px 0px #8AC53E66",
+      path: "/home/contact-teacher",
+    },
+  ];
+
+  const card2 = [
+    {
+      title: "Weekly Updates",
+      value: userData?.stats?.total_weekly_updates + " Lesson" || "0 Lesson",
+      // percentage: 75,
+      image: "/images/boxblue.png",
+      shadow: "0px 9.62px 28.85px 0px #369FFF66",
+      path: "/archived",
+    },
+    {
+      title: "Announcements",
+      value:
+        userData?.stats?.total_announcements + " New updates" ||
+        "0 New updates",
+      image: "/images/boxgreen.png",
+      shadow: "0px 9.62px 28.85px 0px #8AC53E66",
+      path: "/home/announcement",
+    },
+    {
+      title: "Multimedia",
+      value: userData?.stats?.total_multimedia + " Items" || "0 Items",
+      image: "/images/boxorange.png",
+      shadow: "0px 9.62px 28.85px 0px #FF993A66",
+      path: "/home/multimedia",
+    },
+    {
+      title: "Student List",
+      value: userData?.stats?.total_students + " Items" || "42 Items",
+      image: "/images/boxorange.png",
+      shadow: "0px 9.62px 28.85px 0px #FF993A66",
+      path: "/student-list",
+    },
+  ];
+
   return (
     <div className="grid lg:grid-cols-12 xl:gap-10 lg:gap-5 gap-5 my-10">
       {children}
@@ -41,7 +113,7 @@ function HomeSection2({
                 <p className="text-white text-[20px] semibold">{item.title}</p>
                 <p className="text-white text-[14px] medium">{item.value}</p>
               </div>
-              {role === "user" && item?.percentage && (
+              {/* {role === "user" && item?.percentage && (
                 <Progress
                   type="circle"
                   strokeColor="#fff"
@@ -50,7 +122,7 @@ function HomeSection2({
                   size={80}
                   percent={item?.percentage}
                 />
-              )}
+              )} */}
             </div>
           ))}
         </div>

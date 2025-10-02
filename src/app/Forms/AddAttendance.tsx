@@ -99,15 +99,15 @@ function AddAttendance() {
     }
   }, [search, data]);
 
-  useEffect(() => {
-    if (date && !dayjs(date).isSame(dayjs(), "day")) {
-      execute({
-        type: "mount",
-        routeParams: `${user?.teacher?.id}/attendances`,
-        params: { date: dayjs(date).format("YYYY-MM-DD") },
-      });
-    }
-  }, [date]);
+  // useEffect(() => {
+  //   if (date && !dayjs(date).isSame(dayjs(), "day")) {
+  //     execute({
+  //       type: "mount",
+  //       routeParams: `${user?.teacher?.id}/attendances`,
+  //       params: { date: dayjs(date).format("YYYY-MM-DD") },
+  //     });
+  //   }
+  // }, [date]);
 
   return (
     <HomeLayout>

@@ -9,16 +9,16 @@ import { useRequest } from "../hooks/useRequest";
 import { user } from "../repositories";
 import { Student } from "../types";
 import ViewDetails from "../component/shared/ViewDetails";
-import axios from "axios";
-import saveAs from "file-saver";
-// import { saveAs } from "file-saver";
 // import axios from "axios";
+// import saveAs from "file-saver";
 
 function WeeklyUpdates() {
   const { user: userData } = useAuth();
   const [open, setOpen] = useState(false);
   const [viewDetails, setViewDetails] = useState<any>();
-  const [selectStudent, setSelectStudent] = useState<any>();
+  const [selectStudent, setSelectStudent] = useState<string | undefined>(
+    undefined
+  );
   const [rangeDate, setRangeDate] = useState<any>(null);
   const { data, execute, loading } = useRequest<Student[]>(
     user.url,
@@ -32,7 +32,9 @@ function WeeklyUpdates() {
     execute: execute2,
     pagination,
     onPaginationChange,
-  } = useRequest("/for-student", "GET", {});
+  } = useRequest("/for-student", "GET", {
+    type: "delay",
+  });
 
   useEffect(() => {
     if (userData && userData.user?.id) {
@@ -47,7 +49,7 @@ function WeeklyUpdates() {
   }, [userData]);
 
   useEffect(() => {
-    if (selectStudent) {
+    if (selectStudent !== undefined) {
       execute2({
         type: "mount",
         params: { student_id: selectStudent },
@@ -55,22 +57,28 @@ function WeeklyUpdates() {
     }
   }, [selectStudent]);
 
-  // const handleDownload = async (url: string, name: string) => {
+  // const handleDownload = (url: string, name: string) => {
   //   try {
-  //     const response = await axios.get(`/api/${url}`, { responseType: "blob" });
-  //     saveAs(response.data, name);
+  //     const link = document.createElement("a");
+  //     link.href = url;
+  //     link.target = "_blank";
+  //     link.download = name;
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
   //   } catch (error) {
   //     console.error("Download failed:", error);
   //   }
   // };
 
-  const handleDownload = async (url: string, name: string) => {
-    try {
-      const response = await axios.get(url, { responseType: "blob" });
-      saveAs(response.data, name);
-    } catch (error) {
-      console.error("Download failed:", error);
-    }
+  const handleDownload = (url: string, name: string) => {
+    const link = document.createElement("a");
+    link.href = url; // direct file URL
+    link.target = "_blank";
+    link.setAttribute("download", name); // file name
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   };
 
   const handleViewDetails = (data: any) => {
@@ -86,6 +94,13 @@ function WeeklyUpdates() {
           student_id: selectStudent,
           start_date: rangeDate[0].format("YYYY-MM-DD"),
           end_date: rangeDate[1].format("YYYY-MM-DD"),
+        },
+      });
+    } else {
+      execute2({
+        type: "mount",
+        params: {
+          student_id: selectStudent,
         },
       });
     }
@@ -139,6 +154,7 @@ function WeeklyUpdates() {
                   backgroundColor: "#F5F4F9",
                   border: "none",
                 }}
+                format={"DD-MM-YYYY"}
                 className={`search-input h-[47px] w-full lg:w-[300px]`}
                 allowClear={true}
               />

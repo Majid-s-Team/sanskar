@@ -93,8 +93,8 @@ function AddStudent() {
           user_id: userData?.user?.id,
         },
         type: "mount",
-        cbSuccess: () => {
-          navigate("/home");
+        cbSuccess: (res) => {
+          navigate("/student-payment/" + res?.data?.id, { state: res?.data });
         },
       });
     }

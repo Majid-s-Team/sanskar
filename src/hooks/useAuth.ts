@@ -96,7 +96,7 @@ export const useAuth = () => {
         navigate(`/otp/${btoa(value["primary_email"])}`);
         notification.success({
           message: "OTP",
-          description: res?.data?.otp,
+          description: res?.message,
         });
       })
       .onFailure((res) => {

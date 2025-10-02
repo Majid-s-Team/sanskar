@@ -9,8 +9,113 @@ interface ProfileimgProps {
   initialImgSrc: string | undefined;
 }
 
+// const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
+//   const [imgSrc, setImgSrc] = useState<string>("");
+
+//   const { execute, loading } = useRequest(uploadfile.url, uploadfile.method, {
+//     type: "delay",
+//   });
+
+//   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//     const file = event.target.files?.[0];
+//     if (!file) return;
+
+//     // ✅ File type validation
+//     const validTypes = ["image/jpeg", "image/png"];
+//     if (!validTypes.includes(file.type)) {
+//       notification.error({
+//         message: "Invalid File",
+//         description: "Only JPG and PNG images are allowed",
+//       });
+//       return;
+//     }
+
+//     // ✅ File size validation (5MB = 5 * 1024 * 1024 bytes)
+//     if (file.size > 5 * 1024 * 1024) {
+//       notification.error({
+//         message: "Invalid File",
+//         description: "Image size must be less than 5 MB",
+//       });
+//       return;
+//     }
+
+//     // const objectURL = URL.createObjectURL(file);
+//     // setImgSrc(objectURL);
+
+//     execute({
+//       body: {
+//         media: file,
+//         key: "user_image",
+//       },
+//       body_type: "formData",
+//       cbSuccess(res) {
+//         // @ts-ignore
+//         onChange(res.data?.url);
+//         // @ts-ignore
+//         setImgSrc(res.data?.url);
+//       },
+//       cbFailure(res) {
+//         notification.error({
+//           message: "Error",
+//           description: res.message,
+//         });
+//       },
+//     });
+//   };
+
+//   useEffect(() => {
+//     if (initialImgSrc) {
+//       setImgSrc(initialImgSrc);
+//     }
+//   }, [initialImgSrc]);
+
+//   return (
+//     <div>
+//       {/* <p className="text-[#2A2F31] text-[16px] red-regular py-6">Upload Logo</p> */}
+//       {loading ? (
+//         <div
+//           style={{ width: "110px" }}
+//           className=" h-[120px] flex justify-center items-center"
+//         >
+//           <Spin size="default" />
+//         </div>
+//       ) : (
+//         <div className="relative w-[120px]">
+//           {imgSrc ? (
+//             <Avatar size={120} src={imgSrc} onClick={() => setImgSrc("")} />
+//           ) : (
+//             <div className="pointer mx-auto lg:mx-0 w-[120px] relative">
+//               <label>
+//                 <img
+//                   className="mx-auto"
+//                   src="/images/upload.png"
+//                   alt="Upload icon"
+//                 />
+//                 <input
+//                   className="!hidden"
+//                   type="file"
+//                   onChange={onFileChange}
+//                 />
+//               </label>
+//             </div>
+//           )}
+//           <EditFilled
+//             onClick={() => onFileChange}
+//             className="absolute bottom-[15px] right-[0px] bg-[#d57d26] p-1.5 rounded-full text-white"
+//           />
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default ImagePicker;
+
+import { useRef } from "react";
+
 const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
   const [imgSrc, setImgSrc] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const { execute, loading } = useRequest(uploadfile.url, uploadfile.method, {
     type: "delay",
@@ -20,7 +125,6 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // ✅ File type validation
     const validTypes = ["image/jpeg", "image/png"];
     if (!validTypes.includes(file.type)) {
       notification.error({
@@ -30,7 +134,6 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
       return;
     }
 
-    // ✅ File size validation (5MB = 5 * 1024 * 1024 bytes)
     if (file.size > 5 * 1024 * 1024) {
       notification.error({
         message: "Invalid File",
@@ -38,9 +141,6 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
       });
       return;
     }
-
-    // const objectURL = URL.createObjectURL(file);
-    // setImgSrc(objectURL);
 
     execute({
       body: {
@@ -64,42 +164,48 @@ const ImagePicker = ({ onChange, initialImgSrc }: ProfileimgProps) => {
   };
 
   useEffect(() => {
-    if (initialImgSrc) {
-      setImgSrc(initialImgSrc);
-    }
+    if (initialImgSrc) setImgSrc(initialImgSrc);
   }, [initialImgSrc]);
 
   return (
     <div>
-      {/* <p className="text-[#2A2F31] text-[16px] red-regular py-6">Upload Logo</p> */}
       {loading ? (
         <div
           style={{ width: "110px" }}
-          className=" h-[120px] flex justify-center items-center"
+          className="h-[120px] flex justify-center items-center"
         >
           <Spin size="default" />
         </div>
       ) : (
         <div className="relative w-[120px]">
           {imgSrc ? (
-            <Avatar size={120} src={imgSrc} onClick={() => setImgSrc("")} />
+            <Avatar
+              size={120}
+              src={imgSrc}
+              onClick={() => fileInputRef.current?.click()}
+            />
           ) : (
-            <div className="pointer mx-auto lg:mx-0 w-[120px] relative">
-              <label>
-                <img
-                  className="mx-auto"
-                  src="/images/upload.png"
-                  alt="Upload icon"
-                />
-                <input
-                  className="!hidden"
-                  type="file"
-                  onChange={onFileChange}
-                />
-              </label>
-            </div>
+            <img
+              className="mx-auto cursor-pointer"
+              src="/images/upload.png"
+              alt="Upload icon"
+              onClick={() => fileInputRef.current?.click()}
+            />
           )}
-          <EditFilled className="absolute bottom-[15px] right-[0px] bg-[#d57d26] p-1.5 rounded-full text-white" />
+
+          {/* Hidden input */}
+          <input
+            ref={fileInputRef}
+            className="!hidden"
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={onFileChange}
+          />
+
+          <EditFilled
+            onClick={() => fileInputRef.current?.click()}
+            className="absolute bottom-[15px] right-[0px] bg-[#d57d26] p-1.5 rounded-full text-white cursor-pointer"
+          />
         </div>
       )}
     </div>

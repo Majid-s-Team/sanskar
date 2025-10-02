@@ -129,7 +129,7 @@ const App: React.FC = () => {
       />
 
       <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
-      <Route path="/student-payment" element={<Payment2 />} />
+      <Route path="/student-payment/:id" element={<Payment2 />} />
     </Routes>
   );
 };

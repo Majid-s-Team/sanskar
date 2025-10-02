@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   LoadingOutlined,
-  ReloadOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   DeleteFilled,
@@ -31,7 +30,7 @@ interface UploadedFile {
   errorMessage?: string;
 }
 
-const MAX_SIZE_MB = 10;
+const MAX_SIZE_MB = 50;
 // const ALLOWED_TYPES: Record<string, UploadedFile["type"]> = {
 //   "image/png": "image",
 //   "image/jpeg": "image",
@@ -239,8 +238,6 @@ export default function FileUploader({
             </div>
 
             <div className="flex gap-2 pt-1 text-gray-500 text-lg cursor-pointer">
-              {file.status === "error" && <ReloadOutlined />}
-              {/* <MoreOutlined /> */}
               <DeleteFilled onClick={() => handleRemove(file.id, file.name)} />
             </div>
           </div>

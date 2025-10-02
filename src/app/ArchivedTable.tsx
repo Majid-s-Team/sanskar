@@ -12,8 +12,8 @@ import { Link, useLocation } from "react-router-dom";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
 import ViewDetails from "../component/shared/ViewDetails";
-import axios from "axios";
-import saveAs from "file-saver";
+// import axios from "axios";
+// import saveAs from "file-saver";
 import { useDebounce } from "../hooks";
 
 const tabs = [
@@ -75,13 +75,23 @@ function ArchivedTable() {
     type: "mount",
   });
 
-  const handleDownload = async (url: string, name: string) => {
-    try {
-      const response = await axios.get(`${url}`, { responseType: "blob" });
-      saveAs(response.data, name);
-    } catch (error) {
-      console.error("Download failed:", error);
-    }
+  // const handleDownload = async (url: string, name: string) => {
+  //   try {
+  //     const response = await axios.get(`${url}`, { responseType: "blob" });
+  //     saveAs(response.data, name);
+  //   } catch (error) {
+  //     console.error("Download failed:", error);
+  //   }
+  // };
+
+  const handleDownload = (url: string, name: string) => {
+    const link = document.createElement("a");
+    link.href = url; // direct file URL
+    link.target = "_blank";
+    link.setAttribute("download", name); // file name
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   };
 
   const handleViewDetails = (data: any) => {
@@ -112,13 +122,18 @@ function ArchivedTable() {
   };
 
   useEffect(() => {
-    if (rangeDate) {
+    if (rangeDate && rangeDate[0] && rangeDate[1]) {
       searchExecute2({
         type: "mount",
         params: {
           start_date: rangeDate[0].format("YYYY-MM-DD"),
           end_date: rangeDate[1].format("YYYY-MM-DD"),
         },
+      });
+    } else {
+      searchExecute2({
+        type: "mount",
+        params: {},
       });
     }
   }, [rangeDate]);
@@ -213,6 +228,7 @@ function ArchivedTable() {
                 {activeTab?.id === 1 ? (
                   <DatePicker.RangePicker
                     onChange={(e) => setRangeDate(e)}
+                    format={"DD-MM-YYYY"}
                     style={{
                       borderRadius: 6,
                       backgroundColor: "#F5F4F9",

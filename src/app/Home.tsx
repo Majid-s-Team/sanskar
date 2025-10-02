@@ -14,15 +14,17 @@ import { useEffect, useState } from "react";
 import { useRequest } from "../hooks/useRequest";
 import { user } from "../repositories";
 import { Student } from "../types";
+import StudentDetailsModal3 from "../component/shared/StudentDetailsModal3";
 
 const Home = () => {
   const role = getStorageData("role");
-  // const [open, setOpen] = useState(false);
-  const [activeStudent, setActiveStudent] = useState<any>();
+  const [open, setOpen] = useState(false);
+  const [allStudents, setAllStudents] = useState<Student[]>([]);
+  const [activeStudent, setActiveStudent] = useState<Student>();
   const { user: userData } = useAuth();
   const navigate = useNavigate();
 
-  console.log(userData, "userData");
+  console.log(activeStudent, "userData");
 
   const { data, execute, loading } = useRequest<Student[]>(
     user.url,
@@ -35,10 +37,21 @@ const Home = () => {
       execute({
         type: "mount",
         routeParams: userData?.user?.id + "/students",
+        cbSuccess(res) {
+          const filteredData = res?.data?.filter(
+            (item: any) => item.is_new_student === null
+          );
+          setAllStudents(filteredData);
+        },
       });
-      // setOpen(true);
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (allStudents.length > 0) {
+      setOpen(true);
+    }
+  }, [allStudents]);
 
   return (
     <HomeLayout>
@@ -103,56 +116,78 @@ const Home = () => {
                   <Spin size="large" />
                 </div>
               ) : (
-                <Link
-                  to={`/home/student-info/${String(activeStudent?.id)}`}
-                  className="!text-black"
-                >
-                  <div className="flex gap-2 mt-5 items-center">
-                    <Avatar
-                      size={64}
-                      src={activeStudent?.profile_image || "/images/parent.png"}
-                    />
-                    <div>
-                      <p className="text-[12px] regular">Student Name</p>
-                      <p className="text-[20px] regular capitalize  w-[300px] truncate">
-                        {activeStudent?.first_name +
-                          " " +
-                          activeStudent?.last_name}
-                      </p>
-                    </div>
-                  </div>
-                  <div></div>
-                  {[
-                    {
-                      icon: "/images/info1.png",
-                      title: "Student ID",
-                      value: activeStudent?.id || "-",
-                    },
-                    {
-                      icon: "/images/info2.png",
-                      title: "Class Name",
-                      value: activeStudent?.gurukal?.name || "-",
-                    },
-                    {
-                      icon: "/images/info4.png",
-                      title: "House",
-                      value: activeStudent?.house || "Atharva Veda",
-                    },
-                    {
-                      icon: "/images/info3.png",
-                      title: "Book Club",
-                      value: activeStudent?.join_the_club === 1 ? "Yes" : "No",
-                    },
-                  ].map((item, index) => (
-                    <div key={index} className="flex gap-2 mt-5 items-center">
-                      <img className="w-[72.98px]" src={item.icon} alt="" />
+                <>
+                  <Link
+                    to={`/home/student-info/${String(activeStudent?.id)}`}
+                    className="!text-black"
+                  >
+                    <div className="flex gap-2 mt-5 items-center">
+                      <Avatar
+                        size={64}
+                        src={
+                          activeStudent?.profile_image || "/images/parent.png"
+                        }
+                      />
                       <div>
-                        <p className="text-[12px] regular">{item.title}</p>
-                        <p className="text-[20px] regular">{item.value}</p>
+                        <p className="text-[12px] regular">Student Name</p>
+                        <p className="text-[20px] regular capitalize  w-[300px] truncate">
+                          {activeStudent?.first_name +
+                            " " +
+                            activeStudent?.last_name}
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </Link>
+                    <div></div>
+                    {[
+                      {
+                        icon: "/images/info1.png",
+                        title: "Student ID",
+                        value: activeStudent?.id || "-",
+                      },
+                      {
+                        icon: "/images/info2.png",
+                        title: "Class Name",
+                        value: activeStudent?.gurukal?.name || "-",
+                      },
+                      {
+                        icon:
+                          activeStudent?.house?.house_image_url ||
+                          "/images/info4.png",
+                        title: "House",
+                        value: activeStudent?.house?.name || "Atharva Veda",
+                      },
+                      {
+                        icon: "/images/info3.png",
+                        title: "Book Club",
+                        value:
+                          activeStudent?.join_the_club === 1 ? "Yes" : "No",
+                      },
+                    ].map((item, index) => (
+                      <div key={index} className="flex gap-2 mt-5 items-center">
+                        <img
+                          className="w-[72.98px] h-[72.98px] object-cover rounded-[10px]"
+                          src={item.icon}
+                          alt=""
+                        />
+                        <div>
+                          <p className="text-[12px] regular">{item.title}</p>
+                          <p className="text-[20px] regular">{item.value}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </Link>
+                  {/* {activeStudent?.is_payment_done === null && (
+                    <CustomButton
+                      className="mt-5 w-full"
+                      onClick={() =>
+                        navigate("/student-payment/" + activeStudent?.id, {
+                          state: activeStudent,
+                        })
+                      }
+                      title="Make Payment"
+                    />
+                  )} */}
+                </>
               )}
             </div>
           ) : (
@@ -204,7 +239,7 @@ const Home = () => {
         </div>
       </HomeSection2>
       <HomeSection3 role={role} />
-      {/* <StudentDetailsModal2 open={open} onClose={() => setOpen(false)} /> */}
+      <StudentDetailsModal3 open={open} onClose={() => setOpen(false)} />
     </HomeLayout>
   );
 };

@@ -37,4 +37,6 @@ export type Student = {
   };
   teeshirt_size_id: number;
   updated_at: string;
+  is_payment_done: number;
+  house: any;
 };

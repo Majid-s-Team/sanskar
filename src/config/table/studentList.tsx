@@ -15,6 +15,11 @@ export const studentListColumns = [
     ),
   },
   {
+    title: "Home Name",
+    dataIndex: "house",
+    render: (text: any) => <p className="capitalize">{text?.name || "-"}</p>,
+  },
+  {
     title: "Date of Birth (DOB)",
     dataIndex: "student",
     render: (text: any) => <p>{dayjs(text?.dob).format("DD-MM-YYYY")}</p>,
