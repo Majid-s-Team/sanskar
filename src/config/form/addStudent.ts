@@ -240,4 +240,10 @@ export const addStudentForm = [
     rules: [{ required: true, message: "Please input your allergies!" }],
     type: "text",
   },
+  {
+    title: "House Name",
+    name: "house_id",
+    rules: [{ required: true, message: "Please select your house!" }],
+    type: "select",
+  },
 ];

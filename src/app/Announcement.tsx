@@ -15,7 +15,10 @@ function Announcement() {
   const { user: userData } = useAuth();
   const role = getStorageData("role");
   const [open, setOpen] = useState(false);
-  const [selectStudent, setSelectStudent] = useState<any>();
+  const [selectStudent, setSelectStudent] = useState<number | undefined>(
+    undefined
+  );
+  const [allStudents, setAllStudents] = useState<Student[]>();
   const url = role === "teacher" ? "/announcements" : "/annoucement-student";
   const {
     data,
@@ -43,11 +46,11 @@ function Announcement() {
     }
   }, [userData]);
 
-  const {
-    execute: execute2,
-    loading: studentLoading,
-    data: allStudents,
-  } = useRequest<Student[]>(user.url, user.method, {});
+  const { execute: execute2, loading: studentLoading } = useRequest<Student[]>(
+    user.url,
+    user.method,
+    {}
+  );
 
   useEffect(() => {
     if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
@@ -55,14 +58,21 @@ function Announcement() {
         type: "mount",
         routeParams: userData?.user?.id + "/students",
         cbSuccess(res) {
-          setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+          // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+          const student = res?.data.filter(
+            (item: any) => item.is_payment_done !== null
+          );
+          setAllStudents(student);
+          setSelectStudent(
+            res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
+          );
         },
       });
     }
   }, [userData]);
 
   useEffect(() => {
-    if (selectStudent && selectStudent !== "") {
+    if (selectStudent && selectStudent !== undefined) {
       getAnnouncement({
         type: "mount",
         params: {

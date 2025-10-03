@@ -1,6 +1,6 @@
 import { Header as AntHeader } from "antd/es/layout/layout";
 import { MenuUnfoldOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { Button } from "antd";
 import ProfileDropdown from "./ProfileDropdown";
 import { useLocation, useNavigate } from "react-router-dom";
 function Header({ drawerVisible, setDrawerVisible }: any) {
@@ -36,7 +36,7 @@ function Header({ drawerVisible, setDrawerVisible }: any) {
           alt="Logo"
         />
       )}
-      <Input
+      {/* <Input
         placeholder="Search"
         className={`search-input h-[45px] lg:w-[500px] w-[250px]`}
         style={{
@@ -47,7 +47,7 @@ function Header({ drawerVisible, setDrawerVisible }: any) {
         }}
         suffix={<img className="w-[20px]" src="/icons/filter.png" />}
         prefix={<img className="w-[20px]" src="/icons/search.png" />}
-      />
+      /> */}
       <div className=" lg:w-full flex justify-end">
         <ProfileDropdown />
       </div>

@@ -24,8 +24,6 @@ const Home = () => {
   const { user: userData } = useAuth();
   const navigate = useNavigate();
 
-  console.log(activeStudent, "userData");
-
   const { data, execute, loading } = useRequest<Student[]>(
     user.url,
     user.method,
@@ -150,11 +148,9 @@ const Home = () => {
                         value: activeStudent?.gurukal?.name || "-",
                       },
                       {
-                        icon:
-                          activeStudent?.house?.house_image_url ||
-                          "/images/info4.png",
+                        icon: activeStudent?.house?.house_image_url || "",
                         title: "House",
-                        value: activeStudent?.house?.name || "Atharva Veda",
+                        value: activeStudent?.house?.name || "Not Assigned",
                       },
                       {
                         icon: "/images/info3.png",
@@ -164,11 +160,22 @@ const Home = () => {
                       },
                     ].map((item, index) => (
                       <div key={index} className="flex gap-2 mt-5 items-center">
-                        <img
-                          className="w-[72.98px] h-[72.98px] object-cover rounded-[10px]"
-                          src={item.icon}
-                          alt=""
-                        />
+                        {item.icon === "" ? (
+                          <div className="w-[72.98px] h-[72.98px] bg-[#F4F4F4] flex justify-center items-center rounded-[10px]">
+                            <img
+                              className="w-[40px] h-[40px] object-cover"
+                              src={item.icon}
+                              alt=""
+                            />
+                          </div>
+                        ) : (
+                          <img
+                            className="w-[72.98px] h-[72.98px] object-cover rounded-[10px]"
+                            src={item.icon}
+                            alt=""
+                          />
+                        )}
+
                         <div>
                           <p className="text-[12px] regular">{item.title}</p>
                           <p className="text-[20px] regular">{item.value}</p>

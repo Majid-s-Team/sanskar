@@ -23,7 +23,9 @@ function HomeSection2({
   const card = [
     {
       title: "Weekly Update",
-      value: userData?.stats?.total_weekly_updates + " Lesson" || "0 Lesson",
+      value: userData?.stats?.total_weekly_updates
+        ? userData?.stats?.total_weekly_updates + " Lesson"
+        : "0 Lesson",
       percentage: 75,
       image: "/images/boxblue.png",
       shadow: "0px 9.62px 28.85px 0px #369FFF66",
@@ -31,9 +33,9 @@ function HomeSection2({
     },
     {
       title: "Announcements",
-      value:
-        userData?.stats?.total_announcements + " New updates" ||
-        "0 New updates",
+      value: userData?.stats?.total_announcements
+        ? userData?.stats?.total_announcements + " New updates"
+        : "0 New updates",
       percentage: 25,
       image: "/images/boxgreen.png",
       shadow: "0px 9.62px 28.85px 0px #8AC53E66",
@@ -41,13 +43,14 @@ function HomeSection2({
     },
     {
       title: "Multimedia",
-      value: userData?.stats?.total_multimedia + " Items" || "0 Items",
+      value: userData?.stats?.total_multimedia
+        ? userData?.stats?.total_multimedia + " Items"
+        : "0 Items",
       percentage: 50,
       image: "/images/boxorange.png",
       shadow: "0px 9.62px 28.85px 0px #FF993A66",
       path: "/home/multimedia",
     },
-
     {
       title: "Contact Teacher",
       value: "Tap to view Profile",
@@ -60,7 +63,9 @@ function HomeSection2({
   const card2 = [
     {
       title: "Weekly Updates",
-      value: userData?.stats?.total_weekly_updates + " Lesson" || "0 Lesson",
+      value: userData?.stats?.total_weekly_updates
+        ? userData?.stats?.total_weekly_updates + " Lesson"
+        : "0 Lesson",
       // percentage: 75,
       image: "/images/boxblue.png",
       shadow: "0px 9.62px 28.85px 0px #369FFF66",
@@ -68,23 +73,27 @@ function HomeSection2({
     },
     {
       title: "Announcements",
-      value:
-        userData?.stats?.total_announcements + " New updates" ||
-        "0 New updates",
+      value: userData?.stats?.total_announcements
+        ? userData?.stats?.total_announcements + " New updates"
+        : "0 New updates",
       image: "/images/boxgreen.png",
       shadow: "0px 9.62px 28.85px 0px #8AC53E66",
       path: "/home/announcement",
     },
     {
       title: "Multimedia",
-      value: userData?.stats?.total_multimedia + " Items" || "0 Items",
+      value: userData?.stats?.total_multimedia
+        ? userData?.stats?.total_multimedia + " Items"
+        : "0 Items",
       image: "/images/boxorange.png",
       shadow: "0px 9.62px 28.85px 0px #FF993A66",
       path: "/home/multimedia",
     },
     {
       title: "Student List",
-      value: userData?.stats?.total_students + " Items" || "42 Items",
+      value: userData?.stats?.total_students
+        ? userData?.stats?.total_students + " Items"
+        : "0 Items",
       image: "/images/boxorange.png",
       shadow: "0px 9.62px 28.85px 0px #FF993A66",
       path: "/student-list",

@@ -13,6 +13,7 @@ function StudentInfo() {
   const { id } = useParams();
   const [form] = Form.useForm();
   const [selectStudent, setSelectStudent] = useState<any>();
+  const [allStudents, setAllStudents] = useState<Student[]>();
   const {
     data: studentData,
     loading,
@@ -22,11 +23,11 @@ function StudentInfo() {
     routeParams: String(id),
   });
   const { user: userData } = useAuth();
-  const {
-    execute,
-    loading: studentLoading,
-    data: allStudents,
-  } = useRequest<Student[]>(user.url, user.method, {});
+  const { execute, loading: studentLoading } = useRequest<Student[]>(
+    user.url,
+    user.method,
+    {}
+  );
 
   useEffect(() => {
     if (userData?.user?.id && !id) {
@@ -34,10 +35,13 @@ function StudentInfo() {
         type: "mount",
         routeParams: `${userData.user.id}/students`,
         cbSuccess(res) {
-          // const student = res?.data.find(
-          //   (item: any) => String(item.id) === String(id)
-          // );
-          setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+          const student = res?.data.filter(
+            (item: any) => item.is_payment_done !== null
+          );
+          setAllStudents(student);
+          setSelectStudent(
+            res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
+          );
         },
       });
     }
@@ -63,6 +67,7 @@ function StudentInfo() {
         school_grade_id: studentData?.school_grade?.name,
         gurukal_id: studentData?.gurukal?.name,
         join_the_club: studentData.join_the_club ? "Yes" : "No",
+        house_id: studentData?.house?.name,
       });
     }
   }, [studentData]);

@@ -179,9 +179,15 @@ export default function FileUploader({
     processFile(0);
   };
 
+  // const handleFiles = (selectedFiles: FileList | null) => {
+  //   if (!selectedFiles) return;
+  //   uploadSequentially(Array.from(selectedFiles));
+  // };
+
   const handleFiles = (selectedFiles: FileList | null) => {
-    if (!selectedFiles) return;
-    uploadSequentially(Array.from(selectedFiles));
+    if (!selectedFiles || selectedFiles.length === 0) return;
+    const file = selectedFiles[0]; // sirf ek file
+    uploadSequentially([file]); // array bana ke bhejna
   };
 
   const handleRemove = (id?: number, name?: string) => {
@@ -202,7 +208,7 @@ export default function FileUploader({
         <input
           id="file-upload"
           type="file"
-          multiple
+          // multiple
           className="!hidden"
           onChange={(e) => handleFiles(e.target.files)}
         />

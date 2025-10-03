@@ -4,6 +4,7 @@ import { EffectCoverflow, Navigation } from "swiper/modules";
 import "swiper/css";
 import { useEffect, useState } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Student } from "../../types";
 
 export default function MovieCarousel({ data, setStudent }: any) {
   const [activeIndex, setActiveIndex] = useState(1);
@@ -53,7 +54,7 @@ export default function MovieCarousel({ data, setStudent }: any) {
         initialSlide={activeIndex}
         className="lg:w-full"
       >
-        {data?.map((item: any, index: number) => (
+        {data?.map((item: Student, index: number) => (
           <SwiperSlide
             key={index}
             className="w-[150px] h-[200px] transition-all duration-300 overflow-hidden rounded-xl"
@@ -67,12 +68,15 @@ export default function MovieCarousel({ data, setStudent }: any) {
             >
               <img
                 className="w-[80px] h-[80px] mx-auto rounded-full"
-                src={item.profile_image}
+                src={item.profile_image || "/images/avatar.png"}
                 alt=""
               />
               <h3 className="mt-2 text-[15px] medium capitalize truncate">
                 {item.first_name + " " + item.last_name}
               </h3>
+              {item.is_payment_done === null && (
+                <p className="text-[12px] regular">Payment Pending</p>
+              )}
             </div>
           </SwiperSlide>
         ))}

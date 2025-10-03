@@ -54,6 +54,10 @@ function AddStudent() {
     type: "mount",
   });
 
+  const { data: houseData } = useRequest<any>("/houses", "GET", {
+    type: "mount",
+  });
+
   useEffect(() => {
     if (id) {
       execute({
@@ -143,6 +147,7 @@ function AddStudent() {
                         "is_new_student",
                         "gurukal_id",
                         "join_the_club",
+                        "house_id",
                       ].includes(item.name)
                     }
                     options={
@@ -152,6 +157,8 @@ function AddStudent() {
                         ? optionpPicker(gradeData as any[])
                         : item.name === "teeshirt_size_id"
                         ? optionpPicker(teeshirtSizeData as any[])
+                        : item.name === "house_id"
+                        ? optionpPicker(houseData as any[])
                         : item.options
                     }
                   />

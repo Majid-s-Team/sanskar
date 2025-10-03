@@ -16,15 +16,12 @@ function WeeklyUpdates() {
   const { user: userData } = useAuth();
   const [open, setOpen] = useState(false);
   const [viewDetails, setViewDetails] = useState<any>();
-  const [selectStudent, setSelectStudent] = useState<string | undefined>(
+  const [selectStudent, setSelectStudent] = useState<number | undefined>(
     undefined
   );
+  const [allStudents, setAllStudents] = useState<Student[]>();
   const [rangeDate, setRangeDate] = useState<any>(null);
-  const { data, execute, loading } = useRequest<Student[]>(
-    user.url,
-    user.method,
-    {}
-  );
+  const { execute, loading } = useRequest<Student[]>(user.url, user.method, {});
 
   const {
     data: forStudentData,
@@ -42,7 +39,14 @@ function WeeklyUpdates() {
         type: "mount",
         routeParams: userData?.user?.id + "/students",
         cbSuccess(res) {
-          setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+          // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+          const student = res?.data.filter(
+            (item: any) => item.is_payment_done !== null
+          );
+          setAllStudents(student);
+          setSelectStudent(
+            res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
+          );
         },
       });
     }
@@ -120,7 +124,7 @@ function WeeklyUpdates() {
           input={
             <div className="flex gap-5 items-center">
               <Select
-                options={data?.map((item: any) => ({
+                options={allStudents?.map((item: any) => ({
                   value: item.id,
                   label: (
                     <p className="capitalize regular">
