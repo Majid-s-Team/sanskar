@@ -12,21 +12,7 @@ function Payment2() {
 
   console.log(state, "state");
 
-  // const [data, setData] = useState<Student[]>();
-
-  // const { loading, execute: execute2 } = useRequest<Student[]>(
-  //   user.url,
-  //   user.method,
-  //   {}
-  // );
-
   const amount = state?.join_the_club ? 310 : 300;
-
-  // const baseFee = 300;
-  // const amount = (data ?? []).reduce((total, student) => {
-  //   const extraFee = student.join_the_club ? 10 : 0;
-  //   return total + baseFee + extraFee;
-  // }, 0);
 
   const { execute, loading: loading2 } = useRequest(
     payment.url,
@@ -40,13 +26,13 @@ function Payment2() {
     execute({
       body: {
         user_id: userData?.user?.id,
-        student_id: id,
+        student_id: [id],
         amount: amount,
         currency: "usd",
       },
       cbSuccess(res) {
         console.log(res?.url, "url");
-        window.location.href = res?.url as any;
+        window.open(res?.url as any, "_blank");
       },
     });
   };
@@ -68,7 +54,7 @@ function Payment2() {
 
   return (
     <HomeLayout>
-      <div className="flex items-center justify-center h-full">
+      <div className="flex items-center justify-center h-full bg-white rounded-[24px]">
         <div>
           <div className="flex justify-center flex-wrap gap-4">
             {/* {data?.map((child: any, index: number) => ( */}
@@ -103,11 +89,11 @@ function Payment2() {
               text="Make Payment"
             />
           </div>
-          <p className="text-black text-[15px] text-center regular w-[80%] mx-auto">
+          {/* <p className="text-black text-[15px] text-center regular w-[80%] mx-auto">
             Please make a payment to complete the registration. Registration is
             not considered complete until payment is received. Unpaid
             registrations will be cancelled.
-          </p>
+          </p> */}
         </div>
       </div>
     </HomeLayout>

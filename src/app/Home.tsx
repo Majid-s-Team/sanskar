@@ -176,7 +176,7 @@ const Home = () => {
                       </div>
                     ))}
                   </Link>
-                  {/* {activeStudent?.is_payment_done === null && (
+                  {activeStudent?.is_payment_done === null && (
                     <CustomButton
                       className="mt-5 w-full"
                       onClick={() =>
@@ -186,7 +186,7 @@ const Home = () => {
                       }
                       title="Make Payment"
                     />
-                  )} */}
+                  )}
                 </>
               )}
             </div>

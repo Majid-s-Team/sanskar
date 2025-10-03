@@ -8,27 +8,6 @@ import { useEffect } from "react";
 import { DeleteFilled } from "@ant-design/icons";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
 
-// const children = [
-//   {
-//     name: "Child Name",
-//     email: "child@example.com",
-//     number: "+123456789",
-//     image: "/images/user.png",
-//   },
-//   // {
-//   //   name: "Child Name",
-//   //   email: "child@example.com",
-//   //   number: "+123456789",
-//   //   image: "/images/user.png",
-//   // },
-//   // {
-//   //   name: "Child Name",
-//   //   email: "child@example.com",
-//   //   number: "+123456789",
-//   //   image: "/images/user.png",
-//   // },
-// ];
-
 function Payment() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -66,6 +45,7 @@ function Payment() {
     execute({
       body: {
         user_id: id,
+        student_id: data?.map((s) => s.id),
         amount: amount,
         currency: "usd",
       },
