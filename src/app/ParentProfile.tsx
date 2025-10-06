@@ -100,13 +100,13 @@ function ParentProfile() {
   useEffect(() => {
     if (data) {
       form.setFieldsValue({
-        ...data,
-        is_hsnc_member: data?.is_hsnc_member === 1 ? true : false,
+        ...data?.user,
+        is_hsnc_member: data?.user?.is_hsnc_member === 1 ? true : false,
         mother_volunteering: data?.mother_volunteering === 1 ? true : false,
         father_volunteering: data?.father_volunteering === 1 ? true : false,
       });
-      setMotherActive(data?.mother_volunteering === 1 ? true : false);
-      setFatherActive(data?.father_volunteering === 1 ? true : false);
+      setMotherActive(data?.user?.mother_volunteering === 1 ? true : false);
+      setFatherActive(data?.user?.father_volunteering === 1 ? true : false);
     }
   }, [data]);
 
@@ -123,8 +123,8 @@ function ParentProfile() {
 
   useEffect(() => {
     // Mother
-    if (motherActive && data?.mother_activities?.length) {
-      const mappedMother = data.mother_activities.map((act: any) => ({
+    if (motherActive && data?.user?.mother_activities?.length) {
+      const mappedMother = data?.user?.mother_activities.map((act: any) => ({
         label: act.name,
         value: act.id,
       }));
@@ -136,8 +136,8 @@ function ParentProfile() {
     }
 
     // Father
-    if (fatherActive && data?.father_activities?.length) {
-      const mappedFather = data.father_activities.map((act: any) => ({
+    if (fatherActive && data?.user?.father_activities?.length) {
+      const mappedFather = data?.user?.father_activities.map((act: any) => ({
         label: act.name,
         value: act.id,
       }));
@@ -165,7 +165,7 @@ function ParentProfile() {
             rules={[{ required: true, message: "Please input your image!" }]}
           >
             <ImagePicker
-              initialImgSrc={data?.profile_image}
+              initialImgSrc={data?.user?.profile_image}
               onChange={() => {}}
             />
           </Form.Item>

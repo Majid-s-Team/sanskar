@@ -1,20 +1,87 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
-import { attendanceColumns, attendanceData } from "../config";
+import { attendanceColumns } from "../config";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { Select } from "antd";
+import { useEffect, useState } from "react";
+import { useAuth, useRequest } from "../hooks";
+import { Student } from "../types";
+import { user } from "../repositories";
+import { getStorageData } from "../helper";
 
 function AttendanceManagement() {
+  const { user: userData } = useAuth();
+  const role = getStorageData("role");
+
+  const [selectStudent, setSelectStudent] = useState<number | undefined>(
+    undefined
+  );
+  const [allStudents, setAllStudents] = useState<Student[]>();
+  const { execute: execute2, loading: studentLoading } = useRequest<Student[]>(
+    user.url,
+    user.method,
+    {}
+  );
+  console.log(userData?.user?.id, "userData");
+
+  // const url = ;
+
+  const {
+    data,
+    loading,
+    // setData,
+    pagination,
+    onPaginationChange,
+    execute: getAttendence,
+  } = useRequest<any>(`/user/${userData?.user?.id}/students`, "GET", {
+    type: role === "teacher" ? "mount" : "delay",
+  });
+  useEffect(() => {
+    if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
+      execute2({
+        type: "mount",
+        routeParams: userData?.user?.id + "/students",
+        cbSuccess(res) {
+          // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+          const student = res?.data.filter(
+            (item: any) => item.is_payment_done !== null
+          );
+          setAllStudents(student);
+          // setSelectStudent(
+          //   res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
+          // );
+        },
+      });
+    }
+  }, [userData]);
+  useEffect(() => {
+    if (
+      userData &&
+      userData.user?.id &&
+      selectStudent &&
+      selectStudent !== undefined
+    ) {
+      getAttendence({
+        type: "delay",
+        params: {
+          student_id: selectStudent,
+        },
+      });
+    }
+  }, [selectStudent, userData]);
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
-          columns={attendanceColumns()}
-          data={attendanceData}
+          columns={attendanceColumns(data?.student)}
+          data={data?.attendance_arrays?.recorded || []}
+          pagination={pagination}
+          onPaginationChange={onPaginationChange}
           title="Attendance Management"
           input={
             <div>
-              <div className="flex justify-end">
+              {/* <div className="flex justify-end">
                 <Link
                   to={"/forms/absent-request-form"}
                   style={{
@@ -33,7 +100,7 @@ function AttendanceManagement() {
                     </p>
                   </div>
                 </Link>
-              </div>
+              </div> */}
 
               <div className="grid lg:grid-cols-2 gap-4 mt-5">
                 <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
@@ -50,6 +117,26 @@ function AttendanceManagement() {
                     <p className="text-[20px] semibold">10</p>
                   </div>
                 </div>
+              </div>
+              <div className="mt-5">
+                <Select
+                  options={allStudents?.map((item: any) => ({
+                    value: item.id,
+                    label: (
+                      <p className="capitalize regular">
+                        {item.first_name} {item.last_name}
+                      </p>
+                    ),
+                  }))}
+                  placeholder="Please select"
+                  loading={studentLoading}
+                  value={selectStudent}
+                  onChange={(value) => setSelectStudent(value)}
+                  className="w-full"
+                  style={{
+                    width: "100%",
+                  }}
+                />
               </div>
             </div>
           }

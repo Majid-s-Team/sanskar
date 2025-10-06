@@ -15,6 +15,8 @@ import ViewDetails from "../component/shared/ViewDetails";
 // import axios from "axios";
 // import saveAs from "file-saver";
 import { useDebounce } from "../hooks";
+// import axios from "axios";
+// import saveAs from "file-saver";
 
 const tabs = [
   {
@@ -77,13 +79,62 @@ function ArchivedTable() {
 
   // const handleDownload = async (url: string, name: string) => {
   //   try {
-  //     const response = await axios.get(`${url}`, { responseType: "blob" });
+  //     const response = await axios.get(`${url}`, {
+  //       responseType: "blob",
+  //       headers: {
+  //         "Content-Type": "application/pdf",
+  //         "Access-Control-Allow-Origin": "*",
+  //       },
+  //     });
   //     saveAs(response.data, name);
   //   } catch (error) {
   //     console.error("Download failed:", error);
   //   }
   // };
 
+  // const handleDownload = (url: string, name: string) => {
+  //   // Create a hidden iframe to avoid CORS blocking
+  //   const iframe = document.createElement("iframe");
+  //   iframe.style.display = "none";
+  //   iframe.src = url;
+
+  //   // Append iframe to start the request
+  //   document.body.appendChild(iframe);
+
+  //   // Create a temporary <a> element to trigger download
+  //   const link = document.createElement("a");
+  //   link.href = url;
+  //   link.download = name || url.split("/").pop() || "file";
+  //   document.body.appendChild(link);
+  //   link.click();
+
+  //   // Cleanup
+  //   setTimeout(() => {
+  //     document.body.removeChild(link);
+  //     document.body.removeChild(iframe);
+  //   }, 2000);
+  // };
+
+  // const handleDownload = async (url: string, name?: string) => {
+  //   try {
+  //     const response = await fetch(url, { mode: "cors" });
+  //     if (!response.ok) throw new Error("Failed to fetch file");
+
+  //     const blob = await response.blob();
+  //     const blobUrl = window.URL.createObjectURL(blob);
+
+  //     const link = document.createElement("a");
+  //     link.href = blobUrl;
+  //     link.download = name || url.split("/").pop() || "file";
+  //     document.body.appendChild(link);
+  //     link.click();
+
+  //     link.remove();
+  //     window.URL.revokeObjectURL(blobUrl);
+  //   } catch (err) {
+  //     console.error("Download failed:", err);
+  //   }
+  // };
   const handleDownload = (url: string, name: string) => {
     const link = document.createElement("a");
     link.href = url; // direct file URL

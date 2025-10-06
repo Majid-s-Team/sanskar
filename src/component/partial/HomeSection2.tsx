@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../hooks";
+import { useRequest } from "../../hooks";
+import { Spin } from "antd";
 
 interface CardItem {
   title: string;
@@ -18,13 +19,15 @@ function HomeSection2({
   children: React.ReactNode;
 }) {
   const navigate = useNavigate();
-  const { user: userData } = useAuth();
-
+  // const { user: userData } = useAuth();
+  const { data, loading } = useRequest<any>("/profile", "GET", {
+    type: "mount",
+  });
   const card = [
     {
       title: "Weekly Update",
-      value: userData?.stats?.total_weekly_updates
-        ? userData?.stats?.total_weekly_updates + " Lesson"
+      value: data?.stats?.total_weekly_updates
+        ? data?.stats?.total_weekly_updates + " Lesson"
         : "0 Lesson",
       percentage: 75,
       image: "/images/boxblue.png",
@@ -33,8 +36,8 @@ function HomeSection2({
     },
     {
       title: "Announcements",
-      value: userData?.stats?.total_announcements
-        ? userData?.stats?.total_announcements + " New updates"
+      value: data?.stats?.total_announcements
+        ? data?.stats?.total_announcements + " New updates"
         : "0 New updates",
       percentage: 25,
       image: "/images/boxgreen.png",
@@ -43,8 +46,8 @@ function HomeSection2({
     },
     {
       title: "Multimedia",
-      value: userData?.stats?.total_multimedia
-        ? userData?.stats?.total_multimedia + " Items"
+      value: data?.stats?.total_multimedia
+        ? data?.stats?.total_multimedia + " Items"
         : "0 Items",
       percentage: 50,
       image: "/images/boxorange.png",
@@ -63,8 +66,8 @@ function HomeSection2({
   const card2 = [
     {
       title: "Weekly Updates",
-      value: userData?.stats?.total_weekly_updates
-        ? userData?.stats?.total_weekly_updates + " Lesson"
+      value: data?.stats?.total_weekly_updates
+        ? data?.stats?.total_weekly_updates + " Lesson"
         : "0 Lesson",
       // percentage: 75,
       image: "/images/boxblue.png",
@@ -73,8 +76,8 @@ function HomeSection2({
     },
     {
       title: "Announcements",
-      value: userData?.stats?.total_announcements
-        ? userData?.stats?.total_announcements + " New updates"
+      value: data?.stats?.total_announcements
+        ? data?.stats?.total_announcements + " New updates"
         : "0 New updates",
       image: "/images/boxgreen.png",
       shadow: "0px 9.62px 28.85px 0px #8AC53E66",
@@ -82,8 +85,8 @@ function HomeSection2({
     },
     {
       title: "Multimedia",
-      value: userData?.stats?.total_multimedia
-        ? userData?.stats?.total_multimedia + " Items"
+      value: data?.stats?.total_multimedia
+        ? data?.stats?.total_multimedia + " Items"
         : "0 Items",
       image: "/images/boxorange.png",
       shadow: "0px 9.62px 28.85px 0px #FF993A66",
@@ -91,8 +94,8 @@ function HomeSection2({
     },
     {
       title: "Student List",
-      value: userData?.stats?.total_students
-        ? userData?.stats?.total_students + " Items"
+      value: data?.stats?.total_students
+        ? data?.stats?.total_students + " Items"
         : "0 Items",
       image: "/images/boxorange.png",
       shadow: "0px 9.62px 28.85px 0px #FF993A66",
@@ -105,24 +108,27 @@ function HomeSection2({
       {children}
       <div className="bg-white p-5 rounded-[26.61px] lg:col-span-7">
         <p className="text-[20px] semibold">Class Information</p>
-        <div className="grid lg:grid-cols-2 gap-5 mt-5">
-          {(role === "user" ? card : card2).map((item: CardItem, index) => (
-            <div
-              onClick={() => navigate(item.path, { state: 1 })}
-              key={index}
-              style={{
-                backgroundImage: `url(${item.image})`,
-                backgroundSize: "100% 100%",
-                boxShadow: item.shadow,
-                height: "200px",
-              }}
-              className="p-6 gap-4 rounded-[20px] space-y-3 cursor-pointer"
-            >
-              <div>
-                <p className="text-white text-[20px] semibold">{item.title}</p>
-                <p className="text-white text-[14px] medium">{item.value}</p>
-              </div>
-              {/* {role === "user" && item?.percentage && (
+        {!loading ? (
+          <div className="grid lg:grid-cols-2 gap-5 mt-5">
+            {(role === "user" ? card : card2).map((item: CardItem, index) => (
+              <div
+                onClick={() => navigate(item.path, { state: 1 })}
+                key={index}
+                style={{
+                  backgroundImage: `url(${item.image})`,
+                  backgroundSize: "100% 100%",
+                  boxShadow: item.shadow,
+                  height: "200px",
+                }}
+                className="p-6 gap-4 rounded-[20px] space-y-3 cursor-pointer"
+              >
+                <div>
+                  <p className="text-white text-[20px] semibold">
+                    {item.title}
+                  </p>
+                  <p className="text-white text-[14px] medium">{item.value}</p>
+                </div>
+                {/* {role === "user" && item?.percentage && (
                 <Progress
                   type="circle"
                   strokeColor="#fff"
@@ -132,9 +138,14 @@ function HomeSection2({
                   percent={item?.percentage}
                 />
               )} */}
-            </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center h-screen">
+            <Spin size="large" />
+          </div>
+        )}
       </div>
     </div>
   );
