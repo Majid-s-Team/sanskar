@@ -15,7 +15,7 @@ export const studentListColumns = [
     ),
   },
   {
-    title: "Home Name",
+    title: "House Name",
     dataIndex: "house",
     render: (text: any) => <p className="capitalize">{text?.name || "-"}</p>,
   },
