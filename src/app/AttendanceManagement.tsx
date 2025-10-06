@@ -48,9 +48,9 @@ function AttendanceManagement() {
             (item: any) => item.is_payment_done !== null
           );
           setAllStudents(student);
-          // setSelectStudent(
-          //   res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
-          // );
+          setSelectStudent(
+            res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
+          );
         },
       });
     }
