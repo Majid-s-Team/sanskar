@@ -14,8 +14,9 @@ export const parentProfile = [
     type: "text",
   },
   {
-    title: "Email Address *",
+    title: "Primary Email Address *",
     name: "primary_email",
+    disabled: true,
     placeholder: "Email address",
     rules: [{ required: true, message: "Please input your email!" }],
     type: "text",

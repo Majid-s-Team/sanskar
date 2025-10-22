@@ -235,25 +235,33 @@ function Step2() {
                 Per Student Fee : <span className="text-[#FF881A]">$300</span>
               </p>
             </div>
-            <div className="lg:w-[250px] w-full">
+            {/* <div className="lg:w-[250px] w-full">
               <AuthButton text="Add More Student" onClick={handleAddStudent} />
-            </div>
+            </div> */}
           </div>
 
           <Form form={form} layout="vertical">
-            <Form.Item
-              label="Profile Picture"
-              name="profile_image"
-              // className="flex justify-center"
-              rules={[
-                {
-                  required: true,
-                  message: "Please upload profile picture",
-                },
-              ]}
-            >
-              <ImagePicker onChange={() => {}} initialImgSrc={image} />
-            </Form.Item>
+            <div className="flex justify-between items-center">
+              <Form.Item
+                label="Profile Picture"
+                name="profile_image"
+                // className="flex justify-center"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please upload profile picture",
+                  },
+                ]}
+              >
+                <ImagePicker onChange={() => {}} initialImgSrc={image} />
+              </Form.Item>
+              <div className="lg:w-[250px] w-full">
+                <AuthButton
+                  text="Add More Student"
+                  onClick={handleAddStudent}
+                />
+              </div>
+            </div>
             <div className="grid lg:grid-cols-2 xl:gap-20 lg:gap-10">
               <div>
                 {step1.map((item) => (

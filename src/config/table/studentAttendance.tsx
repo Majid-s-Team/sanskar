@@ -44,12 +44,12 @@ export const studentAttendanceColumns = (handleDetails: any) => {
       },
     },
     {
-      title: "Accumulated Participation Points",
+      title: "Participation Points",
       dataIndex: "participation_points",
       render: (text: any) => <p>{text}</p>,
     },
     {
-      title: "Accumulated Homework Points",
+      title: "Homework Points",
       dataIndex: "homework_points",
       render: (text: any) => <p>{text}</p>,
     },

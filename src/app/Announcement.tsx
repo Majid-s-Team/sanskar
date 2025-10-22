@@ -144,7 +144,7 @@ function Announcement() {
                 </div>
                 <div className="text-right mr-4">
                   <p className="text-[14px] regular">
-                    {dayjs(form.created_at).format("DD-MM-YYYY")}
+                    {dayjs(form.created_at).format("MM-DD-YYYY")}
                   </p>
                   <p className="text-[13px] text-[#969696] regular">
                     {dayjs(form.created_at).format("hh:mm A")}

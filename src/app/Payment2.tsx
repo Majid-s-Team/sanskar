@@ -10,8 +10,6 @@ function Payment2() {
   const { state } = useLocation();
   const { user: userData } = useAuth();
 
-  console.log(state, "state");
-
   const amount = state?.join_the_club ? 310 : 300;
 
   const { execute, loading: loading2 } = useRequest(
@@ -37,25 +35,13 @@ function Payment2() {
     });
   };
 
-  // useEffect(() => {
-  //   if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
-  //     execute2({
-  //       type: "mount",
-  //       routeParams: userData?.user?.id + "/students",
-  //       cbSuccess(res) {
-  //         const student = res?.data.filter(
-  //           (item: any) => item?.is_payment_done === false
-  //         );
-  //         setData(student);
-  //       },
-  //     });
-  //   }
-  // }, [userData]);
-
   return (
     <HomeLayout>
       <div className="flex items-center justify-center h-full bg-white rounded-[24px]">
         <div>
+          <p className="text-[40px] semibold text-center my-5">
+            Registration Confirmation
+          </p>
           <div className="flex justify-center flex-wrap gap-4">
             {/* {data?.map((child: any, index: number) => ( */}
             <div
@@ -89,11 +75,6 @@ function Payment2() {
               text="Make Payment"
             />
           </div>
-          {/* <p className="text-black text-[15px] text-center regular w-[80%] mx-auto">
-            Please make a payment to complete the registration. Registration is
-            not considered complete until payment is received. Unpaid
-            registrations will be cancelled.
-          </p> */}
         </div>
       </div>
     </HomeLayout>

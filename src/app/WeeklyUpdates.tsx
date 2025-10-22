@@ -115,7 +115,7 @@ function WeeklyUpdates() {
     <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
-          columns={weeklyUpdateColumns(handleDownload, handleViewDetails)}
+          columns={weeklyUpdateColumns({ handleDownload, handleViewDetails })}
           data={forStudentData as any}
           loading={forStudentLoading}
           title="Weekly Updates"

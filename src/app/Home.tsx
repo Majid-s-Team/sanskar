@@ -78,7 +78,7 @@ const Home = () => {
           </div>
         ) : (
           <div
-            onClick={() => navigate("/archived", { state: 3 })}
+            onClick={() => navigate("/teacher-listing", { state: 3 })}
             style={{
               backgroundImage: "url(/images/orange-card.png)",
               backgroundSize: "100% 100%",

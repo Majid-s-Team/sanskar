@@ -1,46 +1,50 @@
-import { Select } from "antd";
-import AnnouncementModal from "../component/partial/AnnouncementModal";
 import HomeLayout from "../component/shared/HomeLayout";
-import { getStorageData } from "../helper";
-import { useState } from "react";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useRequest } from "../hooks";
+import { announcementUrl } from "../repositories";
+import dayjs from "dayjs";
 
-const announcement = [
-  {
-    icon: "/icons/ball1.png",
-    title: "Sports Day Announcement",
-    description:
-      "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
-  },
-  {
-    icon: "/icons/ball2.png",
-    title: "Summer Break Start Date",
-    description:
-      "Summer break begins on May 25, 2024. Have a wonderful holiday!",
-  },
-  {
-    icon: "/icons/ball1.png",
-    title: "Sports Day Announcement",
-    description:
-      "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
-  },
-  {
-    icon: "/icons/ball2.png",
-    title: "Summer Break Start Date",
-    description:
-      "Summer break begins on May 25, 2024. Have a wonderful holiday!",
-  },
-];
+// const announcement = [
+//   {
+//     icon: "/icons/ball1.png",
+//     title: "Sports Day Announcement",
+//     description:
+//       "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
+//   },
+//   {
+//     icon: "/icons/ball2.png",
+//     title: "Summer Break Start Date",
+//     description:
+//       "Summer break begins on May 25, 2024. Have a wonderful holiday!",
+//   },
+//   {
+//     icon: "/icons/ball1.png",
+//     title: "Sports Day Announcement",
+//     description:
+//       "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
+//   },
+//   {
+//     icon: "/icons/ball2.png",
+//     title: "Summer Break Start Date",
+//     description:
+//       "Summer break begins on May 25, 2024. Have a wonderful holiday!",
+//   },
+// ];
 
 function GurukulAnnouncements() {
-  const role = getStorageData("role");
-  const [open, setOpen] = useState(false);
+  // const role = getStorageData("role");
+  const { data, loading } = useRequest<any>(announcementUrl.url, "GET", {
+    type: "mount",
+  });
+
+  const announcement = data.filter((item: any) => item.teacher_id === null);
+
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <div className="flex lg:flex-row flex-col justify-between lg:items-center">
           <p className="text-[30px] semibold">Gurukul Announcements</p>
-          {role === "teacher" && (
+          {/* {role === "teacher" && (
             <div className="flex gap-5 items-center">
               <Select
                 style={{
@@ -55,32 +59,50 @@ function GurukulAnnouncements() {
                 ]}
               />
             </div>
-          )}
+          )} */}
         </div>
-        {announcement.map((form, index) => {
-          return (
-            <div
-              key={index}
-              className="flex items-center gap-5 mt-5 border border-[#ECECEC] p-2 rounded-[20px]"
-            >
-              <img className="w-[50px]" src={form.icon} alt="" />
-              <div>
-                <p className="text-[14px] medium">{form.title}</p>
-                <p className="text-[12px] text-[#969696] regular">
-                  {form.description}
-                </p>
+        {announcement?.length > 0 ? (
+          announcement?.map((form: any, index: number) => {
+            return (
+              <div
+                key={index}
+                className="flex items-center justify-between gap-5 mt-5 border border-[#ECECEC] p-2 rounded-[20px]"
+              >
+                <div className="flex items-center gap-5">
+                  <img className="w-[50px]" src={"/icons/ball2.png"} alt="" />
+                  <div>
+                    <p className="text-[14px] medium capitalize">
+                      {form.title}
+                    </p>
+                    <p className="text-[12px] text-[#969696] regular capitalize">
+                      {form.description}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right mr-4">
+                  <p className="text-[14px] regular">
+                    {dayjs(form.created_at).format("MM-DD-YYYY")}
+                  </p>
+                  <p className="text-[13px] text-[#969696] regular">
+                    {dayjs(form.created_at).format("hh:mm A")}
+                  </p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <p className="text-[18px] text-[#969696] regular text-center h-[70vh] flex items-center justify-center">
+            No announcement available.
+          </p>
+        )}
+        {/* <Pagination
+          onChange={(page: number, pageSize: number) =>
+            onPaginationChange({ current: page, pageSize })
+          }
+          {...pagination}
+          className="mt-5 flex justify-end"
+        /> */}
       </div>
-      {open && (
-        <AnnouncementModal
-          isModalOpen={open}
-          handleCancel={() => setOpen(false)}
-          setData={undefined}
-        />
-      )}
     </HomeLayout>
   );
 }

@@ -19,7 +19,6 @@ function StudentInfo() {
     loading,
     execute: studentExecute,
   } = useRequest<Student>("/student", "GET", {
-    type: "mount",
     routeParams: String(id),
   });
   const { user: userData } = useAuth();

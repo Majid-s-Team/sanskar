@@ -243,7 +243,6 @@ export const addStudentForm = [
   {
     title: "House Name",
     name: "house_id",
-    rules: [{ required: true, message: "Please select your house!" }],
     type: "select",
   },
 ];

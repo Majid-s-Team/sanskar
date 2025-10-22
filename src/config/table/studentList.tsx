@@ -22,7 +22,7 @@ export const studentListColumns = [
   {
     title: "Date of Birth (DOB)",
     dataIndex: "student",
-    render: (text: any) => <p>{dayjs(text?.dob).format("DD-MM-YYYY")}</p>,
+    render: (text: any) => <p>{dayjs(text?.dob).format("MM-DD-YYYY")}</p>,
   },
   {
     title: "Book Club",

@@ -142,7 +142,7 @@ function HomeSection2({
             ))}
           </div>
         ) : (
-          <div className="flex justify-center items-center h-screen">
+          <div className="flex justify-center items-center h-[400px]">
             <Spin size="large" />
           </div>
         )}

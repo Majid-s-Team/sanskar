@@ -110,3 +110,9 @@ export const announcementUrl: ApiRoute = {
   method: requestMethods.GET,
   auth: true,
 };
+
+export const studentAbsentRequests: ApiRoute = {
+  url: "/teacher/absent-requests",
+  method: requestMethods.GET,
+  auth: true,
+};

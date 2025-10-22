@@ -49,6 +49,7 @@ export type PageProps<T> = {
 };
 
 export type FeildType = {
+  disabled?: boolean;
   optional?: boolean;
   placeholder?: string;
   title?: string;

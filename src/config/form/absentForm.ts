@@ -1,7 +1,7 @@
 export const absentForm = [
   {
     title: "Absence Request for *",
-    name: "absence_request_for",
+    name: "student_id",
     placeholder: "chose child",
     rules: [{ required: true, message: "Please chose your child!" }],
     type: "select",
@@ -20,22 +20,22 @@ export const absentForm = [
       },
     ],
   },
-  {
-    title: "Class Name",
-    name: "class_name",
-    rules: [{ required: true, message: "Please select your class!" }],
-    type: "select",
-    options: [
-      {
-        label: "Class 1",
-        value: "class1",
-      },
-      {
-        label: "Class 2",
-        value: "class2",
-      },
-    ],
-  },
+  // {
+  //   title: "Class Name",
+  //   name: "class_name",
+  //   rules: [{ required: true, message: "Please select your class!" }],
+  //   type: "select",
+  //   options: [
+  //     {
+  //       label: "Class 1",
+  //       value: "class1",
+  //     },
+  //     {
+  //       label: "Class 2",
+  //       value: "class2",
+  //     },
+  //   ],
+  // },
   {
     title: "From Date *",
     name: "from_date",
@@ -50,7 +50,7 @@ export const absentForm = [
   },
   {
     title: "Absence Reason *",
-    name: "absence_reason",
+    name: "absent_reason",
     rules: [{ required: true, message: "Please input your absence reason!" }],
     type: "textarea",
   },

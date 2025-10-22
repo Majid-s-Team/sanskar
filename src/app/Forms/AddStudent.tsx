@@ -132,38 +132,43 @@ function AddStudent() {
           </Form.Item>
           <div className="grid grid-cols-2 gap-5">
             {addStudentForm.map((item) => {
-              return (
-                <Form.Item
-                  label={item.title}
-                  key={item.name}
-                  name={item.name}
-                  rules={item.rules}
-                >
-                  <BaseInput
-                    {...item}
-                    disabled={
-                      id &&
-                      [
-                        "is_new_student",
-                        "gurukal_id",
-                        "join_the_club",
-                        "house_id",
-                      ].includes(item.name)
-                    }
-                    options={
-                      item.name === "gurukal_id"
-                        ? optionpPicker(gurukalData as any[])
-                        : item.name === "school_grade_id"
-                        ? optionpPicker(gradeData as any[])
-                        : item.name === "teeshirt_size_id"
-                        ? optionpPicker(teeshirtSizeData as any[])
-                        : item.name === "house_id"
-                        ? optionpPicker(houseData as any[])
-                        : item.options
-                    }
-                  />
-                </Form.Item>
-              );
+              if (item.name !== "house_id" || id) {
+                return (
+                  <Form.Item
+                    label={item.title}
+                    key={item.name}
+                    name={item.name}
+                    rules={item.rules}
+                  >
+                    <BaseInput
+                      {...item}
+                      disabled={
+                        id
+                          ? [
+                              "is_new_student",
+                              "gurukal_id",
+                              "join_the_club",
+                              "house_id",
+                            ].includes(item.name)
+                          : item.name === "house_id"
+                          ? true
+                          : false
+                      }
+                      options={
+                        item.name === "gurukal_id"
+                          ? optionpPicker(gurukalData as any[])
+                          : item.name === "school_grade_id"
+                          ? optionpPicker(gradeData as any[])
+                          : item.name === "teeshirt_size_id"
+                          ? optionpPicker(teeshirtSizeData as any[])
+                          : item.name === "house_id"
+                          ? optionpPicker(houseData as any[])
+                          : item.options
+                      }
+                    />
+                  </Form.Item>
+                );
+              }
             })}
           </div>
           <div className="flex justify-end mt-10">

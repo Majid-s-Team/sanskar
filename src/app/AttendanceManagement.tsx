@@ -13,7 +13,6 @@ import { getStorageData } from "../helper";
 function AttendanceManagement() {
   const { user: userData } = useAuth();
   const role = getStorageData("role");
-
   const [selectStudent, setSelectStudent] = useState<number | undefined>(
     undefined
   );
@@ -23,9 +22,6 @@ function AttendanceManagement() {
     user.method,
     {}
   );
-  console.log(userData?.user?.id, "userData");
-
-  // const url = ;
 
   const {
     data,
@@ -71,7 +67,7 @@ function AttendanceManagement() {
     }
   }, [selectStudent, userData]);
   return (
-    <HomeLayout loading={loading}>
+    <HomeLayout loading={loading || studentLoading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
           columns={attendanceColumns(data?.student)}
@@ -118,7 +114,7 @@ function AttendanceManagement() {
                   </div>
                 </div>
               </div>
-              <div className="mt-5">
+              <div className="mt-5 w-[200px] float-right">
                 <Select
                   options={allStudents?.map((item: any) => ({
                     value: item.id,

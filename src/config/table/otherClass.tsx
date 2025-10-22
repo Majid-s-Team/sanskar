@@ -1,4 +1,18 @@
-export const otherClassColumns = [
+import { Popconfirm } from "antd";
+import dayjs from "dayjs";
+import { ArchiveIcon } from "lucide-react";
+
+type Props = {
+  handleDownload: (url: string, name: string) => void;
+  handleViewDetails: (data: any) => void;
+  handleArchive: (id: string) => void;
+};
+
+export const otherClassColumns = ({
+  handleDownload,
+  handleViewDetails,
+  handleArchive,
+}: Props) => [
   {
     title: "Week #",
     dataIndex: "week_number",
@@ -6,40 +20,75 @@ export const otherClassColumns = [
   {
     title: "Date",
     dataIndex: "date",
+    render: (text: string) => (
+      <p className="w-[100px]">{dayjs(text).format("MM-DD-YYYY")}</p>
+    ),
   },
   {
     title: "Description",
     dataIndex: "description",
-    render: () => (
-      <p className="text-[#48B3FF] underline medium">View Details</p>
-    ),
+    align: "center",
+    render: (text: any) => <p className="capitalize text-center">{text}</p>,
+    // render: () => (
+    //   <p className="text-[#48B3FF] underline medium">View Details</p>
+    // ),
   },
   {
     title: "Class",
-    dataIndex: "class",
+    dataIndex: "title",
   },
   {
     title: "Download",
-    dataIndex: "download",
-    render: () => (
-      <div className="flex gap-5 justify-center">
-        <div className="flex items-center gap-3">
-          <img className="w-[30px]" src="/icons/pdf.png" alt="" />
-          <div>
-            <p className="text-[12px] medium text-black">Class Update Form</p>
-            <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p>
-          </div>
+    dataIndex: "media",
+    render: (media: any) => (
+      <div className="flex gap-5 justify-center items-center w-[250px]">
+        <div className="space-y-2">
+          {media.map((item: any) => {
+            return (
+              <div className="flex justify-between items-center gap-5">
+                <div className="flex items-center gap-2">
+                  <img className="w-[30px]" src="/icons/pdf.png" alt="" />
+                  <div>
+                    <p className="text-[12px] medium text-black truncate w-[100px] text-left">
+                      {item.name || "Class Update Form"}
+                    </p>
+                    {/* <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p> */}
+                  </div>
+                </div>
+                <img
+                  className="w-[20px] h-[20px] cursor-pointer"
+                  src="/icons/download-orange.png"
+                  onClick={() => handleDownload(item.url, item.name)}
+                  alt=""
+                />
+                <img
+                  className="w-[24px] h-[24px] cursor-pointer"
+                  src="/icons/eye.png"
+                  onClick={() => handleViewDetails(item.url)}
+                  alt=""
+                />
+              </div>
+            );
+          })}
         </div>
-        <img
-          className="w-[20px] h-[20px] cursor-pointer"
-          src="/icons/download-orange.png"
-          alt=""
-        />
-        <img
-          className="w-[24px] h-[24px] cursor-pointer"
-          src="/icons/eye.png"
-          alt=""
-        />
+      </div>
+    ),
+  },
+  {
+    title: "Actions",
+    dataIndex: "action",
+    render: (_: any, record: any) => (
+      <div className="flex gap-5 justify-center items-center">
+        <Popconfirm
+          title="Are you sure you want to archive this class update?"
+          onConfirm={() => handleArchive(record.id)}
+        >
+          <ArchiveIcon size={22} className="cursor-pointer" />
+        </Popconfirm>
+        {/* <Switch
+          defaultValue={false}
+          onChange={() => handleArchive(record.id)}
+        /> */}
       </div>
     ),
   },

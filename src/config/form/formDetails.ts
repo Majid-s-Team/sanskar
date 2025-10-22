@@ -1,13 +1,13 @@
 export const formDetailsForm = [
-  {
-    title: "Form Type",
-    name: "form_type",
-    rules: [{ required: true, message: "Please input form type!" }],
-    type: "text",
-  },
+  // {
+  //   title: "Form Type",
+  //   name: "form_type",
+  //   rules: [{ required: true, message: "Please input form type!" }],
+  //   type: "text",
+  // },
   {
     title: "Absence Request for *",
-    name: "absence_request_for",
+    name: "name",
     rules: [{ required: true, message: "Please input absence request for!" }],
     type: "text",
   },
@@ -25,7 +25,7 @@ export const formDetailsForm = [
   },
   {
     title: "Absence Reason *",
-    name: "absence_reason",
+    name: "absent_reason",
     rules: [{ required: true, message: "Please input your absence reason!" }],
     type: "textarea",
   },

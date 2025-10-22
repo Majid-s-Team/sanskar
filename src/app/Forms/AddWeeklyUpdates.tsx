@@ -109,7 +109,13 @@ function AddWeeklyUpdates() {
             initialFiles={state?.media || []}
           />
           {/* </Form.Item> */}
-          <div className="flex justify-center mt-10">
+          <div className="flex justify-center mt-10 gap-5">
+            <CustomButton
+              className="lg:w-[300px] w-[100%] h-[50px] text-[18px]"
+              backgroundColor="red"
+              onClick={() => navigate(-1)}
+              title={"Cancel"}
+            />
             <CustomButton
               className="lg:w-[300px] w-[100%] h-[50px] text-[18px]"
               title={id ? "Save Update" : "Save"}

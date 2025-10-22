@@ -1,9 +1,14 @@
 import dayjs from "dayjs";
 
-export const weeklyUpdateColumns = (
-  handleDownload: any,
-  handleViewDetails: any
-) => [
+type Props = {
+  handleDownload: (url: string, name: string) => void;
+  handleViewDetails: (data: any) => void;
+};
+
+export const weeklyUpdateColumns = ({
+  handleDownload,
+  handleViewDetails,
+}: Props) => [
   {
     title: "Week #",
     dataIndex: "created_at",
@@ -13,7 +18,7 @@ export const weeklyUpdateColumns = (
     title: "Date",
     dataIndex: "date",
     render: (text: string) => (
-      <p className="w-[100px]">{dayjs(text).format("DD-MM-YYYY")}</p>
+      <p className="w-[100px]">{dayjs(text).format("MM-DD-YYYY")}</p>
     ),
   },
   {

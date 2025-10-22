@@ -39,7 +39,7 @@ function HomeSection3({ role }: { role: string }) {
           </div>
           <div className="flex justify-center mt-8">
             <CustomButton
-              onClick={() => navigate("/home/announcement")}
+              onClick={() => navigate("/home/gurukul-announcements")}
               title="Gurukul Announcements"
             />
           </div>

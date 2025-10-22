@@ -47,6 +47,7 @@ import GurukulAnnouncements from "./app/GurukulAnnouncements";
 import Payment from "./app/Auth/Payment";
 import TermsAndCondition from "./app/Auth/TermsAndCondition";
 import Payment2 from "./app/Payment2";
+import TeacherListing from "./app/TeacherListing";
 const App: React.FC = () => {
   return (
     <Routes>
@@ -111,7 +112,7 @@ const App: React.FC = () => {
       <Route path="/add-attendance" element={<AddAttendance />} />
       <Route path="/edit-attendance" element={<AddAttendance />} />
       <Route
-        path="/request-management/form-details"
+        path="/request-management/form-details/:id"
         element={<FormDetails />}
       />
 
@@ -130,6 +131,7 @@ const App: React.FC = () => {
 
       <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
       <Route path="/student-payment/:id" element={<Payment2 />} />
+      <Route path="/teacher-listing" element={<TeacherListing />} />
     </Routes>
   );
 };

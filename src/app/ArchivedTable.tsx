@@ -1,22 +1,12 @@
 import { useEffect, useState } from "react";
+import { DatePicker, Input, notification } from "antd";
+import { Link, useLocation } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
-import { DatePicker, Input, notification } from "antd";
-import {
-  myClassColumns,
-  otherClassColumns,
-  teacherManagementColumns,
-  weeklyUpdateData,
-} from "../config";
-import { Link, useLocation } from "react-router-dom";
+import ViewDetails from "../component/shared/ViewDetails";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
-import ViewDetails from "../component/shared/ViewDetails";
-// import axios from "axios";
-// import saveAs from "file-saver";
-import { useDebounce } from "../hooks";
-// import axios from "axios";
-// import saveAs from "file-saver";
+import { archivedColumns, myClassColumns, otherClassColumns } from "../config";
 
 const tabs = [
   {
@@ -25,204 +15,154 @@ const tabs = [
     columns: myClassColumns,
     url: "/weekly-updates",
   },
-  {
-    id: 2,
-    label: "Other Class Updates",
-    columns: otherClassColumns,
-    url: null,
-  },
-  {
-    id: 3,
-    label: "Teacher List",
-    columns: teacherManagementColumns,
-    url: "/teachers",
-  },
+  { id: 2, label: "Other Class Updates", columns: otherClassColumns },
+  { id: 3, label: "Archived", columns: archivedColumns, url: "/teachers" },
 ];
 
 function ArchivedTable() {
   const { state } = useLocation();
   const [open, setOpen] = useState(false);
-  const [viewDetails, setViewDetails] = useState<any>();
-  const [search, setSearch] = useState<string | undefined>(undefined);
-  const searchFIlter = useDebounce(search, 500);
+  const [details, setDetails] = useState<any>();
   const [rangeDate, setRangeDate] = useState<any>(null);
-  const [active, setActive] = useState<number>(() => {
-    const id = typeof state === "number" ? state : 1;
-    return tabs.some((tab) => tab.id === id) ? id : tabs[3].id;
-  });
-  const activeTab = tabs.find((tab) => tab.id === active);
+  const [active, setActive] = useState<number>(
+    typeof state === "number" && tabs.some((t) => t.id === state) ? state : 1
+  );
 
-  const handleTabClick = (id: number) => {
-    setActive(id);
-  };
+  const activeTab = tabs.find((t) => t.id === active)!;
 
+  /** 🔹 Requests Setup */
   const {
     data,
     loading,
     setData,
-    pagination: pagination2,
-    onPaginationChange: onPaginationChange2,
-    execute: searchExecute2,
+    pagination: paginationMain,
+    onPaginationChange: onPaginateMain,
+    execute: executeSearch,
   } = useRequest("/weekly-updates", "GET", {
     type: "mount",
+    params: active === 2 ? { other: true } : {},
   });
 
   const {
-    data: teacherList,
-    loading: teacherListLoading,
-    pagination,
-    onPaginationChange,
-    execute: searchExecute,
-  } = useRequest("/teachers", "GET", {
-    type: "mount",
-  });
+    data: archivedData,
+    pagination: paginationArchived,
+    onPaginationChange: onPaginateArchived,
+    setData: setArchivedData,
+  } = useRequest("/weekly-updates/bookmark/list", "GET", { type: "mount" });
 
-  // const handleDownload = async (url: string, name: string) => {
-  //   try {
-  //     const response = await axios.get(`${url}`, {
-  //       responseType: "blob",
-  //       headers: {
-  //         "Content-Type": "application/pdf",
-  //         "Access-Control-Allow-Origin": "*",
-  //       },
-  //     });
-  //     saveAs(response.data, name);
-  //   } catch (error) {
-  //     console.error("Download failed:", error);
-  //   }
-  // };
-
-  // const handleDownload = (url: string, name: string) => {
-  //   // Create a hidden iframe to avoid CORS blocking
-  //   const iframe = document.createElement("iframe");
-  //   iframe.style.display = "none";
-  //   iframe.src = url;
-
-  //   // Append iframe to start the request
-  //   document.body.appendChild(iframe);
-
-  //   // Create a temporary <a> element to trigger download
-  //   const link = document.createElement("a");
-  //   link.href = url;
-  //   link.download = name || url.split("/").pop() || "file";
-  //   document.body.appendChild(link);
-  //   link.click();
-
-  //   // Cleanup
-  //   setTimeout(() => {
-  //     document.body.removeChild(link);
-  //     document.body.removeChild(iframe);
-  //   }, 2000);
-  // };
-
-  // const handleDownload = async (url: string, name?: string) => {
-  //   try {
-  //     const response = await fetch(url, { mode: "cors" });
-  //     if (!response.ok) throw new Error("Failed to fetch file");
-
-  //     const blob = await response.blob();
-  //     const blobUrl = window.URL.createObjectURL(blob);
-
-  //     const link = document.createElement("a");
-  //     link.href = blobUrl;
-  //     link.download = name || url.split("/").pop() || "file";
-  //     document.body.appendChild(link);
-  //     link.click();
-
-  //     link.remove();
-  //     window.URL.revokeObjectURL(blobUrl);
-  //   } catch (err) {
-  //     console.error("Download failed:", err);
-  //   }
-  // };
-  const handleDownload = (url: string, name: string) => {
-    const link = document.createElement("a");
-    link.href = url; // direct file URL
-    link.target = "_blank";
-    link.setAttribute("download", name); // file name
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
-
-  const handleViewDetails = (data: any) => {
-    setOpen(true);
-    setViewDetails(data);
-  };
-
-  const { execute: executeDelete, loading: deleteLoading } = useRequest(
+  const { execute: deleteUpdate, loading: deleteLoading } = useRequest(
+    "/weekly-updates",
+    "DELETE",
+    {}
+  );
+  const { execute: archiveUpdate, loading: archiveLoading } = useRequest(
+    "/weekly-updates",
+    "POST",
+    {}
+  );
+  const { execute: unarchiveUpdate, loading: unarchiveLoading } = useRequest(
     "/weekly-updates",
     "DELETE",
     {}
   );
 
-  const handleDelete = (id: string) => {
-    executeDelete({
-      routeParams: String(id),
-      type: "mount",
-      cbSuccess: () => {
-        setData((p: any[]) => p.filter((item) => item.id !== id));
-      },
-      cbFailure(error) {
-        notification.error({
-          message: "Error",
-          description: error.message,
-        });
-      },
+  /** 🔹 Handlers */
+  const handleDownload = (url: string, name: string) => {
+    const link = Object.assign(document.createElement("a"), {
+      href: url,
+      target: "_blank",
+      download: name,
     });
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   };
 
+  const handleViewDetails = (item: any) => {
+    setDetails(item);
+    setOpen(true);
+  };
+
+  const handleDelete = (id: string) =>
+    deleteUpdate({
+      routeParams: id,
+      cbSuccess: () =>
+        setData((prev: any[]) => prev.filter((i) => i.id !== id)),
+      cbFailure: (err) =>
+        notification.error({ message: "Error", description: err.message }),
+    });
+
+  const handleArchive = (id: string) =>
+    archiveUpdate({
+      routeParams: `${id}/bookmark`,
+      cbSuccess: () =>
+        setData((prev: any[]) => prev.filter((i) => i.id !== id)),
+      cbFailure: (err) =>
+        notification.error({ message: "Error", description: err.message }),
+    });
+
+  const handleUnArchive = (id: string) =>
+    unarchiveUpdate({
+      routeParams: `${id}/unbookmark`,
+      cbSuccess: () =>
+        setArchivedData((prev: any[]) => prev.filter((i) => i.id !== id)),
+      cbFailure: (err) =>
+        notification.error({ message: "Error", description: err.message }),
+    });
+
+  /** 🔹 Effects */
   useEffect(() => {
-    if (rangeDate && rangeDate[0] && rangeDate[1]) {
-      searchExecute2({
-        type: "mount",
-        params: {
-          start_date: rangeDate[0].format("YYYY-MM-DD"),
-          end_date: rangeDate[1].format("YYYY-MM-DD"),
-        },
-      });
-    } else {
-      searchExecute2({
-        type: "mount",
-        params: {},
-      });
-    }
+    const params =
+      rangeDate?.[0] && rangeDate?.[1]
+        ? {
+            start_date: rangeDate[0].format("YYYY-MM-DD"),
+            end_date: rangeDate[1].format("YYYY-MM-DD"),
+          }
+        : {};
+
+    executeSearch({ type: "mount", params });
   }, [rangeDate]);
 
   useEffect(() => {
-    if (searchFIlter && searchFIlter.trim() !== "") {
-      // 🔍 search API
-      searchExecute({
-        type: "mount",
-        params: { full_name: searchFIlter },
-      });
-    } else {
-      // 🔄 reset full list
-      searchExecute({
-        type: "mount",
-        params: {},
-      });
-    }
-  }, [searchFIlter]);
+    if (active === 1 || active === 2) executeSearch({ type: "mount" });
+    else if (active === 3) archiveUpdate({ type: "mount" });
+  }, [active]);
 
+  /** 🔹 Table Configuration */
+  const getColumns = () => {
+    const handlers = { handleDownload, handleViewDetails };
+    if (active === 1) return myClassColumns({ ...handlers, handleDelete });
+    if (active === 2) return otherClassColumns({ ...handlers, handleArchive });
+    return archivedColumns({ ...handlers, handleUnArchive });
+  };
+
+  const tableData = active === 3 ? archivedData : data;
+  const pagination = active === 3 ? paginationArchived : paginationMain;
+  const onPaginate = active === 3 ? onPaginateArchived : onPaginateMain;
+
+  const loadingState =
+    loading || deleteLoading || archiveLoading || unarchiveLoading;
+
+  /** 🔹 UI */
   return (
     <HomeLayout>
+      {/* Tabs */}
       <div className="w-full overflow-x-auto lg:flex items-center hide-scrollbar">
         <div className="flex gap-5 items-center h-[150px] whitespace-nowrap px-4 mx-auto">
           {tabs.map((tab) => (
             <p
               key={tab.id}
+              onClick={() => setActive(tab.id)}
               style={{
                 boxShadow:
                   active === tab.id
                     ? "0px 10.87px 32.62px 0px #FF993A66"
                     : "none",
               }}
-              onClick={() => handleTabClick(tab.id)}
               className={`semibold p-5 rounded-[21.75px] cursor-pointer ${
                 active === tab.id
-                  ? "text-white bg-[#D57D25] text-xl scale-105 transition-transform duration-300 ease-out"
-                  : "text-[#242424] border border-[#CCCCCC] bg-white text-lg transition-transform duration-300 ease-in"
+                  ? "text-white bg-[#D57D25] text-xl scale-105 transition-transform"
+                  : "text-[#242424] border border-[#CCCCCC] bg-white text-lg"
               }`}
             >
               {tab.label}
@@ -230,90 +170,47 @@ function ArchivedTable() {
           ))}
         </div>
       </div>
+
+      {/* Table */}
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
-          // @ts-ignore
-          columns={
-            activeTab?.id === 1
-              ? myClassColumns({
-                  handleDownload,
-                  handleViewDetails,
-                  handleDelete,
-                })
-              : activeTab?.columns
-          }
-          scroll={activeTab?.id === 1 ? 1000 : 800}
-          data={
-            activeTab?.id === 1
-              ? data
-              : activeTab?.id === 2
-              ? (weeklyUpdateData as any)
-              : teacherList
-          }
-          loading={loading || deleteLoading || teacherListLoading}
-          title={
-            activeTab?.id === 1
-              ? activeTab?.label
-              : activeTab?.id === 2
-              ? activeTab?.label
-              : "Teachers List"
-          }
-          pagination={
-            activeTab?.id === 1
-              ? pagination2
-              : activeTab?.id === 2
-              ? pagination
-              : false
-          }
-          onPaginationChange={
-            activeTab?.id === 1
-              ? onPaginationChange2
-              : activeTab?.id === 2
-              ? undefined
-              : onPaginationChange
-          }
+          columns={getColumns()}
+          scroll={active === 1 ? 1000 : 800}
+          data={tableData as any}
+          loading={loadingState}
+          title={activeTab.label}
+          pagination={pagination}
+          onPaginationChange={onPaginate}
           input={
             <div className="flex lg:flex-row flex-col gap-5 items-center">
-              <div className="flex gap-5 items-center">
-                {/* <img className="w-[25px]" src="/icons/filter.png" /> */}
-                {activeTab?.id === 1 ? (
-                  <DatePicker.RangePicker
-                    onChange={(e) => setRangeDate(e)}
-                    format={"DD-MM-YYYY"}
-                    style={{
-                      borderRadius: 6,
-                      backgroundColor: "#F5F4F9",
-                      border: "none",
-                    }}
-                    className={`search-input h-[47px] w-full lg:w-[300px]`}
-                    allowClear={true}
-                  />
-                ) : (
-                  <Input
-                    placeholder="Search"
-                    className={`search-input h-[47px] w-[300px] lg:w-[227.28px]`}
-                    style={{
-                      borderRadius: 6,
-                      backgroundColor: "#F5F4F9",
-                      border: "none",
-                    }}
-                    onChange={
-                      activeTab?.id === 3
-                        ? (e) => {
-                            setSearch(e.target.value);
-                          }
-                        : undefined
-                    }
-                    prefix={
-                      <img className="w-[20px]" src="/icons/search.png" />
-                    }
-                  />
-                )}
-              </div>
+              {active === 1 ? (
+                <DatePicker.RangePicker
+                  onChange={setRangeDate}
+                  format="DD-MM-YYYY"
+                  style={{
+                    borderRadius: 6,
+                    backgroundColor: "#F5F4F9",
+                    border: "none",
+                  }}
+                  className="search-input h-[47px] w-full lg:w-[300px]"
+                  allowClear
+                />
+              ) : (
+                <Input
+                  placeholder="Search"
+                  className="search-input h-[47px] w-[300px] lg:w-[227.28px]"
+                  style={{
+                    borderRadius: 6,
+                    backgroundColor: "#F5F4F9",
+                    border: "none",
+                  }}
+                  prefix={<img className="w-[20px]" src="/icons/search.png" />}
+                />
+              )}
 
-              {activeTab?.id === 1 && (
+              {active === 1 && (
                 <Link
-                  to={"/add-weekly-updates"}
+                  to="/add-weekly-updates"
                   style={{
                     backgroundImage: "url(/images/card2.png)",
                     backgroundSize: "100% 100%",
@@ -330,11 +227,13 @@ function ArchivedTable() {
           }
         />
       </div>
+
+      {/* View Details Modal */}
       {open && (
         <ViewDetails
           open={open}
           onClose={() => setOpen(false)}
-          data={viewDetails}
+          data={details}
         />
       )}
     </HomeLayout>

@@ -10,6 +10,7 @@ type Props = {
   handleDownload: (url: string, name: string) => void;
   handleViewDetails: (data: any) => void;
   handleDelete: (id: string) => void;
+  handleArchive?: (id: string) => void;
 };
 
 export const myClassColumns = ({
@@ -19,14 +20,14 @@ export const myClassColumns = ({
 }: Props) => [
   {
     title: "Week #",
-    dataIndex: "created_at",
-    render: (text: string) => <p>{dayjs(text)?.week()}</p>,
+    dataIndex: "week_number",
+    // render: (text: string) => <p>{dayjs(text)?.week()}</p>,
   },
   {
     title: "Date",
     dataIndex: "date",
     render: (text: string) => (
-      <p className="w-[100px]">{dayjs(text).format("DD-MM-YYYY")}</p>
+      <p className="w-[100px]">{dayjs(text).format("MM-DD-YYYY")}</p>
     ),
   },
   {
@@ -79,11 +80,15 @@ export const myClassColumns = ({
     title: "Actions",
     dataIndex: "action",
     render: (_: any, record: any) => (
-      <div className="flex gap-5 justify-center">
-        <Link to={`/add-weekly-updates/edit/${record.id}`} state={record}>
+      <div className="flex gap-5 justify-center items-center">
+        <Link
+          className="!text-[#a0a0a0]"
+          to={`/add-weekly-updates/edit/${record.id}`}
+          state={record}
+        >
           <EditFilled
-            className="w-[24px] h-[24px] cursor-pointer"
-            onClick={() => handleViewDetails(record)}
+            className="text-[20px] cursor-pointer"
+            // onClick={() => handleViewDetails(record)}
           />
         </Link>
 
@@ -93,8 +98,18 @@ export const myClassColumns = ({
           onConfirm={() => handleDelete(record.id)}
           cancelText="No"
         >
-          <DeleteFilled className="w-[24px] h-[24px] cursor-pointer" />
+          <DeleteFilled className="text-[20px] cursor-pointer" />
         </Popconfirm>
+        {/* <Popconfirm
+          title="Are you sure you want to archive this class update?"
+          onConfirm={() => handleArchive(record.id)}
+        >
+          <ArchiveIcon size={22} className="cursor-pointer" />
+        </Popconfirm> */}
+        {/* <Switch
+          defaultValue={false}
+          onChange={() => handleArchive(record.id)}
+        /> */}
       </div>
     ),
   },

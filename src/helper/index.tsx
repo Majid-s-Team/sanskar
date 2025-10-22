@@ -83,9 +83,12 @@ export const optionpPicker = (
   valuekey: string = "id",
   labelkey: string = "name"
 ) => {
-  return data.map((item: any) => ({
+  return data?.map((item: any) => ({
     value: item[valuekey],
-    label: item[labelkey],
+    label:
+      labelkey === "first_name"
+        ? item[labelkey] + " " + item["last_name"]
+        : item[labelkey],
     // data: {
     //   _id: item[valuekey],
     //   name: item[labelkey],

@@ -102,8 +102,10 @@ function ParentProfile() {
       form.setFieldsValue({
         ...data?.user,
         is_hsnc_member: data?.user?.is_hsnc_member === 1 ? true : false,
-        mother_volunteering: data?.mother_volunteering === 1 ? true : false,
-        father_volunteering: data?.father_volunteering === 1 ? true : false,
+        mother_volunteering:
+          data?.user?.mother_volunteering === 1 ? true : false,
+        father_volunteering:
+          data?.user?.father_volunteering === 1 ? true : false,
       });
       setMotherActive(data?.user?.mother_volunteering === 1 ? true : false);
       setFatherActive(data?.user?.father_volunteering === 1 ? true : false);
@@ -189,7 +191,7 @@ function ParentProfile() {
                     name={item.name}
                     rules={item.rules}
                   >
-                    <BaseInput {...item} />
+                    <BaseInput {...item} disabled={item.disabled} />
                   </Form.Item>
                 );
               })}
