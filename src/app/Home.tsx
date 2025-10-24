@@ -30,6 +30,14 @@ const Home = () => {
     {}
   );
 
+  const { data: registrationData } = useRequest<any>(
+    "/registration/status",
+    "GET",
+    {
+      type: "mount",
+    }
+  );
+
   useEffect(() => {
     if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
       execute({
@@ -68,11 +76,13 @@ const Home = () => {
                     {/* <SlickCarousel data={data} /> */}
                   </div>
                 </div>
-                <CustomButton
-                  className="mt-5 w-full"
-                  onClick={() => navigate("/home/add-student")}
-                  title="Add Student"
-                />
+                {registrationData?.registration_open === true && (
+                  <CustomButton
+                    className="mt-5 w-full"
+                    onClick={() => navigate("/home/add-student")}
+                    title="Add Student"
+                  />
+                )}
               </div>
             )}
           </div>

@@ -91,4 +91,5 @@ export type UserResponse = {
   token?: string;
   teacher?: Teacher;
   stats?: Stats;
+  registration_open?: boolean;
 };

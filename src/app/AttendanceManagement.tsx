@@ -103,14 +103,22 @@ function AttendanceManagement() {
                   <img className="w-[50px]" src="/icons/book1.png" alt="" />
                   <div>
                     <p className="text-[14px] regular">Total# of Absences</p>
-                    <p className="text-[20px] semibold">10</p>
+                    <p className="text-[20px] semibold">
+                      {(data?.ststudent?.absent_count &&
+                        String(data?.ststudent?.absent_count)) ??
+                        "0"}
+                    </p>
                   </div>
                 </div>
                 <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
                   <img className="w-[50px]" src="/icons/book2.png" alt="" />
                   <div>
                     <p className="text-[14px] regular">Total# of Tardies</p>
-                    <p className="text-[20px] semibold">10</p>
+                    <p className="text-[20px] semibold">
+                      {(data.ststudent?.tardy_count &&
+                        String(data?.ststudent?.tardy_count)) ??
+                        "0"}
+                    </p>
                   </div>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useRequest } from "../../hooks";
 
 type AuthlayoutProps = {
   children: React.ReactNode;
@@ -12,6 +13,10 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const isMobile = window.innerWidth < 1024;
+
+  const { data } = useRequest<any>("/registration/status", "GET", {
+    type: "mount",
+  });
 
   const changeRole = (role: "user" | "teacher") => {
     setRole && setRole(role);
@@ -129,7 +134,7 @@ function Authlayout({ children, role, setRole, path }: AuthlayoutProps) {
                 Welcome to{" "}
                 <span className="text-[#D57D25] medium"> Sanskar Academy</span>
               </p>
-              {role === "user" && (
+              {data?.registration_open === true && role === "user" && (
                 <p className="text-[13px] text-[#8D8D8D] regular">
                   {path === "/login" ? "Have an Account" : "No Account"} ?
                   <br />

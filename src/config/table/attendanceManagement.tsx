@@ -1,17 +1,15 @@
 // import { useState } from "react";
 
-export const attendanceColumns = (student: any) => {
-  // const [selectedStatus, setSelectedStatus] = useState<Record<string, string>>(
-  //   {}
-  // );
+import dayjs from "dayjs";
 
-  // const handleChange = (studentId: string, value: string) => {
-  //   setSelectedStatus((prev) => ({ ...prev, [studentId]: value }));
-  // };
+export const attendanceColumns = (student: any) => {
   return [
     {
       title: "Date",
       dataIndex: "attendance_date",
+      render: (text: string) => (
+        <p className="w-[100px]">{dayjs(text).format("MM-DD-YYYY")}</p>
+      ),
     },
     {
       title: "Student ID",
@@ -28,11 +26,10 @@ export const attendanceColumns = (student: any) => {
       ),
     },
     {
-      title: "Class",
+      title: "Gurukul Class",
       dataIndex: "class",
       render: () => <p className="capitalize">{student?.gurukal?.name}</p>,
     },
-
     {
       title: "Status",
       dataIndex: "status",
@@ -64,37 +61,6 @@ export const attendanceColumns = (student: any) => {
         );
       },
     },
-
-    // {
-    //   title: "Status",
-    //   dataIndex: "status",
-    //   render: (_: any, record: any) => {
-    //     const currentStatus =
-    //       selectedStatus[record.student_id] || record.status;
-    //     return (
-    //       <div className="flex justify-center">
-    //         <select
-    //           value={currentStatus}
-    //           onChange={(e) => handleChange(record.student_id, e.target.value)}
-    //           className={`text-sm rounded-[30px] block p-1 ${
-    //             currentStatus === "Excused Absence"
-    //               ? "!bg-[#FFF8EF] text-[#D6A54B]"
-    //               : currentStatus === "Present"
-    //               ? "!bg-[#EFFFF1] text-[#4BD670]"
-    //               : currentStatus === "Unexcused Absence"
-    //               ? "!bg-[#FFF4FD] text-[#FF9BA4]"
-    //               : " !bg-[#EFFDFF] text-[#4BBCD6]"
-    //           }`}
-    //         >
-    //           <option value="Present">Present</option>
-    //           <option value="Excused Absence">Excused Absence</option>
-    //           <option value="Not Recorded">Not Recorded</option>
-    //           <option value="Unexcused Absence">Unexcused Absence</option>
-    //         </select>
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 };
 
