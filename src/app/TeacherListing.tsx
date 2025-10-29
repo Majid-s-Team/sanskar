@@ -6,6 +6,7 @@ import { teacherManagementColumns } from "../config";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
 import { useDebounce } from "../hooks";
+import { TeachersType } from "../types";
 
 function TeacherListing() {
   const [search, setSearch] = useState<string | undefined>(undefined);
@@ -44,7 +45,7 @@ function TeacherListing() {
         <TableData
           columns={teacherManagementColumns}
           scroll={800}
-          data={teacherList as any}
+          data={teacherList as TeachersType[]}
           loading={teacherListLoading}
           title={"Teachers List"}
           pagination={pagination}

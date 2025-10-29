@@ -1,6 +1,6 @@
 import { absentForm, teacherAbsentForm } from "../../config";
-import { Form } from "antd";
-import { FeildType, Student } from "../../types";
+import { Form, notification } from "antd";
+import { Student } from "../../types";
 import BaseInput from "../../component/shared/BaseInput";
 import CustomButton from "../../component/shared/CustomButton";
 import HomeLayout from "../../component/shared/HomeLayout";
@@ -10,6 +10,7 @@ import { withAuthGuard } from "../../component/higherOrder/withAuth";
 import { useEffect, useState } from "react";
 import { user } from "../../repositories";
 import { useAuth, useRequest } from "../../hooks";
+import dayjs from "dayjs";
 
 function AbsentForm() {
   const { user: userData } = useAuth();
@@ -32,9 +33,29 @@ function AbsentForm() {
 
   const onFinish = (values: any) => {
     execute({
-      body: { ...values },
+      body: {
+        ...values,
+        from_date: dayjs(values.from_date).format("YYYY-MM-DD"),
+        to_date: dayjs(values.to_date).format("YYYY-MM-DD"),
+      },
       cbSuccess() {
         naviagte(-1);
+      },
+      cbFailure(error) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
+        // if (error?.data) {
+        //   // @ts-ignore
+        //   // const errorMessages = Object.values(error.data).flat();
+        //   // errorMessages.forEach((msg: any) => {
+        //   //   notification.error({
+        //   //     message: "Error",
+        //   //     description: msg,
+        //   //   });
+        //   // });
+        // }
       },
     });
   };
@@ -65,27 +86,25 @@ function AbsentForm() {
           Absent Request Form
         </p>
         <Form onFinish={onFinish} layout="vertical" className="mt-5 ">
-          {(role === "user" ? absentForm : teacherAbsentForm).map(
-            (item: FeildType) => {
-              return (
-                <Form.Item
-                  label={item.title}
-                  key={item.name}
-                  name={item.name}
-                  rules={item.rules}
-                >
-                  <BaseInput
-                    {...item}
-                    options={
-                      item.name === "student_id"
-                        ? optionpPicker(allStudents as any, "id", "first_name")
-                        : item.options
-                    }
-                  />
-                </Form.Item>
-              );
-            }
-          )}
+          {(role === "user" ? absentForm : teacherAbsentForm).map((item) => {
+            return (
+              <Form.Item
+                label={item.title}
+                key={item.name}
+                name={item.name}
+                rules={item.rules}
+              >
+                <BaseInput
+                  {...item}
+                  options={
+                    item.name === "student_id"
+                      ? optionpPicker(allStudents as any, "id", "first_name")
+                      : []
+                  }
+                />
+              </Form.Item>
+            );
+          })}
           <div className="flex justify-center w-[100%] gap-5 items-center">
             <CustomButton
               className="w-[300px] h-[50px] text-[18px] !bg-red-500 text-black"

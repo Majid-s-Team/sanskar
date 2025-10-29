@@ -2,7 +2,13 @@ export const addWeeklyUpdates = [
   {
     title: "Week #",
     name: "week_number",
-    rules: [{ required: true, message: "Please input your week number!" }],
+    rules: [
+      { required: true, message: "Please input your week number!" },
+      {
+        pattern: /^[0-9]{1,2}$/,
+        message: "Week number should be up to 2 digits",
+      },
+    ],
     type: "number",
   },
   {

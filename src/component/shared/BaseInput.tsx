@@ -89,7 +89,7 @@ function BaseInput(props: BaseInputProps) {
     ),
     date: (
       <DatePicker
-        format="DD-MM-YYYY"
+        format="MM-DD-YYYY"
         className="!rounded-[8px] h-[44px] w-[100%]"
         {...props}
       />

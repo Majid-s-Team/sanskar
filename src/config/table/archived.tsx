@@ -32,9 +32,11 @@ export const archivedColumns = ({
   {
     title: "Description",
     dataIndex: "description",
-    render: () => (
-      <p className="text-[#48B3FF] underline medium">View Details</p>
-    ),
+    align: "center",
+    render: (text: any) => <p className="capitalize text-center">{text}</p>,
+    // render: () => (
+    //   <p className="text-[#48B3FF] underline medium">View Details</p>
+    // ),
   },
   {
     title: "Download",

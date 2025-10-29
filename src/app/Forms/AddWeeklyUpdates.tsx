@@ -1,6 +1,5 @@
 import { Form, notification } from "antd";
 import HomeLayout from "../../component/shared/HomeLayout";
-import { FeildType } from "../../types";
 import BaseInput from "../../component/shared/BaseInput";
 import CustomButton from "../../component/shared/CustomButton";
 import { addWeeklyUpdates } from "../../config";
@@ -11,6 +10,7 @@ import { useRequest } from "../../hooks/useRequest";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useAuth } from "../../hooks";
+import { TeachersType, WeeklyUpatdesType } from "../../types";
 
 function AddWeeklyUpdates() {
   const { user: userData } = useAuth();
@@ -31,7 +31,7 @@ function AddWeeklyUpdates() {
     data: user,
     execute,
     loading: userLoading,
-  } = useRequest<any>("/teachers", "GET", {});
+  } = useRequest<TeachersType>("/teachers", "GET", {});
 
   useEffect(() => {
     if (userData?.roles?.[0] === "teacher" && userData?.teacher?.id) {
@@ -43,7 +43,7 @@ function AddWeeklyUpdates() {
   }, [userData]);
 
   const className = user?.gurukal?.name;
-  const onFinish = (val: any) => {
+  const onFinish = (val: WeeklyUpatdesType) => {
     execute2({
       body: { ...val, media, date: dayjs(val.date).format("YYYY-MM-DD") },
       routeParams: id ? String(id) : undefined,
@@ -87,7 +87,7 @@ function AddWeeklyUpdates() {
           layout="vertical"
           className="mt-5 mx-auto lg:w-[60%] xl:w-[600px]"
         >
-          {addWeeklyUpdates.map((item: FeildType) => {
+          {addWeeklyUpdates.map((item) => {
             return (
               <Form.Item
                 label={item.title}

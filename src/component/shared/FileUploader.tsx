@@ -215,7 +215,7 @@ export default function FileUploader({
       </label>
 
       <div className="mt-5 space-y-4">
-        {files.map((file) => (
+        {files?.map((file) => (
           <div
             key={file.id}
             className="border border-gray-200 rounded-md px-4 py-2 flex justify-between items-start"

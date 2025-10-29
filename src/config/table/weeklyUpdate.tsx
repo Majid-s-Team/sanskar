@@ -11,8 +11,8 @@ export const weeklyUpdateColumns = ({
 }: Props) => [
   {
     title: "Week #",
-    dataIndex: "created_at",
-    render: (text: string) => <p>{dayjs(text)?.week()}</p>,
+    dataIndex: "week_number",
+    // render: (text: string) => <p>{dayjs(text)?.week()}</p>,
   },
   {
     title: "Date",

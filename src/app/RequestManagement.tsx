@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
-import { Spin } from "antd";
+import { Pagination, Spin } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks";
@@ -27,32 +27,30 @@ function RequestManagement() {
     data: allRequests,
     loading,
     execute,
+    pagination,
+    onPaginationChange,
   } = useRequest<any>(studentAbsentRequests.url, "GET", {
-    type: "mount",
+    params: {
+      status: active === 1 ? "pending" : active === 2 ? "approved" : "rejected",
+    },
   });
 
   useEffect(() => {
     execute({
       params: {
-        status: active === 1 ? "" : active === 2 ? "approved" : "rejected",
+        status:
+          active === 1 ? "pending" : active === 2 ? "approved" : "rejected",
       },
     });
   }, [active]);
 
   return (
     <HomeLayout>
-      <div className="bg-white lg:p-10 p-5 rounded-[24.59px] h-full">
+      <div className="bg-white lg:p-10 p-5 rounded-[24.59px]">
         <div className="flex lg:flex-row flex-col gap-5 lg:justify-between items-center  ">
           <p className="lg:text-[40px] text-[24px] semibold">
             Request Management
           </p>
-          {/* <Select
-            style={{
-              width: 200,
-            }}
-            placeholder="select category"
-            options={[{ value: "All", label: "All" }]}
-          /> */}
         </div>
         <div className="w-full overflow-x-auto lg:flex items-center hide-scrollbar">
           <div className="flex gap-5 items-center h-[150px] whitespace-nowrap px-4 mx-auto">
@@ -85,37 +83,58 @@ function RequestManagement() {
             <Spin tip="Loading" size="large" />
           </div>
         ) : (
-          <div className="space-y-5 mt-8">
-            {allRequests?.map((item: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className="flex lg:flex-row flex-col lg:text-left text-center items-center gap-2 lg:gap-5 border border-[#ECECEC] p-5 rounded-[20px]"
-                >
-                  <img className="w-[50px]" src={"/icons/wallet.png"} alt="" />
-                  <div>
-                    <p className="text-[16px] semibold !text-black capitalize">
-                      {item?.student?.first_name +
-                        " " +
-                        item?.student?.last_name}
-                    </p>
-                    <p className="text-[14px] text-[#A6A6A6] regular capitalize">
-                      Status: {item?.status}
-                    </p>
-                  </div>
-                  <div className="flex-1"></div>
-                  <Link
-                    to={`/request-management/form-details/${item?.id}`}
-                    className="flex items-center gap-2 bg-[#D57D25] p-4 rounded-[12px]"
-                  >
-                    <img className="w-[20px]" src="/icons/doc.png" alt="" />
-                    <p className="text-[16px] semibol text-white">
-                      View Details
-                    </p>
-                  </Link>
-                </div>
-              );
-            })}
+          <div className="mt-8">
+            {allRequests?.length > 0 ? (
+              <div className="space-y-5">
+                {allRequests?.map((item: any, index: number) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex lg:flex-row flex-col lg:text-left text-center items-center gap-2 lg:gap-5 border border-[#ECECEC] p-5 rounded-[20px]"
+                    >
+                      <img
+                        className="w-[50px]"
+                        src={"/icons/wallet.png"}
+                        alt=""
+                      />
+                      <div>
+                        <p className="text-[16px] semibold !text-black capitalize">
+                          {item?.student?.first_name +
+                            " " +
+                            item?.student?.last_name}
+                        </p>
+                        <p className="text-[14px] text-[#A6A6A6] regular capitalize">
+                          Status: {item?.status}
+                        </p>
+                      </div>
+                      <div className="flex-1"></div>
+                      <Link
+                        to={`/request-management/form-details/${item?.id}`}
+                        className="flex items-center gap-2 bg-[#D57D25] p-4 rounded-[12px]"
+                      >
+                        <img className="w-[20px]" src="/icons/doc.png" alt="" />
+                        <p className="text-[16px] semibol text-white">
+                          View Details
+                        </p>
+                      </Link>
+                    </div>
+                  );
+                })}
+                <Pagination
+                  onChange={(page: number, pageSize: number) =>
+                    onPaginationChange({ current: page, pageSize })
+                  }
+                  {...pagination}
+                  className="mt-5 flex justify-end"
+                />
+              </div>
+            ) : (
+              <div className="text-center flex items-center justify-center">
+                <p className="text-[20px] text-[#A6A6A6] regular capitalize">
+                  No requests available
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

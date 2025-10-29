@@ -3,19 +3,21 @@ import { Popconfirm } from "antd";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import weekOfYear from "dayjs/plugin/weekOfYear";
+import { FolderArchive } from "lucide-react";
 
 dayjs.extend(weekOfYear);
 
 type Props = {
   handleDownload: (url: string, name: string) => void;
   handleViewDetails: (data: any) => void;
+  handleArchive: (id: string) => void;
   handleDelete: (id: string) => void;
-  handleArchive?: (id: string) => void;
 };
 
 export const myClassColumns = ({
   handleDownload,
   handleViewDetails,
+  handleArchive,
   handleDelete,
 }: Props) => [
   {
@@ -86,10 +88,7 @@ export const myClassColumns = ({
           to={`/add-weekly-updates/edit/${record.id}`}
           state={record}
         >
-          <EditFilled
-            className="text-[20px] cursor-pointer"
-            // onClick={() => handleViewDetails(record)}
-          />
+          <EditFilled className="text-[18px] cursor-pointer mt-1" />
         </Link>
 
         <Popconfirm
@@ -98,18 +97,14 @@ export const myClassColumns = ({
           onConfirm={() => handleDelete(record.id)}
           cancelText="No"
         >
-          <DeleteFilled className="text-[20px] cursor-pointer" />
+          <DeleteFilled className="text-[18px] cursor-pointer" />
         </Popconfirm>
-        {/* <Popconfirm
+        <Popconfirm
           title="Are you sure you want to archive this class update?"
           onConfirm={() => handleArchive(record.id)}
         >
-          <ArchiveIcon size={22} className="cursor-pointer" />
-        </Popconfirm> */}
-        {/* <Switch
-          defaultValue={false}
-          onChange={() => handleArchive(record.id)}
-        /> */}
+          <FolderArchive size={20} className="cursor-pointer" />
+        </Popconfirm>
       </div>
     ),
   },

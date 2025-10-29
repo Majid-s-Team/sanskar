@@ -1,4 +1,4 @@
-import { Pagination, Select } from "antd";
+import { Select } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { getStorageData } from "../helper";
 import AuthButton from "../component/partial/AuthButton";
@@ -24,8 +24,8 @@ function Announcement() {
     data,
     loading,
     setData,
-    pagination,
-    onPaginationChange,
+    // pagination,
+    // onPaginationChange,
     execute: getAnnouncement,
   } = useRequest<any>(url, "GET", {
     type: role === "teacher" ? "mount" : "delay",
@@ -158,13 +158,13 @@ function Announcement() {
             No announcement available.
           </p>
         )}
-        <Pagination
+        {/* <Pagination
           onChange={(page: number, pageSize: number) =>
             onPaginationChange({ current: page, pageSize })
           }
           {...pagination}
           className="mt-5 flex justify-end"
-        />
+        /> */}
       </div>
       {open && (
         <AnnouncementModal

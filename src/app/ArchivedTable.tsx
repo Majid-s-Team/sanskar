@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DatePicker, Input, notification } from "antd";
+import { DatePicker, notification } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
@@ -47,7 +47,8 @@ function ArchivedTable() {
     data: archivedData,
     pagination: paginationArchived,
     onPaginationChange: onPaginateArchived,
-    setData: setArchivedData,
+    // setData: setArchivedData,
+    execute: getArchivedData,
   } = useRequest("/weekly-updates/bookmark/list", "GET", { type: "mount" });
 
   const { execute: deleteUpdate, loading: deleteLoading } = useRequest(
@@ -85,7 +86,7 @@ function ArchivedTable() {
 
   const handleDelete = (id: string) =>
     deleteUpdate({
-      routeParams: id,
+      routeParams: String(id),
       cbSuccess: () =>
         setData((prev: any[]) => prev.filter((i) => i.id !== id)),
       cbFailure: (err) =>
@@ -95,8 +96,8 @@ function ArchivedTable() {
   const handleArchive = (id: string) =>
     archiveUpdate({
       routeParams: `${id}/bookmark`,
-      cbSuccess: () =>
-        setData((prev: any[]) => prev.filter((i) => i.id !== id)),
+      // cbSuccess: () =>
+      //   setData((prev: any[]) => prev.filter((i) => i.id !== id)),
       cbFailure: (err) =>
         notification.error({ message: "Error", description: err.message }),
     });
@@ -104,8 +105,8 @@ function ArchivedTable() {
   const handleUnArchive = (id: string) =>
     unarchiveUpdate({
       routeParams: `${id}/unbookmark`,
-      cbSuccess: () =>
-        setArchivedData((prev: any[]) => prev.filter((i) => i.id !== id)),
+      // cbSuccess: () =>
+      //   setArchivedData((prev: any[]) => prev.filter((i) => i.id !== id)),
       cbFailure: (err) =>
         notification.error({ message: "Error", description: err.message }),
     });
@@ -119,19 +120,28 @@ function ArchivedTable() {
             end_date: rangeDate[1].format("YYYY-MM-DD"),
           }
         : {};
+    const params2 = {
+      other: true,
+      start_date: rangeDate?.[0]?.format("YYYY-MM-DD"),
+      end_date: rangeDate?.[1]?.format("YYYY-MM-DD"),
+    };
 
-    executeSearch({ type: "mount", params });
+    if (active === 2) executeSearch({ type: "mount", params: params2 });
+    // executeSearch({ type: "mount", params });
+    if (active === 1) executeSearch({ type: "mount", params });
+    else if (active === 3) getArchivedData({ type: "mount", params });
   }, [rangeDate]);
 
   useEffect(() => {
     if (active === 1 || active === 2) executeSearch({ type: "mount" });
-    else if (active === 3) archiveUpdate({ type: "mount" });
+    else if (active === 3) getArchivedData({ type: "mount" });
   }, [active]);
 
   /** 🔹 Table Configuration */
   const getColumns = () => {
     const handlers = { handleDownload, handleViewDetails };
-    if (active === 1) return myClassColumns({ ...handlers, handleDelete });
+    if (active === 1)
+      return myClassColumns({ ...handlers, handleArchive, handleDelete });
     if (active === 2) return otherClassColumns({ ...handlers, handleArchive });
     return archivedColumns({ ...handlers, handleUnArchive });
   };
@@ -142,6 +152,20 @@ function ArchivedTable() {
 
   const loadingState =
     loading || deleteLoading || archiveLoading || unarchiveLoading;
+
+  useEffect(() => {
+    // Clear existing data to avoid flashing old records
+    setData([]);
+
+    // Decide which API to call based on active tab
+    if (active === 1) {
+      executeSearch({ type: "mount", params: {} });
+    } else if (active === 2) {
+      executeSearch({ type: "mount", params: { other: true } });
+    } else if (active === 3) {
+      getArchivedData({ type: "mount" });
+    }
+  }, [active]);
 
   /** 🔹 UI */
   return (
@@ -183,19 +207,19 @@ function ArchivedTable() {
           onPaginationChange={onPaginate}
           input={
             <div className="flex lg:flex-row flex-col gap-5 items-center">
-              {active === 1 ? (
-                <DatePicker.RangePicker
-                  onChange={setRangeDate}
-                  format="DD-MM-YYYY"
-                  style={{
-                    borderRadius: 6,
-                    backgroundColor: "#F5F4F9",
-                    border: "none",
-                  }}
-                  className="search-input h-[47px] w-full lg:w-[300px]"
-                  allowClear
-                />
-              ) : (
+              {/* {active === 1 ? ( */}
+              <DatePicker.RangePicker
+                onChange={setRangeDate}
+                format="DD-MM-YYYY"
+                style={{
+                  borderRadius: 6,
+                  backgroundColor: "#F5F4F9",
+                  border: "none",
+                }}
+                className="search-input h-[47px] w-full lg:w-[300px]"
+                allowClear
+              />
+              {/* ) : (
                 <Input
                   placeholder="Search"
                   className="search-input h-[47px] w-[300px] lg:w-[227.28px]"
@@ -206,7 +230,7 @@ function ArchivedTable() {
                   }}
                   prefix={<img className="w-[20px]" src="/icons/search.png" />}
                 />
-              )}
+              )} */}
 
               {active === 1 && (
                 <Link

@@ -81,6 +81,17 @@ function StudentAttendance() {
             Student Attendance
           </p>
           <div className="flex gap-5 items-center">
+            {/* <Link
+              to={"/student-report"}
+              style={{
+                backgroundImage: "url(/images/card2.png)",
+                backgroundSize: "100% 100%",
+              }}
+              className="p-5 gap-4 rounded-[20px] flex items-center w-[260px] shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
+            >
+              <img className="w-[40px]" src="/icons/plus.png" alt="" />
+              <p className="text-white text-[14px] medium">Student Report</p>
+            </Link> */}
             <Link
               to={"/add-attendance"}
               style={{

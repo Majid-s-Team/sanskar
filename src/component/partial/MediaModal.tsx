@@ -26,7 +26,7 @@ function MediaModal({ isModalOpen, handleCancel }: Props) {
             </Form.Item>
           );
         })}
-        <FileUploader />
+        <FileUploader onChange={() => {}} />
         <AuthButton htmlType="submit" text={"Add Media"} />
       </Form>
     </Modal>

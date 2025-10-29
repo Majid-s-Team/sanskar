@@ -8,3 +8,4 @@ export * from "./otherClass";
 export * from "./studentList";
 export * from "./addNewAttendance";
 export * from "./teacherManagement";
+export * from "./studentReport";

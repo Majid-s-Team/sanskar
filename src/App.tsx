@@ -48,6 +48,7 @@ import Payment from "./app/Auth/Payment";
 import TermsAndCondition from "./app/Auth/TermsAndCondition";
 import Payment2 from "./app/Payment2";
 import TeacherListing from "./app/TeacherListing";
+import StudentsReport from "./app/StudentsReport";
 const App: React.FC = () => {
   return (
     <Routes>
@@ -132,6 +133,7 @@ const App: React.FC = () => {
       <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
       <Route path="/student-payment/:id" element={<Payment2 />} />
       <Route path="/teacher-listing" element={<TeacherListing />} />
+      <Route path="/student-report" element={<StudentsReport />} />
     </Routes>
   );
 };

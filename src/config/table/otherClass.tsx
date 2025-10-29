@@ -1,6 +1,6 @@
 import { Popconfirm } from "antd";
 import dayjs from "dayjs";
-import { ArchiveIcon } from "lucide-react";
+import { FolderArchive } from "lucide-react";
 
 type Props = {
   handleDownload: (url: string, name: string) => void;
@@ -83,12 +83,8 @@ export const otherClassColumns = ({
           title="Are you sure you want to archive this class update?"
           onConfirm={() => handleArchive(record.id)}
         >
-          <ArchiveIcon size={22} className="cursor-pointer" />
+          <FolderArchive size={22} className="cursor-pointer" />
         </Popconfirm>
-        {/* <Switch
-          defaultValue={false}
-          onChange={() => handleArchive(record.id)}
-        /> */}
       </div>
     ),
   },

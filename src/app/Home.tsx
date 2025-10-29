@@ -148,7 +148,7 @@ const Home = () => {
                     <div></div>
                     {[
                       {
-                        icon: "/images/info1.png",
+                        icon: "/icons/id-icon.png",
                         title: "Student ID",
                         value: activeStudent?.id || "-",
                       },

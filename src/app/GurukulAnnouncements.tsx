@@ -1,7 +1,6 @@
 import HomeLayout from "../component/shared/HomeLayout";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks";
-import { announcementUrl } from "../repositories";
 import dayjs from "dayjs";
 
 // const announcement = [
@@ -32,8 +31,7 @@ import dayjs from "dayjs";
 // ];
 
 function GurukulAnnouncements() {
-  // const role = getStorageData("role");
-  const { data, loading } = useRequest<any>(announcementUrl.url, "GET", {
+  const { data, loading } = useRequest<any>("/admins-annoucement", "GET", {
     type: "mount",
   });
 

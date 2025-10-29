@@ -1,9 +1,9 @@
 export const absentForm = [
   {
-    title: "Absence Request for *",
+    title: "Absence Request for",
     name: "student_id",
-    placeholder: "chose child",
-    rules: [{ required: true, message: "Please chose your child!" }],
+    placeholder: "choose child",
+    rules: [{ required: true, message: "Please choose your child!" }],
     type: "select",
     options: [
       {
@@ -37,21 +37,28 @@ export const absentForm = [
   //   ],
   // },
   {
-    title: "From Date *",
+    title: "From Date",
     name: "from_date",
     rules: [{ required: true, message: "Please input your from date!" }],
     type: "date",
   },
   {
-    title: "To Date *",
+    title: "To Date",
     name: "to_date",
     rules: [{ required: true, message: "Please input your to date!" }],
     type: "date",
   },
   {
-    title: "Absence Reason *",
+    title: "Absence Reason",
     name: "absent_reason",
-    rules: [{ required: true, message: "Please input your absence reason!" }],
+    rules: [
+      { required: true, message: "Please input your absence reason!" },
+      {
+        max: 500,
+        message:
+          "The absent reason field must not be greater than 500 characters.",
+      },
+    ],
     type: "textarea",
   },
 ];

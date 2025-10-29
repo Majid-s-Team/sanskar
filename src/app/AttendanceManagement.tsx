@@ -66,6 +66,10 @@ function AttendanceManagement() {
       });
     }
   }, [selectStudent, userData]);
+
+  const totalAbsent = data?.student?.absent_count ?? 0;
+  const totalTardy = data?.student?.tardy_count ?? 0;
+
   return (
     <HomeLayout loading={loading || studentLoading}>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -99,26 +103,21 @@ function AttendanceManagement() {
               </div> */}
 
               <div className="grid lg:grid-cols-2 gap-4 mt-5">
+                {/* Absences */}
                 <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
                   <img className="w-[50px]" src="/icons/book1.png" alt="" />
                   <div>
                     <p className="text-[14px] regular">Total# of Absences</p>
-                    <p className="text-[20px] semibold">
-                      {(data?.ststudent?.absent_count &&
-                        String(data?.ststudent?.absent_count)) ??
-                        "0"}
-                    </p>
+                    <p className="text-[20px] semibold">{totalAbsent}</p>
                   </div>
                 </div>
+
+                {/* Tardies */}
                 <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
                   <img className="w-[50px]" src="/icons/book2.png" alt="" />
                   <div>
                     <p className="text-[14px] regular">Total# of Tardies</p>
-                    <p className="text-[20px] semibold">
-                      {(data.ststudent?.tardy_count &&
-                        String(data?.ststudent?.tardy_count)) ??
-                        "0"}
-                    </p>
+                    <p className="text-[20px] semibold">{totalTardy}</p>
                   </div>
                 </div>
               </div>
