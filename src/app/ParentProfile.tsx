@@ -191,7 +191,15 @@ function ParentProfile() {
                     name={item.name}
                     rules={item.rules}
                   >
-                    <BaseInput {...item} disabled={item.disabled} />
+                    <BaseInput
+                      {...item}
+                      disabled={
+                        item.name === "secondary_email" &&
+                        data?.user?.secondary_email !== null
+                          ? true
+                          : item.disabled
+                      }
+                    />
                   </Form.Item>
                 );
               })}
