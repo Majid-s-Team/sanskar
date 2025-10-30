@@ -20,9 +20,11 @@ const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+    const resumeAfterSeek = useRef(false);
 
     useImperativeHandle(ref, () => audioRef.current!);
 
+    // Register audio listeners
     useEffect(() => {
       const audio = audioRef.current;
       if (!audio) return;
@@ -33,47 +35,74 @@ const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
         setIsPlaying(false);
         onEnded();
       };
+      const handleSeeked = () => {
+        if (resumeAfterSeek.current) {
+          resumeAfterSeek.current = false;
+          audio.play().catch(() => {});
+          setIsPlaying(true);
+        }
+      };
 
       audio.addEventListener("timeupdate", updateTime);
       audio.addEventListener("loadedmetadata", setAudioData);
       audio.addEventListener("ended", handleEnded);
+      audio.addEventListener("seeked", handleSeeked);
 
       return () => {
         audio.removeEventListener("timeupdate", updateTime);
         audio.removeEventListener("loadedmetadata", setAudioData);
         audio.removeEventListener("ended", handleEnded);
+        audio.removeEventListener("seeked", handleSeeked);
       };
-    }, [url]);
+    }, [url, onEnded]);
 
+    // Sync play/pause when active changes
     useEffect(() => {
-      // Auto pause if not active
       const audio = audioRef.current;
-      if (!isActive && audio) {
+      if (!audio) return;
+
+      if (isActive) {
+        audio
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => {});
+      } else {
         audio.pause();
         setIsPlaying(false);
       }
     }, [isActive]);
 
-    const togglePlay = () => {
+    const togglePlay = async () => {
       const audio = audioRef.current;
       if (!audio) return;
+
       if (isPlaying) {
         audio.pause();
         setIsPlaying(false);
       } else {
         onPlay();
-        audio.play();
-        setIsPlaying(true);
+        try {
+          await audio.play();
+          setIsPlaying(true);
+        } catch (err) {
+          console.warn("Playback error:", err);
+        }
       }
     };
 
+    // ✅ Skip fix: No pause, resume after seek automatically
     const skipTime = (seconds: number) => {
       const audio = audioRef.current;
       if (!audio) return;
-      audio.currentTime = Math.min(
+
+      const newTime = Math.min(
         Math.max(audio.currentTime + seconds, 0),
         audio.duration
       );
+
+      resumeAfterSeek.current = !audio.paused; // only resume if it was playing
+      audio.currentTime = newTime;
+      setCurrentTime(newTime);
     };
 
     const formatTime = (time: number) =>
@@ -85,7 +114,11 @@ const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
           )}`;
 
     return (
-      <div className="max-w-md bg-gradient-to-b from-gray-50 to-gray-100 rounded-2xl p-4 shadow-md">
+      <div
+        className={`max-w-md bg-gradient-to-b from-gray-50 to-gray-100 rounded-2xl p-4 shadow-md ${
+          isActive ? "border border-blue-400" : ""
+        }`}
+      >
         <div className="flex justify-center items-end h-16 gap-[3px] mb-3">
           {Array.from({ length: 20 }).map((_, i) => (
             <div
@@ -119,7 +152,7 @@ const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
           <span>{formatTime(duration)}</span>
         </div>
 
-        <audio ref={audioRef} src={url} preload="metadata" />
+        <audio ref={audioRef} src={url} preload="auto" />
       </div>
     );
   }

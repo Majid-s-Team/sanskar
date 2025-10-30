@@ -57,37 +57,48 @@ function GurukulPrayers() {
               onChange={(value) => {
                 setSelectedCategory(value);
               }}
+              onClear={() => window.location.reload()}
+              allowClear
+              placeholder="Select Prayer Category"
               className="min-w-[200px]"
               options={optionpPicker(prayerCategories as any)}
             />
           </div>
         </div>
-        <div className="grid lg:grid-cols-2 gap-5 p-5 mt-5">
-          {data?.map((item: any, index: number) => {
-            if (!item?.url?.endsWith(".mp3")) return null;
-            return (
-              <div key={index} className="space-y-3">
-                <p className="text-[24px] font-semibold capitalize">
-                  {item.text}
-                </p>
-                <AudioPlayer
-                  ref={(el: any) => (audioRefs.current[index] = el)}
-                  url={item.url}
-                  isActive={activeIndex === index}
-                  onPlay={() => handlePlay(index)}
-                  onEnded={() => handleEnded(index)}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <Pagination
-          onChange={(page: number, pageSize: number) =>
-            onPaginationChange({ current: page, pageSize })
-          }
-          {...pagination}
-          className="mt-5 flex justify-end"
-        />
+        {data?.length === 0 ? (
+          <p className="text-[24px] semibold capitalize text-center my-10">
+            No prayers available.
+          </p>
+        ) : (
+          <>
+            <div className="grid lg:grid-cols-2 gap-5 p-5 mt-5">
+              {data?.map((item: any, index: number) => {
+                if (!item?.url?.endsWith(".mp3")) return null;
+                return (
+                  <div key={index} className="space-y-3">
+                    <p className="text-[24px] font-semibold capitalize">
+                      {item.text}
+                    </p>
+                    <AudioPlayer
+                      ref={(el: any) => (audioRefs.current[index] = el)}
+                      url={item.url}
+                      isActive={activeIndex === index}
+                      onPlay={() => handlePlay(index)}
+                      onEnded={() => handleEnded(index)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <Pagination
+              onChange={(page: number, pageSize: number) =>
+                onPaginationChange({ current: page, pageSize })
+              }
+              {...pagination}
+              className="mt-5 flex justify-end"
+            />
+          </>
+        )}
       </div>
     </HomeLayout>
   );

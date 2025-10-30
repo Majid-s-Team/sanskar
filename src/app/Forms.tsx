@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import { getStorageData } from "../helper";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useRequest } from "../hooks";
+import { useEffect } from "react";
 
 const forms = [
   {
@@ -21,12 +23,6 @@ const forms = [
     // date: "28 Oct 2023 | 122 MB",
     icon: "/icons/wallet.png",
     path: "/forms/sibling-enrollment-form",
-  },
-  {
-    title: "Re-Registration Form",
-    // date: "28 Oct 2023 | 122 MB",
-    icon: "/icons/wallet.png",
-    path: "/re-registration-form",
   },
 ];
 
@@ -53,8 +49,20 @@ const forms2 = [
 
 function Forms() {
   const role = getStorageData("role");
+  const {
+    data: registrationData,
+    loading,
+    execute,
+  } = useRequest<any>("/registration/status", "GET", {});
+
+  useEffect(() => {
+    if (role === "user") {
+      execute();
+    }
+  }, [role]);
+
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <p className="text-[40px] semibold">Forms</p>
         {(role === "user" ? forms : forms2).map((form, index) => {
@@ -67,15 +75,23 @@ function Forms() {
               <img className="w-[50px]" src={form.icon} alt="" />
               <div>
                 <p className="text-[16px] semibold !text-black">{form.title}</p>
-                {/* <p className="text-[14px] text-[#A6A6A6] regular">
-                  {form.date}
-                </p> */}
               </div>
-              {/* <div className="flex-1"></div>
-              <img className="w-[20px]" src="/icons/dot.png" alt="" /> */}
             </Link>
           );
         })}
+        {registrationData?.registration_open === true && role === "user" && (
+          <Link
+            to={"/re-registration-form"}
+            className="flex items-center gap-5 mt-5 border border-[#ECECEC] p-5 rounded-[20px]"
+          >
+            <img className="w-[50px]" src={"/icons/wallet.png"} alt="" />
+            <div>
+              <p className="text-[16px] semibold !text-black">
+                Re-Registration Form
+              </p>
+            </div>
+          </Link>
+        )}
       </div>
     </HomeLayout>
   );

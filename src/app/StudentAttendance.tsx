@@ -86,7 +86,7 @@ function StudentAttendance() {
       .map((item: any) => {
         const row: { [key: string]: any } = {
           Name: `${item.student.first_name} ${item.student.last_name}`,
-          "Student ID": item.student.id,
+          ID: item.student.id,
           Status: item.status,
           "Participation Points": item.participation_points,
           "Homework Points": item.homework_points,
