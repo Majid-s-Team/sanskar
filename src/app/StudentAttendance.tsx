@@ -9,6 +9,10 @@ import { useEffect, useState } from "react";
 import { AttendanceData } from "../types/api/studentAttendanceType";
 import StudentDetailsModal from "../component/partial/StudentDetailsModal";
 import dayjs from "dayjs";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+// import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 function StudentAttendance() {
   const { user } = useAuth();
@@ -22,6 +26,8 @@ function StudentAttendance() {
     "GET",
     {}
   );
+
+  console.log(filteredData, "data");
 
   const present = data?.counts?.present || 0;
 
@@ -73,6 +79,64 @@ function StudentAttendance() {
       setFilteredData(data?.arrays?.all || []);
     }
   }, [search, data]);
+
+  const exportData =
+    filteredData
+      ?.sort((a, b) => a.student.first_name.localeCompare(b.student.first_name))
+      .map((item: any) => {
+        const row: { [key: string]: any } = {
+          Name: `${item.student.first_name} ${item.student.last_name}`,
+          "Student ID": item.student.id,
+          Status: item.status,
+          "Participation Points": item.participation_points,
+          "Homework Points": item.homework_points,
+        };
+        return row;
+      }) || [];
+
+  const downloadCSV = () => {
+    const headers = Object.keys(exportData[0] || {});
+    const csvRows = [
+      headers.join(","),
+      ...exportData.map((row) =>
+        headers.map((h) => JSON.stringify(row[h] ?? "")).join(",")
+      ),
+    ];
+    const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
+    saveAs(blob, "attendance.csv");
+  };
+
+  const downloadXLSX = () => {
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Attendance");
+    XLSX.writeFile(wb, "attendance.xlsx");
+  };
+
+  // const downloadPDF = () => {
+  //   const doc = new jsPDF();
+  //   const headers = [
+  //     [
+  //       "Name",
+  //       "Student ID",
+  //       "Status",
+  //       "Participation Points",
+  //       "Homework Points",
+  //     ],
+  //   ];
+  //   const rows = exportData.map((r) => [
+  //     r.Name,
+  //     r["Student ID"],
+  //     r.Status,
+  //     r["Participation Points"],
+  //     r["Homework Points"],
+  //   ]);
+
+  //   doc.text("Student Attendance", 14, 10);
+  //   (doc as any).autoTable({ head: headers, body: rows, startY: 20 });
+  //   doc.save("attendance.pdf");
+  // };
+
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -158,13 +222,35 @@ function StudentAttendance() {
                 </div>
               </div>
             </div>
+            <div className="flex gap-3 justify-end mt-4">
+              <button
+                onClick={downloadCSV}
+                className="bg-[#FF993A] text-white px-4 py-2 rounded-[10px]"
+              >
+                Download CSV
+              </button>
+              <button
+                onClick={downloadXLSX}
+                className="bg-[#FF993A] text-white px-4 py-2 rounded-[10px]"
+              >
+                Download XLSX
+              </button>
+              {/* <button
+              onClick={downloadPDF}
+              className="bg-[#FF993A] text-white px-4 py-2 rounded-[10px]"
+            >
+              Download PDF
+            </button> */}
+            </div>
           </div>
         </div>
         <Table
           // pagination={pagination}
           // onPaginationChange={onPaginationChange}
           columns={studentAttendanceColumns(handleDetails)}
-          dataSource={filteredData}
+          dataSource={filteredData.sort((a, b) =>
+            a.student.first_name.localeCompare(b.student.first_name)
+          )}
           pagination={false}
           // data={studentList?.students as any}
           loading={loading}

@@ -150,7 +150,7 @@ const Home = () => {
                       {
                         icon: "/icons/id-icon.png",
                         title: "Student ID",
-                        value: activeStudent?.id || "-",
+                        value: activeStudent?.ai_key || "-",
                       },
                       {
                         icon: "/images/info2.png",

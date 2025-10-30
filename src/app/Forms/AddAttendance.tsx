@@ -121,7 +121,6 @@ function AddAttendance() {
               border: "1px solid #CCCCCC",
             }}
             onChange={(e) => setSearch(e.target.value)}
-            // suffix={<img className="w-[20px]" src="/icons/filter.png" />}
             prefix={<img className="w-[20px]" src="/icons/search.png" />}
           />
           <div className="w-[250px] space-y-1">
@@ -134,17 +133,15 @@ function AddAttendance() {
             />
           </div>
         </div>
-        {/* <div className="border-l border-r border-[#E0E0E0] rounded-[12px] overflow-hidden my-10"> */}
+
         <TableData
           columns={addNewAttendanceColumns(setAttendance, allStatus)}
-          // data={studentList?.students as any}
-          data={filteredData}
+          data={filteredData.sort((a, b) =>
+            a.student.first_name.localeCompare(b.student.first_name)
+          )}
           loading={loading}
           pagination={false}
-          // pagination={pagination}
-          // onPaginationChange={onPaginationChange}
         />
-        {/* </div> */}
 
         <div className="flex justify-center mt-10 gap-5">
           <CustomButton

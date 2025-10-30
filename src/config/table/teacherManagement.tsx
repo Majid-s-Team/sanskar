@@ -18,6 +18,11 @@ export const teacherManagementColumns = [
     dataIndex: "full_name",
   },
   {
+    title: "Gurukul Class Name",
+    dataIndex: "gurukal",
+    render: (text: any) => <p>{text?.name}</p>,
+  },
+  {
     title: "Email",
     dataIndex: "user",
     render: (text: any) => <p>{text?.primary_email}</p>,
@@ -27,8 +32,8 @@ export const teacherManagementColumns = [
     dataIndex: "phone_number",
   },
   {
-    title: "Gurukul Class Name",
-    dataIndex: "gurukal",
-    render: (text: any) => <p>{text?.name}</p>,
+    title: "House Name",
+    dataIndex: "house",
+    render: (text: any) => <p>{text?.name || "-"}</p>,
   },
 ];

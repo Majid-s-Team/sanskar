@@ -39,4 +39,6 @@ export type Student = {
   updated_at: string;
   is_payment_done: number;
   house: any;
+  ai_key: string | null;
+  ai_role: string | null;
 };

@@ -72,9 +72,11 @@ const ALLOWED_TYPES: Record<string, UploadedFile["type"]> = {
 export default function FileUploader({
   onChange,
   initialFiles,
+  onUploadStatusChange,
 }: {
   onChange?: (media: { name: string; type: string; url: string }[]) => void;
   initialFiles?: { name: string; type: string; url: string }[];
+  onUploadStatusChange?: (status: boolean) => void;
 }) {
   const [files, setFiles] = useState<UploadedFile[]>(
     initialFiles?.map((f) => ({
@@ -103,6 +105,14 @@ export default function FileUploader({
   // sequential upload handler
   const uploadSequentially = (fileList: File[]) => {
     if (!fileList.length) return;
+
+    onUploadStatusChange?.(true);
+
+    if (!fileList) {
+      // ✅ all uploads finished
+      onUploadStatusChange?.(false);
+      return;
+    }
 
     const processFile = (index: number) => {
       const file = fileList[index];
@@ -160,6 +170,7 @@ export default function FileUploader({
                 : files
             );
             processFile(index + 1); // move to next file
+            onUploadStatusChange?.(false);
           },
           cbFailure: (res) => {
             // setFiles((prev) =>
@@ -171,6 +182,7 @@ export default function FileUploader({
             // );
             notification.error({ message: "Error", description: res.message });
             processFile(index + 1);
+            onUploadStatusChange?.(false);
           },
         });
       }

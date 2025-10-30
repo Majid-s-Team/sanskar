@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   htmlType?: "submit" | "button" | "reset" | undefined;
   loading?: boolean;
+  disabled?: boolean;
 };
 
 function CustomButton({
@@ -21,6 +22,7 @@ function CustomButton({
   className,
   htmlType = "submit",
   loading,
+  disabled,
 }: Props) {
   return (
     <Button
@@ -34,6 +36,7 @@ function CustomButton({
       onClick={onClick}
       icon={icon}
       loading={loading}
+      disabled={disabled}
     >
       {title}
     </Button>

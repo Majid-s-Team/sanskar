@@ -13,6 +13,7 @@ import { useAuth } from "../../hooks";
 import { TeachersType, WeeklyUpatdesType } from "../../types";
 
 function AddWeeklyUpdates() {
+  const [isUploading, setIsUploading] = useState(false);
   const { user: userData } = useAuth();
   const { id } = useParams();
   const { state } = useLocation();
@@ -107,6 +108,7 @@ function AddWeeklyUpdates() {
           <FileUploader
             onChange={(val: any) => setMedia(val)}
             initialFiles={state?.media || []}
+            onUploadStatusChange={(status: boolean) => setIsUploading(status)}
           />
           {/* </Form.Item> */}
           <div className="flex justify-center mt-10 gap-5">
@@ -121,6 +123,7 @@ function AddWeeklyUpdates() {
               title={id ? "Save Update" : "Save"}
               htmlType="submit"
               loading={loading}
+              disabled={isUploading}
             />
           </div>
         </Form>

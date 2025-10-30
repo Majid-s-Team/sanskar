@@ -47,6 +47,15 @@ function StudentInfo() {
   }, [userData]);
 
   useEffect(() => {
+    if (id) {
+      studentExecute({
+        type: "mount",
+        routeParams: String(id),
+      });
+    }
+  }, [id]);
+
+  useEffect(() => {
     if (selectStudent) {
       studentExecute({
         type: "mount",
@@ -95,16 +104,18 @@ function StudentInfo() {
                 }}
               />
             )}
-            <Link
-              to={
-                id
-                  ? `/forms/add-student/${id}`
-                  : `/forms/add-student/${selectStudent}`
-              }
-              className="float-right px-8 h-[45px] flex justify-center items-center !bg-[#FF881A] rounded-[10px] !border-none text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
-            >
-              Edit
-            </Link>
+            {studentData?.is_payment_done === 1 && (
+              <Link
+                to={
+                  id
+                    ? `/forms/add-student/${id}`
+                    : `/forms/add-student/${selectStudent}`
+                }
+                className="float-right px-8 h-[45px] flex justify-center items-center !bg-[#FF881A] rounded-[10px] !border-none text-[16px] medium !text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
+              >
+                Edit
+              </Link>
+            )}
           </div>
         </div>
         <Form form={form} layout="vertical" className="mt-5 form-m">
