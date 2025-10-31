@@ -91,16 +91,45 @@ const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
     };
 
     // ✅ Skip fix: No pause, resume after seek automatically
+    // const skipTime = (seconds: number) => {
+    //   const audio = audioRef.current;
+    //   if (!audio) return;
+
+    //   const newTime = Math.min(
+    //     Math.max(audio.currentTime + seconds, 0),
+    //     audio.duration
+    //   );
+
+    //   resumeAfterSeek.current = !audio.paused; // only resume if it was playing
+    //   audio.currentTime = newTime;
+    //   setCurrentTime(newTime);
+    // };
+
     const skipTime = (seconds: number) => {
       const audio = audioRef.current;
       if (!audio) return;
 
+      const wasPlaying = !audio.paused;
       const newTime = Math.min(
         Math.max(audio.currentTime + seconds, 0),
         audio.duration
       );
 
-      resumeAfterSeek.current = !audio.paused; // only resume if it was playing
+      // Pause first — Firefox needs this to prevent stalling
+      audio.pause();
+
+      const handleSeeked = async () => {
+        audio.removeEventListener("seeked", handleSeeked);
+        if (wasPlaying) {
+          try {
+            await audio.play(); // resume after seek
+          } catch (e) {
+            console.warn("Resume error:", e);
+          }
+        }
+      };
+
+      audio.addEventListener("seeked", handleSeeked);
       audio.currentTime = newTime;
       setCurrentTime(newTime);
     };

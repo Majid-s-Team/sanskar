@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DatePicker, notification } from "antd";
+import { DatePicker, notification, Spin } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
@@ -153,9 +153,13 @@ function ArchivedTable() {
 
   const loadingState = loading || archivedLoading;
 
+  useEffect(() => {
+    setRangeDate(null);
+  }, [activeTab]);
+
   /** 🔹 UI */
   return (
-    <HomeLayout loading={loadingState}>
+    <HomeLayout>
       {/* Tabs */}
       <div className="w-full overflow-x-auto lg:flex items-center hide-scrollbar">
         <div className="flex gap-5 items-center h-[150px] whitespace-nowrap px-4 mx-auto">
@@ -182,47 +186,53 @@ function ArchivedTable() {
       </div>
 
       {/* Table */}
-      <div className="bg-white p-5 rounded-[24.59px]">
-        <TableData
-          columns={getColumns()}
-          scroll={active === 1 ? 1000 : 800}
-          data={tableData as any}
-          loading={deleteLoading || archiveLoading || unarchiveLoading}
-          title={activeTab.label}
-          pagination={pagination}
-          onPaginationChange={onPaginate}
-          input={
-            <div className="flex lg:flex-row flex-col gap-5 items-center">
-              {/* {active === 1 ? ( */}
-              <DatePicker.RangePicker
-                onChange={setRangeDate}
-                format="DD-MM-YYYY"
-                style={{
-                  borderRadius: 6,
-                  backgroundColor: "#F5F4F9",
-                  border: "none",
-                }}
-                className="search-input h-[47px] w-full lg:w-[300px]"
-                allowClear
-              />
-              {active === 1 && (
-                <Link
-                  to="/add-weekly-updates"
+      <div className="bg-white p-5 rounded-[24.59px] ">
+        {loadingState ? (
+          <div className="flex justify-center items-center bg-white h-[80vh] ">
+            <Spin size="large" />
+          </div>
+        ) : (
+          <TableData
+            columns={getColumns()}
+            scroll={active === 1 ? 1000 : 800}
+            data={tableData as any}
+            loading={deleteLoading || archiveLoading || unarchiveLoading}
+            title={activeTab.label}
+            pagination={pagination}
+            onPaginationChange={onPaginate}
+            input={
+              <div className="flex lg:flex-row flex-col gap-5 items-center">
+                <DatePicker.RangePicker
+                  onChange={setRangeDate}
+                  format="DD-MM-YYYY"
                   style={{
-                    backgroundImage: "url(/images/card2.png)",
-                    backgroundSize: "100% 100%",
+                    borderRadius: 6,
+                    backgroundColor: "#F5F4F9",
+                    border: "none",
                   }}
-                  className="p-4 rounded-[20px] flex gap-4 items-center shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
-                >
-                  <img className="w-[30px]" src="/icons/plus.png" alt="" />
-                  <p className="text-white text-[14px] medium">
-                    Add Weekly Updates
-                  </p>
-                </Link>
-              )}
-            </div>
-          }
-        />
+                  value={rangeDate}
+                  className="search-input h-[47px] w-full lg:w-[300px]"
+                  allowClear
+                />
+                {active === 1 && (
+                  <Link
+                    to="/add-weekly-updates"
+                    style={{
+                      backgroundImage: "url(/images/card2.png)",
+                      backgroundSize: "100% 100%",
+                    }}
+                    className="p-4 rounded-[20px] flex gap-4 items-center shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
+                  >
+                    <img className="w-[30px]" src="/icons/plus.png" alt="" />
+                    <p className="text-white text-[14px] medium">
+                      Add Weekly Updates
+                    </p>
+                  </Link>
+                )}
+              </div>
+            }
+          />
+        )}
       </div>
 
       {/* View Details Modal */}

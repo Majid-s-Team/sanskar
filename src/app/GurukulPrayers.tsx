@@ -45,6 +45,16 @@ function GurukulPrayers() {
     execute({});
   }, [selectedCategory]);
 
+  useEffect(() => {
+    audioRefs.current.forEach((audio) => {
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    });
+    setActiveIndex(null);
+  }, [data]);
+
   return (
     <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
