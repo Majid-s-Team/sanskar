@@ -40,7 +40,18 @@ function ArchivedTable() {
     execute: executeSearch,
   } = useRequest("/weekly-updates", "GET", {
     type: "mount",
-    params: active === 2 ? { other: true } : {},
+    // params: active === 2 ? { other: true } : {},
+  });
+
+  const {
+    data: otherClassData,
+    loading: otherClassLoading,
+    pagination: otherClassPagination,
+    onPaginationChange: onPaginateOther,
+    execute: executeSearchOther,
+  } = useRequest("/weekly-updates", "GET", {
+    type: "mount",
+    params: { other: true },
   });
 
   const {
@@ -127,15 +138,19 @@ function ArchivedTable() {
       end_date: rangeDate?.[1]?.format("YYYY-MM-DD"),
     };
 
-    if (active === 2) executeSearch({ type: "mount", params: params2 });
-    // executeSearch({ type: "mount", params });
+    if (active === 2) executeSearchOther({ type: "mount", params: params2 });
     if (active === 1) executeSearch({ type: "mount", params });
     else if (active === 3) getArchivedData({ type: "mount", params });
   }, [rangeDate]);
 
   useEffect(() => {
-    if (active === 1 || active === 2) executeSearch({ type: "mount" });
-    else if (active === 3) getArchivedData({ type: "mount" });
+    if (active === 1) {
+      executeSearch({ type: "mount" });
+    } else if (active === 3) {
+      getArchivedData({ type: "mount" });
+    } else if (active === 2) {
+      executeSearchOther({ type: "mount" });
+    }
   }, [active]);
 
   /** 🔹 Table Configuration */
@@ -147,11 +162,22 @@ function ArchivedTable() {
     return archivedColumns({ ...handlers, handleUnArchive });
   };
 
-  const tableData = active === 3 ? archivedData : data;
-  const pagination = active === 3 ? paginationArchived : paginationMain;
-  const onPaginate = active === 3 ? onPaginateArchived : onPaginateMain;
+  const tableData =
+    active === 3 ? archivedData : active === 2 ? otherClassData : data;
+  const pagination =
+    active === 3
+      ? paginationArchived
+      : active === 2
+      ? otherClassPagination
+      : paginationMain;
+  const onPaginate =
+    active === 3
+      ? onPaginateArchived
+      : active === 2
+      ? onPaginateOther
+      : onPaginateMain;
 
-  const loadingState = loading || archivedLoading;
+  const loadingState = loading || archivedLoading || otherClassLoading;
 
   useEffect(() => {
     setRangeDate(null);
