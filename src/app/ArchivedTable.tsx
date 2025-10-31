@@ -47,8 +47,9 @@ function ArchivedTable() {
     data: archivedData,
     pagination: paginationArchived,
     onPaginationChange: onPaginateArchived,
-    // setData: setArchivedData,
+    setData: setArchivedData,
     execute: getArchivedData,
+    loading: archivedLoading,
   } = useRequest("/weekly-updates/bookmark/list", "GET", { type: "mount" });
 
   const { execute: deleteUpdate, loading: deleteLoading } = useRequest(
@@ -105,8 +106,8 @@ function ArchivedTable() {
   const handleUnArchive = (id: string) =>
     unarchiveUpdate({
       routeParams: `${id}/unbookmark`,
-      // cbSuccess: () =>
-      //   setArchivedData((prev: any[]) => prev.filter((i) => i.id !== id)),
+      cbSuccess: () =>
+        setArchivedData((prev: any[]) => prev.filter((i) => i.id !== id)),
       cbFailure: (err) =>
         notification.error({ message: "Error", description: err.message }),
     });
@@ -150,26 +151,11 @@ function ArchivedTable() {
   const pagination = active === 3 ? paginationArchived : paginationMain;
   const onPaginate = active === 3 ? onPaginateArchived : onPaginateMain;
 
-  const loadingState =
-    loading || deleteLoading || archiveLoading || unarchiveLoading;
-
-  useEffect(() => {
-    // Clear existing data to avoid flashing old records
-    setData([]);
-
-    // Decide which API to call based on active tab
-    if (active === 1) {
-      executeSearch({ type: "mount", params: {} });
-    } else if (active === 2) {
-      executeSearch({ type: "mount", params: { other: true } });
-    } else if (active === 3) {
-      getArchivedData({ type: "mount" });
-    }
-  }, [active]);
+  const loadingState = loading || archivedLoading;
 
   /** 🔹 UI */
   return (
-    <HomeLayout>
+    <HomeLayout loading={loadingState}>
       {/* Tabs */}
       <div className="w-full overflow-x-auto lg:flex items-center hide-scrollbar">
         <div className="flex gap-5 items-center h-[150px] whitespace-nowrap px-4 mx-auto">
@@ -201,7 +187,7 @@ function ArchivedTable() {
           columns={getColumns()}
           scroll={active === 1 ? 1000 : 800}
           data={tableData as any}
-          loading={loadingState}
+          loading={deleteLoading || archiveLoading || unarchiveLoading}
           title={activeTab.label}
           pagination={pagination}
           onPaginationChange={onPaginate}
@@ -219,19 +205,6 @@ function ArchivedTable() {
                 className="search-input h-[47px] w-full lg:w-[300px]"
                 allowClear
               />
-              {/* ) : (
-                <Input
-                  placeholder="Search"
-                  className="search-input h-[47px] w-[300px] lg:w-[227.28px]"
-                  style={{
-                    borderRadius: 6,
-                    backgroundColor: "#F5F4F9",
-                    border: "none",
-                  }}
-                  prefix={<img className="w-[20px]" src="/icons/search.png" />}
-                />
-              )} */}
-
               {active === 1 && (
                 <Link
                   to="/add-weekly-updates"

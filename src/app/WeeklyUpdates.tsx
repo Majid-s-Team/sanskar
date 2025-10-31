@@ -133,25 +133,15 @@ function WeeklyUpdates() {
                   ),
                 }))}
                 value={selectStudent}
-                onChange={(value) => setSelectStudent(value)}
+                onChange={(value) => {
+                  setSelectStudent(value);
+                  setRangeDate(null);
+                }}
                 className=""
                 style={{
                   width: "180px",
                 }}
               />
-              {/* <Input
-                placeholder="Search"
-                className={`search-input h-[35px] lg:w-[227.28px]`}
-                style={{
-                  borderRadius: 6,
-                  backgroundColor: "#F5F4F9",
-                  border: "none",
-                }}
-                prefix={<img className="w-[20px]" src="/icons/search.png" />}
-              /> */}
-              {/* <div>
-                <img className="w-[25px]" src="/icons/filter.png" />
-              </div> */}
               <DatePicker.RangePicker
                 onChange={(e) => setRangeDate(e)}
                 style={{
@@ -159,6 +149,7 @@ function WeeklyUpdates() {
                   backgroundColor: "#F5F4F9",
                   border: "none",
                 }}
+                value={rangeDate}
                 format={"DD-MM-YYYY"}
                 className={`search-input h-[47px] w-full lg:w-[300px]`}
                 allowClear={true}

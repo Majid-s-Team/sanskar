@@ -193,17 +193,18 @@ const Home = () => {
                       </div>
                     ))}
                   </Link>
-                  {activeStudent?.is_payment_done === null && (
-                    <CustomButton
-                      className="mt-5 w-full"
-                      onClick={() =>
-                        navigate("/student-payment/" + activeStudent?.id, {
-                          state: activeStudent,
-                        })
-                      }
-                      title="Make Payment"
-                    />
-                  )}
+                  {activeStudent?.is_payment_done === null ||
+                    (activeStudent?.is_payment_done === 0 && (
+                      <CustomButton
+                        className="mt-5 w-full"
+                        onClick={() =>
+                          navigate("/student-payment/" + activeStudent?.id, {
+                            state: activeStudent,
+                          })
+                        }
+                        title="Make Payment"
+                      />
+                    ))}
                 </>
               )}
             </div>

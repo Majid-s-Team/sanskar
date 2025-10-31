@@ -1,6 +1,5 @@
 import { Popconfirm } from "antd";
 import dayjs from "dayjs";
-import { ArchiveRestore } from "lucide-react";
 
 type Props = {
   handleDownload: (url: string, name: string) => void;
@@ -41,37 +40,41 @@ export const archivedColumns = ({
   {
     title: "Download",
     dataIndex: "media",
-    render: (media: any) => (
+    render: (media: any[]) => (
       <div className="flex gap-5 justify-center w-[250px]">
-        <div className="space-y-2">
-          {media.map((item: any) => {
-            return (
-              <div className="flex items-center gap-5">
-                <div className="flex items-center gap-2">
-                  <img className="w-[30px]" src="/icons/pdf.png" alt="" />
-                  <div>
-                    <p className="text-[12px] medium text-black truncate w-[100px] text-left">
-                      {item.name || "Class Update Form"}
-                    </p>
-                    {/* <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p> */}
+        {media.length === 0 ? (
+          <p className="text-[12px] medium text-black">No files found</p>
+        ) : (
+          <div className="space-y-2">
+            {media.map((item: any) => {
+              return (
+                <div className="flex items-center gap-5">
+                  <div className="flex items-center gap-2">
+                    <img className="w-[30px]" src="/icons/pdf.png" alt="" />
+                    <div>
+                      <p className="text-[12px] medium text-black truncate w-[100px] text-left">
+                        {item.name || "Class Update Form"}
+                      </p>
+                      {/* <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p> */}
+                    </div>
                   </div>
+                  <img
+                    className="w-[20px] h-[20px] cursor-pointer"
+                    src="/icons/download-orange.png"
+                    onClick={() => handleDownload(item.url, item.name)}
+                    alt=""
+                  />
+                  <img
+                    className="w-[24px] h-[24px] cursor-pointer"
+                    src="/icons/eye.png"
+                    onClick={() => handleViewDetails(item.url)}
+                    alt=""
+                  />
                 </div>
-                <img
-                  className="w-[20px] h-[20px] cursor-pointer"
-                  src="/icons/download-orange.png"
-                  onClick={() => handleDownload(item.url, item.name)}
-                  alt=""
-                />
-                <img
-                  className="w-[24px] h-[24px] cursor-pointer"
-                  src="/icons/eye.png"
-                  onClick={() => handleViewDetails(item.url)}
-                  alt=""
-                />
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     ),
   },
@@ -80,35 +83,17 @@ export const archivedColumns = ({
     dataIndex: "action",
     render: (_: any, record: any) => (
       <div className="flex gap-5 justify-center items-center">
-        {/* <Link
-          className="!text-[#a0a0a0]"
-          to={`/add-weekly-updates/edit/${record.id}`}
-          state={record}
-        >
-          <EditFilled
-            className="text-[20px] cursor-pointer"
-            // onClick={() => handleViewDetails(record)}
-          />
-        </Link>
-
-        <Popconfirm
-          title="Are you sure you want to delete this class update?"
-          okText="Yes"
-          onConfirm={() => handleDelete(record.id)}
-          cancelText="No"
-        >
-          <DeleteFilled className="text-[20px] cursor-pointer" />
-        </Popconfirm> */}
         <Popconfirm
           title="Are you sure you want to unarchive this class update?"
           onConfirm={() => handleUnArchive(record.id)}
         >
-          <ArchiveRestore size={22} className="cursor-pointer" />
+          {/* <ArchiveRestore size={22} className="cursor-pointer" /> */}
+          <img
+            className="w-[22px] cursor-pointer"
+            src="/icons/unarchive.png"
+            alt=""
+          />
         </Popconfirm>
-        {/* <Switch
-          defaultValue={false}
-          onChange={() => handleArchive(record.id)}
-        /> */}
       </div>
     ),
   },

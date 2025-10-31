@@ -74,9 +74,10 @@ export default function MovieCarousel({ data, setStudent }: any) {
               <h3 className="mt-2 text-[15px] medium capitalize truncate">
                 {item.first_name + " " + item.last_name}
               </h3>
-              {item.is_payment_done === null && (
-                <p className="text-[12px] regular">Payment Pending</p>
-              )}
+              {item.is_payment_done === null ||
+                (item.is_payment_done === 0 && (
+                  <p className="text-[12px] regular">Payment Pending</p>
+                ))}
             </div>
           </SwiperSlide>
         ))}

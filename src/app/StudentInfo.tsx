@@ -68,7 +68,6 @@ function StudentInfo() {
     if (studentData) {
       form.setFieldsValue({
         ...studentData,
-        // dob: studentData.dob ? dayjs(studentData.dob) : undefined,
         is_new_student: studentData.is_new_student ? "Yes" : "No",
         is_school_year_around: studentData.is_school_year_around ? "Yes" : "No",
         teeshirt_size_id: studentData?.teeshirt_size?.name,
