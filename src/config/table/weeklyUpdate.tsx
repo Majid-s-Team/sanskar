@@ -59,7 +59,7 @@ export const weeklyUpdateColumns = ({
     render: (media: any[]) => (
       <div className="flex gap-5 justify-center w-[250px]">
         {media.length === 0 ? (
-          <p className="text-[12px] medium text-black">No files found</p>
+          <p>No files found</p>
         ) : (
           <div className="space-y-2">
             {media.map((item: any) => {
