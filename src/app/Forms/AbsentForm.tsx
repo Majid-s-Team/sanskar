@@ -67,7 +67,7 @@ function AbsentForm() {
         routeParams: userData?.user?.id + "/students",
         cbSuccess(res) {
           const student = res?.data.filter(
-            (item: any) => item.is_payment_done !== null
+            (item: any) => item.is_payment_done === 1
           );
           setAllStudents(student);
         },

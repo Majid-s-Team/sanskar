@@ -60,7 +60,7 @@ function Announcement() {
         cbSuccess(res) {
           // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
           const student = res?.data.filter(
-            (item: any) => item.is_payment_done !== null
+            (item: any) => item.is_payment_done === 1
           );
           setAllStudents(student);
           setSelectStudent(

@@ -28,36 +28,11 @@ export const weeklyUpdateColumns = ({
     //   <p className="text-[#48B3FF] underline medium">View Details</p>
     // ),
   },
-  // {
-  //   title: "Download",
-  //   dataIndex: "download",
-  //   render: () => (
-  //     <div className="flex gap-5 justify-center">
-  //       <div className="flex items-center gap-3">
-  //         <img className="w-[30px]" src="/icons/pdf.png" alt="" />
-  //         <div>
-  //           <p className="text-[12px] medium text-black">Class Update Form</p>
-  //           <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p>
-  //         </div>
-  //       </div>
-  //       <img
-  //         className="w-[20px] h-[20px] cursor-pointer"
-  //         src="/icons/download-orange.png"
-  //         alt=""
-  //       />
-  //       <img
-  //         className="w-[24px] h-[24px] cursor-pointer"
-  //         src="/icons/eye.png"
-  //         alt=""
-  //       />
-  //     </div>
-  //   ),
-  // },
   {
     title: "Download",
     dataIndex: "media",
     render: (media: any[]) => (
-      <div className="flex gap-5 justify-center w-[250px]">
+      <div className="flex gap-5 justify-center">
         {media.length === 0 ? (
           <p>No files found</p>
         ) : (

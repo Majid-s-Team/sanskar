@@ -41,7 +41,7 @@ function WeeklyUpdates() {
         cbSuccess(res) {
           // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
           const student = res?.data.filter(
-            (item: any) => item.is_payment_done !== null
+            (item: any) => item.is_payment_done === 1
           );
           setAllStudents(student);
           setSelectStudent(
@@ -60,20 +60,6 @@ function WeeklyUpdates() {
       });
     }
   }, [selectStudent]);
-
-  // const handleDownload = (url: string, name: string) => {
-  //   try {
-  //     const link = document.createElement("a");
-  //     link.href = url;
-  //     link.target = "_blank";
-  //     link.download = name;
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   } catch (error) {
-  //     console.error("Download failed:", error);
-  //   }
-  // };
 
   const handleDownload = (url: string, name: string) => {
     const link = document.createElement("a");
