@@ -8,38 +8,40 @@ import { useEffect, useState } from "react";
 import { useAuth, useRequest } from "../hooks";
 import { Student } from "../types";
 import { user } from "../repositories";
-import { getStorageData } from "../helper";
+// import { getStorageData } from "../helper";
 
 function AttendanceManagement() {
   const { user: userData } = useAuth();
-  const role = getStorageData("role");
+  // const role = getStorageData("role");
   const [selectStudent, setSelectStudent] = useState<number | undefined>(
     undefined
   );
   const [allStudents, setAllStudents] = useState<Student[]>();
-  const { execute: execute2, loading: studentLoading } = useRequest<Student[]>(
-    user.url,
-    user.method,
-    {}
-  );
-
   const {
+    execute: execute2,
+    loading: studentLoading,
     data,
-    loading,
-    // setData,
     pagination,
     onPaginationChange,
-    execute: getAttendence,
-  } = useRequest<any>(`/user/${userData?.user?.id}/students`, "GET", {
-    type: role === "teacher" ? "mount" : "delay",
-  });
+  } = useRequest<any>(user.url, user.method, {});
+
+  // const {
+  //   data,
+  //   loading,
+  //   // setData,
+  //   pagination,
+  //   onPaginationChange,
+  //   execute: getAttendence,
+  // } = useRequest<any>(`/user/${userData?.user?.id}/students`, "GET", {
+  //   type: role === "teacher" ? "mount" : "delay",
+  // });
+
   useEffect(() => {
     if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
       execute2({
         type: "mount",
         routeParams: userData?.user?.id + "/students",
         cbSuccess(res) {
-          // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
           const student = res?.data.filter(
             (item: any) => item.is_payment_done === 1
           );
@@ -52,31 +54,27 @@ function AttendanceManagement() {
     }
   }, [userData]);
   useEffect(() => {
-    if (
-      userData &&
-      userData.user?.id &&
-      selectStudent &&
-      selectStudent !== undefined
-    ) {
-      getAttendence({
-        type: "delay",
+    if (selectStudent && selectStudent !== undefined) {
+      execute2({
+        routeParams: userData?.user?.id + "/students",
         params: {
           student_id: selectStudent,
         },
       });
     }
-  }, [selectStudent, userData]);
+  }, [selectStudent]);
 
   const totalAbsent = data?.student?.absent_count ?? 0;
   const totalTardy = data?.student?.tardy_count ?? 0;
 
   return (
-    <HomeLayout loading={loading || studentLoading}>
+    <HomeLayout loading={studentLoading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
           columns={attendanceColumns(data?.student)}
           data={data?.attendance_arrays?.recorded || []}
           pagination={pagination}
+          loading={studentLoading}
           onPaginationChange={onPaginationChange}
           title="Attendance Management"
           input={
