@@ -43,7 +43,6 @@ function Payment2() {
             Registration Confirmation
           </p>
           <div className="flex justify-center flex-wrap gap-4">
-            {/* {data?.map((child: any, index: number) => ( */}
             <div
               // key={index}
               className="rounded-xl p-4 text-center h-full flex flex-col justify-center bg-[#D57D25] custom-shadow2 w-[230px]"

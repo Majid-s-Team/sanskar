@@ -1,5 +1,6 @@
 import { InputNumber, message } from "antd";
 import { useState } from "react";
+import { Student } from "../../types";
 
 export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
   const [selectedStatus, setSelectedStatus] = useState<Record<string, string>>(
@@ -50,19 +51,19 @@ export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
     {
       title: "Name",
       dataIndex: "student",
-      render: (text: any) => (
+      render: (text: Student) => (
         <p className="capitalize">{text?.first_name + " " + text?.last_name}</p>
       ),
     },
     {
       title: "Student ID",
       dataIndex: "student",
-      render: (text: any) => <p className="capitalize">{text?.id}</p>,
+      render: (text: Student) => <p className="capitalize">{text?.id}</p>,
     },
     {
       title: "Status",
       dataIndex: "status",
-      render: (_: any, record: any) => {
+      render: (_: string, record: any) => {
         const currentStatus =
           selectedStatus[record?.student?.id] ||
           record?.attendance?.status ||
@@ -105,7 +106,7 @@ export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
       title: "Participation Points",
       // dataIndex: "attendance",
       dataIndex: "participation_points",
-      render: (_: any, record: any) => (
+      render: (_: string, record: any) => (
         <InputNumber
           max={3}
           min={0}

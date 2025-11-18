@@ -8,7 +8,7 @@ type Props = {
 };
 
 function WriteReasonModal({ isModalOpen, handleCancel }: Props) {
-  const onFinish = (e: any) => {
+  const onFinish = (e: string) => {
     console.log(e);
     handleCancel();
   };

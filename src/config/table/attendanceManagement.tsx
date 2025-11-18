@@ -1,8 +1,9 @@
 // import { useState } from "react";
 
 import dayjs from "dayjs";
+import { Student } from "../../types";
 
-export const attendanceColumns = (student: any) => {
+export const attendanceColumns = (student: Student) => {
   return [
     {
       title: "Date",
@@ -33,7 +34,7 @@ export const attendanceColumns = (student: any) => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (text: any) => {
+      render: (text: string) => {
         return (
           <div className="flex justify-center">
             <p
@@ -63,41 +64,3 @@ export const attendanceColumns = (student: any) => {
     },
   ];
 };
-
-export const attendanceData = [
-  {
-    date: "12 May 2024",
-    student_id: "S001",
-    student_name: "John Doe",
-    class: "English",
-    status: "Present",
-  },
-  {
-    date: "12 May 2024",
-    student_id: "S002",
-    student_name: "Jane Smith",
-    class: "Maths",
-    status: "Excused Absence",
-  },
-  {
-    date: "12 May 2024",
-    student_id: "S003",
-    student_name: "Bob Johnson",
-    class: "Physics",
-    status: "Unexcused Absence",
-  },
-  {
-    date: "12 May 2024",
-    student_id: "S004",
-    student_name: "Alice Brown",
-    class: "Chemistry",
-    status: "Excused Absence",
-  },
-  {
-    date: "12 May 2024",
-    student_id: "S005",
-    student_name: "Charlie White",
-    class: "EVS",
-    status: "Present",
-  },
-];

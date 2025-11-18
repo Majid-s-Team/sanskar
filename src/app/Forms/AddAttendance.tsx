@@ -7,15 +7,19 @@ import { withAuthGuard } from "../../component/higherOrder/withAuth";
 import { useRequest } from "../../hooks/useRequest";
 import { useAuth } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import TableData from "../../component/shared/Table";
 import { AttendanceData } from "../../types";
+
+type Status = {
+  [key: string]: string;
+};
 
 function AddAttendance() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [date, setDate] = useState<any>("");
-  const [allStatus, setAllStatus] = useState<any>([]);
+  const [date, setDate] = useState<Dayjs>();
+  const [allStatus, setAllStatus] = useState<Status[]>([]);
   const [attendance, setAttendance] = useState<any>([]);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState<any[]>([]);
@@ -43,15 +47,17 @@ function AddAttendance() {
     }
   );
 
-  const { execute: execute3 } = useRequest("/attendance/statuses", "GET", {
-    type: "mount",
-  });
+  const { execute: execute3 } = useRequest<Status[]>(
+    "/attendance/statuses",
+    "GET",
+    {}
+  );
 
   useEffect(() => {
     execute3({
       type: "mount",
       cbSuccess(data) {
-        setAllStatus(data);
+        setAllStatus(data as unknown as Status[]);
       },
     });
   }, []);

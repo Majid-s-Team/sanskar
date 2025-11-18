@@ -1,19 +1,64 @@
-import { Form, Modal } from "antd";
+import { Form, Modal, notification } from "antd";
 import AuthButton from "./AuthButton";
 import { mediaForm } from "../../config";
 import { FeildType } from "../../types";
 import BaseInput from "../shared/BaseInput";
 import FileUploader from "../shared/FileUploader";
+import { updateState } from "../../helper";
+import { useAuth, useRequest } from "../../hooks";
 type Props = {
-  isModalOpen: boolean;
-  handleCancel: () => void;
+  open: boolean;
+  onClose: () => void;
+  setRecord?: any;
+  setData?: any;
+  record?: any;
 };
 
-function MediaModal({ isModalOpen, handleCancel }: Props) {
+function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
+  const { user } = useAuth();
+  const [form] = Form.useForm();
+  const { execute: createEevent, loading: createLoading } = useRequest(
+    "/multimedia",
+    "POST",
+    { type: "delay" }
+  );
+
+  const { execute: updateEevent, loading: updateLoading } = useRequest(
+    "/multimedia",
+    "PUT",
+    { type: "delay", routeParams: String(record?.id) }
+  );
+
+  const onFinish = (values: any) => {
+    const action = record ? updateEevent : createEevent;
+    action({
+      body: { ...values, gurukal_id: user?.teacher?.gurukal_id, type: "video" },
+      cbSuccess: (res) => {
+        setData((prev: any) => updateState(prev, res.data, !!record));
+        onClose();
+      },
+      cbFailure(error) {
+        console.log(error);
+
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
+      },
+    });
+  };
+
+  const handleCancel = () => {
+    setRecord && setRecord(null);
+    onClose();
+  };
+
   return (
-    <Modal open={isModalOpen} onCancel={handleCancel} footer={null} centered>
-      <p className="text-[35px] bold text-center my-8">Add Multimedia</p>
-      <Form onFinish={handleCancel} layout="vertical">
+    <Modal open={open} onCancel={handleCancel} footer={null} centered>
+      <p className="text-[35px] bold text-center my-8">
+        {record ? "Update Multimedia" : "Add Multimedia"}
+      </p>
+      <Form form={form} onFinish={onFinish} layout="vertical">
         {mediaForm.map((item: FeildType) => {
           return (
             <Form.Item
@@ -26,8 +71,12 @@ function MediaModal({ isModalOpen, handleCancel }: Props) {
             </Form.Item>
           );
         })}
-        <FileUploader onChange={() => {}} />
-        <AuthButton htmlType="submit" text={"Add Media"} />
+        {/* <FileUploader onChange={() => {}} /> */}
+        <AuthButton
+          htmlType="submit"
+          text={record ? "Update Media" : "Add Media"}
+          loading={createLoading || updateLoading}
+        />
       </Form>
     </Modal>
   );

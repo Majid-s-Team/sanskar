@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks";
 import { studentAbsentRequests } from "../repositories";
+import { RequestType } from "../types";
 
 const events = [
   { id: 1, name: "All Requests" },
@@ -29,7 +30,7 @@ function RequestManagement() {
     execute,
     pagination,
     onPaginationChange,
-  } = useRequest<any>(studentAbsentRequests.url, "GET", {
+  } = useRequest<RequestType[]>(studentAbsentRequests.url, "GET", {
     params: {
       status: active === 1 ? "pending" : active === 2 ? "approved" : "rejected",
     },
@@ -84,9 +85,9 @@ function RequestManagement() {
           </div>
         ) : (
           <div className="mt-8">
-            {allRequests?.length > 0 ? (
+            {allRequests && allRequests?.length > 0 ? (
               <div className="space-y-5">
-                {allRequests?.map((item: any, index: number) => {
+                {allRequests?.map((item: RequestType, index: number) => {
                   return (
                     <div
                       key={index}

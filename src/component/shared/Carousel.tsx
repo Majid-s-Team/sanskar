@@ -6,7 +6,12 @@ import { useEffect, useState } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Student } from "../../types";
 
-export default function MovieCarousel({ data, setStudent }: any) {
+type Props = {
+  data: Student[];
+  setStudent: (student: Student) => void;
+};
+
+export default function MovieCarousel({ data, setStudent }: Props) {
   const [activeIndex, setActiveIndex] = useState(1);
 
   useEffect(() => {

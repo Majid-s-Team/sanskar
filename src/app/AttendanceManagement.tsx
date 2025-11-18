@@ -43,11 +43,12 @@ function AttendanceManagement() {
         routeParams: userData?.user?.id + "/students",
         cbSuccess(res) {
           const student = res?.data.filter(
-            (item: any) => item.is_payment_done === 1
+            (item: Student) => item.is_payment_done === 1
           );
           setAllStudents(student);
           setSelectStudent(
-            res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
+            res.data?.filter((item: Student) => item.is_payment_done === 1)[0]
+              ?.id
           );
         },
       });
@@ -121,7 +122,7 @@ function AttendanceManagement() {
               </div>
               <div className="mt-5 w-[200px] float-right">
                 <Select
-                  options={allStudents?.map((item: any) => ({
+                  options={allStudents?.map((item: Student) => ({
                     value: item.id,
                     label: (
                       <p className="capitalize regular">

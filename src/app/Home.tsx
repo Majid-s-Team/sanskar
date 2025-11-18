@@ -45,7 +45,7 @@ const Home = () => {
         routeParams: userData?.user?.id + "/students",
         cbSuccess(res) {
           const filteredData = res?.data?.filter(
-            (item: any) => item.is_new_student === null
+            (item: Student) => item.is_new_student === null
           );
           setAllStudents(filteredData);
         },
@@ -72,7 +72,7 @@ const Home = () => {
               <div>
                 <div className="flex justify-center items-center ">
                   <div className="lg:w-full w-[330px]">
-                    <Carousel data={data} setStudent={setActiveStudent} />
+                    <Carousel data={data || []} setStudent={setActiveStudent} />
                     {/* <SlickCarousel data={data} /> */}
                   </div>
                 </div>

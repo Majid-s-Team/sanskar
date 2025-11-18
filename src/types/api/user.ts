@@ -27,8 +27,8 @@ type User = {
   role: string;
   roles: Role[];
   students?: Student[];
-  father_activities?: any[];
-  mother_activities?: any[];
+  father_activities?: string[];
+  mother_activities?: string[];
 };
 
 type Role = {

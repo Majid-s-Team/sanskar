@@ -1,16 +1,18 @@
+import { Student } from "../../types";
+
 export const studentAttendanceColumns = (handleDetails: any) => {
   return [
     {
       title: "Name",
       dataIndex: "student",
-      render: (text: any) => (
+      render: (text: Student) => (
         <p className="capitalize">{text?.first_name + " " + text?.last_name}</p>
       ),
     },
     {
       title: "Student ID",
       dataIndex: "student",
-      render: (text: any) => <p className="capitalize">{text?.id}</p>,
+      render: (text: Student) => <p className="capitalize">{text?.id}</p>,
     },
     {
       title: "Status",

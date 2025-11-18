@@ -8,7 +8,11 @@ export const withAuthGuard = (
   type: RouteTypes = RouteTypes.PRIVATE
 ) => {
   return (props: AuthRouteProps) => {
-    const [user] = useState(getStorageData("user"));
+    const role = getStorageData("role");
+
+    const [user] = useState(
+      role === "user" || (role === "teacher" && getStorageData("user"))
+    );
     if (type === RouteTypes.AUTH) {
       if (!!user) return <Navigate to="/home" />;
       // @ts-ignore

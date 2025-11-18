@@ -2,40 +2,14 @@ import HomeLayout from "../component/shared/HomeLayout";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks";
 import dayjs from "dayjs";
-
-// const announcement = [
-//   {
-//     icon: "/icons/ball1.png",
-//     title: "Sports Day Announcement",
-//     description:
-//       "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
-//   },
-//   {
-//     icon: "/icons/ball2.png",
-//     title: "Summer Break Start Date",
-//     description:
-//       "Summer break begins on May 25, 2024. Have a wonderful holiday!",
-//   },
-//   {
-//     icon: "/icons/ball1.png",
-//     title: "Sports Day Announcement",
-//     description:
-//       "The school's Annual Sports Day will be held on May 12, 2024. Mark your calendars!",
-//   },
-//   {
-//     icon: "/icons/ball2.png",
-//     title: "Summer Break Start Date",
-//     description:
-//       "Summer break begins on May 25, 2024. Have a wonderful holiday!",
-//   },
-// ];
+import { GurukulAnnouncementsType } from "../types";
 
 function GurukulAnnouncements() {
-  const { data, loading } = useRequest<any>("/admins-annoucement", "GET", {
+  const { data: announcement, loading } = useRequest<
+    GurukulAnnouncementsType[]
+  >("/admins-annoucement", "GET", {
     type: "mount",
   });
-
-  const announcement = data.filter((item: any) => item.teacher_id === null);
 
   return (
     <HomeLayout loading={loading}>
@@ -43,8 +17,8 @@ function GurukulAnnouncements() {
         <div className="flex lg:flex-row flex-col justify-between lg:items-center">
           <p className="text-[30px] semibold">Gurukul Announcements</p>
         </div>
-        {announcement?.length > 0 ? (
-          announcement?.map((form: any, index: number) => {
+        {announcement && announcement?.length > 0 ? (
+          announcement?.map((form: GurukulAnnouncementsType, index: number) => {
             return (
               <div
                 key={index}

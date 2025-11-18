@@ -8,7 +8,7 @@ import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
 import { useAuth } from "../hooks";
 import dayjs from "dayjs";
-import { Student } from "../types";
+import { AnnouncementType, Student } from "../types";
 import { user } from "../repositories";
 
 function Announcement() {
@@ -27,7 +27,7 @@ function Announcement() {
     // pagination,
     // onPaginationChange,
     execute: getAnnouncement,
-  } = useRequest<any>(url, "GET", {
+  } = useRequest<AnnouncementType[]>(url, "GET", {
     type: role === "teacher" ? "mount" : "delay",
   });
 
@@ -58,13 +58,13 @@ function Announcement() {
         type: "mount",
         routeParams: userData?.user?.id + "/students",
         cbSuccess(res) {
-          // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
           const student = res?.data.filter(
-            (item: any) => item.is_payment_done === 1
+            (item: Student) => item.is_payment_done === 1
           );
           setAllStudents(student);
           setSelectStudent(
-            res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
+            res.data?.filter((item: Student) => item.is_payment_done === 1)[0]
+              ?.id
           );
         },
       });
@@ -106,7 +106,7 @@ function Announcement() {
             </div>
           ) : (
             <Select
-              options={allStudents?.map((item: any) => ({
+              options={allStudents?.map((item: Student) => ({
                 value: item.id,
                 label: (
                   <p className="capitalize regular">
@@ -124,8 +124,8 @@ function Announcement() {
             />
           )}
         </div>
-        {data?.length > 0 ? (
-          data?.map((form: any, index: number) => {
+        {data && data?.length > 0 ? (
+          data?.map((form: AnnouncementType, index: number) => {
             return (
               <div
                 key={index}

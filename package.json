@@ -26,6 +26,7 @@
   "react-dom": "^19.1.0",
   "react-minimal-pie-chart": "^9.1.0",
   "react-phone-number-input": "^3.4.10",
+  "react-player": "^3.4.0",
   "react-quill": "2.0.0",
   "react-router-dom": "^6.26.1",
   "react-signature-canvas": "^1.1.0-alpha.2",

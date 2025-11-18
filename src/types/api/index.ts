@@ -4,3 +4,7 @@ export * from "./student";
 export * from "./studentAttendanceType";
 export * from "./weeklyUpatdes";
 export * from "./teacher";
+export * from "./announcementType";
+export * from "./gurukulAnnouncementsType";
+export * from "./gurukulPrayersType";
+export * from "./requestType";
