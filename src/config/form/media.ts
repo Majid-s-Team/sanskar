@@ -27,10 +27,10 @@ export const mediaForm = [
   //     },
   //   ],
   // },
-  {
-    title: "URL",
-    name: "url",
-    rules: [{ required: true, message: "Please input your url!" }],
-    type: "text",
-  },
+  // {
+  //   title: "URL",
+  //   name: "url",
+  //   rules: [{ required: true, message: "Please input your url!" }],
+  //   type: "text",
+  // },
 ];

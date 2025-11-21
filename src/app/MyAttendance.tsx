@@ -1,20 +1,41 @@
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { Link } from "react-router-dom";
-import { teacherAttendanceColumns, teacherAttendanceData } from "../config";
+import { teacherAttendanceColumns } from "../config";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useAuth, useRequest } from "../hooks";
+import { useEffect } from "react";
 
 function MyAttendance() {
+  const { user } = useAuth();
+  const { data, loading, execute, pagination, onPaginationChange } = useRequest(
+    "/teacher-attendance",
+    "GET",
+    {}
+  );
+
+  useEffect(() => {
+    if (user?.teacher?.id) {
+      execute({
+        type: "mount",
+        params: { teacher_id: `${user?.teacher?.id}` },
+      });
+    }
+  }, [user]);
+
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
           columns={teacherAttendanceColumns()}
-          data={teacherAttendanceData}
+          data={data as any}
           title="Attendance Management"
+          loading={loading}
+          pagination={pagination}
+          onPaginationChange={onPaginationChange}
           input={
             <div className="flex lg:flex-row flex-col justify-end gap-10">
-              <Link
+              {/* <Link
                 to={""}
                 style={{
                   backgroundImage: "url(/images/card2.png)",
@@ -30,7 +51,7 @@ function MyAttendance() {
                 <p className="text-white text-[14px] medium">
                   Add New Attendance
                 </p>
-              </Link>
+              </Link> */}
               <Link
                 to={"/forms/absent-request-form"}
                 style={{
@@ -44,9 +65,9 @@ function MyAttendance() {
                   <p className="text-white text-[14px] medium">
                     Absent Request Form
                   </p>
-                  <p className="text-white text-[12px] regular">
+                  {/* <p className="text-white text-[12px] regular">
                     28 Oct 2023 | 122 MB
-                  </p>
+                  </p> */}
                 </div>
               </Link>
             </div>

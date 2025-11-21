@@ -49,6 +49,8 @@ import TermsAndCondition from "./app/Auth/TermsAndCondition";
 import Payment2 from "./app/Payment2";
 import TeacherListing from "./app/TeacherListing";
 import StudentsReport from "./app/StudentsReport";
+import EarlyPickupReq from "./app/EarlyPickupReq";
+import EarlyPickupDetails from "./app/EarlyPickupDetails";
 const App: React.FC = () => {
   return (
     <Routes>
@@ -86,7 +88,7 @@ const App: React.FC = () => {
       <Route path="/home/contact-teacher" element={<ContactTeacher />} />
       <Route path="/home/student-info/:id" element={<StudentInfo />} />
       <Route path="/home/all-student-info" element={<StudentInfo />} />
-      <Route path="/event/details" element={<EventDetails />} />
+      <Route path="/event/details/:id" element={<EventDetails />} />
 
       <Route path="/parents-profile" element={<ParentProfile />} />
       <Route path="/re-registration-form" element={<RegistrationForm />} />
@@ -134,6 +136,11 @@ const App: React.FC = () => {
       <Route path="/student-payment/:id" element={<Payment2 />} />
       <Route path="/teacher-listing" element={<TeacherListing />} />
       <Route path="/student-report" element={<StudentsReport />} />
+      <Route path="/early-pickup-requests" element={<EarlyPickupReq />} />
+      <Route
+        path="/early-pickup-details/:id"
+        element={<EarlyPickupDetails />}
+      />
     </Routes>
   );
 };

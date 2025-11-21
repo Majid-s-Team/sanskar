@@ -1,13 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import { EventCard } from "../component/partial/EventCard";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
+import { useRequest } from "../hooks";
 const events = ["All Events", "My Events", "Past Events"];
 
 function Events() {
   const [active, setActive] = useState(0);
+  const params =
+    active === 0
+      ? {}
+      : active === 1
+      ? { type: "attending" }
+      : { type: "not_attending" };
+
+  const { data, loading, pagination, onPaginationChange, execute } =
+    useRequest<any>("/events", "GET", {
+      type: "mount",
+      // params: params,
+    });
+
+  useEffect(() => {
+    execute({
+      params: params,
+    });
+  }, [active]);
+
   return (
-    <HomeLayout>
+    <HomeLayout loading={loading}>
       <div className="bg-white lg:p-10 p-5 rounded-[24.59px]">
         <p className="text-[40px] semibold">Events</p>
         <div className="w-full overflow-x-auto lg:flex items-center hide-scrollbar">
@@ -36,8 +56,13 @@ function Events() {
           </div>
         </div>
         <div className="lg:space-y-20 space-y-10 mt-5">
-          {[1, 2, 3].map((i) => (
-            <EventCard key={i} isPast={active === 2} isMy={active === 1} />
+          {data.map((item: any, i: number) => (
+            <EventCard
+              item={item}
+              key={i}
+              isPast={active === 2}
+              isMy={active === 1}
+            />
           ))}
         </div>
       </div>

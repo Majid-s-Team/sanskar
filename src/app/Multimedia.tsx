@@ -95,9 +95,9 @@ function Multimedia() {
             </div>
           )}
         </div>
-        <div className="grid lg:grid-cols-3 gap-8 my-10">
-          {data && data?.length > 0 ? (
-            data.map((item, index) => (
+        {data && data?.length > 0 ? (
+          data.map((item, index) => (
+            <div className="grid lg:grid-cols-3 gap-8 my-10">
               <div key={index} className=" overflow-hidden rounded-xl">
                 <div
                   className={`rounded-xl bg-[#F1F2F1] p-4 text-center h-full flex flex-col justify-center`}
@@ -127,13 +127,13 @@ function Multimedia() {
                   </p>
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="text-center">
-              <p className="semibold text-[20px]">No data found</p>
             </div>
-          )}
-        </div>
+          ))
+        ) : (
+          <div className="text-center h-[70vh] flex justify-center items-center">
+            <p className="semibold text-[20px]">No media found</p>
+          </div>
+        )}
       </div>
       {open && (
         <MediaModal

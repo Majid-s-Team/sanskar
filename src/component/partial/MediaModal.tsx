@@ -6,6 +6,8 @@ import BaseInput from "../shared/BaseInput";
 import FileUploader from "../shared/FileUploader";
 import { updateState } from "../../helper";
 import { useAuth, useRequest } from "../../hooks";
+import { useState } from "react";
+import DocumentUpload from "../shared/DocumentUpload";
 type Props = {
   open: boolean;
   onClose: () => void;
@@ -17,6 +19,8 @@ type Props = {
 function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
   const { user } = useAuth();
   const [form] = Form.useForm();
+  const [isUploading, setIsUploading] = useState(false);
+  const [media, setMedia] = useState([]);
   const { execute: createEevent, loading: createLoading } = useRequest(
     "/multimedia",
     "POST",
@@ -72,10 +76,24 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
           );
         })}
         {/* <FileUploader onChange={() => {}} /> */}
+        {/* <FileUploader
+          onChange={(val: any) => setMedia(val)}
+          initialFiles={[]}
+          onUploadStatusChange={(status: boolean) => setIsUploading(status)}
+        /> */}
+        <DocumentUpload
+          title="+ Upload"
+          // onChange={(e) => setMedia(e)}
+          initialFileNames={{
+            name: record?.filename || undefined,
+            file: record?.url || undefined,
+          }}
+        />
         <AuthButton
           htmlType="submit"
           text={record ? "Update Media" : "Add Media"}
           loading={createLoading || updateLoading}
+          disabled={isUploading}
         />
       </Form>
     </Modal>

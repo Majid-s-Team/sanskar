@@ -1,26 +1,67 @@
 import { Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomButton from "../shared/CustomButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Student } from "../../types";
+import { useAuth, useRequest } from "../../hooks";
+import { user } from "../../repositories";
 
 type Props = {
   isModalOpen: boolean;
   handleCancel: () => void;
 };
 
+// const children = [
+//   { id: 1, name: "Child1", image: "/images/parent.png" },
+//   { id: 2, name: "Child2", image: "/images/parent.png" },
+// ];
+
 function SelectChildModal({ isModalOpen, handleCancel }: Props) {
+  const { id } = useParams();
   const navigate = useNavigate();
+  const { user: userData } = useAuth();
+  const [allStudents, setAllStudents] = useState<Student[]>();
   const [selectedChildren, setSelectedChildren] = useState<any[]>([]); // array for multiple
 
-  const children = [
-    { id: 1, name: "Child1", image: "/images/parent.png" },
-    { id: 2, name: "Child2", image: "/images/parent.png" },
-  ];
+  const { execute, loading: studentLoading } = useRequest<Student[]>(
+    user.url,
+    user.method,
+    {}
+  );
+
+  useEffect(() => {
+    if (userData?.user?.id) {
+      execute({
+        type: "mount",
+        routeParams: `${userData.user.id}/students`,
+        cbSuccess(res) {
+          const student = res?.data.filter(
+            (item: Student) => item.is_payment_done === 1
+          );
+          setAllStudents(student);
+        },
+      });
+    }
+  }, [userData]);
+
+  const { execute: execute2, loading } = useRequest<any>("/events", "POST", {
+    type: "delay",
+  });
 
   const handleSubmit = () => {
     if (selectedChildren.length > 0) {
       console.log("Selected Children:", selectedChildren);
-      navigate("/events-rsvp");
+
+      execute2({
+        body: {
+          student_ids: selectedChildren.map((child) => child.id),
+          status: "attending",
+        },
+        routeParams: String(id) + "/rsvp",
+        cbSuccess() {
+          navigate("/events-rsvp");
+        },
+      });
     } else {
       alert("Please select at least one child");
     }
@@ -36,10 +77,16 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
   };
 
   return (
-    <Modal open={isModalOpen} onCancel={handleCancel} footer={null} centered>
+    <Modal
+      loading={studentLoading}
+      open={isModalOpen}
+      onCancel={handleCancel}
+      footer={null}
+      centered
+    >
       <p className="text-[30px] bold text-center my-5">Select Child</p>
       <div className="space-y-4">
-        {children.map((child) => (
+        {allStudents?.map((child) => (
           <div
             key={child.id}
             className="flex items-center justify-between mb-4 p-3 bg-[#D57D25] rounded-[14px] custom-shadow2 cursor-pointer"
@@ -47,11 +94,13 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
           >
             <div className="flex items-center">
               <img
-                src={child.image}
-                alt={child.name}
+                src={child?.profile_image || "/images/parent.png"}
+                alt={child.first_name + " " + child.last_name}
                 className="w-12 h-12 rounded-full mr-3"
               />
-              <span className="text-white font-medium">{child.name}</span>
+              <span className="text-white medium capitalize">
+                {child.first_name + " " + child.last_name}
+              </span>
             </div>
             <input
               type="checkbox"
@@ -66,6 +115,7 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
         <div className="flex justify-center">
           <CustomButton
             title="Submit"
+            loading={loading}
             className="text-[18px] h-[50px] w-[200px] mt-5"
             onClick={handleSubmit}
           />

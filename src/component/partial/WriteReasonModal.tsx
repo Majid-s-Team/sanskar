@@ -1,6 +1,8 @@
 import { Form, Modal } from "antd";
 import AuthButton from "./AuthButton";
 import BaseInput from "../shared/BaseInput";
+import { useAuth, useRequest } from "../../hooks";
+import { useParams } from "react-router-dom";
 
 type Props = {
   isModalOpen: boolean;
@@ -8,9 +10,20 @@ type Props = {
 };
 
 function WriteReasonModal({ isModalOpen, handleCancel }: Props) {
-  const onFinish = (e: string) => {
-    console.log(e);
-    handleCancel();
+  const { id } = useParams();
+  const { user } = useAuth();
+  const { execute, loading } = useRequest<any>("/events", "POST", {
+    type: "delay",
+  });
+
+  const onFinish = (e: any) => {
+    execute({
+      body: { ...e, status: "not_attending", user_id: user?.user?.id },
+      routeParams: String(id) + "/rsvp",
+      cbSuccess: () => {
+        handleCancel();
+      },
+    });
   };
   return (
     <Modal open={isModalOpen} onCancel={handleCancel} footer={null} centered>
@@ -18,12 +31,12 @@ function WriteReasonModal({ isModalOpen, handleCancel }: Props) {
       <Form onFinish={onFinish} layout="vertical">
         <Form.Item
           label={"Reason *"}
-          name={"reason"}
+          name={"note"}
           rules={[{ required: true, message: "Please input your reason!" }]}
         >
           <BaseInput type="textarea" />
         </Form.Item>
-        <AuthButton htmlType="submit" text={"Submit"} />
+        <AuthButton htmlType="submit" text={"Submit"} loading={loading} />
       </Form>
     </Modal>
   );

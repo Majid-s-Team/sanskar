@@ -13,15 +13,15 @@ import { useAuth } from "../../hooks";
 import { TeachersType, WeeklyUpatdesType } from "../../types";
 
 function AddWeeklyUpdates() {
-  const [isUploading, setIsUploading] = useState(false);
   const { user: userData } = useAuth();
   const { id } = useParams();
   const { state } = useLocation();
   const [form] = Form.useForm();
   const method = id ? "PUT" : "POST";
   const navigate = useNavigate();
-
+  const [isUploading, setIsUploading] = useState(false);
   const [media, setMedia] = useState([]);
+
   const { execute: execute2, loading } = useRequest(
     "/weekly-updates",
     method,

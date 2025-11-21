@@ -96,7 +96,7 @@ function BaseInput(props: BaseInputProps) {
     ),
     time: (
       <TimePicker
-        format="HH:mm A"
+        format="HH:mm"
         defaultValue={props?.defaultValue}
         className="!rounded-[8px] h-[44px] w-[100%]"
         {...props}
