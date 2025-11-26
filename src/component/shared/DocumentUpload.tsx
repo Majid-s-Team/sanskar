@@ -38,10 +38,10 @@ const DocumentUpload = ({ title, onChange, initialFileNames }: Props) => {
 
     const file = event.target.files[0];
 
-    const validTypes = [".mp3", ".m4a", ".wav", ".aac", ".ogg"];
+    const validVideoTypes = [".mp4", ".mov", ".mkv", ".avi", ".webm"];
 
     if (
-      !validTypes.includes(
+      !validVideoTypes.includes(
         file.name.toLowerCase().substring(file.name.lastIndexOf("."))
       )
     ) {
@@ -98,7 +98,7 @@ const DocumentUpload = ({ title, onChange, initialFileNames }: Props) => {
             type="file"
             className="!hidden"
             id="documentUpload"
-            accept="audio/*"
+            accept="video/*"
             onChange={handleFileChange}
           />
           <span className="text-[#8FA0AA] text-[14px] regular">

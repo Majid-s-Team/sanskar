@@ -18,7 +18,11 @@ function ProfileDropdown() {
       <Link to={`${role === "user" ? "/parents-profile" : "/settings"}`}>
         <Avatar
           size={50}
-          src={user?.user?.profile_image || "/images/user.png"}
+          src={
+            role === "user"
+              ? user?.user?.profile_image || ""
+              : user?.teacher?.profile_picture || ""
+          }
         />
       </Link>
     </div>

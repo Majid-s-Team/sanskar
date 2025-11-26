@@ -6,14 +6,16 @@ import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
 import { Student } from "../types";
 import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { user } from "../repositories";
+// import { useAuth } from "../hooks/useAuth";
+// import { user } from "../repositories";
+import { useData } from "../component/higherOrder/DataProvider";
 
 function StudentInfo() {
   const { id } = useParams();
   const [form] = Form.useForm();
-  const [selectStudent, setSelectStudent] = useState<any>();
-  const [allStudents, setAllStudents] = useState<Student[]>();
+  const { student, loading: studentLoading } = useData();
+  const [selectStudent, setSelectStudent] = useState<number | undefined>();
+  // const [allStudents, setAllStudents] = useState<Student[]>();
   const {
     data: studentData,
     loading,
@@ -21,31 +23,39 @@ function StudentInfo() {
   } = useRequest<Student>("/student", "GET", {
     routeParams: String(id),
   });
-  const { user: userData } = useAuth();
-  const { execute, loading: studentLoading } = useRequest<Student[]>(
-    user.url,
-    user.method,
-    {}
-  );
+  // const { user: userData } = useAuth();
+  // const { execute, loading: studentLoading } = useRequest<Student[]>(
+  //   user.url,
+  //   user.method,
+  //   {}
+  // );
+
+  console.log(student, "provider");
+
+  // useEffect(() => {
+  //   if (userData?.user?.id && !id) {
+  //     execute({
+  //       type: "mount",
+  //       routeParams: `${userData.user.id}/students`,
+  //       cbSuccess(res) {
+  //         const student = res?.data.filter(
+  //           (item: Student) => item.is_payment_done === 1
+  //         );
+  //         setAllStudents(student);
+  //         setSelectStudent(
+  //           res.data?.filter((item: Student) => item.is_payment_done === 1)[0]
+  //             ?.id
+  //         );
+  //       },
+  //     });
+  //   }
+  // }, [userData]);
 
   useEffect(() => {
-    if (userData?.user?.id && !id) {
-      execute({
-        type: "mount",
-        routeParams: `${userData.user.id}/students`,
-        cbSuccess(res) {
-          const student = res?.data.filter(
-            (item: Student) => item.is_payment_done === 1
-          );
-          setAllStudents(student);
-          setSelectStudent(
-            res.data?.filter((item: Student) => item.is_payment_done === 1)[0]
-              ?.id
-          );
-        },
-      });
+    if (student) {
+      setSelectStudent(student?.[0]?.id);
     }
-  }, [userData]);
+  }, [student]);
 
   useEffect(() => {
     if (id) {
@@ -57,7 +67,7 @@ function StudentInfo() {
   }, [id]);
 
   useEffect(() => {
-    if (selectStudent) {
+    if (selectStudent && !id) {
       studentExecute({
         type: "mount",
         routeParams: String(selectStudent),
@@ -88,7 +98,7 @@ function StudentInfo() {
           <div className="flex items-center gap-5">
             {!id && (
               <Select
-                options={allStudents?.map((item: Student) => ({
+                options={student?.map((item: Student) => ({
                   value: item.id,
                   label: (
                     <p className="capitalize regular">

@@ -3,6 +3,7 @@ import HomeLayout from "../component/shared/HomeLayout";
 import { EventCard } from "../component/partial/EventCard";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks";
+import { Pagination } from "antd";
 const events = ["All Events", "My Events", "Past Events"];
 
 function Events() {
@@ -64,6 +65,16 @@ function Events() {
               isMy={active === 1}
             />
           ))}
+          <Pagination
+            {...pagination}
+            onChange={(page: number, pageSize: number) =>
+              onPaginationChange({
+                current: page,
+                pageSize,
+              })
+            }
+            className="flex justify-center mt-10"
+          />
         </div>
       </div>
     </HomeLayout>

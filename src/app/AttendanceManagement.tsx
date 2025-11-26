@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { attendanceColumns } from "../config";
@@ -8,15 +7,15 @@ import { useEffect, useState } from "react";
 import { useAuth, useRequest } from "../hooks";
 import { Student } from "../types";
 import { user } from "../repositories";
-// import { getStorageData } from "../helper";
+import { useData } from "../component/higherOrder/DataProvider";
 
 function AttendanceManagement() {
   const { user: userData } = useAuth();
-  // const role = getStorageData("role");
+  const { student, loading } = useData();
   const [selectStudent, setSelectStudent] = useState<number | undefined>(
     undefined
   );
-  const [allStudents, setAllStudents] = useState<Student[]>();
+  // const [allStudents, setAllStudents] = useState<Student[]>();
   const {
     execute: execute2,
     loading: studentLoading,
@@ -25,35 +24,31 @@ function AttendanceManagement() {
     onPaginationChange,
   } = useRequest<any>(user.url, user.method, {});
 
-  // const {
-  //   data,
-  //   loading,
-  //   // setData,
-  //   pagination,
-  //   onPaginationChange,
-  //   execute: getAttendence,
-  // } = useRequest<any>(`/user/${userData?.user?.id}/students`, "GET", {
-  //   type: role === "teacher" ? "mount" : "delay",
-  // });
+  // useEffect(() => {
+  //   if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
+  //     execute2({
+  //       type: "mount",
+  //       routeParams: userData?.user?.id + "/students",
+  //       cbSuccess(res) {
+  //         const student = res?.data.filter(
+  //           (item: Student) => item.is_payment_done === 1
+  //         );
+  //         setAllStudents(student);
+  //         setSelectStudent(
+  //           res.data?.filter((item: Student) => item.is_payment_done === 1)[0]
+  //             ?.id
+  //         );
+  //       },
+  //     });
+  //   }
+  // }, [userData]);
 
   useEffect(() => {
-    if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
-      execute2({
-        type: "mount",
-        routeParams: userData?.user?.id + "/students",
-        cbSuccess(res) {
-          const student = res?.data.filter(
-            (item: Student) => item.is_payment_done === 1
-          );
-          setAllStudents(student);
-          setSelectStudent(
-            res.data?.filter((item: Student) => item.is_payment_done === 1)[0]
-              ?.id
-          );
-        },
-      });
+    if (student) {
+      setSelectStudent(student?.[0]?.id);
     }
-  }, [userData]);
+  }, [student]);
+
   useEffect(() => {
     if (selectStudent && selectStudent !== undefined) {
       execute2({
@@ -69,7 +64,7 @@ function AttendanceManagement() {
   const totalTardy = data?.student?.tardy_count ?? 0;
 
   return (
-    <HomeLayout loading={studentLoading}>
+    <HomeLayout loading={studentLoading || loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
         <TableData
           columns={attendanceColumns(data?.student)}
@@ -122,7 +117,7 @@ function AttendanceManagement() {
               </div>
               <div className="mt-5 w-[200px] float-right">
                 <Select
-                  options={allStudents?.map((item: Student) => ({
+                  options={student?.map((item: Student) => ({
                     value: item.id,
                     label: (
                       <p className="capitalize regular">

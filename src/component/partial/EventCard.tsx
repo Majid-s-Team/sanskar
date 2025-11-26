@@ -30,7 +30,12 @@ export const EventCard = ({
     style={{ boxShadow: "0px 14.26px 21.39px 0px #00000029" }}
     className="bg-[#D57D25] lg:h-[255px] p-5 rounded-[20px] flex items-center lg:flex-row flex-col gap-8"
   >
-    <img className="w-[426px]" src="/images/img.png" alt="" />
+    <img
+      className="w-[426px] object-cover rounded-[20px] h-[300px]"
+      src={item?.banner_image_url || "/images/img.png"}
+      alt=""
+      style={{ border: "2px solid white" }}
+    />
     <div>
       <p className="text-white text-[30px] semibold">{item?.name || ""}</p>
       <div className="space-y-2 mt-2">

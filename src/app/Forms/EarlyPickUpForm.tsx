@@ -1,45 +1,26 @@
 import HomeLayout from "../../component/shared/HomeLayout";
 import { Form } from "antd";
-import { FeildType, Student } from "../../types";
+import { FeildType } from "../../types";
 import { earlyPickupForm, earlyPickupForm2 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
 import CustomButton from "../../component/shared/CustomButton";
 import { useNavigate } from "react-router-dom";
 import SignatureInput from "../../component/shared/SignatureInput";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
-import { useEffect, useState } from "react";
-import { useAuth, useRequest } from "../../hooks";
-import { user } from "../../repositories";
+import { useRequest } from "../../hooks";
 import { optionpPicker } from "../../helper";
 import dayjs from "dayjs";
+import { useData } from "../../component/higherOrder/DataProvider";
 
 function EarlyPickUpForm() {
   const navigate = useNavigate();
-  const [allStudents, setAllStudents] = useState<Student[]>();
-  const { user: userData } = useAuth();
+  const { student, loading } = useData();
 
   const { execute: execute2, loading: loading2 } = useRequest(
     "/early-pickup",
     "POST",
     {}
   );
-
-  const { execute, loading } = useRequest<Student[]>(user.url, user.method, {});
-
-  useEffect(() => {
-    if (userData && userData.user?.id) {
-      execute({
-        type: "mount",
-        routeParams: userData?.user?.id + "/students",
-        cbSuccess(res) {
-          const student = res?.data.filter(
-            (item: Student) => item.is_payment_done === 1
-          );
-          setAllStudents(student);
-        },
-      });
-    }
-  }, [userData]);
 
   const onFinish = (value: any) => {
     // navigate(-1);
@@ -75,11 +56,7 @@ function EarlyPickUpForm() {
                       {...item}
                       options={
                         item.name === "student_id"
-                          ? optionpPicker(
-                              allStudents as any,
-                              "id",
-                              "first_name"
-                            )
+                          ? optionpPicker(student as any, "id", "first_name")
                           : item.options
                       }
                     />

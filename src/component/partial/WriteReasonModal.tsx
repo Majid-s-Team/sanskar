@@ -1,4 +1,4 @@
-import { Form, Modal } from "antd";
+import { Form, Modal, notification } from "antd";
 import AuthButton from "./AuthButton";
 import BaseInput from "../shared/BaseInput";
 import { useAuth, useRequest } from "../../hooks";
@@ -22,6 +22,12 @@ function WriteReasonModal({ isModalOpen, handleCancel }: Props) {
       routeParams: String(id) + "/rsvp",
       cbSuccess: () => {
         handleCancel();
+      },
+      cbFailure(error) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
       },
     });
   };

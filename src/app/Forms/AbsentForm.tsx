@@ -1,27 +1,19 @@
 import { absentForm, teacherAbsentForm } from "../../config";
 import { Form, notification } from "antd";
-import { Student } from "../../types";
 import BaseInput from "../../component/shared/BaseInput";
 import CustomButton from "../../component/shared/CustomButton";
 import HomeLayout from "../../component/shared/HomeLayout";
 import { getStorageData, optionpPicker } from "../../helper";
 import { useNavigate } from "react-router-dom";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
-import { useEffect, useState } from "react";
-import { user } from "../../repositories";
-import { useAuth, useRequest } from "../../hooks";
+import { useRequest } from "../../hooks";
 import dayjs from "dayjs";
+import { useData } from "../../component/higherOrder/DataProvider";
 
 function AbsentForm() {
-  const { user: userData } = useAuth();
   const naviagte = useNavigate();
+  const { student, loading: studentLoading } = useData();
   const role = getStorageData("role");
-  const [allStudents, setAllStudents] = useState<Student[]>();
-  const { execute: execute2, loading: studentLoading } = useRequest<Student[]>(
-    user.url,
-    user.method,
-    {}
-  );
 
   const { execute, loading: absentLoading } = useRequest(
     "/absent-requests",
@@ -46,34 +38,9 @@ function AbsentForm() {
           message: "Error",
           description: error.message,
         });
-        // if (error?.data) {
-        //   // @ts-ignore
-        //   // const errorMessages = Object.values(error.data).flat();
-        //   // errorMessages.forEach((msg: any) => {
-        //   //   notification.error({
-        //   //     message: "Error",
-        //   //     description: msg,
-        //   //   });
-        //   // });
-        // }
       },
     });
   };
-
-  useEffect(() => {
-    if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
-      execute2({
-        type: "mount",
-        routeParams: userData?.user?.id + "/students",
-        cbSuccess(res) {
-          const student = res?.data.filter(
-            (item: any) => item.is_payment_done === 1
-          );
-          setAllStudents(student);
-        },
-      });
-    }
-  }, [userData]);
 
   return (
     <HomeLayout loading={studentLoading}>
@@ -98,7 +65,7 @@ function AbsentForm() {
                   {...item}
                   options={
                     item.name === "student_id"
-                      ? optionpPicker(allStudents as any, "id", "first_name")
+                      ? optionpPicker(student as any, "id", "first_name")
                       : []
                   }
                 />

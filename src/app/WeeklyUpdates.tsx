@@ -4,24 +4,26 @@ import TableData from "../component/shared/Table";
 import { weeklyUpdateColumns } from "../config";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/useAuth";
+// import { useAuth } from "../hooks/useAuth";
 import { useRequest } from "../hooks/useRequest";
-import { user } from "../repositories";
-import { Student } from "../types";
+// import { user } from "../repositories";
+// import { Student } from "../types";
 import ViewDetails from "../component/shared/ViewDetails";
+import { useData } from "../component/higherOrder/DataProvider";
 // import axios from "axios";
 // import saveAs from "file-saver";
 
 function WeeklyUpdates() {
-  const { user: userData } = useAuth();
+  // const { user: userData } = useAuth();
+  const { student, loading } = useData();
   const [open, setOpen] = useState(false);
   const [viewDetails, setViewDetails] = useState<any>();
   const [selectStudent, setSelectStudent] = useState<number | undefined>(
     undefined
   );
-  const [allStudents, setAllStudents] = useState<Student[]>();
+  // const [allStudents, setAllStudents] = useState<Student[]>();
   const [rangeDate, setRangeDate] = useState<any>(null);
-  const { execute, loading } = useRequest<Student[]>(user.url, user.method, {});
+  // const { execute, loading } = useRequest<Student[]>(user.url, user.method, {});
 
   const {
     data: forStudentData,
@@ -33,24 +35,30 @@ function WeeklyUpdates() {
     type: "delay",
   });
 
+  // useEffect(() => {
+  //   if (userData && userData.user?.id) {
+  //     execute({
+  //       type: "mount",
+  //       routeParams: userData?.user?.id + "/students",
+  //       cbSuccess(res) {
+  //         // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
+  //         const student = res?.data.filter(
+  //           (item: any) => item.is_payment_done === 1
+  //         );
+  //         setAllStudents(student);
+  //         setSelectStudent(
+  //           res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
+  //         );
+  //       },
+  //     });
+  //   }
+  // }, [userData]);
+
   useEffect(() => {
-    if (userData && userData.user?.id) {
-      execute({
-        type: "mount",
-        routeParams: userData?.user?.id + "/students",
-        cbSuccess(res) {
-          // setSelectStudent(res.data?.map((item: any) => item.id)[0]);
-          const student = res?.data.filter(
-            (item: any) => item.is_payment_done === 1
-          );
-          setAllStudents(student);
-          setSelectStudent(
-            res.data?.filter((item: any) => item.is_payment_done === 1)[0]?.id
-          );
-        },
-      });
+    if (student) {
+      setSelectStudent(student?.[0]?.id);
     }
-  }, [userData]);
+  }, [student]);
 
   useEffect(() => {
     if (selectStudent !== undefined) {
@@ -110,7 +118,7 @@ function WeeklyUpdates() {
           input={
             <div className="flex gap-5 items-center">
               <Select
-                options={allStudents?.map((item: any) => ({
+                options={student?.map((item: any) => ({
                   value: item.id,
                   label: (
                     <p className="capitalize regular">

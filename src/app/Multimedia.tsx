@@ -1,4 +1,4 @@
-import { Input, Select } from "antd";
+import { Input } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { getStorageData } from "../helper";
 import AuthButton from "../component/partial/AuthButton";
@@ -7,6 +7,7 @@ import MediaModal from "../component/partial/MediaModal";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks";
 import ReactPlayer from "react-player";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
 
 // const students = [
 //   {
@@ -56,6 +57,21 @@ function Multimedia() {
     type: "mount",
   });
 
+  const { execute: deleteEvent, loading: deleteLoading } = useRequest(
+    "/multimedia",
+    "DELETE",
+    { type: "delay" }
+  );
+
+  const handleDelete = (id: any) => {
+    deleteEvent({
+      routeParams: String(id),
+      cbSuccess: () => {
+        setData((prev: any) => prev.filter((item: any) => item.id !== id));
+      },
+    });
+  };
+
   return (
     <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -95,14 +111,15 @@ function Multimedia() {
             </div>
           )}
         </div>
-        {data && data?.length > 0 ? (
-          data.map((item, index) => (
-            <div className="grid lg:grid-cols-3 gap-8 my-10">
-              <div key={index} className=" overflow-hidden rounded-xl">
-                <div
-                  className={`rounded-xl bg-[#F1F2F1] p-4 text-center h-full flex flex-col justify-center`}
-                >
-                  {/* {item.image ? (
+        <div className="grid lg:grid-cols-3 gap-8 my-10">
+          {data && data?.length > 0 ? (
+            data.map((item, index) => (
+              // <div key={index} className="overflow-hidden rounded-xl">
+              <div
+                key={index}
+                className={`rounded-xl bg-[#F1F2F1] p-4 text-center h-full flex flex-col justify-center items-center`}
+              >
+                {/* {item.image ? (
                   <img className="mx-auto" src={item.image} alt="" />
                 ) : (
                   <img
@@ -111,29 +128,44 @@ function Multimedia() {
                     alt=""
                   />
                 )} */}
-                  <ReactPlayer
-                    width={"100%"}
-                    controls
-                    src={
-                      item.url || "https://www.youtube.com/watch?v=LXb3EKWsInQ"
-                    }
-                  />
+                <ReactPlayer
+                  width={"100%"}
+                  controls
+                  src={
+                    item.url || "https://www.youtube.com/watch?v=LXb3EKWsInQ"
+                  }
+                />
 
-                  <h3 className="mt-2 semibold text-[18px] capitalize">
-                    {item.title}
-                  </h3>
-                  <p className="text-[10px] regular capitalize">
-                    {item.description}
-                  </p>
-                </div>
+                <h3 className="mt-2 semibold text-[18px] capitalize">
+                  {item.title}
+                </h3>
+                <p className="text-[10px] regular capitalize">
+                  {item.description}
+                </p>
+                {/* <div className="flex justify-end gap-5 mt-5">
+                  <EditFilled
+                    onClick={() => {
+                      setOpen(true);
+                      setRecord(item);
+                    }}
+                    className="text-[#D57D25] cursor-pointer text-[18px]"
+                  />
+                  <DeleteFilled
+                    onClick={() => {
+                      handleDelete(item.id);
+                    }}
+                    className="text-[#D57D25] cursor-pointer text-[18px]"
+                  />
+                </div> */}
               </div>
+              // </div>
+            ))
+          ) : (
+            <div className="text-center h-[70vh] flex justify-center items-center">
+              <p className="semibold text-[20px]">No media found</p>
             </div>
-          ))
-        ) : (
-          <div className="text-center h-[70vh] flex justify-center items-center">
-            <p className="semibold text-[20px]">No media found</p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       {open && (
         <MediaModal

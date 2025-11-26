@@ -1,10 +1,10 @@
-import { Modal } from "antd";
-import { useEffect, useState } from "react";
+import { Modal, notification } from "antd";
+import { useState } from "react";
 import CustomButton from "../shared/CustomButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { Student } from "../../types";
-import { useAuth, useRequest } from "../../hooks";
-import { user } from "../../repositories";
+import { useRequest } from "../../hooks";
+import { useData } from "../higherOrder/DataProvider";
 
 type Props = {
   isModalOpen: boolean;
@@ -19,30 +19,8 @@ type Props = {
 function SelectChildModal({ isModalOpen, handleCancel }: Props) {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user: userData } = useAuth();
-  const [allStudents, setAllStudents] = useState<Student[]>();
+  const { student, loading: studentLoading } = useData();
   const [selectedChildren, setSelectedChildren] = useState<any[]>([]); // array for multiple
-
-  const { execute, loading: studentLoading } = useRequest<Student[]>(
-    user.url,
-    user.method,
-    {}
-  );
-
-  useEffect(() => {
-    if (userData?.user?.id) {
-      execute({
-        type: "mount",
-        routeParams: `${userData.user.id}/students`,
-        cbSuccess(res) {
-          const student = res?.data.filter(
-            (item: Student) => item.is_payment_done === 1
-          );
-          setAllStudents(student);
-        },
-      });
-    }
-  }, [userData]);
 
   const { execute: execute2, loading } = useRequest<any>("/events", "POST", {
     type: "delay",
@@ -63,7 +41,10 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
         },
       });
     } else {
-      alert("Please select at least one child");
+      notification.error({
+        message: "Error",
+        description: "Please select at least one child.",
+      });
     }
   };
 
@@ -86,7 +67,7 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
     >
       <p className="text-[30px] bold text-center my-5">Select Child</p>
       <div className="space-y-4">
-        {allStudents?.map((child) => (
+        {student?.map((child: Student) => (
           <div
             key={child.id}
             className="flex items-center justify-between mb-4 p-3 bg-[#D57D25] rounded-[14px] custom-shadow2 cursor-pointer"

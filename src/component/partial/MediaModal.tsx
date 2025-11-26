@@ -3,10 +3,9 @@ import AuthButton from "./AuthButton";
 import { mediaForm } from "../../config";
 import { FeildType } from "../../types";
 import BaseInput from "../shared/BaseInput";
-import FileUploader from "../shared/FileUploader";
 import { updateState } from "../../helper";
 import { useAuth, useRequest } from "../../hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DocumentUpload from "../shared/DocumentUpload";
 type Props = {
   open: boolean;
@@ -19,13 +18,15 @@ type Props = {
 function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
   const { user } = useAuth();
   const [form] = Form.useForm();
-  const [isUploading, setIsUploading] = useState(false);
-  const [media, setMedia] = useState([]);
+  // const [isUploading, setIsUploading] = useState(false);
+  const [file, setFile] = useState<any>(null);
   const { execute: createEevent, loading: createLoading } = useRequest(
     "/multimedia",
     "POST",
     { type: "delay" }
   );
+
+  console.log(record);
 
   const { execute: updateEevent, loading: updateLoading } = useRequest(
     "/multimedia",
@@ -36,14 +37,18 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
   const onFinish = (values: any) => {
     const action = record ? updateEevent : createEevent;
     action({
-      body: { ...values, gurukal_id: user?.teacher?.gurukal_id, type: "video" },
+      body: {
+        ...values,
+        gurukal_id: user?.teacher?.gurukal_id,
+        type: "video",
+        url: file?.file,
+        file_name: file?.name,
+      },
       cbSuccess: (res) => {
         setData((prev: any) => updateState(prev, res.data, !!record));
         onClose();
       },
       cbFailure(error) {
-        console.log(error);
-
         notification.error({
           message: "Error",
           description: error.message,
@@ -56,6 +61,18 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
     setRecord && setRecord(null);
     onClose();
   };
+
+  useEffect(() => {
+    if (record) {
+      form.setFieldsValue({
+        ...record,
+      });
+      setFile({
+        name: record?.file_name,
+        file: record?.url,
+      });
+    }
+  }, [record]);
 
   return (
     <Modal open={open} onCancel={handleCancel} footer={null} centered>
@@ -75,25 +92,24 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
             </Form.Item>
           );
         })}
-        {/* <FileUploader onChange={() => {}} /> */}
-        {/* <FileUploader
-          onChange={(val: any) => setMedia(val)}
-          initialFiles={[]}
-          onUploadStatusChange={(status: boolean) => setIsUploading(status)}
-        /> */}
-        <DocumentUpload
-          title="+ Upload"
-          // onChange={(e) => setMedia(e)}
-          initialFileNames={{
-            name: record?.filename || undefined,
-            file: record?.url || undefined,
-          }}
-        />
+
+        <Form.Item
+          label="File"
+          rules={[
+            {
+              required: true,
+              message: "Please select a file",
+            },
+          ]}
+        >
+          <DocumentUpload onChange={(e) => setFile(e)} title="+ Upload" />
+        </Form.Item>
+
         <AuthButton
           htmlType="submit"
           text={record ? "Update Media" : "Add Media"}
           loading={createLoading || updateLoading}
-          disabled={isUploading}
+          // disabled={isUploading}
         />
       </Form>
     </Modal>
