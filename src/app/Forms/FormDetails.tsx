@@ -36,13 +36,6 @@ function FormDetails() {
       cbSuccess: () => {
         setActiveButton(null);
         navigate("/request-management");
-        // notification.success({
-        //   message: "Success",
-        //   description: {
-        //     approved: "Request Approved Successfully",
-        //     rejected: "Request Rejected Successfully",
-        //   }[status],
-        // });
       },
       cbFailure: () => setActiveButton(null),
     });
@@ -54,7 +47,9 @@ function FormDetails() {
         ...data,
         from_date: dayjs(data.from_date).isValid() ? dayjs(data.from_date) : "",
         to_date: dayjs(data.to_date).isValid() ? dayjs(data.to_date) : "",
-        name: data?.student?.first_name + " " + data?.student?.last_name,
+        name:
+          data.student &&
+          data?.student?.first_name + " " + data?.student?.last_name,
       });
     }
   }, [data]);

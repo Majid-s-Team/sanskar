@@ -20,13 +20,19 @@ export const EventCard = ({
   isPast,
   isMy,
   item,
+  status,
 }: {
   isPast: boolean;
   isMy: boolean;
   item: any;
+  status: number;
 }) => (
   <Link
     to={`/event/details/${item?.id}`}
+    key={item?.id}
+    state={{
+      status,
+    }}
     style={{ boxShadow: "0px 14.26px 21.39px 0px #00000029" }}
     className="bg-[#D57D25] lg:h-[255px] p-5 rounded-[20px] flex items-center lg:flex-row flex-col gap-8"
   >

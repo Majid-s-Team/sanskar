@@ -2,7 +2,7 @@ import { Button } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { useState } from "react";
 import WriteReasonModal from "../component/partial/WriteReasonModal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SelectChildModal from "../component/partial/SelectChildModal";
 import { getStorageData } from "../helper";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 
 function EventDetails() {
   const { id } = useParams();
+  const { state } = useLocation();
   const role = getStorageData("role");
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -20,6 +21,8 @@ function EventDetails() {
     type: "mount",
     routeParams: id,
   });
+
+  console.log(state, "dsadasdasd");
 
   const { execute: execute2, loading: loading2 } = useRequest<any>(
     "/events",
@@ -88,27 +91,29 @@ function EventDetails() {
             </div>
           </div>
         </div>
-        <div className="flex lg:flex-row flex-col gap-4 mt-10 justify-center">
-          <Button
-            style={{
-              boxShadow: "0px 10px 20px 0px #24242440",
-            }}
-            loading={role === "teacher" && loading2}
-            onClick={() => (role === "user" ? setOpen2(true) : onFinish())}
-            className="h-[54px] px-20 !bg-[#006838] rounded-[10px] !border-none text-[20px] medium !text-white"
-          >
-            Attending
-          </Button>
-          <Button
-            onClick={() => setOpen(true)}
-            style={{
-              boxShadow: "0px 10px 20px 0px #24242440",
-            }}
-            className="h-[54px] px-20 !bg-[#FF0308] rounded-[10px] !border-none text-[20px] medium !text-white"
-          >
-            Not Attending
-          </Button>
-        </div>
+        {state.status === 0 && (
+          <div className="flex lg:flex-row flex-col gap-4 mt-10 justify-center">
+            <Button
+              style={{
+                boxShadow: "0px 10px 20px 0px #24242440",
+              }}
+              loading={role === "teacher" && loading2}
+              onClick={() => (role === "user" ? setOpen2(true) : onFinish())}
+              className="h-[54px] px-20 !bg-[#006838] rounded-[10px] !border-none text-[20px] medium !text-white"
+            >
+              Attending
+            </Button>
+            <Button
+              onClick={() => setOpen(true)}
+              style={{
+                boxShadow: "0px 10px 20px 0px #24242440",
+              }}
+              className="h-[54px] px-20 !bg-[#FF0308] rounded-[10px] !border-none text-[20px] medium !text-white"
+            >
+              Not Attending
+            </Button>
+          </div>
+        )}
       </div>
       {open && (
         <WriteReasonModal

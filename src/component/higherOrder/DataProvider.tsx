@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect } from "react";
 import { useRequest } from "../../hooks/useRequest";
-// import { GurukalClassType, HouseType } from "../../types";
 import { useAuth } from "../../hooks/useAuth";
 import { getStorageData } from "../../helper";
 import { user } from "../../repositories";
@@ -19,7 +18,7 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const token = getStorageData("access_token");
-    if (userData && token) {
+    if (userData?.user?.role === "user" && token) {
       execute({
         routeParams: `${userData?.user?.id}/students`,
       });

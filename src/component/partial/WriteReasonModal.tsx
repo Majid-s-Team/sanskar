@@ -3,6 +3,7 @@ import AuthButton from "./AuthButton";
 import BaseInput from "../shared/BaseInput";
 import { useAuth, useRequest } from "../../hooks";
 import { useParams } from "react-router-dom";
+import { useData } from "../higherOrder/DataProvider";
 
 type Props = {
   isModalOpen: boolean;
@@ -12,13 +13,23 @@ type Props = {
 function WriteReasonModal({ isModalOpen, handleCancel }: Props) {
   const { id } = useParams();
   const { user } = useAuth();
+  const { student } = useData();
   const { execute, loading } = useRequest<any>("/events", "POST", {
     type: "delay",
   });
 
   const onFinish = (e: any) => {
+    const isUser = user?.user?.role === "user";
+    const payload = {
+      user_id: user?.user?.id,
+      status: "not_attending",
+      ...(isUser && { student_ids: student?.map((item: any) => item.id) }),
+    };
     execute({
-      body: { ...e, status: "not_attending", user_id: user?.user?.id },
+      body: {
+        ...e,
+        ...payload,
+      },
       routeParams: String(id) + "/rsvp",
       cbSuccess: () => {
         handleCancel();

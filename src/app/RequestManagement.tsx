@@ -100,9 +100,11 @@ function RequestManagement() {
                       />
                       <div>
                         <p className="text-[16px] semibold !text-black capitalize">
-                          {item?.student?.first_name +
-                            " " +
-                            item?.student?.last_name}
+                          {item.student?.first_name
+                            ? item?.student?.first_name +
+                              " " +
+                              item?.student?.last_name
+                            : "N/A"}
                         </p>
                         <p className="text-[14px] text-[#A6A6A6] regular capitalize">
                           Status: {item?.status}
