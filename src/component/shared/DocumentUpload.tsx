@@ -38,7 +38,18 @@ const DocumentUpload = ({ title, onChange, initialFileNames }: Props) => {
 
     const file = event.target.files[0];
 
-    const validVideoTypes = [".mp4", ".mov", ".mkv", ".avi", ".webm"];
+    const validVideoTypes = [
+      ".mp4",
+      ".mov",
+      ".mkv",
+      ".avi",
+      ".webm",
+      ".ppt",
+      ".pptx",
+      ".doc",
+      ".docx",
+      ".pdf",
+    ];
 
     if (
       !validVideoTypes.includes(
@@ -47,7 +58,7 @@ const DocumentUpload = ({ title, onChange, initialFileNames }: Props) => {
     ) {
       notification.error({
         message: "Invalid File",
-        description: "Only MP3 files are allowed",
+        description: "File format is not supported",
       });
       event.target.value = ""; // clear the input
       return;
@@ -98,7 +109,7 @@ const DocumentUpload = ({ title, onChange, initialFileNames }: Props) => {
             type="file"
             className="!hidden"
             id="documentUpload"
-            accept="video/*"
+            // accept="video/*"
             onChange={handleFileChange}
           />
           <span className="text-[#8FA0AA] text-[14px] regular">

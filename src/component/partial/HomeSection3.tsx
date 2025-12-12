@@ -1,10 +1,18 @@
-import { Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../shared/CustomButton";
 import MultiMediaCarousel from "./MultiMediaCarousel";
+import { useRequest } from "../../hooks";
 
 function HomeSection3({ role }: { role: string }) {
   const navigate = useNavigate();
+
+  const { data, loading } = useRequest<any[]>("/multimedia", "GET", {
+    params: {
+      type: "admin",
+    },
+    type: "mount",
+  });
+
   return (
     <div className="grid lg:grid-cols-12 gap-10 my-10">
       {role === "user" && (
@@ -51,8 +59,8 @@ function HomeSection3({ role }: { role: string }) {
         }`}
       >
         <div className="flex justify-between items-center">
-          <p className="text-[20px] semibold mb-5">Multimedia</p>
-          <div className="flex gap-5 items-center">
+          <p className="text-[20px] semibold mb-5">Gurukul Multimedia</p>
+          {/* <div className="flex gap-5 items-center">
             <Input
               placeholder="Search"
               className={`search-input h-[35px] lg:w-[227.28px]`}
@@ -66,14 +74,14 @@ function HomeSection3({ role }: { role: string }) {
             <div>
               <img className="w-[25px]" src="/icons/filter.png" />
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="lg:w-full w-[330px]">
-          <MultiMediaCarousel />
+          <MultiMediaCarousel {...{ data, loading }} />
         </div>
         <div className="flex justify-center mt-8">
           <CustomButton
-            onClick={() => navigate("/home/multimedia")}
+            onClick={() => navigate("/gurukul-multimedia")}
             title="View More"
           />
         </div>

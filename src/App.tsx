@@ -51,6 +51,7 @@ import TeacherListing from "./app/TeacherListing";
 import StudentsReport from "./app/StudentsReport";
 import EarlyPickupReq from "./app/EarlyPickupReq";
 import EarlyPickupDetails from "./app/EarlyPickupDetails";
+import GurukulMultimedia from "./app/GurukulMultimedia";
 const App: React.FC = () => {
   return (
     <Routes>
@@ -141,6 +142,7 @@ const App: React.FC = () => {
         path="/early-pickup-details/:id"
         element={<EarlyPickupDetails />}
       />
+      <Route path="/gurukul-multimedia" element={<GurukulMultimedia />} />
     </Routes>
   );
 };

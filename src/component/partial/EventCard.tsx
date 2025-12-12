@@ -55,8 +55,8 @@ export const EventCard = ({
             />
             <IconText
               icon="/icons/time.png"
-              text={`${dayjs(item?.start_at).format("h:mm A")} -
-                ${dayjs(item?.end_at).format("h:mm A")}`}
+              text={`${dayjs(item?.start_at).format("hh:mm A")} -
+                ${dayjs(item?.end_at).format("hh:mm A")}`}
             />
             <IconText icon="/icons/address.png" text={item?.location || ""} />
             <IconText

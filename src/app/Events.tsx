@@ -9,11 +9,7 @@ const events = ["All Events", "My Events", "Past Events"];
 function Events() {
   const [active, setActive] = useState(0);
   const params =
-    active === 0
-      ? {}
-      : active === 1
-      ? { type: "attending" }
-      : { type: "not_attending" };
+    active === 0 ? {} : active === 1 ? { type: "myevents" } : { type: "past" };
 
   const { data, loading, pagination, onPaginationChange, execute } =
     useRequest<any>("/events", "GET", {
@@ -59,6 +55,10 @@ function Events() {
         {loading ? (
           <div className="flex justify-center h-[50vh] items-center">
             <Spin tip="Loading" size="large" />
+          </div>
+        ) : data?.length === 0 ? (
+          <div className="flex justify-center items-center h-[50vh]">
+            <p className="semibold text-[24px]">No events found</p>
           </div>
         ) : (
           <div className="lg:space-y-20 space-y-10 mt-5">

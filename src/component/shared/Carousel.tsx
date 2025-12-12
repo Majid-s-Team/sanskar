@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Navigation } from "swiper/modules";
 // @ts-ignore
 import "swiper/css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Student } from "../../types";
 
@@ -14,13 +14,29 @@ type Props = {
 export default function MovieCarousel({ data, setStudent }: Props) {
   const [activeIndex, setActiveIndex] = useState(1);
 
+  // const centerIndex = Math.floor(data.length / 2);
+  const swiperRef = useRef<any>(null);
+
+  // useEffect(() => {
+  //   if (data.length > 1) {
+  //     setActiveIndex(1);
+  //     setStudent(data?.[1]);
+  //   } else {
+  //     setActiveIndex(0);
+  //     setStudent(data?.[0]);
+  //   }
+  // }, [data]);
+
   useEffect(() => {
-    if (data.length > 1) {
-      setActiveIndex(1);
-      setStudent(data?.[1]);
-    } else {
-      setActiveIndex(0);
-      setStudent(data?.[0]);
+    if (data.length > 0) {
+      const centerIndex = Math.floor(data.length / 2);
+
+      setActiveIndex(centerIndex);
+      setStudent(data[centerIndex]);
+
+      setTimeout(() => {
+        swiperRef.current?.slideTo(centerIndex, 0); // instantly slide to center
+      }, 0);
     }
   }, [data]);
 
@@ -33,6 +49,8 @@ export default function MovieCarousel({ data, setStudent }: Props) {
 
       <Swiper
         modules={[EffectCoverflow, Navigation]}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        initialSlide={0}
         effect="coverflow"
         grabCursor={true}
         centeredSlides={true}
@@ -49,14 +67,14 @@ export default function MovieCarousel({ data, setStudent }: Props) {
           const currentIndex = swiper.realIndex;
           const currentStudent = data?.[currentIndex];
           setActiveIndex(currentIndex);
-          setStudent(currentStudent || data?.[1]);
+          setStudent(currentStudent);
         }}
         slideToClickedSlide={true}
         navigation={{
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         }}
-        initialSlide={activeIndex}
+        // initialSlide={activeIndex}
         className="lg:w-full"
       >
         {data?.map((item: Student, index: number) => (

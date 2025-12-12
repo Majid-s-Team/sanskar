@@ -34,31 +34,61 @@ const SignatureInput = ({ onChange }: Props) => {
     return new File([u8arr], filename, { type: mime });
   };
 
+  // const handleEnd = () => {
+  //   const base64 = sigCanvasRef.current?.toDataURL("image/png") || "";
+
+  //   const file = base64ToFile(base64, "signature.png");
+
+  //   execute({
+  //     body: {
+  //       media: file,
+  //       key: "user_image",
+  //     },
+  //     body_type: "formData",
+  //     cbSuccess(res) {
+  //       // @ts-ignore
+  //       onChange(res?.data?.url || "");
+  //     },
+
+  //     cbFailure(err) {
+  //       notification.error({
+  //         message: "Upload Error",
+  //         description: err?.message || "Something went wrong",
+  //       });
+  //     },
+  //   });
+  // };
+
+  const debounceRef = useRef<any | null>(null);
+
   const handleEnd = () => {
-    const base64 = sigCanvasRef.current?.toDataURL("image/png") || "";
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
 
-    const file = base64ToFile(base64, "signature.png");
+    debounceRef.current = setTimeout(() => {
+      const base64 = sigCanvasRef.current?.toDataURL("image/png") || "";
+      const file = base64ToFile(base64, "signature.png");
 
-    execute({
-      body: {
-        media: file,
-        key: "user_image",
-      },
-      body_type: "formData",
-      cbSuccess(res) {
-        // @ts-ignore
-        onChange(res?.data?.url || "");
-      },
-
-      cbFailure(err) {
-        notification.error({
-          message: "Upload Error",
-          description: err?.message || "Something went wrong",
-        });
-      },
-    });
+      execute({
+        body: {
+          media: file,
+          key: "user_image",
+        },
+        body_type: "formData",
+        cbSuccess(res) {
+          // @ts-ignore
+          onChange(res?.data?.url || "");
+        },
+        cbFailure(err) {
+          notification.error({
+            message: "Upload Error",
+            description: err?.message || "Something went wrong",
+          });
+        },
+      });
+    }, 800); // API will run only if user stops drawing for 800ms
   };
-
   return (
     <div className="relative">
       {loading && (
