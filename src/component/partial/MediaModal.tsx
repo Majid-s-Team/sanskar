@@ -5,7 +5,7 @@ import { FeildType } from "../../types";
 import BaseInput from "../shared/BaseInput";
 import { updateState } from "../../helper";
 import { useAuth, useRequest } from "../../hooks";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import DocumentUpload from "../shared/DocumentUpload";
 type Props = {
   open: boolean;
@@ -19,7 +19,7 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
   const { user } = useAuth();
   const [form] = Form.useForm();
   // const [isUploading, setIsUploading] = useState(false);
-  const [file, setFile] = useState<any>(null);
+  // const [file, setFile] = useState<any>(null);
   const { execute: createEevent, loading: createLoading } = useRequest(
     "/multimedia",
     "POST",
@@ -41,12 +41,13 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
         ...values,
         gurukal_id: user?.teacher?.gurukal_id,
         type: "video",
-        url: file?.file,
-        file_name: file?.name,
+        url: values.media?.file,
+        file_name: values.media?.name,
       },
       cbSuccess: (res) => {
         setData((prev: any) => updateState(prev, res.data, !!record));
         onClose();
+        setRecord(null);
       },
       cbFailure(error) {
         notification.error({
@@ -67,10 +68,10 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
       form.setFieldsValue({
         ...record,
       });
-      setFile({
-        name: record?.file_name,
-        file: record?.url,
-      });
+      // setFile({
+      //   name: record?.file_name,
+      //   file: record?.url,
+      // });
     }
   }, [record]);
 
@@ -95,6 +96,7 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
 
         <Form.Item
           label="File"
+          name={"media"}
           rules={[
             {
               required: true,
@@ -102,7 +104,7 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
             },
           ]}
         >
-          <DocumentUpload onChange={(e) => setFile(e)} title="+ Upload" />
+          <DocumentUpload title="+ Upload" />
         </Form.Item>
 
         <AuthButton

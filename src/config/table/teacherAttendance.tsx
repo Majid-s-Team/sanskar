@@ -4,7 +4,7 @@ export const teacherAttendanceColumns = () => {
   return [
     {
       title: "Date",
-      dataIndex: "created_at",
+      dataIndex: "date",
       render: (text: string) => {
         return <div>{dayjs(text).format("MM-DD-YYYY")}</div>;
       },

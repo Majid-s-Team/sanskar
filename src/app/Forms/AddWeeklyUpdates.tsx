@@ -96,7 +96,12 @@ function AddWeeklyUpdates() {
                 name={item.name}
                 rules={item.rules}
               >
-                <BaseInput {...item} disabled={item.name === "title"} />
+                <BaseInput
+                  {...item}
+                  disabled={
+                    item.name === "title" || (item.name === "date" && id)
+                  }
+                />
               </Form.Item>
             );
           })}

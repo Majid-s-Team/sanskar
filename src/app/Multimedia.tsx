@@ -174,7 +174,10 @@ function Multimedia() {
       {open2 && (
         <ViewDetails
           open={open2}
-          onClose={() => setOpen2(false)}
+          onClose={() => {
+            setOpen2(false);
+            setRecord(null);
+          }}
           data={record}
         />
       )}

@@ -16,8 +16,10 @@ export const studentListColumns = [
   },
   {
     title: "House Name",
-    dataIndex: "house",
-    render: (text: any) => <p className="capitalize">{text?.name || "-"}</p>,
+    dataIndex: "student",
+    render: (text: any) => (
+      <p className="capitalize">{text?.house?.name || "-"}</p>
+    ),
   },
   {
     title: "Date of Birth (DOB)",
