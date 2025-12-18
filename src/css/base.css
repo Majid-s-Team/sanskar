@@ -280,6 +280,10 @@ span.ant-progress-text {
   box-shadow: none;
 }
 
+/* .studenttextleft {
+  text-align: left !important;
+} */
+
 th.ant-table-cell {
   text-align: center !important;
 }

@@ -5,8 +5,11 @@ export const studentAttendanceColumns = (handleDetails: any) => {
     {
       title: "Name",
       dataIndex: "student",
+      // className: "studenttextleft",
       render: (text: Student) => (
-        <p className="capitalize">{text?.first_name + " " + text?.last_name}</p>
+        <p className="capitalize !text-left">
+          {text?.first_name + " " + text?.last_name}
+        </p>
       ),
     },
     {

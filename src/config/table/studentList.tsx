@@ -1,40 +1,57 @@
 import { Avatar } from "antd";
 import dayjs from "dayjs";
+import { Student } from "../../types";
 
 export const studentListColumns = [
   {
     title: "Image",
     dataIndex: "student",
-    render: (text: any) => <Avatar size={60} src={text?.profile_image} />,
+    render: (text: Student) => <Avatar size={60} src={text?.profile_image} />,
   },
   {
     title: "Student Name",
     dataIndex: "student",
-    render: (text: any) => (
+    render: (text: Student) => (
       <p className="capitalize">{text?.first_name + " " + text?.last_name}</p>
     ),
   },
   {
     title: "House Name",
     dataIndex: "student",
-    render: (text: any) => (
+    render: (text: Student) => (
       <p className="capitalize">{text?.house?.name || "-"}</p>
     ),
   },
   {
+    title: "New Student",
+    dataIndex: "student",
+    // render: (text: Student) => (
+    //   <p className="capitalize">{text?.is_new_student || "-"}</p>
+    // ),
+    render: (text: Student) => {
+      if (text.is_new_student === null || text.is_new_student === undefined) {
+        return <p>-</p>;
+      } else if (text.is_new_student === 1) {
+        return <p>Yes</p>;
+      } else {
+        return <p>No</p>;
+      }
+    },
+  },
+  {
     title: "Date of Birth (DOB)",
     dataIndex: "student",
-    render: (text: any) => <p>{dayjs(text?.dob).format("MM-DD-YYYY")}</p>,
+    render: (text: Student) => <p>{dayjs(text?.dob).format("MM-DD-YYYY")}</p>,
   },
   {
     title: "Book Club",
     dataIndex: "student",
-    render: (text: any) => <p>{text?.join_the_club ? "Yes" : "No"}</p>,
+    render: (text: Student) => <p>{text?.join_the_club ? "Yes" : "No"}</p>,
   },
   {
     title: "Hobbies/Interests",
     dataIndex: "student",
-    render: (text: any) => <p>{text?.hobbies_interest}</p>,
+    render: (text: Student) => <p>{text?.hobbies_interest}</p>,
   },
   // {
   //   title: "House",
@@ -43,12 +60,12 @@ export const studentListColumns = [
   {
     title: "School Name",
     dataIndex: "student",
-    render: (text: any) => <p>{text?.school_name}</p>,
+    render: (text: Student) => <p>{text?.school_name}</p>,
   },
   {
     title: "Contact Phone & Email",
     dataIndex: "student",
-    render: (text: any) => (
+    render: (text: Student) => (
       <div>
         <p>{text?.student_mobile_number}</p>
         <p>{text?.student_email}</p>

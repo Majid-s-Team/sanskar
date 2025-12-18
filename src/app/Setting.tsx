@@ -25,9 +25,9 @@ function Setting() {
   const { user } = useAuth();
   const [, dispatch] = useUser();
 
-  console.log(user, "user");
-
-  const { execute } = useRequest("/profile-update", "POST", {});
+  const { execute } = useRequest("/teachers", "PUT", {
+    routeParams: String(user?.teacher?.id) + "/profileImage",
+  });
 
   const onFinish = (values: any) => {
     execute({
