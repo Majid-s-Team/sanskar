@@ -5,49 +5,68 @@ import BaseInput from "../shared/BaseInput";
 import AuthButton from "./AuthButton";
 import { useRequest } from "../../hooks/useRequest";
 import { announcementUrl } from "../../repositories";
+import { updateState } from "../../helper";
+import { useEffect } from "react";
 
 type Props = {
   isModalOpen: boolean;
   handleCancel: () => void;
   setData?: any;
+  record?: any;
 };
 
-function AnnouncementModal({ isModalOpen, handleCancel, setData }: Props) {
+function AnnouncementModal({
+  isModalOpen,
+  handleCancel,
+  setData,
+  record,
+}: Props) {
+  const [form] = Form.useForm();
   const { execute, loading: createLoading } = useRequest(
     announcementUrl.url,
     "POST",
     { type: "delay" }
   );
-  // const { execute: updateFaq, loading: updateLoading } = useRequest(
-  //   announcementUrl.url,
-  //   "PATCH",
-  //   { type: "delay", routeParams: String(record?.id) }
-  // );
+  const { execute: update, loading: updateLoading } = useRequest(
+    announcementUrl.url,
+    "PUT",
+    { type: "delay", routeParams: String(record?.id) }
+  );
 
   const onFinish = (values: any) => {
-    // const action = record ? updateFaq : createFaq;
-    // action({
-    //   body: values,
-    //   // ✅ dynamic
-    //   cbSuccess: (res) => {
-    //     setData((prev) => updateState(prev, res.data, !!record));
-    //     onCancel();
-    //   },
-    // });
-
-    execute({
+    const action = record ? update : execute;
+    action({
       body: values,
+      // ✅ dynamic
       cbSuccess: (res) => {
+        setData((prev: any) => updateState(prev, res.data, !!record));
         handleCancel();
-        setData((prev: any) => [res?.data, ...prev]);
       },
     });
+
+    // execute({
+    //   body: values,
+    //   cbSuccess: (res) => {
+    //     handleCancel();
+    //     setData((prev: any) => [res?.data, ...prev]);
+    //   },
+    // });
   };
+
+  useEffect(() => {
+    if (record) {
+      form.setFieldsValue({
+        ...record,
+      });
+    }
+  }, [record]);
 
   return (
     <Modal open={isModalOpen} onCancel={handleCancel} footer={null} centered>
-      <p className="text-[35px] bold text-center my-8">Add Announcement</p>
-      <Form onFinish={onFinish} layout="vertical">
+      <p className="text-[35px] bold text-center my-8">
+        {record ? "Update Announcement" : "Add Announcement"}
+      </p>
+      <Form form={form} onFinish={onFinish} layout="vertical">
         {announcement.map((item: FeildType) => {
           return (
             <Form.Item
@@ -62,8 +81,8 @@ function AnnouncementModal({ isModalOpen, handleCancel, setData }: Props) {
         })}
         <AuthButton
           htmlType="submit"
-          text={"Add Announcement"}
-          loading={createLoading}
+          text={record ? "Update Announcement" : "Add Announcement"}
+          loading={createLoading || updateLoading}
         />
       </Form>
     </Modal>

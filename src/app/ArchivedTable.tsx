@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DatePicker, notification, Spin } from "antd";
+import { DatePicker, notification, Select, Spin } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
@@ -7,6 +7,7 @@ import ViewDetails from "../component/shared/ViewDetails";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
 import { archivedColumns, myClassColumns, otherClassColumns } from "../config";
+import { optionpPicker } from "../helper";
 
 const tabs = [
   {
@@ -24,6 +25,7 @@ function ArchivedTable() {
   const [open, setOpen] = useState(false);
   const [details, setDetails] = useState<any>();
   const [rangeDate, setRangeDate] = useState<any>(null);
+  const [selectedFilter, setSelectedFilter] = useState<number | undefined>();
   const [active, setActive] = useState<number>(
     typeof state === "number" && tabs.some((t) => t.id === state) ? state : 1
   );
@@ -51,7 +53,7 @@ function ArchivedTable() {
     execute: executeSearchOther,
   } = useRequest("/weekly-updates", "GET", {
     type: "mount",
-    params: { other: true },
+    params: { other: true, gurukal_id: selectedFilter },
   });
 
   const {
@@ -61,7 +63,12 @@ function ArchivedTable() {
     setData: setArchivedData,
     execute: getArchivedData,
     loading: archivedLoading,
-  } = useRequest("/weekly-updates/bookmark/list", "GET", { type: "mount" });
+  } = useRequest("/weekly-updates/bookmark/list", "GET", {
+    type: "mount",
+    params: {
+      gurukal_id: selectedFilter,
+    },
+  });
 
   const { execute: deleteUpdate, loading: deleteLoading } = useRequest(
     "/weekly-updates",
@@ -78,6 +85,10 @@ function ArchivedTable() {
     "DELETE",
     {}
   );
+
+  const { data: gurukalClassData } = useRequest<any>("/gurukal", "GET", {
+    type: "mount",
+  });
 
   /** 🔹 Handlers */
   const handleDownload = (url: string, name: string) => {
@@ -138,10 +149,20 @@ function ArchivedTable() {
       end_date: rangeDate?.[1]?.format("YYYY-MM-DD"),
     };
 
-    if (active === 2) executeSearchOther({ type: "mount", params: params2 });
+    if (active === 2)
+      executeSearchOther({
+        type: "mount",
+        params: { ...params2, gurukal_id: selectedFilter },
+      });
     if (active === 1) executeSearch({ type: "mount", params });
-    else if (active === 3) getArchivedData({ type: "mount", params });
-  }, [rangeDate]);
+    else if (active === 3)
+      getArchivedData({
+        type: "mount",
+        params: { ...params, gurukal_id: selectedFilter },
+      });
+  }, [rangeDate, selectedFilter]);
+
+  console.log(selectedFilter, "se");
 
   useEffect(() => {
     if (active === 1) {
@@ -181,6 +202,7 @@ function ArchivedTable() {
 
   useEffect(() => {
     setRangeDate(null);
+    setSelectedFilter(undefined);
   }, [activeTab]);
 
   /** 🔹 UI */
@@ -228,6 +250,16 @@ function ArchivedTable() {
             onPaginationChange={onPaginate}
             input={
               <div className="flex lg:flex-row flex-col gap-5 items-center">
+                {active !== 1 && (
+                  <Select
+                    style={{ width: 150 }}
+                    options={optionpPicker(gurukalClassData as any)}
+                    value={selectedFilter}
+                    onChange={(value) => {
+                      setSelectedFilter(value);
+                    }}
+                  />
+                )}
                 <DatePicker.RangePicker
                   onChange={setRangeDate}
                   format="DD-MM-YYYY"

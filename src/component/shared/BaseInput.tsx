@@ -149,6 +149,15 @@ function BaseInput(props: BaseInputProps) {
         {...props}
       />
     ),
+    dateTime: (
+      <DatePicker
+        showTime
+        // format="MM-DD-YYYY HH:mm"
+        format="MM-DD-YYYY hh:mm A"
+        className="!rounded-[8px] h-[44px] w-[100%]"
+        {...props}
+      />
+    ),
   };
 
   return inputTypes[props.type] || <div>Invalid input type</div>;

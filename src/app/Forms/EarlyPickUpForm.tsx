@@ -23,12 +23,11 @@ function EarlyPickUpForm() {
   );
 
   const onFinish = (value: any) => {
-    // navigate(-1);
     execute2({
       body: {
         ...value,
         dob: dayjs(value.dob).format("YYYY-MM-DD"),
-        pickup_time: dayjs(value.pickup_time).format("HH:mm"),
+        pickup_time: dayjs(value.pickup_time).format("YYYY-MM-DD hh:mm:ss"),
       },
       cbSuccess() {
         navigate(-1);

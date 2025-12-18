@@ -20,22 +20,6 @@ export const earlyPickupForm = [
       },
     ],
   },
-  // {
-  //   title: "Class Name",
-  //   name: "class_name",
-  //   rules: [{ required: true, message: "Please select your class!" }],
-  //   type: "select",
-  //   options: [
-  //     {
-  //       label: "Class 1",
-  //       value: "class1",
-  //     },
-  //     {
-  //       label: "Class 2",
-  //       value: "class2",
-  //     },
-  //   ],
-  // },
   {
     title: "Date Of Birth",
     name: "dob",
@@ -46,7 +30,7 @@ export const earlyPickupForm = [
     title: "Pick-up Time:",
     name: "pickup_time",
     rules: [{ required: true, message: "Please input your pick-up time!" }],
-    type: "time",
+    type: "dateTime",
   },
 ];
 

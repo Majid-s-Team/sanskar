@@ -1,4 +1,4 @@
-import { Select } from "antd";
+import { Popconfirm, Select } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { getStorageData } from "../helper";
 import AuthButton from "../component/partial/AuthButton";
@@ -11,12 +11,14 @@ import dayjs from "dayjs";
 import { AnnouncementType, Student } from "../types";
 // import { user } from "../repositories";
 import { useData } from "../component/higherOrder/DataProvider";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
 
 function Announcement() {
   const { user: userData } = useAuth();
   const role = getStorageData("role");
   const { student, loading: studentLoading } = useData();
   const [open, setOpen] = useState(false);
+  const [record, setRecord] = useState<AnnouncementType | null>(null);
   const [selectStudent, setSelectStudent] = useState<number | undefined>(
     undefined
   );
@@ -48,30 +50,20 @@ function Announcement() {
     }
   }, [userData]);
 
-  // const { execute: execute2, loading: studentLoading } = useRequest<Student[]>(
-  //   user.url,
-  //   user.method,
-  //   {}
-  // );
+  const { execute: deleteEvent, loading: deleteLoading } = useRequest(
+    "/announcements",
+    "DELETE",
+    { type: "delay" }
+  );
 
-  // useEffect(() => {
-  //   if (userData && userData.user?.id && userData?.roles?.[0] === "user") {
-  //     execute2({
-  //       type: "mount",
-  //       routeParams: userData?.user?.id + "/students",
-  //       cbSuccess(res) {
-  //         const student = res?.data.filter(
-  //           (item: Student) => item.is_payment_done === 1
-  //         );
-  //         setAllStudents(student);
-  //         setSelectStudent(
-  //           res.data?.filter((item: Student) => item.is_payment_done === 1)[0]
-  //             ?.id
-  //         );
-  //       },
-  //     });
-  //   }
-  // }, [userData]);
+  const handleDelete = (id: any) => {
+    deleteEvent({
+      routeParams: String(id),
+      cbSuccess: () => {
+        setData((prev: any) => prev.filter((item: any) => item.id !== id));
+      },
+    });
+  };
 
   useEffect(() => {
     if (student) {
@@ -150,14 +142,39 @@ function Announcement() {
                     </p>
                   </div>
                 </div>
-                <div className="text-right mr-4">
-                  <p className="text-[14px] regular">
-                    {dayjs(form.created_at).format("MM-DD-YYYY")}
-                  </p>
-                  <p className="text-[13px] text-[#969696] regular">
-                    {dayjs(form.created_at).format("hh:mm A")}
-                  </p>
-                </div>
+                {role === "teacher" ? (
+                  <div className="flex justify-end gap-5">
+                    <EditFilled
+                      onClick={() => {
+                        setOpen(true);
+                        setRecord(form);
+                      }}
+                      className="text-[#D57D25] cursor-pointer text-[18px]"
+                    />
+                    <Popconfirm
+                      title="Are you sure you want to delete this announcement?"
+                      onConfirm={() => handleDelete(form.id)}
+                      okButtonProps={{ loading: deleteLoading }}
+                    >
+                      <DeleteFilled
+                        className={`text-[#D57D25] text-[18px] ${
+                          deleteLoading
+                            ? "opacity-50 pointer-events-none"
+                            : "cursor-pointer"
+                        }`}
+                      />
+                    </Popconfirm>
+                  </div>
+                ) : (
+                  <div className="text-right mr-4">
+                    <p className="text-[14px] regular">
+                      {dayjs(form.created_at).format("MM-DD-YYYY")}
+                    </p>
+                    <p className="text-[13px] text-[#969696] regular">
+                      {dayjs(form.created_at).format("hh:mm A")}
+                    </p>
+                  </div>
+                )}
               </div>
             );
           })
@@ -177,8 +194,12 @@ function Announcement() {
       {open && (
         <AnnouncementModal
           isModalOpen={open}
-          handleCancel={() => setOpen(false)}
+          handleCancel={() => {
+            setOpen(false);
+            setRecord(null);
+          }}
           setData={setData}
+          record={record}
         />
       )}
     </HomeLayout>

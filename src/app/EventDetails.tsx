@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import { useState } from "react";
 import WriteReasonModal from "../component/partial/WriteReasonModal";
@@ -22,8 +22,6 @@ function EventDetails() {
     routeParams: id,
   });
 
-  console.log(state, "dsadasdasd");
-
   const { execute: execute2, loading: loading2 } = useRequest<any>(
     "/events",
     "POST",
@@ -38,6 +36,12 @@ function EventDetails() {
       routeParams: String(id) + "/rsvp",
       cbSuccess: () => {
         navigate(-1);
+      },
+      cbFailure(error) {
+        notification.error({
+          message: error.message,
+          // description: error.message,
+        });
       },
     });
   };
