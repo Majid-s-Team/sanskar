@@ -93,7 +93,11 @@ export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
               <option value="not_recorded">Not Recorded</option>
               <option value="unexcused_absence">Unexcused Absence</option> */}
               {Object.keys(data?.statuses || {}).map((status) => (
-                <option key={status} value={status}>
+                <option
+                  key={status}
+                  value={status}
+                  disabled={status === "not_recorded"}
+                >
                   {data?.statuses[status]}
                 </option>
               ))}

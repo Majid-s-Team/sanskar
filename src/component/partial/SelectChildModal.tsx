@@ -11,11 +11,6 @@ type Props = {
   handleCancel: () => void;
 };
 
-// const children = [
-//   { id: 1, name: "Child1", image: "/images/parent.png" },
-//   { id: 2, name: "Child2", image: "/images/parent.png" },
-// ];
-
 function SelectChildModal({ isModalOpen, handleCancel }: Props) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -28,8 +23,6 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
 
   const handleSubmit = () => {
     if (selectedChildren.length > 0) {
-      console.log("Selected Children:", selectedChildren);
-
       execute2({
         body: {
           student_ids: selectedChildren.map((child) => child.id),
@@ -38,6 +31,12 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
         routeParams: String(id) + "/rsvp",
         cbSuccess() {
           navigate("/events-rsvp");
+        },
+        cbFailure(error) {
+          notification.error({
+            message: error.message,
+            // description: error.message,
+          });
         },
       });
     } else {
