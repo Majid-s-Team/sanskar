@@ -2,7 +2,7 @@ import { Form, Modal, notification } from "antd";
 import AuthButton from "./AuthButton";
 import BaseInput from "../shared/BaseInput";
 import { useAuth, useRequest } from "../../hooks";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useData } from "../higherOrder/DataProvider";
 
 type Props = {
@@ -14,6 +14,7 @@ function WriteReasonModal({ isModalOpen, handleCancel }: Props) {
   const { id } = useParams();
   const { user } = useAuth();
   const { student } = useData();
+  const navigate = useNavigate();
   const { execute, loading } = useRequest<any>("/events", "POST", {
     type: "delay",
   });
@@ -32,7 +33,7 @@ function WriteReasonModal({ isModalOpen, handleCancel }: Props) {
       },
       routeParams: String(id) + "/rsvp",
       cbSuccess: () => {
-        handleCancel();
+        navigate(-1);
       },
       cbFailure(error) {
         notification.error({
