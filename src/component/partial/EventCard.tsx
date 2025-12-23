@@ -43,11 +43,14 @@ export const EventCard = ({
       style={{ border: "2px solid white" }}
     />
     <div>
-      <p className="text-white text-[30px] semibold">{item?.name || ""}</p>
-      <div className="space-y-2 mt-2">
-        {isPast ? (
+      <p className="text-white text-[30px] semibold capitalize">
+        {item?.name || ""}
+      </p>
+      {!isPast && (
+        <div className="space-y-2 mt-2">
+          {/* {isPast ? (
           <IconText icon="/icons/check.png" text="Attended" />
-        ) : (
+        ) : ( */}
           <>
             <IconText
               icon="/icons/date.png"
@@ -65,8 +68,9 @@ export const EventCard = ({
             />
             {isMy && <IconText icon="/icons/check.png" text="Attending" />}
           </>
-        )}
-      </div>
+          {/* )} */}
+        </div>
+      )}
     </div>
   </Link>
 );
