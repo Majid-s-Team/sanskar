@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 
 function GurukulPrayers() {
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
@@ -83,7 +83,7 @@ function GurukulPrayers() {
           <>
             <div className="grid lg:grid-cols-2 gap-5 p-5 mt-5">
               {data?.map((item: any, index: number) => {
-                if (!item?.url?.endsWith(".mp3")) return null;
+                // if (!item?.url?.endsWith(".mp3")) return null;
                 return (
                   <div key={index} className="space-y-3">
                     <p className="text-[24px] font-semibold capitalize">

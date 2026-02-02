@@ -18,7 +18,7 @@ function GurukulMultimedia() {
     {
       params: { type: "admin" },
       type: "mount",
-    }
+    },
   );
 
   const handleView = useCallback((item: any) => {
@@ -28,6 +28,10 @@ function GurukulMultimedia() {
 
   const isVideo = (url: string) =>
     validVideoTypes.some((ext) => url?.includes(ext));
+
+  const openAttachment = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <HomeLayout loading={loading}>
@@ -62,7 +66,11 @@ function GurukulMultimedia() {
                 />
               ) : (
                 <img
-                  onClick={() => handleView(item.url)}
+                  onClick={
+                    item.attachment_url
+                      ? () => openAttachment(item.attachment_url)
+                      : () => handleView(item.url)
+                  }
                   className="w-[81.96px] h-[81.96px] mb-5 mx-auto cursor-pointer"
                   src="/icons/pdf.png"
                   alt="pdf"

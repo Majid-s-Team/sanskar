@@ -27,7 +27,7 @@ export const earlyPickupForm = [
     type: "date",
   },
   {
-    title: "Pick-up Time:",
+    title: "Pick-up Date and Time",
     name: "pickup_time",
     rules: [{ required: true, message: "Please input your pick-up time!" }],
     type: "dateTime",

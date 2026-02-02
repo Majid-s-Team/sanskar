@@ -54,6 +54,7 @@ function ExpenseForm() {
             <CustomButton
               className="w-[300px] h-[50px] text-[18px]"
               title="Submit"
+              htmlType="submit"
             />
           </div>
         </Form>

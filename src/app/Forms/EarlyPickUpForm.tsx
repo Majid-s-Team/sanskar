@@ -19,7 +19,7 @@ function EarlyPickUpForm() {
   const { execute: execute2, loading: loading2 } = useRequest(
     "/early-pickup",
     "POST",
-    {}
+    {},
   );
 
   const onFinish = (value: any) => {
@@ -94,6 +94,7 @@ function EarlyPickUpForm() {
             <CustomButton
               className="w-[300px] h-[50px] text-[18px]"
               title="Submit"
+              htmlType="submit"
               loading={loading2}
             />
           </div>

@@ -20,9 +20,7 @@ export const archivedColumns = ({
   {
     title: "Date",
     dataIndex: "date",
-    render: (text: string) => (
-      <p className="w-[100px]">{dayjs(text).format("MM-DD-YYYY")}</p>
-    ),
+    render: (text: string) => <p>{dayjs(text).format("MM-DD-YYYY")}</p>,
   },
   {
     title: "Class",

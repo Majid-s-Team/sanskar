@@ -20,7 +20,7 @@ function Announcement() {
   const [open, setOpen] = useState(false);
   const [record, setRecord] = useState<AnnouncementType | null>(null);
   const [selectStudent, setSelectStudent] = useState<number | undefined>(
-    undefined
+    undefined,
   );
   // const [allStudents, setAllStudents] = useState<Student[]>();
   const url = role === "teacher" ? "/announcements" : "/annoucement-student";
@@ -38,7 +38,7 @@ function Announcement() {
   const { data: TeacherData, execute } = useRequest<any>(
     "/teachers",
     "GET",
-    {}
+    {},
   );
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function Announcement() {
   const { execute: deleteEvent, loading: deleteLoading } = useRequest(
     "/announcements",
     "DELETE",
-    { type: "delay" }
+    { type: "delay" },
   );
 
   const handleDelete = (id: any) => {
@@ -142,30 +142,7 @@ function Announcement() {
                     </p>
                   </div>
                 </div>
-                {role === "teacher" ? (
-                  <div className="flex justify-end gap-5">
-                    <EditFilled
-                      onClick={() => {
-                        setOpen(true);
-                        setRecord(form);
-                      }}
-                      className="text-[#D57D25] cursor-pointer text-[18px]"
-                    />
-                    <Popconfirm
-                      title="Are you sure you want to delete this announcement?"
-                      onConfirm={() => handleDelete(form.id)}
-                      okButtonProps={{ loading: deleteLoading }}
-                    >
-                      <DeleteFilled
-                        className={`text-[#D57D25] text-[18px] ${
-                          deleteLoading
-                            ? "opacity-50 pointer-events-none"
-                            : "cursor-pointer"
-                        }`}
-                      />
-                    </Popconfirm>
-                  </div>
-                ) : (
+                <div className="flex gap-4 items-center">
                   <div className="text-right mr-4">
                     <p className="text-[14px] regular">
                       {dayjs(form.created_at).format("MM-DD-YYYY")}
@@ -174,7 +151,31 @@ function Announcement() {
                       {dayjs(form.created_at).format("hh:mm A")}
                     </p>
                   </div>
-                )}
+                  {role === "teacher" && (
+                    <div className="flex justify-end gap-5">
+                      <EditFilled
+                        onClick={() => {
+                          setOpen(true);
+                          setRecord(form);
+                        }}
+                        className="text-[#D57D25] cursor-pointer text-[18px]"
+                      />
+                      <Popconfirm
+                        title="Are you sure you want to delete this announcement?"
+                        onConfirm={() => handleDelete(form.id)}
+                        okButtonProps={{ loading: deleteLoading }}
+                      >
+                        <DeleteFilled
+                          className={`text-[#D57D25] text-[18px] ${
+                            deleteLoading
+                              ? "opacity-50 pointer-events-none"
+                              : "cursor-pointer"
+                          }`}
+                        />
+                      </Popconfirm>
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })

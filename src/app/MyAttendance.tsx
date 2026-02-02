@@ -11,7 +11,7 @@ function MyAttendance() {
   const { data, loading, execute, pagination, onPaginationChange } = useRequest(
     "/teacher-attendance",
     "GET",
-    {}
+    {},
   );
 
   useEffect(() => {
@@ -43,9 +43,9 @@ function MyAttendance() {
                 }}
                 className="p-5 gap-4 rounded-[20px] flex justify-between items-center w-[260px] shadow-[0px_9.06px_27.18px_0px_rgba(255,153,58,0.4)]"
               >
-                <img className="w-[50px]" src="/icons/pdf.png" alt="" />
+                <img className="w-[50px]" src="/icons/wallet.png" alt="" />
                 <p className="text-white text-[14px] medium">
-                  Absent Request Form
+                  Absence Request Form 
                 </p>
               </Link>
             </div>

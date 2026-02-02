@@ -12,11 +12,17 @@ type Props = {
   title: string;
   onChange?: (files: FileItem) => void; // callback me sirf files jayengi
   initialFileNames?: FileItem | undefined;
+  disabled?: boolean;
 };
 
-const DocumentUpload = ({ title, onChange, initialFileNames }: Props) => {
+const DocumentUpload = ({
+  title,
+  onChange,
+  initialFileNames,
+  disabled,
+}: Props) => {
   const [files, setFiles] = useState<FileItem | undefined>(
-    initialFileNames ?? undefined
+    initialFileNames ?? undefined,
   );
 
   console.log(initialFileNames);
@@ -53,7 +59,7 @@ const DocumentUpload = ({ title, onChange, initialFileNames }: Props) => {
 
     if (
       !validVideoTypes.includes(
-        file.name.toLowerCase().substring(file.name.lastIndexOf("."))
+        file.name.toLowerCase().substring(file.name.lastIndexOf(".")),
       )
     ) {
       notification.error({
@@ -98,18 +104,25 @@ const DocumentUpload = ({ title, onChange, initialFileNames }: Props) => {
   };
 
   return (
-    <div className="w-full border-dashed border-2 border-gray-300 rounded-lg py-3 cursor-pointer">
+    <div
+      className={`w-full border-dashed border-2 border-gray-300 rounded-lg py-3 cursor-pointer ${
+        disabled && "cursor-not-allowed opacity-50"
+      }`}
+    >
       {loading ? (
         <div className="flex justify-center items-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
         </div>
       ) : (
-        <label className="flex items-center justify-center w-full cursor-pointer">
+        <label
+          className={`flex items-center justify-center w-full cursor-pointer ${disabled && "cursor-not-allowed opacity-50"}`}
+        >
           <input
             type="file"
             className="!hidden"
+            disabled={disabled}
             id="documentUpload"
-            // accept="video/*"
+            // accept={fileType === "audio" ? "audio/*" : ""}
             onChange={handleFileChange}
           />
           <span className="text-[#8FA0AA] text-[14px] regular">

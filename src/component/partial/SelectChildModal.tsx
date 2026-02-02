@@ -15,9 +15,9 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
   const { id } = useParams();
   const navigate = useNavigate();
   const { student, loading: studentLoading } = useData();
-  const [selectedChildren, setSelectedChildren] = useState<any[]>([]); // array for multiple
+  const [selectedChildren, setSelectedChildren] = useState<Student[]>([]);
 
-  const { execute: execute2, loading } = useRequest<any>("/events", "POST", {
+  const { execute: execute2, loading } = useRequest("/events", "POST", {
     type: "delay",
   });
 
@@ -64,7 +64,7 @@ function SelectChildModal({ isModalOpen, handleCancel }: Props) {
       footer={null}
       centered
     >
-      <p className="text-[30px] bold text-center my-5">Select Child</p>
+      <p className="text-[30px] bold text-center my-5">Select Student</p>
       <div className="space-y-4">
         {student?.map((child: Student) => (
           <div

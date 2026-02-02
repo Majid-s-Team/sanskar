@@ -27,7 +27,7 @@ function ArchivedTable() {
   const [rangeDate, setRangeDate] = useState<any>(null);
   const [selectedFilter, setSelectedFilter] = useState<number | undefined>();
   const [active, setActive] = useState<number>(
-    typeof state === "number" && tabs.some((t) => t.id === state) ? state : 1
+    typeof state === "number" && tabs.some((t) => t.id === state) ? state : 1,
   );
 
   const activeTab = tabs.find((t) => t.id === active)!;
@@ -73,17 +73,17 @@ function ArchivedTable() {
   const { execute: deleteUpdate, loading: deleteLoading } = useRequest(
     "/weekly-updates",
     "DELETE",
-    {}
+    {},
   );
   const { execute: archiveUpdate, loading: archiveLoading } = useRequest(
     "/weekly-updates",
     "POST",
-    {}
+    {},
   );
   const { execute: unarchiveUpdate, loading: unarchiveLoading } = useRequest(
     "/weekly-updates",
     "DELETE",
-    {}
+    {},
   );
 
   const { data: gurukalClassData } = useRequest<any>("/gurukal", "GET", {
@@ -189,14 +189,14 @@ function ArchivedTable() {
     active === 3
       ? paginationArchived
       : active === 2
-      ? otherClassPagination
-      : paginationMain;
+        ? otherClassPagination
+        : paginationMain;
   const onPaginate =
     active === 3
       ? onPaginateArchived
       : active === 2
-      ? onPaginateOther
-      : onPaginateMain;
+        ? onPaginateOther
+        : onPaginateMain;
 
   const loadingState = loading || archivedLoading || otherClassLoading;
 
@@ -242,7 +242,7 @@ function ArchivedTable() {
         ) : (
           <TableData
             columns={getColumns()}
-            scroll={active === 1 ? 1000 : 800}
+            // scroll={active === 1 ? 1000 : 800}
             data={tableData as any}
             loading={deleteLoading || archiveLoading || unarchiveLoading}
             title={activeTab.label}
@@ -262,7 +262,7 @@ function ArchivedTable() {
                 )}
                 <DatePicker.RangePicker
                   onChange={setRangeDate}
-                  format="DD-MM-YYYY"
+                  format="MM-DD-YYYY"
                   style={{
                     borderRadius: 6,
                     backgroundColor: "#F5F4F9",

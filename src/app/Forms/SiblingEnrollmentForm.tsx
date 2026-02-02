@@ -38,6 +38,7 @@ function SiblingEnrollmentForm() {
           <CustomButton
             className="w-full h-[50px] text-[18px] mt-10"
             title="Submit"
+            htmlType="submit"
           />
           {/* </div> */}
         </Form>

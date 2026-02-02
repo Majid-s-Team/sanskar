@@ -25,7 +25,7 @@ function AddWeeklyUpdates() {
   const { execute: execute2, loading } = useRequest(
     "/weekly-updates",
     method,
-    {}
+    {},
   );
 
   const {
@@ -126,8 +126,8 @@ function AddWeeklyUpdates() {
             <CustomButton
               className="lg:w-[300px] w-[100%] h-[50px] text-[18px]"
               title={id ? "Save Update" : "Save"}
-              htmlType="submit"
               loading={loading}
+              htmlType="submit"
               disabled={isUploading}
             />
           </div>

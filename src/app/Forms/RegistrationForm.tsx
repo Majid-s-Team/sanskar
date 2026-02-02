@@ -111,6 +111,7 @@ function RegistrationForm() {
             <CustomButton
               className="lg:w-[300px] w-full h-[50px] text-[18px]"
               title="Submit"
+              htmlType="submit"
             />
           </div>
         </Form>

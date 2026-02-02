@@ -84,7 +84,7 @@ export const myClassColumns = ({
     title: "Actions",
     dataIndex: "action",
     render: (_: any, record: any) => (
-      <div className="flex gap-5 justify-center items-center">
+      <div className="flex gap-3 justify-center items-center">
         <Link
           className="!text-[#a0a0a0]"
           to={`/add-weekly-updates/edit/${record.id}`}

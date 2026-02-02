@@ -101,7 +101,9 @@ const SignatureInput = ({ onChange }: Props) => {
         ref={sigCanvasRef}
         penColor="black"
         onEnd={handleEnd}
-        canvasProps={{ className: "w-full h-[80px] border-b bg-white" }}
+        canvasProps={{
+          className: "w-full h-[90px] border rounded-lg bg-white",
+        }}
       />
 
       <div className="mt-2 flex justify-end">

@@ -20,7 +20,7 @@ function CustomButton({
   backgroundColor = "#D57D25",
   textColor = "#fff",
   className,
-  htmlType = "submit",
+  htmlType,
   loading,
   disabled,
 }: Props) {

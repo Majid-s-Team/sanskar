@@ -1,4 +1,4 @@
-import { Pagination, Select, Spin } from "antd";
+import { Pagination, Popconfirm, Select, Spin } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import AuthButton from "../component/partial/AuthButton";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import ReactPlayer from "react-player";
 import ViewDetails from "../component/shared/ViewDetails";
 import { useData } from "../component/higherOrder/DataProvider";
 import { Student } from "../types";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
 
 const validVideoTypes = [".mp4", ".mov", ".mkv", ".avi", ".webm"];
 
@@ -20,26 +21,24 @@ function Multimedia() {
   const [record, setRecord] = useState<any | null>(null);
   const [selectStudent, setSelectStudent] = useState<number | undefined>();
   const { student } = useData();
-
+  sasd;
   const { data, loading, setData, pagination, onPaginationChange, execute } =
     useRequest<any[]>("/multimedia", "GET", {
       type: "delay",
     });
 
-  // const { execute: deleteEvent, loading: deleteLoading } = useRequest(
-  //   "/multimedia",
-  //   "DELETE",
-  //   { type: "delay" }
-  // );
+  const { execute: deleteEvent } = useRequest("/multimedia", "DELETE", {
+    type: "delay",
+  });
 
-  // const handleDelete = (id: any) => {
-  //   deleteEvent({
-  //     routeParams: String(id),
-  //     cbSuccess: () => {
-  //       setData((prev: any) => prev.filter((item: any) => item.id !== id));
-  //     },
-  //   });
-  // };
+  const handleDelete = (id: any) => {
+    deleteEvent({
+      routeParams: String(id),
+      cbSuccess: () => {
+        setData((prev: any) => prev.filter((item: any) => item.id !== id));
+      },
+    });
+  };
 
   const handleView = (item: any) => {
     setOpen2(true);
@@ -67,6 +66,10 @@ function Multimedia() {
 
   const isVideo = (url: string) =>
     validVideoTypes.some((ext) => url?.includes(ext));
+
+  const openAttachment = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <HomeLayout>
@@ -128,19 +131,39 @@ function Multimedia() {
                     />
                   ) : (
                     <img
-                      onClick={() => handleView(item.url)}
+                      onClick={
+                        item.attachment_url
+                          ? () => openAttachment(item.attachment_url)
+                          : () => handleView(item.url)
+                      }
                       className="w-[81.96px] h-[81.96px] mb-5 mx-auto cursor-pointer"
                       src="/icons/pdf.png"
                       alt="pdf"
                     />
                   )}
-
                   <h3 className="mt-2 semibold text-[18px] capitalize">
                     {item.title}
                   </h3>
                   <p className="text-[10px] regular capitalize">
                     {item.description}
                   </p>
+                  {role === "teacher" && (
+                    <div className="flex gap-5 mt-5">
+                      <EditFilled
+                        className="text-[18px] text-[#d57d26]"
+                        onClick={() => {
+                          setOpen(true);
+                          setRecord(item);
+                        }}
+                      />
+                      <Popconfirm
+                        title="Are you sure you want to delete this media?"
+                        onConfirm={() => handleDelete(item.id)}
+                      >
+                        <DeleteFilled className="text-[18px] text-[#d57d26]" />
+                      </Popconfirm>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

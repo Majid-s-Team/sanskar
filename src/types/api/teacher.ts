@@ -34,6 +34,7 @@ type GURUKALType = {
 };
 
 export type TeachersType = {
+  house: any;
   id: number;
   user_id: number;
   full_name: string;

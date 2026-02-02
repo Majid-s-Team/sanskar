@@ -20,7 +20,7 @@ function AbsentForm() {
     "POST",
     {
       type: "delay",
-    }
+    },
   );
 
   const onFinish = (values: any) => {
@@ -75,12 +75,12 @@ function AbsentForm() {
           <div className="flex justify-center w-[100%] gap-5 items-center">
             <CustomButton
               className="w-[300px] h-[50px] text-[18px] !bg-red-500 text-black"
-              backgroundColor=""
               title="Cancel"
               onClick={() => naviagte(-1)}
             />
             <CustomButton
               loading={absentLoading}
+              htmlType="submit"
               className="w-[300px] h-[50px] text-[18px]"
               title="Submit"
             />

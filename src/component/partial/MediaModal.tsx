@@ -1,11 +1,10 @@
 import { Form, Modal, notification } from "antd";
 import AuthButton from "./AuthButton";
 import { mediaForm } from "../../config";
-import { FeildType } from "../../types";
 import BaseInput from "../shared/BaseInput";
 import { updateState } from "../../helper";
 import { useAuth, useRequest } from "../../hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DocumentUpload from "../shared/DocumentUpload";
 type Props = {
   open: boolean;
@@ -19,11 +18,11 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
   const { user } = useAuth();
   const [form] = Form.useForm();
   // const [isUploading, setIsUploading] = useState(false);
-  // const [file, setFile] = useState<any>(null);
+  const [file, setFile] = useState<any>(null);
   const { execute: createEevent, loading: createLoading } = useRequest(
     "/multimedia",
     "POST",
-    { type: "delay" }
+    { type: "delay" },
   );
 
   console.log(record);
@@ -31,7 +30,7 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
   const { execute: updateEevent, loading: updateLoading } = useRequest(
     "/multimedia",
     "PUT",
-    { type: "delay", routeParams: String(record?.id) }
+    { type: "delay", routeParams: String(record?.id) },
   );
 
   const onFinish = (values: any) => {
@@ -68,12 +67,24 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
       form.setFieldsValue({
         ...record,
       });
-      // setFile({
-      //   name: record?.file_name,
-      //   file: record?.url,
-      // });
+      setFile({
+        name: record?.file_name,
+        file: record?.url,
+      });
     }
   }, [record]);
+
+  const urlValue = Form.useWatch("attachment_url", form);
+  const mediaValue = Form.useWatch("media", form);
+
+  useEffect(() => {
+    if (urlValue) {
+      form.setFieldsValue({
+        media: null,
+      });
+      setFile(null);
+    }
+  }, [urlValue]);
 
   return (
     <Modal open={open} onCancel={handleCancel} footer={null} centered>
@@ -81,7 +92,7 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
         {record ? "Update Multimedia" : "Add Multimedia"}
       </p>
       <Form form={form} onFinish={onFinish} layout="vertical">
-        {mediaForm.map((item: FeildType) => {
+        {mediaForm.map((item) => {
           return (
             <Form.Item
               label={item.title}
@@ -89,22 +100,35 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
               name={item.name}
               rules={item.rules}
             >
-              <BaseInput {...item} />
+              <BaseInput
+                {...item}
+                disabled={item.name === "attachment_url" && !!mediaValue?.file}
+              />
             </Form.Item>
           );
         })}
 
         <Form.Item
           label="File"
-          name={"media"}
+          name="media"
+          dependencies={["attachment_url"]}
           rules={[
-            {
-              required: true,
-              message: "Please select a file",
-            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                const url = getFieldValue("attachment_url");
+                if (value?.file || url) return Promise.resolve();
+                return Promise.reject(
+                  new Error("Please upload a file or provide a URL"),
+                );
+              },
+            }),
           ]}
         >
-          <DocumentUpload title="+ Upload" />
+          <DocumentUpload
+            initialFileNames={file}
+            title="+ Upload"
+            disabled={!!urlValue} // 👈 URL ho to upload disable
+          />
         </Form.Item>
 
         <AuthButton
