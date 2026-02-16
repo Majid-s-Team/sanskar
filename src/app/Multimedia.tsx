@@ -1,17 +1,14 @@
-import { Pagination, Popconfirm, Select, Spin } from "antd";
+import { Pagination, Select, Spin } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import AuthButton from "../component/partial/AuthButton";
 import { useEffect, useState } from "react";
 import MediaModal from "../component/partial/MediaModal";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useAuth, useRequest } from "../hooks";
-import ReactPlayer from "react-player";
 import ViewDetails from "../component/shared/ViewDetails";
 import { useData } from "../component/higherOrder/DataProvider";
 import { Student } from "../types";
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
-
-const validVideoTypes = [".mp4", ".mov", ".mkv", ".avi", ".webm"];
+import MediaCard from "../component/shared/MediaCard";
 
 function Multimedia() {
   const { user } = useAuth();
@@ -21,7 +18,6 @@ function Multimedia() {
   const [record, setRecord] = useState<any | null>(null);
   const [selectStudent, setSelectStudent] = useState<number | undefined>();
   const { student } = useData();
-  sasd;
   const { data, loading, setData, pagination, onPaginationChange, execute } =
     useRequest<any[]>("/multimedia", "GET", {
       type: "delay",
@@ -38,6 +34,11 @@ function Multimedia() {
         setData((prev: any) => prev.filter((item: any) => item.id !== id));
       },
     });
+  };
+
+  const handleEdit = (item: any) => {
+    setOpen(true);
+    setRecord(item);
   };
 
   const handleView = (item: any) => {
@@ -64,9 +65,6 @@ function Multimedia() {
     });
   }, [selectStudent, role]);
 
-  const isVideo = (url: string) =>
-    validVideoTypes.some((ext) => url?.includes(ext));
-
   const openAttachment = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -82,16 +80,6 @@ function Multimedia() {
             </div>
           ) : (
             <div className="flex gap-5 items-center">
-              {/* <Input
-                placeholder="Search"
-                className={`search-input h-[35px] lg:w-[227.28px]`}
-                style={{
-                  borderRadius: 6,
-                  backgroundColor: "#F5F4F9",
-                  border: "none",
-                }}
-                prefix={<img className="w-[20px]" src="/icons/search.png" />}
-              /> */}
               <Select
                 options={student?.map((item: Student) => ({
                   value: item.id,
@@ -116,57 +104,83 @@ function Multimedia() {
           </div>
         ) : (
           <div>
-            <div className="grid lg:grid-cols-3 gap-8 my-10">
-              {data?.map((item, index) => (
-                <div
-                  key={index}
-                  className="rounded-xl bg-[#F1F2F1] p-4 text-center h-full flex flex-col justify-center items-center"
-                >
-                  {isVideo(item.url) ? (
-                    <ReactPlayer
-                      width="100%"
-                      height={"100%"}
-                      controls
-                      src={item.url}
-                    />
-                  ) : (
-                    <img
-                      onClick={
-                        item.attachment_url
-                          ? () => openAttachment(item.attachment_url)
-                          : () => handleView(item.url)
-                      }
-                      className="w-[81.96px] h-[81.96px] mb-5 mx-auto cursor-pointer"
-                      src="/icons/pdf.png"
-                      alt="pdf"
-                    />
-                  )}
-                  <h3 className="mt-2 semibold text-[18px] capitalize">
-                    {item.title}
-                  </h3>
-                  <p className="text-[10px] regular capitalize">
-                    {item.description}
-                  </p>
-                  {role === "teacher" && (
-                    <div className="flex gap-5 mt-5">
-                      <EditFilled
-                        className="text-[18px] text-[#d57d26]"
-                        onClick={() => {
-                          setOpen(true);
-                          setRecord(item);
-                        }}
+            {/* <div className="grid lg:grid-cols-3 gap-8 my-10">
+              {data?.map((item, index) => {
+                const Icon = getFileIcon(item.url);
+                return (
+                  <div
+                    key={index}
+                    className="rounded-xl bg-[#F1F2F1] p-4 text-center h-[250px] flex flex-col justify-center items-center"
+                  >
+                    {isVideo(item.url) ? (
+                      <ReactPlayer
+                        width="100%"
+                        height={"100%"}
+                        controls
+                        src={item.url}
                       />
-                      <Popconfirm
-                        title="Are you sure you want to delete this media?"
-                        onConfirm={() => handleDelete(item.id)}
-                      >
-                        <DeleteFilled className="text-[18px] text-[#d57d26]" />
-                      </Popconfirm>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                    ) : // <img
+                    //   onClick={
+                    //     item.attachment_url
+                    //       ? () => openAttachment(item.attachment_url)
+                    //       : () => handleView(item.url)
+                    //   }
+                    //   className="w-[81.96px] h-[81.96px] mb-5 mx-auto cursor-pointer"
+                    //   src="/icons/pdf.png"
+                    //   alt="pdf"
+                    // />
+                    item.attachment_url ? (
+                      <Link
+                        className="text-gray-700 bg-gray-200 p-4 rounded-[20px] cursor-pointer"
+                        size={60}
+                        onClick={() => openAttachment(item.attachment_url)}
+                      />
+                    ) : (
+                      <Icon
+                        size={60}
+                        className="text-gray-700 bg-gray-200 p-4 rounded-[20px] cursor-pointer"
+                        onClick={
+                          item.attachment_url
+                            ? () => openAttachment(item.attachment_url)
+                            : () => handleView(item.url)
+                        }
+                      />
+                    )}
+                    <h3 className="mt-2 semibold text-[18px] capitalize">
+                      {item.title}
+                    </h3>
+                    <p className="text-[10px] regular capitalize">
+                      {item.description}
+                    </p>
+                    {role === "teacher" && (
+                      <div className="flex gap-5 mt-5">
+                        <EditFilled
+                          className="text-[18px] text-[#d57d26]"
+                          onClick={() => {
+                            setOpen(true);
+                            setRecord(item);
+                          }}
+                        />
+                        <Popconfirm
+                          title="Are you sure you want to delete this media?"
+                          onConfirm={() => handleDelete(item.id)}
+                        >
+                          <DeleteFilled className="text-[18px] text-[#d57d26]" />
+                        </Popconfirm>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div> */}
+            <MediaCard
+              data={data}
+              handleView={handleView}
+              openAttachment={openAttachment}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+              role={role}
+            />
             {data && data?.length > 0 && (
               <div className="flex justify-center mt-5">
                 <Pagination

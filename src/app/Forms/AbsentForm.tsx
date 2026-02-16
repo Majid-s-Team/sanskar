@@ -80,7 +80,7 @@ function AbsentForm() {
             />
             <CustomButton
               loading={absentLoading}
-              htmlType="submit"
+              htmlType={role === "user" ? "submit" : "button"}
               className="w-[300px] h-[50px] text-[18px]"
               title="Submit"
             />

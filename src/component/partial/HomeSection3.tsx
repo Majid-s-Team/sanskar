@@ -60,21 +60,6 @@ function HomeSection3({ role }: { role: string }) {
       >
         <div className="flex justify-between items-center">
           <p className="text-[20px] semibold mb-5">Gurukul Multimedia</p>
-          {/* <div className="flex gap-5 items-center">
-            <Input
-              placeholder="Search"
-              className={`search-input h-[35px] lg:w-[227.28px]`}
-              style={{
-                borderRadius: 6,
-                backgroundColor: "#F5F4F9",
-                border: "none",
-              }}
-              prefix={<img className="w-[20px]" src="/icons/search.png" />}
-            />
-            <div>
-              <img className="w-[25px]" src="/icons/filter.png" />
-            </div>
-          </div> */}
         </div>
         <div className="lg:w-full w-[330px]">
           <MultiMediaCarousel {...{ data, loading }} />

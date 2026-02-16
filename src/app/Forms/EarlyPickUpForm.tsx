@@ -1,5 +1,5 @@
 import HomeLayout from "../../component/shared/HomeLayout";
-import { Form } from "antd";
+import { Form, notification } from "antd";
 import { FeildType } from "../../types";
 import { earlyPickupForm, earlyPickupForm2 } from "../../config";
 import BaseInput from "../../component/shared/BaseInput";
@@ -31,6 +31,12 @@ function EarlyPickUpForm() {
       },
       cbSuccess() {
         navigate(-1);
+      },
+      cbFailure(error) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
       },
     });
   };

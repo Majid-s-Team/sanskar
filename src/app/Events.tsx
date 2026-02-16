@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import HomeLayout from "../component/shared/HomeLayout";
 import { EventCard } from "../component/partial/EventCard";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
-import { useRequest } from "../hooks";
+import { useAuth, useRequest } from "../hooks";
 import { Pagination, Spin } from "antd";
+import EventMemberModal from "../component/partial/EventMemberModal";
 const events = ["All Events", "My Events", "Past Events"];
 
 function Events() {
   const [active, setActive] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [record, setRecord] = useState("");
+  const { user } = useAuth();
   const params =
     active === 0 ? {} : active === 1 ? { type: "myevents" } : { type: "past" };
 
@@ -18,10 +22,16 @@ function Events() {
     });
 
   useEffect(() => {
+    // if (!active) return;
     execute({
       params: params,
     });
   }, [active]);
+
+  const viewMember = (rec: any) => {
+    setOpen(true);
+    setRecord(rec);
+  };
 
   return (
     <HomeLayout>
@@ -69,6 +79,8 @@ function Events() {
                 status={active}
                 isPast={active === 2}
                 isMy={active === 1}
+                role={user?.user?.role as string}
+                viewMember={viewMember}
               />
             ))}
             <Pagination
@@ -84,6 +96,13 @@ function Events() {
           </div>
         )}
       </div>
+      {open && (
+        <EventMemberModal
+          isModalOpen={open}
+          handleCancel={() => setOpen(false)}
+          record={record}
+        />
+      )}
     </HomeLayout>
   );
 }

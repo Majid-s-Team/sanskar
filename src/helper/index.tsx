@@ -1,6 +1,16 @@
 import Server from "../config/constants/server";
 import CryptoJS from "crypto-js";
 import { useRequest } from "../hooks/useRequest";
+import {
+  FileText,
+  FileAudio,
+  FileVideo,
+  FileImage,
+  FileSpreadsheet,
+  Presentation,
+  File,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 /**
  * Retrieves a value from local storage using the provided key.
@@ -64,7 +74,7 @@ export const encryptData = (data: string): string => {
 export const setStorageData = <T,>(key: string, value: T) => {
   const ciphertext = CryptoJS.AES.encrypt(
     JSON.stringify(value),
-    Server.crypto.AES_SECRET
+    Server.crypto.AES_SECRET,
   ).toString();
   localStorage.setItem(key, ciphertext);
 };
@@ -81,7 +91,7 @@ export const removeStorageData = (key: string) => {
 export const optionpPicker = (
   data: any[],
   valuekey: string = "id",
-  labelkey: string = "name"
+  labelkey: string = "name",
 ) => {
   return data?.map((item: any) => ({
     value: item[valuekey],
@@ -110,7 +120,7 @@ export const handleFormSubmit = (
   createFn: (params: any) => void,
   updateFn: (params: any) => void,
   setData: (fn: (prev: any) => any) => void,
-  onClose: () => void
+  onClose: () => void,
 ) => {
   const action = record ? updateFn : createFn;
   action({
@@ -137,4 +147,41 @@ export const useHandleDeleted = (path: any, setData?: any) => {
   };
 
   return handleDeleted;
+};
+
+type FileIconMap = {
+  types: string[];
+  icon: LucideIcon;
+};
+
+export const fileTypeIcons: FileIconMap[] = [
+  {
+    types: [".mp3", ".m4a", ".wav", ".aac", ".ogg"],
+    icon: FileAudio,
+  },
+  {
+    types: [".mp4", ".mov", ".mkv", ".avi", ".webm"],
+    icon: FileVideo,
+  },
+  {
+    types: [".jpg", ".jpeg", ".png", ".webp", ".svg"],
+    icon: FileImage,
+  },
+  {
+    types: [".pdf", ".doc", ".docx"],
+    icon: FileText,
+  },
+  {
+    types: [".ppt", ".pptx"],
+    icon: Presentation,
+  },
+  {
+    types: [".xls", ".xlsx", ".csv"],
+    icon: FileSpreadsheet,
+  },
+];
+
+export const getFileIcon = (url: string): LucideIcon => {
+  const ext = url?.slice(url.lastIndexOf(".")).toLowerCase();
+  return fileTypeIcons.find((f) => f.types.includes(ext))?.icon || File;
 };

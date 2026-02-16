@@ -112,7 +112,7 @@ const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
       const wasPlaying = !audio.paused;
       const newTime = Math.min(
         Math.max(audio.currentTime + seconds, 0),
-        audio.duration
+        audio.duration,
       );
 
       // Pause first — Firefox needs this to prevent stalling
@@ -139,7 +139,7 @@ const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
         ? "0:00"
         : `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(
             2,
-            "0"
+            "0",
           )}`;
 
     return (
@@ -184,7 +184,7 @@ const AudioPlayer = forwardRef<HTMLAudioElement, AudioPlayerProps>(
         <audio ref={audioRef} src={url} preload="auto" />
       </div>
     );
-  }
+  },
 );
 
 export default AudioPlayer;

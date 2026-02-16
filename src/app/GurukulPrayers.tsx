@@ -55,6 +55,8 @@ function GurukulPrayers() {
     setActiveIndex(null);
   }, [data]);
 
+  const fileType = [".mp3", ".m4a", ".wav", ".aac", ".ogg"];
+
   return (
     <HomeLayout loading={loading}>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -83,21 +85,21 @@ function GurukulPrayers() {
           <>
             <div className="grid lg:grid-cols-2 gap-5 p-5 mt-5">
               {data?.map((item: any, index: number) => {
-                // if (!item?.url?.endsWith(".mp3")) return null;
-                return (
-                  <div key={index} className="space-y-3">
-                    <p className="text-[24px] font-semibold capitalize">
-                      {item.text}
-                    </p>
-                    <AudioPlayer
-                      ref={(el: any) => (audioRefs.current[index] = el)}
-                      url={item.url}
-                      isActive={activeIndex === index}
-                      onPlay={() => handlePlay(index)}
-                      onEnded={() => handleEnded(index)}
-                    />
-                  </div>
-                );
+                if (fileType.some((ext) => item.url?.includes(ext)))
+                  return (
+                    <div key={index} className="space-y-3">
+                      <p className="text-[24px] font-semibold capitalize">
+                        {item.text}
+                      </p>
+                      <AudioPlayer
+                        ref={(el: any) => (audioRefs.current[index] = el)}
+                        url={item.url}
+                        isActive={activeIndex === index}
+                        onPlay={() => handlePlay(index)}
+                        onEnded={() => handleEnded(index)}
+                      />
+                    </div>
+                  );
               })}
             </div>
             <Pagination

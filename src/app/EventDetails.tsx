@@ -27,7 +27,7 @@ function EventDetails() {
     "POST",
     {
       type: "delay",
-    }
+    },
   );
 
   const onFinish = () => {
@@ -90,12 +90,14 @@ function EventDetails() {
               <img className="w-[30px]" src="/icons/date-orange.png" alt="" />
               <p className="text-[#242424] text-[20px]">
                 RSVP Due Date /{" "}
-                {dayjs(data?.rsvp_due_date).format("MM-DD-YYYY")}{" "}
+                {data?.rsvp_due_date
+                  ? dayjs(data?.rsvp_due_date).format("MM-DD-YYYY")
+                  : "-"}
               </p>
             </div>
           </div>
         </div>
-        {state.status === 0 && (
+        {(state.status === 0 || (state.status === 1 && role === "user")) && (
           <div className="flex lg:flex-row flex-col gap-4 mt-10 justify-center">
             <Button
               style={{
