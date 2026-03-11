@@ -19,7 +19,7 @@ function WeeklyUpdates() {
   const [open, setOpen] = useState(false);
   const [viewDetails, setViewDetails] = useState<any>();
   const [selectStudent, setSelectStudent] = useState<number | undefined>(
-    undefined
+    undefined,
   );
   // const [allStudents, setAllStudents] = useState<Student[]>();
   const [rangeDate, setRangeDate] = useState<any>(null);
@@ -144,7 +144,7 @@ function WeeklyUpdates() {
                   border: "none",
                 }}
                 value={rangeDate}
-                format={"DD-MM-YYYY"}
+                format={"MM-DD-YYYY"}
                 className={`search-input h-[47px] w-full lg:w-[300px]`}
                 allowClear={true}
               />

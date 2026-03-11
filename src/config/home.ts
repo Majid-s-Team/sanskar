@@ -23,7 +23,7 @@ export const info = [
 
 export const card = [
   {
-    title: "Weekly Update",
+    title: "Weekly Updates",
     value: "35 Lesson",
     percentage: 75,
     image: "/images/boxblue.png",

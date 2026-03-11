@@ -18,7 +18,7 @@ function Login() {
       <Form
         layout="vertical"
         onFinish={(values: { login: string; password: string }) => {
-          login(values);
+          login(values, role);
         }}
       >
         {loginFields.map((item: FeildType) => {

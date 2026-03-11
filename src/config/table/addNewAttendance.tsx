@@ -4,14 +4,14 @@ import { Student } from "../../types";
 
 export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
   const [selectedStatus, setSelectedStatus] = useState<Record<string, string>>(
-    {}
+    {},
   );
 
   const updateAttendance = (
     studentId: string,
     key: string,
     value: any,
-    record?: any
+    record?: any,
   ) => {
     console.log(record, "value");
 
@@ -21,7 +21,7 @@ export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
       if (exists) {
         // agar already attendance state me hai -> update karo
         return prev.map((a) =>
-          a.student_id === studentId ? { ...a, [key]: value } : a
+          a.student_id === studentId ? { ...a, [key]: value } : a,
         );
       }
 
@@ -58,7 +58,7 @@ export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
     {
       title: "Student ID",
       dataIndex: "student",
-      render: (text: Student) => <p className="capitalize">{text?.id}</p>,
+      render: (text: Student) => <p className="capitalize">{text?.ai_key}</p>,
     },
     {
       title: "Status",
@@ -82,21 +82,17 @@ export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
                 currentStatus === "excused_absence"
                   ? "!bg-[#FFF8EF] text-[#D6A54B]"
                   : currentStatus === "present"
-                  ? "!bg-[#EFFFF1] text-[#4BD670]"
-                  : currentStatus === "unexcused_absence"
-                  ? "!bg-[#FFF4FD] text-[#FF9BA4]"
-                  : "!bg-[#EFFDFF] text-[#4BBCD6]"
+                    ? "!bg-[#EFFFF1] text-[#4BD670]"
+                    : currentStatus === "unexcused_absence"
+                      ? "!bg-[#FFF4FD] text-[#FF9BA4]"
+                      : "!bg-[#EFFDFF] text-[#4BBCD6]"
               }`}
             >
-              {/* <option value="present">Present</option>
-              <option value="excused_absence">Excused Absence</option>
-              <option value="not_recorded">Not Recorded</option>
-              <option value="unexcused_absence">Unexcused Absence</option> */}
               {Object.keys(data?.statuses || {}).map((status) => (
                 <option
                   key={status}
                   value={status}
-                  disabled={status === "not_recorded"}
+                  // disabled={status === "not_recorded"}
                 >
                   {data?.statuses[status]}
                 </option>
@@ -128,7 +124,7 @@ export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
               record?.student?.id,
               "participation_points",
               value,
-              record
+              record,
             );
           }}
           controls
@@ -153,7 +149,7 @@ export const addNewAttendanceColumns = (setAttendance: any, data: any) => {
               record?.student?.id,
               "homework_points",
               value,
-              record
+              record,
             );
           }}
           className="!border !border-gray-100 custom-number-input"

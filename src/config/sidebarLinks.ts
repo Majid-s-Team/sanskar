@@ -36,7 +36,7 @@ export const useSidebarLinks = () => {
     },
     {
       key: "/gurukul-prayer",
-      label: "Gurukul Prayer",
+      label: "Gurukul Prayers",
       icon: "/icons/prayer.png",
       iconactive: "/icons/prayer-active.png",
     },
@@ -106,6 +106,6 @@ export const useSidebarLinks = () => {
   const allowedRoutes = routes[role as keyof typeof routes] || "user";
 
   return sidebarLinks.filter(
-    (link) => link.key === "/logout" || allowedRoutes.includes(link.key)
+    (link) => link.key === "/logout" || allowedRoutes.includes(link.key),
   );
 };

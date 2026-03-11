@@ -15,7 +15,7 @@ export const studentAttendanceColumns = (handleDetails: any) => {
     {
       title: "Student ID",
       dataIndex: "student",
-      render: (text: Student) => <p className="capitalize">{text?.id}</p>,
+      render: (text: Student) => <p className="capitalize">{text?.ai_key}</p>,
     },
     {
       title: "Status",
@@ -28,21 +28,21 @@ export const studentAttendanceColumns = (handleDetails: any) => {
                 text === "excused_absence"
                   ? "!bg-[#FFF8EF] text-[#D6A54B]"
                   : text === "present"
-                  ? "!bg-[#EFFFF1] text-[#4BD670]"
-                  : text === "unexcused_absence"
-                  ? "!bg-[#FFF4FD] text-[#FF9BA4]"
-                  : "!bg-[#EFFDFF] text-[#4BBCD6]"
+                    ? "!bg-[#EFFFF1] text-[#4BD670]"
+                    : text === "unexcused_absence"
+                      ? "!bg-[#FFF4FD] text-[#FF9BA4]"
+                      : "!bg-[#EFFDFF] text-[#4BBCD6]"
               }`}
             >
               {text === "present"
                 ? "Present"
                 : text === "not_recorded"
-                ? "Not Recorded"
-                : text === "excused_absence"
-                ? "Excused Absence"
-                : text === "unexcused_absence"
-                ? "Unexcused Absence"
-                : "Absent"}
+                  ? "Not Recorded"
+                  : text === "excused_absence"
+                    ? "Excused Absence"
+                    : text === "unexcused_absence"
+                      ? "Unexcused Absence"
+                      : "Absent"}
             </p>
           </div>
         );

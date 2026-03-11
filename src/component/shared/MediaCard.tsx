@@ -41,11 +41,7 @@ function MediaCard({
               <Icon
                 size={60}
                 className="text-gray-700 bg-gray-200 p-4 rounded-[20px] cursor-pointer"
-                onClick={
-                  item.attachment_url
-                    ? () => openAttachment(item.attachment_url)
-                    : () => handleView(item.url)
-                }
+                onClick={() => handleView(item.url)}
               />
             )}
             <h3 className="mt-2 semibold text-[18px] capitalize">

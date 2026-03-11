@@ -24,10 +24,8 @@ function StudentAttendance() {
   const { data, loading, execute } = useRequest<AttendanceData>(
     "/teacher",
     "GET",
-    {}
+    {},
   );
-
-  console.log(filteredData, "data");
 
   const present = data?.counts?.present || 0;
 
@@ -72,7 +70,7 @@ function StudentAttendance() {
           item.student.first_name
             .toLowerCase()
             .includes(search.toLowerCase()) ||
-          item.student.last_name.toLowerCase().includes(search.toLowerCase())
+          item.student.last_name.toLowerCase().includes(search.toLowerCase()),
       );
       setFilteredData(result || []);
     } else {
@@ -90,16 +88,21 @@ function StudentAttendance() {
           Status: item.status,
           "Participation Points": item.participation_points,
           "Homework Points": item.homework_points,
+          Date: dayjs(item.attendance_date).format("MM-DD-YYYY"),
+          // "Total # of Absences": present,
+          // "Total # of Presence": absences,
         };
         return row;
       }) || [];
+
+  console.log(exportData, "export ");
 
   const downloadCSV = () => {
     const headers = Object.keys(exportData[0] || {});
     const csvRows = [
       headers.join(","),
       ...exportData.map((row) =>
-        headers.map((h) => JSON.stringify(row[h] ?? "")).join(",")
+        headers.map((h) => JSON.stringify(row[h] ?? "")).join(","),
       ),
     ];
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
@@ -112,30 +115,6 @@ function StudentAttendance() {
     XLSX.utils.book_append_sheet(wb, ws, "Attendance");
     XLSX.writeFile(wb, "attendance.xlsx");
   };
-
-  // const downloadPDF = () => {
-  //   const doc = new jsPDF();
-  //   const headers = [
-  //     [
-  //       "Name",
-  //       "Student ID",
-  //       "Status",
-  //       "Participation Points",
-  //       "Homework Points",
-  //     ],
-  //   ];
-  //   const rows = exportData.map((r) => [
-  //     r.Name,
-  //     r["Student ID"],
-  //     r.Status,
-  //     r["Participation Points"],
-  //     r["Homework Points"],
-  //   ]);
-
-  //   doc.text("Student Attendance", 14, 10);
-  //   (doc as any).autoTable({ head: headers, body: rows, startY: 20 });
-  //   doc.save("attendance.pdf");
-  // };
 
   return (
     <HomeLayout>
@@ -181,7 +160,7 @@ function StudentAttendance() {
                 placeholder="Select Date"
                 className={`search-input h-[45px] lg:w-[300px]`}
                 onChange={(e) => setDate(e)}
-                format={"DD-MM-YYYY"}
+                format={"MM-DD-YYYY"}
                 maxDate={dayjs(new Date())}
                 style={{
                   borderRadius: 12,
@@ -206,7 +185,7 @@ function StudentAttendance() {
               <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
                 <img className="w-[50px]" src="/icons/book1.png" alt="" />
                 <div>
-                  <p className="text-[14px] regular">Total# of Absences</p>
+                  <p className="text-[14px] regular">Total # of Absences</p>
                   <p className="text-[20px] semibold">
                     {String(absences) || "0"}
                   </p>
@@ -215,7 +194,7 @@ function StudentAttendance() {
               <div className="p-3 gap-4 border border-[#FF993A] rounded-[20px] flex items-center shadow-[0px_8px_8px_0px_rgba(255,153,58,0.25)]">
                 <img className="w-[50px]" src="/icons/book2.png" alt="" />
                 <div>
-                  <p className="text-[14px] regular">Total# of Presence</p>
+                  <p className="text-[14px] regular">Total # of Presence</p>
                   <p className="text-[20px] semibold">
                     {String(present) || "10"}
                   </p>
@@ -235,12 +214,6 @@ function StudentAttendance() {
               >
                 Download XLSX
               </button>
-              {/* <button
-              onClick={downloadPDF}
-              className="bg-[#FF993A] text-white px-4 py-2 rounded-[10px]"
-            >
-              Download PDF
-            </button> */}
             </div>
           </div>
         </div>
@@ -249,7 +222,7 @@ function StudentAttendance() {
           // onPaginationChange={onPaginationChange}
           columns={studentAttendanceColumns(handleDetails)}
           dataSource={filteredData.sort((a, b) =>
-            a.student.first_name.localeCompare(b.student.first_name)
+            a.student.first_name.localeCompare(b.student.first_name),
           )}
           pagination={false}
           // data={studentList?.students as any}

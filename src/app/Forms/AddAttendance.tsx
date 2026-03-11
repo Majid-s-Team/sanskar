@@ -18,16 +18,19 @@ type Status = {
 function AddAttendance() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [date, setDate] = useState<Dayjs>();
+  const [date, setDate] = useState<Dayjs | undefined>(undefined);
   const [allStatus, setAllStatus] = useState<Status[]>([]);
   const [attendance, setAttendance] = useState<any>([]);
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState<any[]>([]);
+  // const [selectedStatus, setSelectedStatus] = useState<Record<string, string>>(
+  //   {},
+  // );
 
   const { data, loading, execute } = useRequest<AttendanceData>(
     "/teacher",
     "GET",
-    {}
+    {},
   );
 
   useEffect(() => {
@@ -44,13 +47,13 @@ function AddAttendance() {
     "POST",
     {
       routeParams: `${user?.teacher?.id}/attendance`,
-    }
+    },
   );
 
   const { execute: execute3 } = useRequest<Status[]>(
     "/attendance/statuses",
     "GET",
-    {}
+    {},
   );
 
   useEffect(() => {
@@ -63,6 +66,12 @@ function AddAttendance() {
   }, []);
 
   const onFinish = () => {
+    if (!date) {
+      return notification.error({
+        message: "Please select date",
+      });
+    }
+
     execute2({
       body: {
         attendance_date: dayjs(date).format("YYYY-MM-DD"),
@@ -95,7 +104,7 @@ function AddAttendance() {
           item.student.first_name
             .toLowerCase()
             .includes(search.toLowerCase()) ||
-          item.student.last_name.toLowerCase().includes(search.toLowerCase())
+          item.student.last_name.toLowerCase().includes(search.toLowerCase()),
       );
       setFilteredData(result || []);
     } else {
@@ -111,6 +120,7 @@ function AddAttendance() {
         params: { date: dayjs(date).format("YYYY-MM-DD") },
       });
     }
+    // setSelectedStatus({});
   }, [date]);
 
   return (
@@ -133,7 +143,7 @@ function AddAttendance() {
             <p className="text-[16px] regular">Date</p>
             <DatePicker
               onChange={(e) => setDate(e)}
-              format={"DD-MM-YYYY"}
+              format={"MM-DD-YYYY"}
               className="h-[45px] w-full"
               maxDate={dayjs(new Date())}
             />
@@ -143,7 +153,7 @@ function AddAttendance() {
         <TableData
           columns={addNewAttendanceColumns(setAttendance, allStatus)}
           data={filteredData.sort((a, b) =>
-            a.student.first_name.localeCompare(b.student.first_name)
+            a.student.first_name.localeCompare(b.student.first_name),
           )}
           loading={loading}
           pagination={false}

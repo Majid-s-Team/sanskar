@@ -25,7 +25,7 @@ function HomeSection2({
   });
   const card = [
     {
-      title: "Weekly Update",
+      title: "Weekly Updates",
       value: data?.stats?.total_weekly_updates
         ? data?.stats?.total_weekly_updates + " Lesson"
         : "0 Lesson",

@@ -245,4 +245,9 @@ export const addStudentForm = [
     name: "house_id",
     type: "select",
   },
+  {
+    title: "Student ID",
+    name: "ai_key",
+    type: "text",
+  },
 ];

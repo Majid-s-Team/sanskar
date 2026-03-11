@@ -27,14 +27,14 @@ export class RequestSingleton<T = unknown> {
 
   private cbSuccess?: (
     data: ResponseData<T>,
-    headers: AxiosResponseHeaders
+    headers: AxiosResponseHeaders,
   ) => void;
   private cbFailure?: (error: ResponseError) => void;
 
   constructor(
     endpoint: string,
     method: string,
-    defaults?: Partial<CustomAxiosRequestConfig>
+    defaults?: Partial<CustomAxiosRequestConfig>,
   ) {
     this.config = {
       url: "api" + endpoint,
@@ -55,20 +55,20 @@ export class RequestSingleton<T = unknown> {
   public setRouteParams(params: string): this {
     this.config.url = `${this.config.url?.replace(/\/+$/, "")}/${params.replace(
       /^\/+/,
-      ""
+      "",
     )}`;
     return this;
   }
 
   public setParams(
-    params: Record<string, string | number | undefined | null | boolean> = {}
+    params: Record<string, string | number | undefined | null | boolean> = {},
   ): this {
     this.config.params = { ...this.config.params, ...params };
     return this;
   }
 
   public setHeaders(
-    headers: Record<string, string | number | undefined | null>
+    headers: Record<string, string | number | undefined | null>,
   ): this {
     this.config.headers = { ...this.config.headers, ...headers };
     return this;
@@ -77,21 +77,21 @@ export class RequestSingleton<T = unknown> {
   public setBody(
     body: Record<string, string | number | undefined | null | object | boolean>,
     type: "json" | "formData" = "json",
-    removeKeys: string[] = []
+    removeKeys: string[] = [],
   ): this {
     this.config.data =
       type === "json"
         ? body
         : RequestSingleton.jsonToFormData(
             body as Record<string, string | Blob>,
-            removeKeys
+            removeKeys,
           );
     this.config.isFormData = type === "formData";
     return this;
   }
 
   public onSuccess(
-    cb: (data: ResponseData<T>, headers: AxiosResponseHeaders) => void
+    cb: (data: ResponseData<T>, headers: AxiosResponseHeaders) => void,
   ): this {
     this.cbSuccess = cb;
     return this;
@@ -128,7 +128,7 @@ export class RequestSingleton<T = unknown> {
 
   private static jsonToFormData(
     jsonObject: Record<string, string | Blob>,
-    removeKeys: string[] = []
+    removeKeys: string[] = [],
   ): FormData {
     const formData = new FormData();
     Object.entries(jsonObject).forEach(([key, value]) => {
@@ -154,13 +154,18 @@ export class RequestSingleton<T = unknown> {
     }
   }
 
+  public setConfig(config: Partial<CustomAxiosRequestConfig>): this {
+    this.config = { ...this.config, ...config };
+    return this;
+  }
+
   // === QUICK CALL UTILITY ===
 
   public static call(
     endpoint: string,
     method: string,
     body?: Record<string, string | number | undefined | null | object>,
-    headers?: Record<string, string | number | undefined | null>
+    headers?: Record<string, string | number | undefined | null>,
   ) {
     return new RequestSingleton(endpoint, method)
       .setBody(body || {})
@@ -171,6 +176,6 @@ export class RequestSingleton<T = unknown> {
 
 export const request = <T>(
   endpoint: string,
-  method: string
+  method: string,
 ): RequestSingleton<T> => new RequestSingleton<T>(endpoint, method);
 export default RequestSingleton;

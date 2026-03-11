@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Input, Select } from "antd";
 import HomeLayout from "../component/shared/HomeLayout";
 import TableData from "../component/shared/Table";
 import { studentListColumns } from "../config";
@@ -7,14 +7,18 @@ import { useEffect, useState } from "react";
 import { withAuthGuard } from "../component/higherOrder/withAuth";
 import { useRequest } from "../hooks/useRequest";
 import { useAuth } from "../hooks/useAuth";
-import { useDebounce } from "../hooks";
+import { useDebounce, useFileDownloader } from "../hooks";
+import CustomButton from "../component/shared/CustomButton";
 
 function StudentList() {
   const [openModal, setOpenModal] = useState(false);
   const [studentDetails, setStudentDetails] = useState<any>(null);
   const [search, setSearch] = useState<string | undefined>(undefined);
+  const [filter, setFilter] = useState<string>("csv");
   const searchFilter = useDebounce(search, 500);
+  const { download, downloadLoading } = useFileDownloader();
   const { user } = useAuth();
+
   const {
     data: studentList,
     loading,
@@ -47,6 +51,14 @@ function StudentList() {
     }
   }, [user]);
 
+  const onDownload = () => {
+    download({
+      url: "/students/download",
+      filter,
+      params: { key: filter, search: searchFilter },
+    });
+  };
+
   return (
     <HomeLayout>
       <div className="bg-white p-5 rounded-[24.59px]">
@@ -63,12 +75,9 @@ function StudentList() {
           }}
           input={
             <div className="flex gap-5 items-center">
-              {/* <div>
-                <img className="w-[25px]" src="/icons/filter.png" />
-              </div> */}
               <Input
                 placeholder="Search"
-                className={`search-input h-[35px] w-[300px] lg:w-[227.28px]`}
+                className={`search-input h-[35px] min-w-[300px] lg:w-[227.28px]`}
                 allowClear
                 style={{
                   borderRadius: 6,
@@ -77,6 +86,26 @@ function StudentList() {
                 }}
                 onChange={(e) => setSearch(e.target.value)}
                 prefix={<img className="w-[20px]" src="/icons/search.png" />}
+              />
+              <Select
+                options={[
+                  {
+                    value: "csv",
+                    label: "CSV",
+                  },
+                  {
+                    value: "xlsx",
+                    label: "XLSX",
+                  },
+                ]}
+                value={filter}
+                defaultValue="csv"
+                onChange={(e) => setFilter(e)}
+              />
+              <CustomButton
+                title="Download"
+                onClick={onDownload}
+                loading={downloadLoading}
               />
             </div>
           }

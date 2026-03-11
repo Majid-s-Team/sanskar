@@ -29,13 +29,13 @@ function AddStudent() {
   const { loading: createLoading, execute: create } = useRequest<Student>(
     "/student",
     "POST",
-    {}
+    {},
   );
 
   const { execute: update, loading: updateLoading } = useRequest<Student>(
     "/student",
     "PUT",
-    {}
+    {},
   );
 
   const { data: gurukalData } = useRequest(gurukal.url, gurukal.method, {
@@ -47,7 +47,7 @@ function AddStudent() {
     teeshirtSize.method,
     {
       type: "mount",
-    }
+    },
   );
 
   const { data: gradeData } = useRequest(grade.url, grade.method, {
@@ -132,7 +132,7 @@ function AddStudent() {
           </Form.Item>
           <div className="grid grid-cols-2 gap-5">
             {addStudentForm.map((item) => {
-              if (item.name !== "house_id" || id) {
+              if ((item.name !== "house_id" && item.name !== "ai_key") || id) {
                 return (
                   <Form.Item
                     label={item.title}
@@ -149,21 +149,22 @@ function AddStudent() {
                               "gurukal_id",
                               "join_the_club",
                               "house_id",
+                              "ai_key",
                             ].includes(item.name)
                           : item.name === "house_id"
-                          ? true
-                          : false
+                            ? true
+                            : false
                       }
                       options={
                         item.name === "gurukal_id"
                           ? optionpPicker(gurukalData as any[])
                           : item.name === "school_grade_id"
-                          ? optionpPicker(gradeData as any[])
-                          : item.name === "teeshirt_size_id"
-                          ? optionpPicker(teeshirtSizeData as any[])
-                          : item.name === "house_id"
-                          ? optionpPicker(houseData as any[])
-                          : item.options
+                            ? optionpPicker(gradeData as any[])
+                            : item.name === "teeshirt_size_id"
+                              ? optionpPicker(teeshirtSizeData as any[])
+                              : item.name === "house_id"
+                                ? optionpPicker(houseData as any[])
+                                : item.options
                       }
                     />
                   </Form.Item>

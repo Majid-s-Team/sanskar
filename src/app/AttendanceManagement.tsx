@@ -13,7 +13,7 @@ function AttendanceManagement() {
   const { user: userData } = useAuth();
   const { student, loading } = useData();
   const [selectStudent, setSelectStudent] = useState<number | undefined>(
-    undefined
+    undefined,
   );
   // const [allStudents, setAllStudents] = useState<Student[]>();
   const {
@@ -87,7 +87,7 @@ function AttendanceManagement() {
                   <img className="w-[50px]" src="/icons/pdf.png" alt="" />
                   <div>
                     <p className="text-white text-[14px] medium">
-                      Absent Request Form
+                       Absence Request Form
                     </p>
                     <p className="text-white text-[12px] regular">
                       28 Oct 2023 | 122 MB

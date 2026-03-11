@@ -27,7 +27,7 @@ const Home = () => {
   const { data, execute, loading } = useRequest<Student[]>(
     user.url,
     user.method,
-    {}
+    {},
   );
 
   const { data: registrationData } = useRequest<any>(
@@ -35,7 +35,7 @@ const Home = () => {
     "GET",
     {
       type: "mount",
-    }
+    },
   );
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const Home = () => {
         routeParams: userData?.user?.id + "/students",
         cbSuccess(res) {
           const filteredData = res?.data?.filter(
-            (item: Student) => item.is_new_student === null
+            (item: Student) => item.is_new_student === null,
           );
           setAllStudents(filteredData);
         },
@@ -61,7 +61,11 @@ const Home = () => {
 
   return (
     <HomeLayout>
-      <HomeSection1>
+      <HomeSection1
+        studentName={
+          `${activeStudent?.first_name} ${activeStudent?.last_name}` || ""
+        }
+      >
         {role === "user" ? (
           <div className="bg-white p-5 rounded-[20.15px]">
             {loading ? (

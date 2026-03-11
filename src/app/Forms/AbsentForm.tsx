@@ -50,7 +50,7 @@ function AbsentForm() {
             role === "user" ? "text-[30px]" : "text-center text-[40px] "
           }`}
         >
-          Absent Request Form
+           Absence Request Form
         </p>
         <Form onFinish={onFinish} layout="vertical" className="mt-5 ">
           {(role === "user" ? absentForm : teacherAbsentForm).map((item) => {

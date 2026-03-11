@@ -7,20 +7,17 @@ import { useEffect } from "react";
 
 const forms = [
   {
-    title: "Absent Request Form",
-    // date: "28 Oct 2023 | 122 MB",
-    icon: "/icons/pdf.png",
+    title: " Absence Request Form",
+    icon: "/icons/wallet.png",
     path: "/forms/absent-request-form",
   },
   {
     title: "Early Pick-up Request Form",
-    // date: "28 Oct 2023 | 122 MB",
     icon: "/icons/card.png",
     path: "/forms/early-pickup-form",
   },
   {
     title: "Sibling Enrollment Request Form",
-    // date: "28 Oct 2023 | 122 MB",
     icon: "/icons/wallet.png",
     path: "/forms/sibling-enrollment-form",
   },
@@ -28,20 +25,17 @@ const forms = [
 
 const forms2 = [
   {
-    title: "Absent Request Form",
-    // date: "28 Oct 2023 | 122 MB",
-    icon: "/icons/pdf.png",
+    title: " Absence Request Form",
+    icon: "/icons/wallet.png",
     path: "/forms/absent-request-form",
   },
   {
     title: "Arts and Craft Project Request Form",
-    // date: "28 Oct 2023 | 122 MB",
     icon: "/icons/card.png",
     path: "/forms/arts-and-craft-project-form",
   },
   {
     title: "Expense Reimbursement Form",
-    // date: "28 Oct 2023 | 122 MB",
     icon: "/icons/wallet.png",
     path: "/forms/expense-reimbursement-form",
   },

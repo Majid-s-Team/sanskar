@@ -30,11 +30,12 @@ export const useAuth = () => {
     console.log("error", response);
   };
 
-  const login = (valus: { login: string; password: string }) => {
+  const login = (valus: { login: string; password: string }, role: string) => {
     setLoading(true);
     request(loginUser.url, loginUser.method)
       .setBody({
         ...valus,
+        role: role,
         device: "web",
         device_token: "1234567890",
       })
@@ -60,7 +61,7 @@ export const useAuth = () => {
           setStorageData(
             "role",
             // @ts-ignore
-            res?.data?.roles?.[0] || res?.data?.user?.role
+            res?.data?.roles?.[0] || res?.data?.user?.role,
           );
         } else {
           notification.error({
