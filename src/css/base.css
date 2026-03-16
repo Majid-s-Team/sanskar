@@ -224,8 +224,10 @@ li.ant-dropdown-menu-item:hover {
 }
 
 .custom-shadow2 {
-  box-shadow: -3.51px -4.38px 4.38px 0px #ce974e inset,
-    3.51px -3.51px 6.14px 0px #ffffff5c inset, 0px 3.51px 3.51px 0px #00000017;
+  box-shadow:
+    -3.51px -4.38px 4.38px 0px #ce974e inset,
+    3.51px -3.51px 6.14px 0px #ffffff5c inset,
+    0px 3.51px 3.51px 0px #00000017;
 }
 
 .custom-selector .ant-select-selector {
@@ -234,8 +236,10 @@ li.ant-dropdown-menu-item:hover {
 }
 
 .ant-table-thead {
-  box-shadow: -3.51px -4.38px 4.38px 0px #ce974e inset,
-    3.51px -3.51px 6.14px 0px #ffffff5c inset, 0px 3.51px 3.51px 0px #00000017 !important;
+  box-shadow:
+    -3.51px -4.38px 4.38px 0px #ce974e inset,
+    3.51px -3.51px 6.14px 0px #ffffff5c inset,
+    0px 3.51px 3.51px 0px #00000017 !important;
   background-color: #d57d25; /* ensure shadow is visible */
   z-index: 111 !important;
   position: relative;
@@ -294,4 +298,12 @@ td.ant-table-cell {
 
 .ant-select-selection-overflow {
   height: 38px;
+}
+
+.swiper-slide {
+  pointer-events: auto !important;
+}
+
+.swiper-wrapper {
+  overflow: visible;
 }

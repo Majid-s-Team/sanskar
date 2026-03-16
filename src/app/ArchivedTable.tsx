@@ -51,6 +51,7 @@ function ArchivedTable() {
     pagination: otherClassPagination,
     onPaginationChange: onPaginateOther,
     execute: executeSearchOther,
+    setData: setOtherClassData,
   } = useRequest("/weekly-updates", "GET", {
     type: "mount",
     params: { other: true, gurukal_id: selectedFilter },
@@ -119,8 +120,13 @@ function ArchivedTable() {
   const handleArchive = (id: string) =>
     archiveUpdate({
       routeParams: `${id}/bookmark`,
-      // cbSuccess: () =>
-      //   setData((prev: any[]) => prev.filter((i) => i.id !== id)),
+      cbSuccess: () => {
+        if (active === 1) {
+          setData((prev: any[]) => prev.filter((i) => i.id !== id));
+        }
+        setOtherClassData((prev: any[]) => prev.filter((i) => i.id !== id));
+      },
+
       cbFailure: (err) =>
         notification.error({ message: "Error", description: err.message }),
     });

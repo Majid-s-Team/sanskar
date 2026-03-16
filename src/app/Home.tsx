@@ -77,7 +77,6 @@ const Home = () => {
                 <div className="flex justify-center items-center ">
                   <div className="lg:w-full w-[330px]">
                     <Carousel data={data || []} setStudent={setActiveStudent} />
-                    {/* <SlickCarousel data={data} /> */}
                   </div>
                 </div>
                 {registrationData?.registration_open === true && (
@@ -139,6 +138,10 @@ const Home = () => {
                         src={
                           activeStudent?.profile_image || "/images/parent.png"
                         }
+                        // style={{
+                        //   objectFit: "cover",
+                        //   flexShrink: 0,
+                        // }}
                       />
                       <div>
                         <p className="text-[12px] regular">Student Name</p>

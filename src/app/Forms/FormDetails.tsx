@@ -26,7 +26,7 @@ function FormDetails() {
   const { execute, loading: updateLoading } = useRequest(
     studentAbsentRequests.url,
     "PUT",
-    { type: "delay", routeParams: id + "/status" }
+    { type: "delay", routeParams: id + "/status" },
   );
 
   const onFinish = (status: "approved" | "rejected") => {
@@ -57,7 +57,7 @@ function FormDetails() {
   return (
     <HomeLayout loading={loading}>
       <div className="bg-white p-8 rounded-[24.59px]">
-        <p className="text-[40px] semibold text-center">Form Details</p>
+        <p className="text-[40px] semibold text-center">{"Absence Details"}</p>
         <Form layout="vertical" className="mt-5 mx-auto lg:w-[60%]" form={form}>
           {formDetailsForm.map((item: FeildType) => (
             <Form.Item

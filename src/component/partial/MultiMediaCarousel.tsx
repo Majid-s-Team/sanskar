@@ -81,7 +81,7 @@ export default function MultiMediaCarousel({ ...props }: any) {
           slideShadows: false, // ✅ Prevent visual bugs on edges
         }}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-        slideToClickedSlide={true}
+        slideToClickedSlide={false}
         // navigation={{
         //   nextEl: ".swiper-button-next",
         //   prevEl: ".swiper-button-prev",
@@ -101,14 +101,26 @@ export default function MultiMediaCarousel({ ...props }: any) {
         {props?.data?.map((item: any, index: number) => {
           const Icon = getFileIcon(item.url);
           return (
+            // <SwiperSlide
+            //   key={index}
+            //   className="w-[297.83px] h-[297.83px] transition-all duration-300 overflow-hidden rounded-xl"
+            // >
             <SwiperSlide
               key={index}
-              className="w-[297.83px] h-[297.83px] transition-all duration-300 overflow-hidden rounded-xl"
+              onClick={() => swiperRef.current?.slideTo(index)}
+              className="w-[297.83px] h-[297.83px] transition-all duration-300 overflow-visible rounded-xl"
             >
-              <div
+              {/* <div
                 className={`rounded-xl p-4 text-center h-full flex flex-col justify-center ${
                   index === activeIndex
-                    ? "bg-[#F89431] text-white scale-145 shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
+                    ? "bg-[#F89431] text-white scale-145 shadow-[0px_4px_4px_0px_rgba(245,223,201)] z-10"
+                    : "bg-[#F1F2F1] "
+                }`}
+              > */}
+              <div
+                className={`rounded-xl p-4 text-center h-full w-full flex flex-col justify-center ${
+                  index === activeIndex
+                    ? "bg-[#F89431] text-white shadow-[0px_4px_4px_0px_rgba(245,223,201)]"
                     : "bg-[#F1F2F1]"
                 }`}
               >
@@ -130,28 +142,23 @@ export default function MultiMediaCarousel({ ...props }: any) {
                     <Link
                       className="text-gray-700 bg-gray-200 p-4 rounded-[20px] cursor-pointer"
                       size={60}
-                      onClick={() => openAttachment(item.attachment_url)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openAttachment(item.attachment_url);
+                      }}
                     />
                   ) : (
                     <Icon
                       size={60}
                       className="text-gray-700 bg-gray-200 p-4 rounded-[20px] cursor-pointer"
-                      onClick={
-                        item.attachment_url
-                          ? () => openAttachment(item.attachment_url)
-                          : () => handleView(item.url)
-                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleView(item.url);
+                      }}
                     />
                   )}
                 </div>
               </div>
-              {open2 && (
-                <ViewDetails
-                  open={open2}
-                  onClose={() => setOpen2(false)}
-                  data={record}
-                />
-              )}
             </SwiperSlide>
           );
         })}
@@ -166,6 +173,13 @@ export default function MultiMediaCarousel({ ...props }: any) {
       >
         <RightOutlined />
       </button>
+      {open2 && (
+        <ViewDetails
+          open={open2}
+          onClose={() => setOpen2(false)}
+          data={record}
+        />
+      )}
     </div>
   );
 }

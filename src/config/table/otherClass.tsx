@@ -1,5 +1,6 @@
 import { Popconfirm } from "antd";
 import dayjs from "dayjs";
+import { getFileIcon } from "../../helper";
 
 type Props = {
   handleDownload: (url: string, name: string) => void;
@@ -46,15 +47,16 @@ export const otherClassColumns = ({
         ) : (
           <div className="space-y-2">
             {media.map((item: any) => {
+              const Icon = getFileIcon(item.url);
               return (
                 <div className="flex items-center gap-5">
                   <div className="flex items-center gap-2">
-                    <img className="w-[30px]" src="/icons/pdf.png" alt="" />
+                    {/* <img className="w-[30px]" src="/icons/pdf.png" alt="" /> */}
+                    <Icon size={20} className="" />
                     <div>
                       <p className="text-[12px] medium text-black truncate w-[100px] text-left">
                         {item.name || "Class Update Form"}
                       </p>
-                      {/* <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p> */}
                     </div>
                   </div>
                   <img

@@ -14,6 +14,17 @@ import { saveAs } from "file-saver";
 // import jsPDF from "jspdf";
 import "jspdf-autotable";
 
+type ExportDataItem = {
+  Name: string;
+  ID: string;
+  Status: string;
+  "Participation Points": number;
+  "Homework Points": number;
+  Date: string;
+  "Total # of Absences": number;
+  "Total # of Presence": number;
+};
+
 function StudentAttendance() {
   const { user } = useAuth();
   const [openModal, setOpenModal] = useState(false);
@@ -78,22 +89,31 @@ function StudentAttendance() {
     }
   }, [search, data]);
 
-  const exportData =
-    filteredData
+  const exportData = [
+    ...(filteredData
       ?.sort((a, b) => a.student.first_name.localeCompare(b.student.first_name))
-      .map((item: any) => {
-        const row: { [key: string]: any } = {
-          Name: `${item.student.first_name} ${item.student.last_name}`,
-          ID: item.student.id,
-          Status: item.status,
-          "Participation Points": item.participation_points,
-          "Homework Points": item.homework_points,
-          Date: dayjs(item.attendance_date).format("MM-DD-YYYY"),
-          // "Total # of Absences": present,
-          // "Total # of Presence": absences,
-        };
-        return row;
-      }) || [];
+      .map((item: any) => ({
+        Name: `${item.student.first_name} ${item.student.last_name}`,
+        ID: item.student.id,
+        Status: item.status,
+        "Participation Points": item.participation_points,
+        "Homework Points": item.homework_points,
+        Date: dayjs(item.attendance_date).format("MM-DD-YYYY"),
+        "Total # of Absences": "",
+        "Total # of Presence": "",
+      })) || []),
+
+    {
+      Name: "TOTAL",
+      ID: "",
+      Status: "",
+      "Participation Points": "",
+      "Homework Points": "",
+      Date: "",
+      "Total # of Absences": absences,
+      "Total # of Presence": present,
+    },
+  ];
 
   console.log(exportData, "export ");
 
@@ -102,7 +122,9 @@ function StudentAttendance() {
     const csvRows = [
       headers.join(","),
       ...exportData.map((row) =>
-        headers.map((h) => JSON.stringify(row[h] ?? "")).join(","),
+        headers
+          .map((h) => JSON.stringify(row[h as keyof ExportDataItem] ?? ""))
+          .join(","),
       ),
     ];
     const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });

@@ -30,7 +30,7 @@ function StudentList() {
   });
 
   useEffect(() => {
-    if (!user?.teacher?.id) return; // ✅ agar teacher id nahi hai to kuch mat karo
+    if (!user?.teacher?.id) return;
 
     execute({
       type: "mount",
@@ -38,7 +38,7 @@ function StudentList() {
         searchFilter && searchFilter.trim() !== ""
           ? { name: searchFilter }
           : {},
-      routeParams: `${user.teacher.id}/students`, // ✅ ab hamesha defined rahega
+      routeParams: `${user.teacher.id}/students`,
     });
   }, [searchFilter, user?.teacher?.id]);
 

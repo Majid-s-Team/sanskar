@@ -25,8 +25,6 @@ function MediaModal({ open, onClose, setRecord, setData, record }: Props) {
     { type: "delay" },
   );
 
-  console.log(record);
-
   const { execute: updateEevent, loading: updateLoading } = useRequest(
     "/multimedia",
     "PUT",

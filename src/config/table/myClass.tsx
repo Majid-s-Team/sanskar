@@ -3,6 +3,7 @@ import { Popconfirm } from "antd";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import weekOfYear from "dayjs/plugin/weekOfYear";
+import { getFileIcon } from "../../helper";
 
 dayjs.extend(weekOfYear);
 
@@ -49,15 +50,16 @@ export const myClassColumns = ({
         ) : (
           <div className="space-y-2">
             {media.map((item: any) => {
+              const Icon = getFileIcon(item.url);
               return (
                 <div className="flex items-center gap-5">
                   <div className="flex items-center gap-2">
-                    <img className="w-[30px]" src="/icons/pdf.png" alt="" />
+                    <Icon size={20} className="" />
+                    {/* <img className="w-[30px]" src="/icons/pdf.png" alt="" /> */}
                     <div>
                       <p className="text-[12px] medium text-black truncate w-[100px] text-left">
                         {item.name || "Class Update Form"}
                       </p>
-                      {/* <p className="text-[10px] regular">28 Oct 2023 | 122 MB</p> */}
                     </div>
                   </div>
                   <img
