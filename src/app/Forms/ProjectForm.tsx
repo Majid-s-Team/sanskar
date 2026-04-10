@@ -1,4 +1,4 @@
-import { Form } from "antd";
+import { Form, notification } from "antd";
 import BaseInput from "../../component/shared/BaseInput";
 import CustomButton from "../../component/shared/CustomButton";
 import HomeLayout from "../../component/shared/HomeLayout";
@@ -8,11 +8,14 @@ import {
   projectForm2,
   projectForm3,
 } from "../../config";
-import { FeildType } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { withAuthGuard } from "../../component/higherOrder/withAuth";
+import { useRequest } from "../../hooks";
+import dayjs from "dayjs";
+import { grade } from "../../repositories";
+import { optionpPicker } from "../../helper";
 
-function renderFields(fields: FeildType[]) {
+function renderFields(fields: any[]) {
   return fields.map((item) => (
     <Form.Item
       key={item.name}
@@ -20,7 +23,7 @@ function renderFields(fields: FeildType[]) {
         <p>
           {item.title}
           {item.optional && (
-            <span className="text-[#666666] text-[12px] regular">
+            <span className="text-[#666666] text-[10px] regular">
               {" "}
               (Optional)
             </span>
@@ -38,9 +41,33 @@ function renderFields(fields: FeildType[]) {
 function ProjectForm() {
   const navigate = useNavigate();
 
-  const onFinish = () => {
-    navigate(-1);
+  const { execute, loading } = useRequest("/teacher-requests", "POST", {
+    type: "delay",
+  });
+
+  const { data: gradeData } = useRequest(grade.url, grade.method, {
+    type: "mount",
+  });
+
+  const onFinish = (values: any) => {
+    execute({
+      body: {
+        ...values,
+        target_date: dayjs(values.date).format("YYYY-MM-DD"),
+        request_type: "arts_crafts",
+      },
+      cbSuccess() {
+        navigate(-1);
+      },
+      cbFailure(error) {
+        notification.error({
+          message: "Error",
+          description: error.message,
+        });
+      },
+    });
   };
+
   return (
     <HomeLayout>
       <div className="bg-white xl:px-40 lg:px-10 p-5 lg:py-10 rounded-[24.59px] flex flex-col justify-center">
@@ -53,7 +80,19 @@ function ProjectForm() {
             <div>{renderFields(projectForm)}</div>
 
             <div>
-              {renderFields(projectForm1)}
+              {projectForm1.map((item) => (
+                <Form.Item
+                  key={item.name}
+                  label={item.title}
+                  name={item.name}
+                  rules={item.rules}
+                >
+                  <BaseInput
+                    {...item}
+                    options={optionpPicker(gradeData as any)}
+                  />
+                </Form.Item>
+              ))}
               <div className="lg:grid grid-cols-2 gap-4">
                 {renderFields(projectForm2)}
               </div>
@@ -66,6 +105,7 @@ function ProjectForm() {
               className="w-[300px] h-[50px] text-[18px]"
               title="Submit"
               htmlType="submit"
+              loading={loading}
             />
           </div>
         </Form>

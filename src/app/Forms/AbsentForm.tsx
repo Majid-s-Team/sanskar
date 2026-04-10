@@ -15,18 +15,20 @@ function AbsentForm() {
   const { student, loading: studentLoading } = useData();
   const role = getStorageData("role");
 
-  const { execute, loading: absentLoading } = useRequest(
-    "/absent-requests",
-    "POST",
-    {
-      type: "delay",
-    },
-  );
+  const url = role === "user" ? "/absent-requests" : "/teacher-requests";
+
+  const { execute, loading: absentLoading } = useRequest(url, "POST", {
+    type: "delay",
+  });
 
   const onFinish = (values: any) => {
+    const payload = {
+      request_type: "absent",
+    };
     execute({
       body: {
         ...values,
+        ...payload,
         from_date: dayjs(values.from_date).format("YYYY-MM-DD"),
         to_date: dayjs(values.to_date).format("YYYY-MM-DD"),
       },
@@ -80,7 +82,7 @@ function AbsentForm() {
             />
             <CustomButton
               loading={absentLoading}
-              htmlType={role === "user" ? "submit" : "button"}
+              htmlType={"submit"}
               className="w-[300px] h-[50px] text-[18px]"
               title="Submit"
             />

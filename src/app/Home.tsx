@@ -8,13 +8,13 @@ import Carousel from "../component/shared/Carousel";
 import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../component/shared/CustomButton";
 import { Avatar, Spin } from "antd";
-import { forms } from "../config";
 import { useAuth } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { useRequest } from "../hooks/useRequest";
 import { user } from "../repositories";
 import { Student } from "../types";
 import StudentDetailsModal3 from "../component/shared/StudentDetailsModal3";
+import GurukalCalendar from "../component/partial/GurukalCalendar";
 
 const Home = () => {
   const role = getStorageData("role");
@@ -216,50 +216,7 @@ const Home = () => {
               )}
             </div>
           ) : (
-            <div>
-              {forms.map((form, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between gap-5 mt-5 border border-[#ECECEC] p-5 rounded-[24px]"
-                  >
-                    <div className="flex items-center gap-5">
-                      <img
-                        className="w-[50px]"
-                        src={"/icons/card.png"}
-                        alt=""
-                      />
-                      <div>
-                        <p className="text-[16px] semibold !text-black">
-                          {form.title}
-                        </p>
-                        <p className="text-[14px] text-[#A6A6A6] regular">
-                          {form.date}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2 items-center">
-                      <img
-                        className="w-[20px]"
-                        src="/icons/download-orange.png"
-                        alt=""
-                      />
-                      <img
-                        className="w-[24px] mb-[-5px]"
-                        src="/icons/eye.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-              <div className="flex justify-center mt-20">
-                <CustomButton
-                  onClick={() => navigate("/home/gurukul-announcements")}
-                  title="Gurukul Announcements"
-                />
-              </div>
-            </div>
+            <GurukalCalendar />
           )}
         </div>
       </HomeSection2>

@@ -21,7 +21,7 @@ export const projectForm = [
     title: "Sevak 2",
     name: "sevak_2",
     optional: true,
-    rules: [{ required: true, message: "Please input your sevak 2!" }],
+    // rules: [{ required: true, message: "Please input your sevak 2!" }],
     type: "text",
   },
   {
@@ -33,7 +33,7 @@ export const projectForm = [
   },
   {
     title: "Craft Goal and/or Description",
-    name: "craft_goal_and_or_description",
+    name: "craft_goal_description",
     // placeholder: "Name",
     rules: [{ required: true, message: "Please input your craft goal!" }],
     type: "textarea",
@@ -76,7 +76,7 @@ export const projectForm1 = [
 export const projectForm2 = [
   {
     title: "Phone Number",
-    name: "phone_number",
+    name: "phone",
     rules: [{ required: true, message: "Please input your phone number!" }],
     type: "text",
   },
@@ -89,15 +89,15 @@ export const projectForm2 = [
   {
     title: "Phone Number",
     optional: true,
-    name: "phone_number2",
-    rules: [{ required: true, message: "Please input your phone number!" }],
+    name: "phone_optional",
+    // rules: [{ required: true, message: "Please input your phone number!" }],
     type: "text",
   },
   {
     title: "Email",
     optional: true,
-    name: "email2",
-    rules: [{ required: true, message: "Please input your email!" }],
+    name: "email_optional",
+    // rules: [{ required: true, message: "Please input your email!" }],
     type: "text",
   },
 ];
@@ -105,17 +105,17 @@ export const projectForm2 = [
 export const projectForm3 = [
   {
     title: "Flexibility",
-    name: "flexibility",
+    name: "is_flexible",
     rules: [{ required: true, message: "Please select your flexibility!" }],
     type: "radio",
     options: [
       {
         label: "Yes",
-        value: "yes",
+        value: true,
       },
       {
         label: "No",
-        value: "no",
+        value: false,
       },
     ],
   },
