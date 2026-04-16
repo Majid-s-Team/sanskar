@@ -21,7 +21,7 @@ import { notification } from "antd";
 export function useRequest<T>(
   endpoint: string,
   method: string,
-  options: UseRequestOptions<T>
+  options: UseRequestOptions<T>,
 ): UseRequestReturn<T> {
   const [data, setData] = useState<T>([] as T);
   const [loading, setLoading] = useState<boolean>(false);
@@ -65,7 +65,7 @@ export function useRequest<T>(
           .onSuccess(
             (
               response_body: ResponseData<T>,
-              response_headers: AxiosResponseHeaders
+              response_headers: AxiosResponseHeaders,
             ) => {
               if (apiOptions.cbSuccess)
                 apiOptions.cbSuccess(response_body, response_headers);
@@ -87,7 +87,7 @@ export function useRequest<T>(
                   current: response_body?.data?.pagination.currentPage,
                 });
               }
-            }
+            },
           )
           .onFailure((err: ResponseError) => {
             console.log(err);
@@ -127,7 +127,7 @@ export function useRequest<T>(
         setService(request(endpoint, method));
       }
     },
-    [endpoint, method, options, pagination, loading]
+    [endpoint, method, options, pagination, loading],
   );
 
   // const onPaginationChange = useCallback(
@@ -156,7 +156,7 @@ export function useRequest<T>(
       setPagination(e);
       execute({ ...options, params });
     },
-    [pagination, execute]
+    [pagination, execute],
   );
 
   useEffect(() => {

@@ -103,11 +103,13 @@ function ExpenseForm() {
                     </div>
                   ))}
 
-                  <div className="flex gap-4 items-center mt-3">
-                    <FileUploader
-                      onChange={(val: any) => setMedia(val)}
-                      initialFiles={[]}
-                    />
+                  <div className="flex gap-4 items-center justify-between mt-3">
+                    <div>
+                      <FileUploader
+                        onChange={(val: any) => setMedia(val)}
+                        initialFiles={[]}
+                      />
+                    </div>
 
                     <CustomButton
                       htmlType="button"

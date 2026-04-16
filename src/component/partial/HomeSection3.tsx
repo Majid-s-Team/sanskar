@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomButton from "../shared/CustomButton";
 import MultiMediaCarousel from "./MultiMediaCarousel";
 import { useRequest } from "../../hooks";
+import GurukalCalendar from "./GurukalCalendar";
 
 function HomeSection3({ role }: { role: string }) {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function HomeSection3({ role }: { role: string }) {
               View
             </Link>
           </div>
-          <div className="flex flex-col gap-5 mt-5 items-center text-center p-5 border border-[#ECECEC] rounded-[24px]">
+          {/* <div className="flex flex-col gap-5 mt-5 items-center text-center p-5 border border-[#ECECEC] rounded-[24px]">
             <img className="w-[30px]" src="/icons/card.png" alt="" />
             <p className="semibold text-[16px]">
               Academic year 2024-2025 (last updated on 12/16/2024)
@@ -44,13 +45,14 @@ function HomeSection3({ role }: { role: string }) {
                 }
               />
             </div>
-          </div>
-          <div className="flex justify-center mt-8">
+          </div> */}
+          <GurukalCalendar />
+          {/* <div className="flex justify-center mt-8">
             <CustomButton
               onClick={() => navigate("/home/gurukul-announcements")}
               title="Gurukul Announcements"
             />
-          </div>
+          </div> */}
         </div>
       )}
       <div

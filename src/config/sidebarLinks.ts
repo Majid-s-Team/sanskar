@@ -47,6 +47,12 @@ export const useSidebarLinks = () => {
       iconactive: "/icons/events-active.png",
     },
     {
+      key: "/all-request",
+      label: "All Request",
+      icon: "/icons/events.png",
+      iconactive: "/icons/events-active.png",
+    },
+    {
       key: "/events-rsvp",
       label: "Events & RSVPs",
       icon: "/icons/events.png",
@@ -95,6 +101,7 @@ export const useSidebarLinks = () => {
       "/student-attendance",
       "/gurukul-prayer",
       "/request-management",
+      "/all-request",
       "/events-rsvp",
       "/forms",
       "/about",

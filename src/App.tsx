@@ -52,6 +52,7 @@ import StudentsReport from "./app/StudentsReport";
 import EarlyPickupReq from "./app/EarlyPickupReq";
 import EarlyPickupDetails from "./app/EarlyPickupDetails";
 import GurukulMultimedia from "./app/GurukulMultimedia";
+import AllRequest from "./app/AllRequest";
 const App: React.FC = () => {
   return (
     <Routes>
@@ -132,6 +133,8 @@ const App: React.FC = () => {
         path="/home/gurukul-announcements"
         element={<GurukulAnnouncements />}
       />
+
+      <Route path="/all-request" element={<AllRequest />} />
 
       <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
       <Route path="/student-payment/:id" element={<Payment2 />} />

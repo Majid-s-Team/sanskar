@@ -36,18 +36,7 @@ function Header({ drawerVisible, setDrawerVisible }: any) {
           alt="Logo"
         />
       )}
-      {/* <Input
-        placeholder="Search"
-        className={`search-input h-[45px] lg:w-[500px] w-[250px]`}
-        style={{
-          borderRadius: 12,
-          backgroundColor: "#FFFFFF",
-          border: "none",
-          boxShadow: "2px 4px 4px 0px #0000001A",
-        }}
-        suffix={<img className="w-[20px]" src="/icons/filter.png" />}
-        prefix={<img className="w-[20px]" src="/icons/search.png" />}
-      /> */}
+
       <div className=" lg:w-full flex justify-end">
         <ProfileDropdown />
       </div>
