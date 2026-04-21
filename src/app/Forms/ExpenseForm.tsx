@@ -31,7 +31,7 @@ function ExpenseForm() {
         ...values,
         date: dayjs(values.date).format("YYYY-MM-DD"),
         request_type: "fuel",
-        receipt_files: media.map((f) => f.url),
+        receipt_file: media.map((f) => f.url),
       },
       cbSuccess() {
         navigate(-1);
@@ -108,6 +108,7 @@ function ExpenseForm() {
                       <FileUploader
                         onChange={(val: any) => setMedia(val)}
                         initialFiles={[]}
+                        allowedType="image"
                       />
                     </div>
 

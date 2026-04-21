@@ -1,5 +1,6 @@
 import { Avatar } from "antd";
 import { TeachersType } from "../../types";
+import dayjs from "dayjs";
 
 type Props = {
   handleRecord: (record: any) => void;
@@ -17,23 +18,16 @@ export const teacherRequestColumns = ({ handleRecord }: Props) => [
     title: "Teacher Name",
     dataIndex: "teacher",
     render: (record: TeachersType) => (
-      <p className="capitalize text-left">{record?.full_name}</p>
+      <p className="capitalize">{record?.full_name}</p>
     ),
   },
-  {
-    title: "Gurukul Class Name",
-    dataIndex: "teacher",
-    render: (record: TeachersType) => (
-      <p className="capitalize">{record?.gurukal?.name}</p>
-    ),
-  },
-  {
-    title: "Email",
-    dataIndex: "teacher",
-    render: (record: TeachersType) => (
-      <p className="capitalize">{record?.user?.primary_email}</p>
-    ),
-  },
+  // {
+  //   title: "Email",
+  //   dataIndex: "teacher",
+  //   render: (record: TeachersType) => (
+  //     <p className="capitalize">{record?.user?.primary_email}</p>
+  //   ),
+  // },
   {
     title: "Phone Number",
     dataIndex: "teacher",
@@ -42,15 +36,22 @@ export const teacherRequestColumns = ({ handleRecord }: Props) => [
     ),
   },
   {
-    title: "House Name",
-    dataIndex: "teacher",
-    render: (record: TeachersType) => (
-      <p className="capitalize">{record?.house?.name}</p>
+    title: "Request Date",
+    dataIndex: "created_at",
+    render: (text: string) => (
+      <p className="capitalize">{dayjs(text).format("MM-DD-YYYY")}</p>
     ),
   },
   {
     title: "Status",
     dataIndex: "status",
+    render: (text: string) => (
+      <p
+        className={`capitalize ${text === "approved" ? "text-green-500" : text === "rejected" ? "text-red-500" : "text-black"}`}
+      >
+        {text}
+      </p>
+    ),
   },
   {
     title: "Action",

@@ -73,16 +73,18 @@ export default function FileUploader({
   onChange,
   initialFiles,
   onUploadStatusChange,
+  allowedType,
 }: {
   onChange?: (media: { name: string; type: string; url: string }[]) => void;
   initialFiles?: { name: string; type: string; url: string }[];
   onUploadStatusChange?: (status: boolean) => void;
+  allowedType?: UploadedFile["type"];
 }) {
   const [files, setFiles] = useState<UploadedFile[]>(
     initialFiles?.map((f) => ({
       ...f,
       status: "success",
-    })) as UploadedFile[] | (() => UploadedFile[])
+    })) as UploadedFile[] | (() => UploadedFile[]),
   );
   const { execute } = useRequest(uploadfile.url, uploadfile.method, {
     type: "delay",
@@ -118,7 +120,11 @@ export default function FileUploader({
       const file = fileList[index];
       if (!file) return;
 
+      // 👇 new check
       const mappedType = ALLOWED_TYPES[file.type];
+
+      const isTypeAllowed = allowedType ? mappedType === allowedType : true;
+
       const isValidSize = file.size / 1024 / 1024 <= MAX_SIZE_MB;
 
       const id = Date.now() + index;
@@ -130,12 +136,15 @@ export default function FileUploader({
         type: mappedType || "link",
       };
 
-      if (!mappedType) {
+      if (!mappedType || !isTypeAllowed) {
         const errorFile = {
           ...base,
           status: "error" as FileStatus,
-          errorMessage: "This file format is not supported",
+          errorMessage: allowedType
+            ? `Only ${allowedType} files are allowed`
+            : "This file format is not supported",
         };
+
         setFiles((prev) => [...prev, errorFile]);
         updateOnChange([...files, errorFile]);
         processFile(index + 1);
@@ -160,14 +169,14 @@ export default function FileUploader({
                 f.id === id
                   ? // @ts-ignore
                     { ...f, status: "success", url: res.data?.url }
-                  : f
-              )
+                  : f,
+              ),
             );
             updateOnChange(
               res.data
                 ? // @ts-ignore
                   [...files, { ...base, status: "success", url: res.data?.url }]
-                : files
+                : files,
             );
             processFile(index + 1); // move to next file
             onUploadStatusChange?.(false);
@@ -220,6 +229,8 @@ export default function FileUploader({
         <input
           id="file-upload"
           type="file"
+          // accept={allowedType ? ALLOWED_TYPES[allowedType] : "*"}
+          accept={allowedType === "image" ? "image/*" : undefined}
           // multiple
           className="!hidden"
           onChange={(e) => handleFiles(e.target.files)}

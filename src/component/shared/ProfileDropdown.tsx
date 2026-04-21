@@ -3,16 +3,15 @@ import { Link } from "react-router-dom";
 import { getStorageData } from "../../helper";
 import { useAuth } from "../../hooks/useAuth";
 import { useRequest } from "../../hooks";
-import { useEffect } from "react";
 
 function ProfileDropdown() {
   const { user } = useAuth();
   const role = getStorageData("role");
 
-  const { data: notificationCount, execute } = useRequest<any>(
+  const { data: notificationCount } = useRequest<any>(
     "/notifications/unread-count",
     "GET",
-    {},
+    { params: { type: "user" }, type: "mount" },
   );
 
   const { execute: readAll } = useRequest<any>(
@@ -23,21 +22,12 @@ function ProfileDropdown() {
     },
   );
 
-  useEffect(() => {
-    if (user) {
-      execute({
-        type: "mount",
-        params: { type: user?.roles?.[0] },
-      });
-    }
-  }, [user]);
-
   const count = notificationCount?.count || 0;
 
   const handleNotification = () => {
     readAll({
       type: "mount",
-      params: { type: user?.roles?.[0] },
+      params: { type: "user" },
     });
     // execute({
     //   type: "mount",

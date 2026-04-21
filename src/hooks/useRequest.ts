@@ -46,6 +46,10 @@ export function useRequest<T>(
       const apiOptions = {
         ...options,
         ...requestOptions,
+        params: {
+          ...(options.params || {}),
+          ...(requestOptions.params || {}),
+        },
       };
       try {
         const {

@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, Image } from "antd";
 import dayjs from "dayjs";
 
 function DetailItem({ title, value }: { title: string; value: string }) {
@@ -89,11 +89,19 @@ function TeacherReqModal({ open, onClose, record }: any) {
             {/* Receipt */}
             <div className="border-b pb-2">
               <p className="medium">Receipt</p>
-              <img
-                src={record?.fuel?.receipt_file}
-                alt="receipt"
-                className="w-32 mt-2 rounded"
-              />
+              {record?.fuel?.receipts.length === 0 && (
+                <p className="regular mt-2">No Receipt</p>
+              )}
+              {record?.fuel?.receipts.map((item: any) => (
+                <Image.PreviewGroup key={item.id}>
+                  <Image
+                    key={item.id}
+                    src={item.file_path}
+                    alt="receipt"
+                    className="!w-32 mt-2 rounded"
+                  />
+                </Image.PreviewGroup>
+              ))}
             </div>
           </div>
         )}
@@ -156,35 +164,6 @@ function TeacherReqModal({ open, onClose, record }: any) {
             </div>
           </div>
         )}
-
-        {/* Buttons */}
-        {/* {record?.status === "pending" && (
-          <div className="flex lg:flex-row flex-col gap-8 my-5 justify-center">
-            <Popconfirm
-              title="Are you sure you want to approve this request?"
-              onConfirm={() => onFinish("approved")}
-            >
-              <Button
-                loading={loading && activeButton === "approved"}
-                className="h-[44px] px-10 !bg-[#006838] rounded-[10px] !border-none text-[18px] medium !text-white"
-              >
-                Accept
-              </Button>
-            </Popconfirm>
-
-            <Popconfirm
-              title="Are you sure you want to reject this request?"
-              onConfirm={() => onFinish("rejected")}
-            >
-              <Button
-                loading={loading && activeButton === "rejected"}
-                className="h-[44px] px-10 !bg-[#FF0308] rounded-[10px] !border-none text-[18px] medium !text-white"
-              >
-                Reject
-              </Button>
-            </Popconfirm>
-          </div>
-        )} */}
       </div>
     </Modal>
   );
